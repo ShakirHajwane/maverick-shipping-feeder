@@ -16,6 +16,11 @@
   --color-crisp: #F8FAFC;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 html, body {
   margin: 0;
   padding: 0;

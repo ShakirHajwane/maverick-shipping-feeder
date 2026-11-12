@@ -232,7 +232,7 @@ interface WaterRipple {
            WAYPOINT 1: THE SHALLOWS (Depth: 18m - Coastal Shuttles)
            --------------------------------------------------------- -->
       <section
-        id="waypoint-shallows"
+        id="services-section"
         class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20">
         
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">

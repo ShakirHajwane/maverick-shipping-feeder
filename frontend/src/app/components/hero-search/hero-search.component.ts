@@ -11,8 +11,8 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
   template: `
     <section class="relative bg-navy-950 pt-8 pb-28 overflow-x-hidden overflow-y-clip border-b border-navy-800 w-full max-w-full">
       <!-- 1. HIGH-IMPACT MARITIME VESSEL & PORT TERMINAL PHOTOGRAPHIC BACKDROP -->
-      <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25 mix-blend-luminosity scale-105 pointer-events-none"
-           style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2400&q=85');">
+      <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 grayscale scale-105 pointer-events-none transform-gpu"
+           style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=70'); -webkit-transform: translateZ(0);">
       </div>
 
       <!-- 2. DARK OCEANIC MULTI-STOP GRADIENT MASK (Preserves 100% Contrast & Legibility) -->

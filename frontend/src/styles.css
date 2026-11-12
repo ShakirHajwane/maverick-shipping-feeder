@@ -94,16 +94,17 @@ html, body {
 /* Marine Radar Sweep */
 @keyframes radarSweep {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(360deg) translateZ(0);
   }
 }
 
 .animate-radar-sweep {
   animation: radarSweep 7s linear infinite;
   transform-origin: 50% 50%;
+  will-change: transform;
 }
 
 /* Container Vessel Cruising across horizon */
@@ -361,18 +362,18 @@ html, body {
   animation: cloudDriftFast 48s ease-in-out infinite;
 }
 
-/* Abyssal Lighthouse / Bathymetric Sonar Sweep */
+/* Abyssal Lighthouse / Bathymetric Sonar Sweep (GPU CALayer Isolated) */
 @keyframes lighthouseBeam {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
     opacity: 0.2;
   }
   50% {
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateZ(0);
     opacity: 0.45;
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(360deg) translateZ(0);
     opacity: 0.2;
   }
 }
@@ -380,6 +381,9 @@ html, body {
 .animate-lighthouse-beam {
   animation: lighthouseBeam 16s linear infinite;
   transform-origin: 50% 50%;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* Ship Stern Water Wake Bubbles */
@@ -416,5 +420,37 @@ html, body {
 .carousel-slide-snap {
   scroll-snap-align: center;
   flex-shrink: 0;
+}
+
+/* =========================================================
+   SAFARI (WEBKIT) HARDWARE ACCELERATION & COMPOSITOR OPTIMIZATIONS
+   ========================================================= */
+
+/* Ensure smooth 60-120fps scrolling on Safari and iOS WebKit */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hardware accelerated backdrop blur with Metal compositor promotion */
+.backdrop-blur-xl,
+.backdrop-blur-lg,
+.backdrop-blur-md,
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Hardware accelerate moving elements */
+.animate-ship-cruising,
+.animate-ship-reverse,
+.animate-cloud-slow,
+.animate-cloud-fast,
+.animate-radar-sweep,
+.animate-lighthouse-beam {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 

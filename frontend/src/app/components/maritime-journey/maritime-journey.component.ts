@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject, signal, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject, signal, computed, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaritimeService } from '../../services/maritime.service';
 import { Vessel } from '../../models/maritime.models';
@@ -17,6 +17,14 @@ interface WaterRipple {
   y: number;
 }
 
+interface SampledPoint {
+  x: number;
+  y: number;
+  heading: number;
+  rawX: number;
+  rawY: number;
+}
+
 @Component({
   selector: 'app-maritime-journey',
   standalone: true,
@@ -31,35 +39,26 @@ interface WaterRipple {
       class="relative w-full max-w-full overflow-x-hidden overflow-y-clip transition-colors duration-1000 select-none">
 
       <!-- =========================================================
-           1. PARALLAX ATMOSPHERIC WEATHER & SEA FOG/CLOUD OVERLAYS
-           (Hidden on mobile to eliminate GPU rasterization lag)
+           1. PARALLAX ATMOSPHERIC WEATHER & SEA FOG (GPU-ACCELERATED)
+           (Rendered via CSS radial gradients: 0 CPU filter passes)
            ========================================================= -->
       <div
-        class="hidden sm:block absolute inset-0 pointer-events-none z-10 opacity-30 animate-cloud-slow"
-        [style.transform]="'translateY(' + (journeyProgress() * -140) + 'px)'">
-        <svg class="w-full h-full" viewBox="0 0 1440 2400" preserveAspectRatio="none">
-          <defs>
-            <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="30" />
-            </filter>
-          </defs>
-          <ellipse cx="200" cy="500" rx="350" ry="120" fill="#90e0ef" opacity="0.3" filter="url(#cloudBlur)" />
-          <ellipse cx="1100" cy="1100" rx="420" ry="140" fill="#ffffff" opacity="0.25" filter="url(#cloudBlur)" />
-          <ellipse cx="300" cy="1800" rx="380" ry="130" fill="#48cae4" opacity="0.2" filter="url(#cloudBlur)" />
-          <ellipse cx="950" cy="2500" rx="400" ry="140" fill="#ffffff" opacity="0.3" filter="url(#cloudBlur)" />
-          <ellipse cx="450" cy="3300" rx="460" ry="150" fill="#90e0ef" opacity="0.25" filter="url(#cloudBlur)" />
-        </svg>
+        class="hidden sm:block absolute inset-0 pointer-events-none z-10 opacity-30 animate-cloud-slow will-change-transform"
+        [style.transform]="'translate3d(0, ' + (journeyProgress() * -120) + 'px, 0)'">
+        <div class="absolute top-[12%] left-[8%] w-[500px] h-[220px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(144,224,239,0.35)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[28%] right-[10%] w-[580px] h-[240px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.3)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[48%] left-[12%] w-[540px] h-[220px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(72,202,228,0.25)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[68%] right-[14%] w-[600px] h-[260px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.32)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[86%] left-[18%] w-[640px] h-[260px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(144,224,239,0.3)_0%,transparent_70%)]"></div>
       </div>
 
       <div
-        class="hidden sm:block absolute inset-0 pointer-events-none z-10 opacity-20 animate-cloud-fast"
-        [style.transform]="'translateY(' + (journeyProgress() * -280) + 'px)'">
-        <svg class="w-full h-full" viewBox="0 0 1440 2400" preserveAspectRatio="none">
-          <ellipse cx="800" cy="300" rx="300" ry="90" fill="#ffffff" opacity="0.3" filter="url(#cloudBlur)" />
-          <ellipse cx="300" cy="1300" rx="360" ry="110" fill="#90e0ef" opacity="0.25" filter="url(#cloudBlur)" />
-          <ellipse cx="1200" cy="2100" rx="420" ry="120" fill="#ffffff" opacity="0.2" filter="url(#cloudBlur)" />
-          <ellipse cx="700" cy="3000" rx="380" ry="110" fill="#48cae4" opacity="0.3" filter="url(#cloudBlur)" />
-        </svg>
+        class="hidden sm:block absolute inset-0 pointer-events-none z-10 opacity-20 animate-cloud-fast will-change-transform"
+        [style.transform]="'translate3d(0, ' + (journeyProgress() * -220) + 'px, 0)'">
+        <div class="absolute top-[8%] right-[25%] w-[420px] h-[180px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.35)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[35%] left-[20%] w-[480px] h-[200px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(144,224,239,0.3)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[58%] right-[18%] w-[520px] h-[210px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.25)_0%,transparent_70%)]"></div>
+        <div class="absolute top-[80%] left-[22%] w-[460px] h-[190px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(72,202,228,0.3)_0%,transparent_70%)]"></div>
       </div>
 
       <!-- =========================================================
@@ -76,22 +75,13 @@ interface WaterRipple {
 
       <!-- =========================================================
            3. SVG CONTINUOUS WINDING ROUTE & BATHYMETRIC CONTOURS
+           (Dual SVG Path: Zero CPU filter passes, 100% GPU accelerated)
            ========================================================= -->
       <svg
         #svgCanvas
         class="absolute inset-0 w-full h-full pointer-events-none z-20"
         viewBox="0 0 1000 4000"
         preserveAspectRatio="none">
-        
-        <defs>
-          <filter id="routeGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
 
         <!-- Bathymetric Depth Contour Lines -->
         <g stroke="#00B4D8" stroke-opacity="0.08" stroke-width="1.5" fill="none">
@@ -112,16 +102,26 @@ interface WaterRipple {
           stroke-width="3"
           stroke-dasharray="10 10" />
 
-        <!-- Dynamic Drawn Route Line (Illuminated Cyan as Ship Passes) -->
+        <!-- Dynamic Drawn Route Line: Wide Ambient Cyan Glow (GPU accelerated, 0 CPU filter passes) -->
+        <path
+          [attr.d]="routePathD"
+          fill="none"
+          stroke="#00B4D8"
+          stroke-opacity="0.32"
+          stroke-width="12"
+          [attr.stroke-dasharray]="pathTotalLength()"
+          [attr.stroke-dashoffset]="pathDashOffset()"
+          stroke-linecap="round" />
+
+        <!-- Dynamic Drawn Route Line: Core Illuminated Route -->
         <path
           #activePath
           [attr.d]="routePathD"
           fill="none"
-          stroke="#00B4D8"
-          stroke-width="4.5"
+          stroke="#38BDF8"
+          stroke-width="4"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
-          filter="url(#routeGlow)"
           stroke-linecap="round" />
 
         <!-- Waypoint Anchorage Markers along the SVG Path -->
@@ -171,10 +171,10 @@ interface WaterRipple {
            5. PATH-FOLLOWING TOP-DOWN CONTAINER FEEDER VESSEL
            ========================================================= -->
       <div
-        class="absolute pointer-events-none z-25 transition-transform duration-75 will-change-transform"
+        class="absolute pointer-events-none z-25 will-change-transform transform-gpu"
         [style.left]="shipXPercent() + '%'"
         [style.top]="shipYPercent() + '%'"
-        [style.transform]="'translate(-50%, -50%) rotate(' + shipHeading() + 'deg)'">
+        [style.transform]="'translate3d(-50%, -50%, 0) rotate(' + shipHeading() + 'deg)'">
         
         <!-- Detailed Top-Down Container Feeder Vessel SVG -->
         <div class="relative w-16 sm:w-20 filter drop-shadow-[0_14px_16px_rgba(0,0,0,0.65)]">
@@ -462,8 +462,8 @@ interface WaterRipple {
         <!-- Rotating Deep-Sea Bathymetric Sonar / Lighthouse Sweep Beam -->
         <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center opacity-40 overflow-hidden max-w-full">
           <div
-            class="w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] lg:w-[800px] lg:h-[800px] rounded-full animate-lighthouse-beam pointer-events-none"
-            style="background: conic-gradient(from 0deg, rgba(0, 180, 216, 0.45) 0deg, rgba(0, 180, 216, 0.12) 35deg, transparent 65deg, transparent 360deg);">
+            class="w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] lg:w-[800px] lg:h-[800px] rounded-full animate-lighthouse-beam pointer-events-none will-change-transform transform-gpu"
+            style="background: conic-gradient(from 0deg, rgba(0, 180, 216, 0.45) 0deg, rgba(0, 180, 216, 0.12) 35deg, transparent 65deg, transparent 360deg); -webkit-transform: translateZ(0); transform: translateZ(0);">
           </div>
         </div>
 
@@ -831,45 +831,106 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     }
   });
 
+  private ngZone = inject(NgZone);
+
   private lastScrollY = 0;
   private lastScrollTime = performance.now();
   private rafId: number | null = null;
-  private scrollListener = () => this.onScroll();
+  private scrollListener: (() => void) | null = null;
+  private resizeListener: (() => void) | null = null;
   private wakeCounter = 0;
   private rippleCounter = 0;
 
+  // Precomputed path lookup table to eliminate all getPointAtLength queries on scroll
+  private sampledPoints: SampledPoint[] = [];
+  private isTicking = false;
+  private isParticleLoopRunning = false;
+  private lastProgress = -1;
+
   ngAfterViewInit() {
     if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', this.scrollListener, { passive: true });
-      window.addEventListener('resize', this.scrollListener, { passive: true });
-
-      // Measure SVG path length once rendered
+      // Precompute path samples once upon initialization (0 DOM reflows during scroll)
       setTimeout(() => {
-        if (this.pathRef?.nativeElement) {
-          const total = this.pathRef.nativeElement.getTotalLength();
-          this.pathTotalLength.set(total);
-          this.pathDashOffset.set(total);
-          this.updateShipPosition(0);
-        }
-      }, 50);
+        this.precomputePathSamples();
+        this.updateShipPosition(0);
+      }, 30);
 
-      // Animation loop for pruning wake and ripple particles
-      this.startParticleLoop();
+      // Decouple scroll handling completely from Angular zone and throttle via requestAnimationFrame
+      this.ngZone.runOutsideAngular(() => {
+        this.scrollListener = () => {
+          if (!this.isTicking) {
+            this.isTicking = true;
+            requestAnimationFrame(() => {
+              this.onScrollTick();
+              this.isTicking = false;
+            });
+          }
+        };
+
+        this.resizeListener = () => {
+          if (!this.isTicking) {
+            this.isTicking = true;
+            requestAnimationFrame(() => {
+              this.onScrollTick();
+              this.isTicking = false;
+            });
+          }
+        };
+
+        window.addEventListener('scroll', this.scrollListener, { passive: true });
+        window.addEventListener('resize', this.resizeListener, { passive: true });
+      });
     }
   }
 
   ngOnDestroy() {
     if (typeof window !== 'undefined') {
-      window.removeEventListener('scroll', this.scrollListener);
-      window.removeEventListener('resize', this.scrollListener);
+      if (this.scrollListener) {
+        window.removeEventListener('scroll', this.scrollListener);
+      }
+      if (this.resizeListener) {
+        window.removeEventListener('resize', this.resizeListener);
+      }
     }
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
+      this.rafId = null;
     }
+    this.isParticleLoopRunning = false;
   }
 
-  private onScroll() {
-    if (!this.containerRef?.nativeElement || !this.pathRef?.nativeElement) return;
+  private precomputePathSamples() {
+    if (!this.pathRef?.nativeElement) return;
+    const path = this.pathRef.nativeElement;
+    const total = path.getTotalLength();
+    this.pathTotalLength.set(total);
+    this.pathDashOffset.set(total);
+
+    const SAMPLES_COUNT = 600;
+    const samples: SampledPoint[] = [];
+    for (let i = 0; i <= SAMPLES_COUNT; i++) {
+      const l = (i / SAMPLES_COUNT) * total;
+      const pt = path.getPointAtLength(l);
+      const delta = 4;
+      const ptAhead = path.getPointAtLength(Math.min(total, l + delta));
+      const ptBehind = path.getPointAtLength(Math.max(0, l - delta));
+      const dx = ptAhead.x - ptBehind.x;
+      const dy = ptAhead.y - ptBehind.y;
+      let headingDeg = (Math.atan2(dy, dx) * (180 / Math.PI)) + 90;
+      if (headingDeg < 0) headingDeg += 360;
+      samples.push({
+        x: (pt.x / 1000) * 100,
+        y: (pt.y / 4000) * 100,
+        heading: Math.round(headingDeg),
+        rawX: pt.x,
+        rawY: pt.y
+      });
+    }
+    this.sampledPoints = samples;
+  }
+
+  private onScrollTick() {
+    if (!this.containerRef?.nativeElement || this.sampledPoints.length === 0) return;
 
     const container = this.containerRef.nativeElement;
     const rect = container.getBoundingClientRect();
@@ -884,56 +945,59 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
       progress = Math.max(0, Math.min(1, scrolledAmount / totalScrollableDistance));
     }
 
-    this.journeyProgress.set(progress);
-    this.updateShipPosition(progress);
-    this.updateSpeedometer();
+    if (Math.abs(progress - this.lastProgress) > 0.0004) {
+      this.lastProgress = progress;
+      this.updateShipPosition(progress);
+      this.updateSpeedometer();
+      this.ensureParticleLoop();
+    }
   }
 
   private updateShipPosition(progress: number) {
-    if (!this.pathRef?.nativeElement) return;
+    if (this.sampledPoints.length === 0) return;
 
-    const path = this.pathRef.nativeElement;
-    const totalLength = this.pathTotalLength();
-    const currentLength = progress * totalLength;
+    const count = this.sampledPoints.length - 1;
+    const pos = progress * count;
+    const idx1 = Math.floor(pos);
+    const idx2 = Math.min(count, idx1 + 1);
+    const frac = pos - idx1;
 
-    // Plotted drawn route line offset
-    this.pathDashOffset.set(totalLength * (1 - progress));
+    const p1 = this.sampledPoints[idx1];
+    const p2 = this.sampledPoints[idx2];
 
-    // Get current point along SVG path (user coordinate system 0-1000 X, 0-4000 Y)
-    const pt = path.getPointAtLength(currentLength);
-    const delta = 4;
-    const ptAhead = path.getPointAtLength(Math.min(totalLength, currentLength + delta));
-    const ptBehind = path.getPointAtLength(Math.max(0, currentLength - delta));
+    const x = p1.x + (p2.x - p1.x) * frac;
+    const y = p1.y + (p2.y - p1.y) * frac;
+    const rawX = p1.rawX + (p2.rawX - p1.rawX) * frac;
+    const rawY = p1.rawY + (p2.rawY - p1.rawY) * frac;
 
-    const dx = ptAhead.x - ptBehind.x;
-    const dy = ptAhead.y - ptBehind.y;
-    
-    // Heading in degrees (+90 because SVG ship faces upward/North)
-    let headingDeg = (Math.atan2(dy, dx) * (180 / Math.PI)) + 90;
-    if (headingDeg < 0) headingDeg += 360;
+    let dHeading = p2.heading - p1.heading;
+    if (dHeading > 180) dHeading -= 360;
+    if (dHeading < -180) dHeading += 360;
+    let headingDeg = (p1.heading + dHeading * frac + 360) % 360;
 
-    // Track scroll direction: if scrolling up, ship smoothly points back
     const currentScrollY = window.scrollY;
     const isScrollingUp = currentScrollY < this.lastScrollY;
     if (isScrollingUp && Math.abs(currentScrollY - this.lastScrollY) > 2) {
-      // Smoothly orient along reverse direction
       headingDeg = (headingDeg + 180) % 360;
     }
 
-    this.shipXPercent.set((pt.x / 1000) * 100);
-    this.shipYPercent.set((pt.y / 4000) * 100);
-    this.shipHeading.set(Math.round(headingDeg));
-    this.compassHeading.set(Math.round(headingDeg));
+    const totalLength = this.pathTotalLength();
+    const newOffset = totalLength * (1 - progress);
+    const roundedHeading = Math.round(headingDeg);
 
-    // Update Live Lat/Lng and Heading Label
+    // Apply reactive signals
+    this.journeyProgress.set(progress);
+    this.pathDashOffset.set(newOffset);
+    this.shipXPercent.set(Math.round(x * 100) / 100);
+    this.shipYPercent.set(Math.round(y * 100) / 100);
+    this.shipHeading.set(roundedHeading);
+    this.compassHeading.set(roundedHeading);
+
     this.updateCoordinates(progress, headingDeg);
-
-    // Anchor drop trigger near pier (progress > 0.90)
     this.isAnchorDropped.set(progress >= 0.92);
 
-    // Spawn stern wake bubbles if moving
-    if (Math.abs(currentScrollY - this.lastScrollY) > 1.5) {
-      this.spawnWakeParticle(pt.x, pt.y, headingDeg);
+    if (Math.abs(currentScrollY - this.lastScrollY) > 2) {
+      this.spawnWakeParticle(rawX, rawY, roundedHeading);
     }
   }
 
@@ -946,7 +1010,6 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     this.lastScrollTime = now;
 
     const rawSpeed = Math.min(24.5, (dy / dt) * 19.5);
-    // Exponential smoothing
     const smoothed = Math.round((this.speedKnots() * 0.75 + rawSpeed * 0.25) * 10) / 10;
     this.speedKnots.set(smoothed);
 
@@ -962,13 +1025,11 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateCoordinates(progress: number, heading: number) {
-    // Interpolating from Dubai (25.018° N, 55.061° E) to destination port (22.750° N, 69.712° E)
     const lat = (25.018 - progress * (25.018 - 22.750)).toFixed(3);
     const lng = (55.061 + progress * (69.712 - 55.061)).toFixed(3);
     this.liveLat.set(lat);
     this.liveLng.set(lng);
 
-    // Compass Cardinal directions
     const deg = Math.round(heading) % 360;
     let card = 'N';
     if (deg >= 22.5 && deg < 67.5) card = 'NE';
@@ -984,7 +1045,6 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
 
   private spawnWakeParticle(shipSvgX: number, shipSvgY: number, headingDeg: number) {
     const headingRad = (headingDeg * Math.PI) / 180;
-    // Offset backward from ship center by 20 SVG units
     const sternX = shipSvgX - Math.sin(headingRad) * 20;
     const sternY = shipSvgY + Math.cos(headingRad) * 20;
 
@@ -996,33 +1056,54 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
       createdAt: performance.now()
     };
 
-    // Keep trail capped at 18 particles
-    const updated = [...this.wakeTrail().slice(-17), newParticle];
+    // Keep trail capped at 12 particles for optimal rendering
+    const updated = [...this.wakeTrail().slice(-11), newParticle];
     this.wakeTrail.set(updated);
   }
 
-  private startParticleLoop() {
-    const tick = () => {
-      const now = performance.now();
-      // Decay speedometer towards zero if idle
-      if (now - this.lastScrollTime > 120 && this.speedKnots() > 0) {
-        const decayed = Math.max(0, Math.round((this.speedKnots() * 0.88) * 10) / 10);
-        this.speedKnots.set(decayed);
-        if (decayed === 0) {
-          this.speedLabel.set(this.journeyProgress() >= 0.92 ? 'SECURED AT BERTH' : 'DRIFTING / ALL STOP');
-        }
-      }
+  private ensureParticleLoop() {
+    if (this.isParticleLoopRunning) return;
+    this.isParticleLoopRunning = true;
+    this.ngZone.runOutsideAngular(() => {
+      this.tickParticles();
+    });
+  }
 
-      // Prune wake bubbles older than 1500ms
-      const freshWake = this.wakeTrail().filter(w => now - w.createdAt < 1500);
-      if (freshWake.length !== this.wakeTrail().length) {
+  private tickParticles = () => {
+    const now = performance.now();
+    let needsNextFrame = false;
+
+    // Decay speedometer towards zero if idle
+    if (now - this.lastScrollTime > 120 && this.speedKnots() > 0) {
+      const decayed = Math.max(0, Math.round((this.speedKnots() * 0.88) * 10) / 10);
+      this.speedKnots.set(decayed);
+      if (decayed === 0) {
+        this.speedLabel.set(this.journeyProgress() >= 0.92 ? 'SECURED AT BERTH' : 'DRIFTING / ALL STOP');
+      }
+      needsNextFrame = true;
+    } else if (this.speedKnots() > 0) {
+      needsNextFrame = true;
+    }
+
+    // Prune wake bubbles older than 1500ms
+    const currentWake = this.wakeTrail();
+    if (currentWake.length > 0) {
+      const freshWake = currentWake.filter(w => now - w.createdAt < 1500);
+      if (freshWake.length !== currentWake.length) {
         this.wakeTrail.set(freshWake);
       }
+      if (freshWake.length > 0) {
+        needsNextFrame = true;
+      }
+    }
 
-      this.rafId = requestAnimationFrame(tick);
-    };
-    this.rafId = requestAnimationFrame(tick);
-  }
+    if (needsNextFrame) {
+      this.rafId = requestAnimationFrame(this.tickParticles);
+    } else {
+      this.isParticleLoopRunning = false;
+      this.rafId = null;
+    }
+  };
 
   // Interactive Water Ripples on Click / Pointer Move
   onWaterClick(e: MouseEvent) {

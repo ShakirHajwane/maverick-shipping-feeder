@@ -21,7 +21,7 @@ import { MaritimeService } from '../../services/maritime.service';
         <!-- Header -->
         <div class="p-6 border-b border-navy-800 flex items-center justify-between bg-navy-950/80">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-ocean-500/10 border border-ocean-500/30 flex items-center justify-center text-ocean-400">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-sm">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -114,7 +114,7 @@ import { MaritimeService } from '../../services/maritime.service';
               <button (click)="close()" type="button" class="px-4 py-2 rounded-xl bg-navy-800 text-slate-300 font-semibold text-xs border border-navy-700">
                 {{ isRtl() ? 'إلغاء' : 'Cancel' }}
               </button>
-              <button type="submit" class="px-5 py-2 rounded-xl bg-ocean-500 hover:bg-ocean-400 text-navy-950 font-bold text-xs shadow-lg shadow-ocean-500/20 cursor-pointer">
+              <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/25 cursor-pointer">
                 {{ isRtl() ? 'إرسال طلب الحجز' : 'Submit Slot Booking' }}
               </button>
             </div>

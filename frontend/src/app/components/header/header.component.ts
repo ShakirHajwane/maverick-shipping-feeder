@@ -52,17 +52,17 @@ import { MaritimeService } from '../../services/maritime.service';
         <!-- Brand Logo (Left) -->
         <div class="flex-shrink-0">
           <a href="#" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ocean-500 to-navy-800 flex items-center justify-center shadow-lg shadow-ocean-500/20 border border-ocean-400/40 group-hover:scale-105 transition-transform flex-shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/25 border border-amber-300/40 group-hover:scale-105 transition-transform flex-shrink-0">
               <!-- Vessel Anchor / Container Icon -->
-              <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 17l8 4 8-4M4 12l8 4 8-4" />
+              <svg class="w-6 h-6 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 17l8 4 8-4M4 12l8 4 8-4" />
               </svg>
             </div>
             <div class="flex flex-col">
               <div class="flex items-center gap-2 whitespace-nowrap">
-                <span class="text-base sm:text-lg xl:text-xl font-extrabold tracking-tight text-white group-hover:text-ocean-400 transition-colors">GLOBAL FEEDERS</span>
-                <span class="hidden min-[420px]:inline-block text-[9px] xl:text-[10px] font-bold px-1.5 py-0.5 rounded bg-ocean-500/20 text-ocean-400 border border-ocean-500/30 tracking-wider">DP WORLD ALLIANCE</span>
+                <span class="text-base sm:text-lg xl:text-xl font-extrabold tracking-tight text-white group-hover:text-amber-400 transition-colors">GLOBAL FEEDERS</span>
+                <span class="hidden min-[420px]:inline-block text-[9px] xl:text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-400/15 text-amber-300 border border-amber-400/30 tracking-wider">DP WORLD ALLIANCE</span>
               </div>
               <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-400 font-medium truncate max-w-[170px] sm:max-w-none">Independent Container Feeder Network</p>
             </div>
@@ -71,24 +71,24 @@ import { MaritimeService } from '../../services/maritime.service';
 
         <!-- Desktop Navigation Links (Center, symmetrically distributed) -->
         <nav class="hidden lg:flex flex-1 items-center justify-center gap-5 xl:gap-7 2xl:gap-8 text-xs xl:text-sm font-medium text-slate-300">
-          <a href="#services-section" class="hover:text-ocean-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-ocean-400/50">{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</a>
-          <a href="#interactive-map-section" class="hover:text-ocean-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-ocean-400/50">{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</a>
-          <a href="#fleet-section" class="hover:text-ocean-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-ocean-400/50">{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</a>
-          <a href="#tracking-engine" class="hover:text-ocean-400 transition-colors py-1.5 px-1 flex items-center gap-1.5 whitespace-nowrap border-b-2 border-transparent hover:border-ocean-400/50">
-            <span class="w-2 h-2 rounded-full bg-ocean-400 animate-pulse"></span>
+          <a href="#services-section" class="hover:text-amber-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-amber-400/60">{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</a>
+          <a href="#interactive-map-section" class="hover:text-amber-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-amber-400/60">{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</a>
+          <a href="#fleet-section" class="hover:text-amber-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-amber-400/60">{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</a>
+          <a href="#tracking-engine" class="hover:text-amber-400 transition-colors py-1.5 px-1 flex items-center gap-1.5 whitespace-nowrap border-b-2 border-transparent hover:border-amber-400/60">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
             <span>{{ isRtl() ? 'تتبع السفن' : 'Vessel Tracking' }}</span>
           </a>
-          <a href="#sustainability-section" class="hover:text-ocean-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-ocean-400/50">{{ isRtl() ? 'الاستدامة' : 'Sustainability' }}</a>
-          <a href="#agents-section" class="hover:text-ocean-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-ocean-400/50">{{ isRtl() ? 'المكاتب والوكلاء' : 'Offices & Agents' }}</a>
+          <a href="#sustainability-section" class="hover:text-amber-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-amber-400/60">{{ isRtl() ? 'الاستدامة' : 'Sustainability' }}</a>
+          <a href="#agents-section" class="hover:text-amber-400 transition-colors py-1.5 px-1 whitespace-nowrap border-b-2 border-transparent hover:border-amber-400/60">{{ isRtl() ? 'المكاتب والوكلاء' : 'Offices & Agents' }}</a>
         </nav>
 
         <!-- Right Action Button & Mobile Menu Toggle (Right) -->
         <div class="flex-shrink-0 flex items-center gap-3">
           <button
             (click)="service.toggleBookingModal(true)"
-            class="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-xl bg-gradient-to-r from-ocean-500 to-ocean-600 hover:from-ocean-400 hover:to-ocean-500 text-navy-950 font-bold text-xs xl:text-sm shadow-lg shadow-ocean-500/25 transition-all hover:shadow-ocean-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
-            <svg class="w-4 h-4 text-navy-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            class="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs xl:text-sm shadow-lg shadow-amber-500/25 transition-all hover:shadow-amber-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+            <svg class="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             <span>{{ isRtl() ? 'طلب حجز / تسعيرة' : 'Request Booking' }}</span>
           </button>
@@ -107,15 +107,15 @@ import { MaritimeService } from '../../services/maritime.service';
 
       <!-- Mobile Dropdown Menu -->
       <div *ngIf="mobileMenuOpen" class="lg:hidden bg-navy-950 border-b border-navy-800 px-6 py-4 space-y-3">
-        <a (click)="mobileMenuOpen = false" href="#services-section" class="block text-slate-200 hover:text-ocean-400 py-1 font-medium">{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#interactive-map-section" class="block text-slate-200 hover:text-ocean-400 py-1 font-medium">{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#fleet-section" class="block text-slate-200 hover:text-ocean-400 py-1 font-medium">{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#tracking-engine" class="block text-slate-200 hover:text-ocean-400 py-1 font-medium">{{ isRtl() ? 'تتبع السفن' : 'Vessel Tracking' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#sustainability-section" class="block text-slate-200 hover:text-ocean-400 py-1 font-medium">{{ isRtl() ? 'الاستدامة' : 'Sustainability' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#agents-section" class="block text-slate-200 hover:text-ocean-400 py-1 font-medium">{{ isRtl() ? 'المكاتب والوكلاء' : 'Offices & Agents' }}</a>
+        <a (click)="mobileMenuOpen = false" href="#services-section" class="block text-slate-200 hover:text-amber-400 py-1 font-medium">{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</a>
+        <a (click)="mobileMenuOpen = false" href="#interactive-map-section" class="block text-slate-200 hover:text-amber-400 py-1 font-medium">{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</a>
+        <a (click)="mobileMenuOpen = false" href="#fleet-section" class="block text-slate-200 hover:text-amber-400 py-1 font-medium">{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</a>
+        <a (click)="mobileMenuOpen = false" href="#tracking-engine" class="block text-slate-200 hover:text-amber-400 py-1 font-medium">{{ isRtl() ? 'تتبع السفن' : 'Vessel Tracking' }}</a>
+        <a (click)="mobileMenuOpen = false" href="#sustainability-section" class="block text-slate-200 hover:text-amber-400 py-1 font-medium">{{ isRtl() ? 'الاستدامة' : 'Sustainability' }}</a>
+        <a (click)="mobileMenuOpen = false" href="#agents-section" class="block text-slate-200 hover:text-amber-400 py-1 font-medium">{{ isRtl() ? 'المكاتب والوكلاء' : 'Offices & Agents' }}</a>
         <button
           (click)="service.toggleBookingModal(true); mobileMenuOpen = false"
-          class="w-full mt-2 py-2.5 rounded-lg bg-ocean-500 text-navy-950 font-bold text-sm text-center">
+          class="w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold text-sm text-center shadow-lg shadow-amber-500/25">
           {{ isRtl() ? 'طلب حجز / تسعيرة' : 'Request Booking' }}
         </button>
       </div>

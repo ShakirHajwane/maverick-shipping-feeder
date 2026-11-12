@@ -75,16 +75,16 @@ interface SampledPoint {
 
       <!-- =========================================================
            3. SVG CONTINUOUS WINDING ROUTE & BATHYMETRIC CONTOURS
-           (Dual SVG Path: Zero CPU filter passes, 100% GPU accelerated)
+           (Dual SVG Path: Radiant Sunny Gold Navigational Route)
            ========================================================= -->
       <svg
         #svgCanvas
-        class="absolute inset-0 w-full h-full pointer-events-none z-20"
+        class="absolute inset-0 w-full h-full pointer-events-none z-15"
         viewBox="0 0 1000 4000"
         preserveAspectRatio="none">
 
         <!-- Bathymetric Depth Contour Lines -->
-        <g stroke="#00B4D8" stroke-opacity="0.08" stroke-width="1.5" fill="none">
+        <g stroke="#F59E0B" stroke-opacity="0.10" stroke-width="1.5" fill="none">
           <path d="M 0 300 Q 300 250, 600 350 T 1000 320" />
           <path d="M 0 800 Q 400 950, 700 850 T 1000 900" />
           <path d="M 0 1500 Q 350 1350, 700 1600 T 1000 1450" />
@@ -97,29 +97,29 @@ interface SampledPoint {
           #backgroundPath
           [attr.d]="routePathD"
           fill="none"
-          stroke="#00B4D8"
+          stroke="#F59E0B"
           stroke-opacity="0.25"
           stroke-width="3"
           stroke-dasharray="10 10" />
 
-        <!-- Dynamic Drawn Route Line: Wide Ambient Cyan Glow (GPU accelerated, 0 CPU filter passes) -->
+        <!-- Dynamic Drawn Route Line: Wide Ambient Sunny Gold Glow (GPU accelerated) -->
         <path
           [attr.d]="routePathD"
           fill="none"
-          stroke="#00B4D8"
-          stroke-opacity="0.32"
-          stroke-width="12"
+          stroke="#F59E0B"
+          stroke-opacity="0.38"
+          stroke-width="14"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
           stroke-linecap="round" />
 
-        <!-- Dynamic Drawn Route Line: Core Illuminated Route -->
+        <!-- Dynamic Drawn Route Line: Core Illuminated Sunbeam Route -->
         <path
           #activePath
           [attr.d]="routePathD"
           fill="none"
-          stroke="#38BDF8"
-          stroke-width="4"
+          stroke="#FDE047"
+          stroke-width="4.5"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
           stroke-linecap="round" />
@@ -127,9 +127,9 @@ interface SampledPoint {
         <!-- Waypoint Anchorage Markers along the SVG Path -->
         <!-- WP1: The Shallows (X: 800, Y: 950) -->
         <g transform="translate(800, 950)">
-          <circle r="28" fill="none" stroke="#00B4D8" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:20s]" />
-          <circle r="14" fill="#0A192F" stroke="#00B4D8" stroke-width="2.5" />
-          <circle r="5" fill="#38bdf8" />
+          <circle r="28" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:20s]" />
+          <circle r="14" fill="#0A192F" stroke="#F59E0B" stroke-width="2.5" />
+          <circle r="5" fill="#FDE047" />
         </g>
 
         <!-- WP2: The Reef (X: 240, Y: 1950) -->
@@ -141,9 +141,9 @@ interface SampledPoint {
 
         <!-- WP3: The Deep Trench (X: 680, Y: 2950) -->
         <g transform="translate(680, 2950)">
-          <circle r="28" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:15s]" />
-          <circle r="14" fill="#0A192F" stroke="#38bdf8" stroke-width="2.5" />
-          <circle r="5" fill="#00B4D8" />
+          <circle r="28" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:15s]" />
+          <circle r="14" fill="#0A192F" stroke="#fbbf24" stroke-width="2.5" />
+          <circle r="5" fill="#F59E0B" />
         </g>
 
         <!-- WP4: Safe Harbor Pier (X: 500, Y: 3950) -->
@@ -157,10 +157,10 @@ interface SampledPoint {
       <!-- =========================================================
            4. DYNAMIC SHIP WAKE PARTICLES (1.5s FADE-OUT)
            ========================================================= -->
-      <div class="absolute inset-0 pointer-events-none z-22 overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none z-18 overflow-hidden">
         <div
           *ngFor="let wake of wakeTrail(); trackBy: trackById"
-          class="absolute w-10 h-10 -ml-5 -mt-5 rounded-full border border-white/60 bg-ocean-400/25 animate-wake-bubble"
+          class="absolute w-10 h-10 -ml-5 -mt-5 rounded-full border border-white/60 bg-amber-400/25 animate-wake-bubble"
           [style.left]="wake.x + '%'"
           [style.top]="wake.y + '%'"
           [style.transform]="'rotate(' + wake.angle + 'deg)'">
@@ -168,10 +168,10 @@ interface SampledPoint {
       </div>
 
       <!-- =========================================================
-           5. PATH-FOLLOWING TOP-DOWN CONTAINER FEEDER VESSEL
+           5. PATH-FOLLOWING TOP-DOWN CONTAINER FEEDER VESSEL (Z-20: Beneath Elevated Cards)
            ========================================================= -->
       <div
-        class="absolute pointer-events-none z-25 will-change-transform transform-gpu"
+        class="absolute pointer-events-none z-20 will-change-transform transform-gpu"
         [style.left]="shipXPercent() + '%'"
         [style.top]="shipYPercent() + '%'"
         [style.transform]="'translate3d(-50%, -50%, 0) rotate(' + shipHeading() + 'deg)'">
@@ -188,21 +188,21 @@ interface SampledPoint {
             <path
               d="M 50 8 C 75 40, 92 85, 92 165 C 92 205, 84 224, 50 224 C 16 224, 8 205, 8 165 C 8 85, 25 40, 50 8 Z"
               fill="#0A192F"
-              stroke="#00B4D8"
+              stroke="#F59E0B"
               stroke-width="2.5" />
 
             <!-- Foredeck & Waterline Marking -->
             <polygon points="50,14 82,65 18,65" fill="#112240" />
-            <circle cx="50" cy="22" r="3" fill="#22c55e" filter="drop-shadow(0 0 4px #22c55e)" /> <!-- Masthead Light -->
+            <circle cx="50" cy="22" r="3" fill="#FDE047" filter="drop-shadow(0 0 4px #FDE047)" /> <!-- Masthead Light -->
 
             <!-- Deck Hatch Covers & Container Bays -->
-            <!-- Bay 1 (Forward): Cyan & Ocean Blue Stacks -->
-            <rect x="22" y="70" width="26" height="32" rx="1.5" fill="#0284c7" stroke="#0369a1" stroke-width="0.8" />
-            <rect x="52" y="70" width="26" height="32" rx="1.5" fill="#00B4D8" stroke="#0096c7" stroke-width="0.8" />
+            <!-- Bay 1 (Forward): Amber & Sun Gold Stacks -->
+            <rect x="22" y="70" width="26" height="32" rx="1.5" fill="#f59e0b" stroke="#d97706" stroke-width="0.8" />
+            <rect x="52" y="70" width="26" height="32" rx="1.5" fill="#fbbf24" stroke="#f59e0b" stroke-width="0.8" />
             
-            <!-- Bay 2 (Mid-Forward): International Orange & Amber Stacks -->
-            <rect x="22" y="106" width="26" height="32" rx="1.5" fill="#d97706" stroke="#b45309" stroke-width="0.8" />
-            <rect x="52" y="106" width="26" height="32" rx="1.5" fill="#f59e0b" stroke="#d97706" stroke-width="0.8" />
+            <!-- Bay 2 (Mid-Forward): Warm Tangerine & Terracotta Stacks -->
+            <rect x="22" y="106" width="26" height="32" rx="1.5" fill="#ea580c" stroke="#c2410c" stroke-width="0.8" />
+            <rect x="52" y="106" width="26" height="32" rx="1.5" fill="#f97316" stroke="#ea580c" stroke-width="0.8" />
 
             <!-- Bay 3 (Mid-Aft): Dark Teal & Green Stacks -->
             <rect x="22" y="142" width="26" height="32" rx="1.5" fill="#0f766e" stroke="#115e59" stroke-width="0.8" />
@@ -214,7 +214,7 @@ interface SampledPoint {
             <rect x="26" y="182" width="48" height="6" fill="#0A192F" rx="1" />
             <rect x="28" y="183" width="44" height="4" fill="#fef08a" filter="drop-shadow(0 0 3px #fde047)" />
             <!-- Funnel / Exhaust Stack with Company Colors -->
-            <ellipse cx="50" cy="198" rx="8" ry="4" fill="#0A192F" stroke="#00B4D8" stroke-width="1.2" />
+            <ellipse cx="50" cy="198" rx="8" ry="4" fill="#0A192F" stroke="#F59E0B" stroke-width="1.2" />
 
             <!-- Aft Mooring Deck & Transom -->
             <rect x="26" y="210" width="48" height="10" rx="1" fill="#1e293b" />
@@ -226,7 +226,7 @@ interface SampledPoint {
       </div>
 
       <!-- =========================================================
-           6. FOUR FULL-HEIGHT "PORTS OF CALL" WAYPOINT SECTIONS
+           6. FOUR FULL-HEIGHT "PORTS OF CALL" WAYPOINT SECTIONS (Z-30: Strictly Above Sea Level)
            ========================================================= -->
       
       <!-- ---------------------------------------------------------
@@ -234,18 +234,18 @@ interface SampledPoint {
            --------------------------------------------------------- -->
       <section
         id="services-section"
-        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20">
+        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-30">
         
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-center relative z-30">
           <!-- Waypoint Marker on Left -->
           <div class="lg:col-span-5 space-y-6">
             <div class="inline-flex items-center gap-3">
-              <div class="relative w-14 h-14 rounded-2xl bg-ocean-500/10 border border-ocean-500/30 flex items-center justify-center">
-                <span class="absolute inset-0 rounded-2xl border-2 border-ocean-400 animate-sonar-ping"></span>
+              <div class="relative w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center shadow-lg shadow-amber-500/10">
+                <span class="absolute inset-0 rounded-2xl border-2 border-amber-400 animate-sonar-ping"></span>
                 <span class="text-xl">🌊</span>
               </div>
               <div>
-                <span class="text-xs font-mono font-bold uppercase tracking-wider text-ocean-400">Waypoint 01 • Nautical Mile 42</span>
+                <span class="text-xs font-mono font-bold uppercase tracking-wider text-amber-400">Waypoint 01 • Nautical Mile 42</span>
                 <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">The Coastal Shallows</h2>
               </div>
             </div>
@@ -255,13 +255,13 @@ interface SampledPoint {
             </p>
 
             <!-- Sonar Telemetry Card -->
-            <div class="p-5 rounded-2xl bg-navy-900/80 backdrop-blur-xl border border-navy-700/80 shadow-2xl space-y-4">
+            <div class="p-5 rounded-2xl bg-navy-900/85 backdrop-blur-xl border border-navy-700/80 shadow-2xl space-y-4">
               <div class="flex items-center justify-between border-b border-navy-800 pb-3">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   <span class="text-xs font-bold uppercase text-slate-300">Sonar Sounder: Active</span>
                 </div>
-                <span class="text-xs font-mono text-ocean-300 font-bold">DEPTH: 22.4 METERS</span>
+                <span class="text-xs font-mono text-amber-300 font-bold">DEPTH: 22.4 METERS</span>
               </div>
 
               <div class="grid grid-cols-3 gap-3 text-center">
@@ -271,7 +271,7 @@ interface SampledPoint {
                 </div>
                 <div class="p-2.5 rounded-xl bg-navy-950 border border-navy-800">
                   <span class="text-[10px] text-slate-400 uppercase font-semibold">Tidal Shift</span>
-                  <p class="text-sm font-black text-ocean-300 mt-0.5">+1.8 m</p>
+                  <p class="text-sm font-black text-amber-300 mt-0.5">+1.8 m</p>
                 </div>
                 <div class="p-2.5 rounded-xl bg-navy-950 border border-navy-800">
                   <span class="text-[10px] text-slate-400 uppercase font-semibold">Berth Window</span>
@@ -281,57 +281,65 @@ interface SampledPoint {
 
               <button
                 (click)="triggerSonarPing()"
-                class="w-full py-2.5 px-4 rounded-xl bg-ocean-500/15 hover:bg-ocean-500/25 border border-ocean-500/30 text-ocean-300 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <svg class="w-4 h-4 text-ocean-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-amber-500/20 cursor-pointer">
+                <svg class="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 <span>{{ isRtl() ? 'إرسال إشارة السونار الاستكشافية' : 'Transmit Hydrographic Sonar Ping' }}</span>
               </button>
             </div>
           </div>
 
-          <!-- Feature Cards Sliding in on Right -->
-          <div class="lg:col-span-7 space-y-4">
-            <div class="p-6 rounded-2xl bg-navy-900/75 backdrop-blur-md border border-navy-700/70 hover:border-ocean-400/50 transition-all group">
-              <div class="flex items-start gap-4">
-                <div class="p-3 rounded-xl bg-ocean-500/10 text-ocean-400 group-hover:scale-110 transition-transform">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <!-- Feature Cards Anchored on Center-Left -->
+          <div class="lg:col-span-4 space-y-3.5">
+            <div class="p-5 rounded-2xl bg-navy-900/80 backdrop-blur-md border border-navy-700/70 hover:border-amber-400/60 transition-all group shadow-xl">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-lg font-bold text-white mb-1">Rapid 24-48h Shuttle Frequencies</h3>
-                  <p class="text-sm text-slate-300">Dedicated express rotations connecting Jebel Ali with Sharjah, Sohar, and Khalifa Port. Zero idle anchorages with priority berthing windows.</p>
+                  <h3 class="text-base font-bold text-white mb-1">Rapid 24-48h Shuttle Frequencies</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed">Dedicated express rotations connecting Jebel Ali with Sharjah, Sohar, and Khalifa Port. Zero idle anchorages with priority berthing windows.</p>
                 </div>
               </div>
             </div>
 
-            <div class="p-6 rounded-2xl bg-navy-900/75 backdrop-blur-md border border-navy-700/70 hover:border-ocean-400/50 transition-all group">
-              <div class="flex items-start gap-4">
-                <div class="p-3 rounded-xl bg-amber-accent/10 text-amber-accent group-hover:scale-110 transition-transform">
+            <div class="p-5 rounded-2xl bg-navy-900/80 backdrop-blur-md border border-navy-700/70 hover:border-amber-400/60 transition-all group shadow-xl">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 group-hover:scale-110 transition-transform">
                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-lg font-bold text-white mb-1">Intermodal Sea-to-Rail Customs Clearance</h3>
-                  <p class="text-sm text-slate-300">Pre-cleared bonded container transit straight to Etihad Rail and inland dry container depots without terminal congestion bottlenecks.</p>
+                  <h3 class="text-base font-bold text-white mb-1">Intermodal Sea-to-Rail Clearance</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed">Pre-cleared bonded container transit straight to Etihad Rail and inland dry container depots without terminal congestion bottlenecks.</p>
                 </div>
               </div>
             </div>
 
-            <div class="p-6 rounded-2xl bg-navy-900/75 backdrop-blur-md border border-navy-700/70 hover:border-ocean-400/50 transition-all group">
-              <div class="flex items-start gap-4">
-                <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:scale-110 transition-transform">
+            <div class="p-5 rounded-2xl bg-navy-900/80 backdrop-blur-md border border-navy-700/70 hover:border-amber-400/60 transition-all group shadow-xl">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:scale-110 transition-transform">
                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-lg font-bold text-white mb-1">Cold-Chain Reefer Monitoring Telemetry</h3>
-                  <p class="text-sm text-slate-300">High-capacity reefer plug configurations on all coastal feeders with 24/7 automated temperature logs for pharmaceuticals and fresh produce.</p>
+                  <h3 class="text-base font-bold text-white mb-1">Cold-Chain Reefer Monitoring</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed">High-capacity reefer plug configurations on all coastal feeders with 24/7 automated temperature logs for pharmaceuticals and fresh produce.</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <!-- Column 3: Dedicated Open Ocean Fairway on Right (Ship & Golden Route Sail Unobstructed!) -->
+          <div class="hidden lg:flex lg:col-span-3 items-center justify-center pointer-events-none min-h-[380px]">
+            <div class="p-3.5 rounded-2xl bg-navy-950/40 border border-amber-500/25 backdrop-blur-sm text-center space-y-1 opacity-75">
+              <span class="inline-block px-2 py-0.5 rounded bg-amber-500/15 text-[10px] font-mono text-amber-300 font-bold tracking-widest uppercase">FAIRWAY 01 • OPEN SEA</span>
+              <p class="text-[10px] text-slate-400 font-mono">CHANNEL DEPTH: 24.5M</p>
             </div>
           </div>
         </div>
@@ -342,14 +350,14 @@ interface SampledPoint {
            --------------------------------------------------------- -->
       <section
         id="waypoint-reef"
-        class="relative min-h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 py-24 z-20">
+        class="relative min-h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 py-24 z-30">
         
-        <div class="max-w-7xl mx-auto w-full space-y-8">
+        <div class="max-w-7xl mx-auto w-full space-y-8 relative z-30">
           <!-- Waypoint Header -->
           <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-accent/10 border border-amber-accent/30 text-amber-accent text-xs font-bold tracking-wider uppercase mb-2">
-                <span class="w-2 h-2 rounded-full bg-amber-accent animate-ping"></span>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold tracking-wider uppercase mb-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
                 <span>Waypoint 02 • Navigational Fairway</span>
               </div>
               <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">The Coral Reef & Archipelago</h2>
@@ -364,7 +372,7 @@ interface SampledPoint {
                 (click)="scrollCarousel('prev')"
                 type="button"
                 aria-label="Previous vessel slide"
-                class="w-11 h-11 rounded-xl bg-navy-900 border border-navy-700 hover:border-ocean-400 text-white flex items-center justify-center transition-all cursor-pointer">
+                class="w-11 h-11 rounded-xl bg-navy-900 border border-navy-700 hover:border-amber-400 text-white hover:text-amber-300 flex items-center justify-center transition-all cursor-pointer">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
@@ -373,7 +381,7 @@ interface SampledPoint {
                 (click)="scrollCarousel('next')"
                 type="button"
                 aria-label="Next vessel slide"
-                class="w-11 h-11 rounded-xl bg-navy-900 border border-navy-700 hover:border-ocean-400 text-white flex items-center justify-center transition-all cursor-pointer">
+                class="w-11 h-11 rounded-xl bg-navy-900 border border-navy-700 hover:border-amber-400 text-white hover:text-amber-300 flex items-center justify-center transition-all cursor-pointer">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -384,19 +392,19 @@ interface SampledPoint {
           <!-- Interactive Horizontal Card Carousel -->
           <div
             #carouselTrack
-            class="carousel-track-snap gap-4 sm:gap-6 py-4 px-1"
+            class="carousel-track-snap gap-4 sm:gap-6 py-4 px-1 relative z-30"
             role="region"
             aria-roledescription="carousel"
             aria-label="Flagship Feeder Fleet Showcase">
             
             <div
               *ngFor="let v of flagshipVessels; let i = index"
-              class="carousel-slide-snap w-[85vw] sm:w-96 p-5 sm:p-6 rounded-2xl bg-navy-900/85 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all flex flex-col justify-between group shadow-xl">
+              class="carousel-slide-snap w-[85vw] sm:w-96 p-5 sm:p-6 rounded-2xl bg-navy-900/85 backdrop-blur-xl border border-navy-700/80 hover:border-amber-400 transition-all flex flex-col justify-between group shadow-xl relative z-30">
               
               <div>
                 <!-- Top Badge Row -->
                 <div class="flex items-center justify-between mb-4">
-                  <span class="px-2.5 py-1 rounded-md bg-ocean-500/10 border border-ocean-500/25 text-ocean-400 text-xs font-mono font-bold">
+                  <span class="px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold">
                     {{ v.nominal_cap_teu }} TEU
                   </span>
                   <span class="text-xs px-2 py-0.5 rounded bg-navy-950 text-slate-300 font-semibold border border-navy-800">
@@ -405,7 +413,7 @@ interface SampledPoint {
                 </div>
 
                 <!-- Vessel Name & Service -->
-                <h3 class="text-2xl font-black text-white group-hover:text-ocean-300 transition-colors">{{ v.name }}</h3>
+                <h3 class="text-2xl font-black text-white group-hover:text-amber-300 transition-colors">{{ v.name }}</h3>
                 <p class="text-xs font-mono text-slate-400 mt-1">IMO: {{ v.imo }} • Built {{ v.built_year }}</p>
 
                 <!-- Spec Grid -->
@@ -435,12 +443,12 @@ interface SampledPoint {
               <div class="pt-5 mt-4 border-t border-navy-800 flex items-center gap-2">
                 <button
                   (click)="openVesselModal(v)"
-                  class="flex-1 py-2.5 px-3 rounded-xl bg-ocean-500 hover:bg-ocean-400 text-navy-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md cursor-pointer">
+                  class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-amber-500/20 cursor-pointer">
                   <span>{{ isRtl() ? 'المواصفات الكاملة' : 'View 16-Pt Specs' }}</span>
                 </button>
                 <button
                   (click)="trackOnMap(v)"
-                  class="p-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-ocean-400 border border-navy-700 transition-all cursor-pointer"
+                  class="p-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-amber-400 hover:border-amber-400 border border-navy-700 transition-all cursor-pointer"
                   title="Track on Leaflet Map">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -457,21 +465,21 @@ interface SampledPoint {
            --------------------------------------------------------- -->
       <section
         id="waypoint-trench"
-        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20 overflow-hidden">
+        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-30 overflow-hidden">
         
-        <!-- Rotating Deep-Sea Bathymetric Sonar / Lighthouse Sweep Beam -->
+        <!-- Rotating Deep-Sea Bathymetric Sonar / Sunny Golden Lighthouse Sweep Beam -->
         <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center opacity-40 overflow-hidden max-w-full">
           <div
             class="w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] lg:w-[800px] lg:h-[800px] rounded-full animate-lighthouse-beam pointer-events-none will-change-transform transform-gpu"
-            style="background: conic-gradient(from 0deg, rgba(0, 180, 216, 0.45) 0deg, rgba(0, 180, 216, 0.12) 35deg, transparent 65deg, transparent 360deg); -webkit-transform: translateZ(0); transform: translateZ(0);">
+            style="background: conic-gradient(from 0deg, rgba(245, 158, 11, 0.45) 0deg, rgba(245, 158, 11, 0.12) 35deg, transparent 65deg, transparent 360deg); -webkit-transform: translateZ(0); transform: translateZ(0);">
           </div>
         </div>
 
-        <div class="max-w-7xl mx-auto w-full relative z-10 space-y-12">
+        <div class="max-w-7xl mx-auto w-full relative z-30 space-y-12">
           <!-- Section Title -->
           <div class="text-center max-w-3xl mx-auto space-y-3">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ocean-500/10 border border-ocean-500/30 text-ocean-400 text-xs font-bold tracking-wider uppercase">
-              <span class="w-2 h-2 rounded-full bg-ocean-400 animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold tracking-wider uppercase">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
               <span>Waypoint 03 • Abyssal Marine Trench (2,400m)</span>
             </div>
             <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">The Oceanic Trench & Metrics</h2>
@@ -481,36 +489,36 @@ interface SampledPoint {
           </div>
 
           <!-- 4 Core High-Impact Stat Cards Illuminated by Sonar Sweep -->
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
-              <span class="text-[10px] sm:text-xs font-mono font-bold text-ocean-400 uppercase tracking-widest">Schedule Integrity</span>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 relative z-30">
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 hover:border-amber-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">Schedule Integrity</span>
               <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">99.4%</p>
               <p class="text-[11px] sm:text-xs text-slate-400">On-time berthing across all Middle East & Asia services</p>
             </div>
 
-            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
-              <span class="text-[10px] sm:text-xs font-mono font-bold text-amber-accent uppercase tracking-widest">Annual Volume</span>
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 hover:border-amber-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-amber-300 uppercase tracking-widest">Annual Volume</span>
               <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">2.5M+</p>
               <p class="text-[11px] sm:text-xs text-slate-400">TEUs moved safely per year across regional hubs & feeder links</p>
             </div>
 
-            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 hover:border-amber-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
               <span class="text-[10px] sm:text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Feeder Fleet</span>
               <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">66</p>
               <p class="text-[11px] sm:text-xs text-slate-400">Modern feeder vessels with satellite AIS & bow thrusters</p>
             </div>
 
-            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
-              <span class="text-[10px] sm:text-xs font-mono font-bold text-ocean-300 uppercase tracking-widest">Navigated</span>
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 hover:border-amber-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">Navigated</span>
               <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">1.2M NM</p>
               <p class="text-[11px] sm:text-xs text-slate-400">Nautical miles logged with zero lost containers at sea</p>
             </div>
           </div>
 
           <!-- Deep Trench Architectural Pillars -->
-          <div class="p-8 rounded-3xl bg-navy-900/60 backdrop-blur-md border border-navy-800 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-8 rounded-3xl bg-navy-900/70 backdrop-blur-md border border-navy-800 grid grid-cols-1 md:grid-cols-3 gap-6 relative z-30">
             <div class="space-y-2">
-              <span class="text-xs font-mono text-ocean-400 font-bold uppercase">01 / Fuel & Speed Optimization</span>
+              <span class="text-xs font-mono text-amber-400 font-bold uppercase">01 / Fuel & Speed Optimization</span>
               <h4 class="text-base font-bold text-white">Bathymetric Current Routing</h4>
               <p class="text-xs text-slate-300">Harnessing monsoon currents and sea state telemetry to decrease carbon emissions by 14% while preserving exact port-arrival ETAs.</p>
             </div>
@@ -533,11 +541,11 @@ interface SampledPoint {
            --------------------------------------------------------- -->
       <section
         id="waypoint-harbor"
-        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20">
+        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-30">
         
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <!-- Pier Graphic & Anchor Drop Micro-animation -->
-          <div class="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 shadow-2xl relative">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-30">
+          <!-- Pier Graphic & Anchor Drop Micro-animation (Sea Level Layer) -->
+          <div class="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 shadow-2xl relative z-20">
             <!-- Mooring Pier Graphic -->
             <div class="w-full h-24 rounded-2xl bg-gradient-to-r from-amber-900/60 via-slate-800 to-amber-900/60 border-2 border-amber-500/40 relative overflow-hidden flex items-center justify-around px-6 mb-8">
               <!-- Pier Warning Stripes -->
@@ -577,15 +585,15 @@ interface SampledPoint {
 
             <div class="mt-4 text-center">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-bold font-mono tracking-wider border"
-                    [ngClass]="isAnchorDropped() ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-ocean-500/10 text-ocean-400 border-ocean-500/30'">
+                    [ngClass]="isAnchorDropped() ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/15 text-amber-300 border-amber-500/30'">
                 {{ isAnchorDropped() ? 'VESSEL SAFELY MOORED AT BERTH' : 'APPROACHING FINAL HARBOR PIER' }}
               </span>
               <p class="text-xs text-slate-400 font-mono mt-1">JEBEL ALI CONTAINER TERMINAL 2 • BERTH 08</p>
             </div>
           </div>
 
-          <!-- Final High-Impact CTA & Actions -->
-          <div class="lg:col-span-7 space-y-6">
+          <!-- Final High-Impact CTA & Actions (Elevated Content Layer) -->
+          <div class="lg:col-span-7 space-y-6 relative z-30">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span>Voyage Complete • Safe Harbor</span>
@@ -602,13 +610,13 @@ interface SampledPoint {
             <div class="flex flex-wrap items-center gap-4 pt-2">
               <button
                 (click)="service.toggleBookingModal(true)"
-                class="py-3.5 px-8 rounded-xl bg-ocean-500 hover:bg-ocean-400 text-navy-950 font-black text-sm tracking-wide shadow-xl shadow-ocean-500/25 transition-all transform hover:-translate-y-0.5 cursor-pointer">
+                class="py-3.5 px-8 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-sm tracking-wide shadow-xl shadow-amber-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer">
                 {{ isRtl() ? 'حجز مساحة شحن فورية' : 'Book Instant Feeder Space' }}
               </button>
               
               <button
                 (click)="scrollToSchedules()"
-                class="py-3.5 px-6 rounded-xl bg-navy-900 hover:bg-navy-800 text-white font-bold text-sm border border-navy-700 hover:border-ocean-400 transition-all cursor-pointer">
+                class="py-3.5 px-6 rounded-xl bg-navy-900 hover:bg-navy-800 text-white font-bold text-sm border border-navy-700 hover:border-amber-400 transition-all cursor-pointer">
                 {{ isRtl() ? 'تحميل جدول الرحلات الكامل' : 'Download Schedule Book (PDF)' }}
               </button>
             </div>
@@ -617,17 +625,17 @@ interface SampledPoint {
             <div class="pt-6 border-t border-navy-800 space-y-2">
               <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Immediate Port Agent Contacts:</span>
               <div class="flex flex-wrap gap-2.5">
-                <a href="tel:+97142105105" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
-                  <strong class="text-ocean-400">Dubai HQ:</strong> +971 4 210 51 05
+                <a href="tel:+97142105105" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-amber-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-amber-400">Dubai HQ:</strong> +971 4 210 51 05
                 </a>
-                <a href="tel:+6562201888" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
-                  <strong class="text-ocean-400">Singapore:</strong> +65 6220 1888
+                <a href="tel:+6562201888" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-amber-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-amber-400">Singapore:</strong> +65 6220 1888
                 </a>
-                <a href="tel:+912266389000" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
-                  <strong class="text-ocean-400">Mumbai:</strong> +91 22 6638 9000
+                <a href="tel:+912266389000" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-amber-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-amber-400">Mumbai:</strong> +91 22 6638 9000
                 </a>
-                <a href="tel:+966126512233" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
-                  <strong class="text-ocean-400">Jeddah:</strong> +966 12 651 2233
+                <a href="tel:+966126512233" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-amber-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-amber-400">Jeddah:</strong> +966 12 651 2233
                 </a>
               </div>
             </div>
@@ -641,18 +649,18 @@ interface SampledPoint {
       <aside
         id="maritime-hud"
         aria-label="Live Navigational Telemetry HUD"
-        class="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 bg-navy-950/92 backdrop-blur-xl border border-navy-700/90 rounded-2xl p-2.5 sm:p-4 shadow-2xl shadow-black/80 flex items-center gap-2.5 sm:gap-4 pointer-events-auto transition-all duration-300 max-w-[calc(100vw-1.5rem)]">
+        class="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 bg-navy-950/95 backdrop-blur-xl border border-amber-500/30 rounded-2xl p-2.5 sm:p-4 shadow-2xl shadow-black/80 flex items-center gap-2.5 sm:gap-4 pointer-events-auto transition-all duration-300 max-w-[calc(100vw-1.5rem)]">
         
         <!-- Minimized Pill View for Mobile & Compact Screens -->
         <ng-container *ngIf="isHudMinimized()">
           <button
             (click)="isHudMinimized.set(false)"
-            class="flex items-center gap-2 text-xs font-mono font-bold text-white hover:text-ocean-400 py-1 px-1.5 cursor-pointer">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="text-ocean-400">{{ speedKnots() }} KN</span>
+            class="flex items-center gap-2 text-xs font-mono font-bold text-white hover:text-amber-400 py-1 px-1.5 cursor-pointer">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span class="text-amber-400">{{ speedKnots() }} KN</span>
             <span class="text-slate-500 text-[10px]">|</span>
             <span class="text-slate-300 text-[11px]">{{ liveLat() }}°N, {{ liveLng() }}°E</span>
-            <svg class="w-4 h-4 text-ocean-400 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-4 h-4 text-amber-400 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
             </svg>
           </button>
@@ -663,8 +671,8 @@ interface SampledPoint {
           <!-- Rotating Compass Rose -->
           <div class="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0">
             <!-- Compass Bezel -->
-            <div class="absolute inset-0 rounded-full border border-ocean-500/40 bg-navy-900 flex items-center justify-center">
-              <span class="absolute top-0.5 text-[7px] sm:text-[8px] font-mono text-ocean-400 font-bold">N</span>
+            <div class="absolute inset-0 rounded-full border border-amber-500/40 bg-navy-900 flex items-center justify-center">
+              <span class="absolute top-0.5 text-[7px] sm:text-[8px] font-mono text-amber-400 font-bold">N</span>
               <span class="absolute bottom-0.5 text-[7px] sm:text-[8px] font-mono text-slate-500 font-bold">S</span>
               <span class="absolute right-1 text-[7px] sm:text-[8px] font-mono text-slate-500 font-bold">E</span>
               <span class="absolute left-1 text-[7px] sm:text-[8px] font-mono text-slate-500 font-bold">W</span>
@@ -675,7 +683,7 @@ interface SampledPoint {
               [style.transform]="'rotate(' + compassHeading() + 'deg)'">
               <svg viewBox="0 0 40 40" class="w-6 h-6 sm:w-8 sm:h-8">
                 <polygon points="20,4 23,20 17,20" fill="#ef4444" /> <!-- North Red -->
-                <polygon points="20,36 23,20 17,20" fill="#94a3b8" /> <!-- South Gray -->
+                <polygon points="20,36 23,20 17,20" fill="#f59e0b" /> <!-- South Amber Gold -->
                 <circle cx="20" cy="20" r="2.5" fill="#ffffff" />
               </svg>
             </div>
@@ -697,13 +705,13 @@ interface SampledPoint {
 
             <div class="flex items-baseline gap-1 sm:gap-1.5">
               <span class="text-xl sm:text-2xl font-black font-mono text-white">{{ speedKnots() }}</span>
-              <span class="text-[10px] sm:text-xs font-bold font-mono text-ocean-400">KN</span>
+              <span class="text-[10px] sm:text-xs font-bold font-mono text-amber-400">KN</span>
               <span class="text-[9px] sm:text-[10px] font-semibold text-slate-400 ml-1 truncate">({{ speedLabel() }})</span>
             </div>
 
             <div class="text-[10px] sm:text-[11px] font-mono text-slate-300">
               <span>{{ liveLat() }}° N</span>, <span>{{ liveLng() }}° E</span>
-              <span class="text-ocean-400 font-bold ml-1">{{ headingDirection() }}</span>
+              <span class="text-amber-400 font-bold ml-1">{{ headingDirection() }}</span>
             </div>
           </div>
         </ng-container>

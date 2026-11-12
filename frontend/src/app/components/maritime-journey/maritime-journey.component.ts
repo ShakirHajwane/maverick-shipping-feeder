@@ -28,13 +28,14 @@ interface WaterRipple {
       (click)="onWaterClick($event)"
       (pointermove)="onWaterMove($event)"
       [style.background]="oceanGradient()"
-      class="relative w-full overflow-hidden transition-colors duration-1000 select-none">
+      class="relative w-full max-w-full overflow-x-hidden overflow-y-clip transition-colors duration-1000 select-none">
 
       <!-- =========================================================
            1. PARALLAX ATMOSPHERIC WEATHER & SEA FOG/CLOUD OVERLAYS
+           (Hidden on mobile to eliminate GPU rasterization lag)
            ========================================================= -->
       <div
-        class="absolute inset-0 pointer-events-none z-10 opacity-30 animate-cloud-slow"
+        class="hidden sm:block absolute inset-0 pointer-events-none z-10 opacity-30 animate-cloud-slow"
         [style.transform]="'translateY(' + (journeyProgress() * -140) + 'px)'">
         <svg class="w-full h-full" viewBox="0 0 1440 2400" preserveAspectRatio="none">
           <defs>
@@ -51,7 +52,7 @@ interface WaterRipple {
       </div>
 
       <div
-        class="absolute inset-0 pointer-events-none z-10 opacity-20 animate-cloud-fast"
+        class="hidden sm:block absolute inset-0 pointer-events-none z-10 opacity-20 animate-cloud-fast"
         [style.transform]="'translateY(' + (journeyProgress() * -280) + 'px)'">
         <svg class="w-full h-full" viewBox="0 0 1440 2400" preserveAspectRatio="none">
           <ellipse cx="800" cy="300" rx="300" ry="90" fill="#ffffff" opacity="0.3" filter="url(#cloudBlur)" />
@@ -383,14 +384,14 @@ interface WaterRipple {
           <!-- Interactive Horizontal Card Carousel -->
           <div
             #carouselTrack
-            class="carousel-track-snap gap-6 py-4 px-1"
+            class="carousel-track-snap gap-4 sm:gap-6 py-4 px-1"
             role="region"
             aria-roledescription="carousel"
             aria-label="Flagship Feeder Fleet Showcase">
             
             <div
               *ngFor="let v of flagshipVessels; let i = index"
-              class="carousel-slide-snap w-80 sm:w-96 p-6 rounded-2xl bg-navy-900/85 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all flex flex-col justify-between group shadow-xl">
+              class="carousel-slide-snap w-[85vw] sm:w-96 p-5 sm:p-6 rounded-2xl bg-navy-900/85 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all flex flex-col justify-between group shadow-xl">
               
               <div>
                 <!-- Top Badge Row -->
@@ -459,9 +460,9 @@ interface WaterRipple {
         class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20 overflow-hidden">
         
         <!-- Rotating Deep-Sea Bathymetric Sonar / Lighthouse Sweep Beam -->
-        <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center opacity-40">
+        <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center opacity-40 overflow-hidden max-w-full">
           <div
-            class="w-[800px] h-[800px] rounded-full animate-lighthouse-beam pointer-events-none"
+            class="w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] lg:w-[800px] lg:h-[800px] rounded-full animate-lighthouse-beam pointer-events-none"
             style="background: conic-gradient(from 0deg, rgba(0, 180, 216, 0.45) 0deg, rgba(0, 180, 216, 0.12) 35deg, transparent 65deg, transparent 360deg);">
           </div>
         </div>
@@ -480,29 +481,29 @@ interface WaterRipple {
           </div>
 
           <!-- 4 Core High-Impact Stat Cards Illuminated by Sonar Sweep -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
-              <span class="text-xs font-mono font-bold text-ocean-400 uppercase tracking-widest">Schedule Integrity</span>
-              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">99.4%</p>
-              <p class="text-xs text-slate-400">On-time berthing and port-call execution across all Middle East & Asia services</p>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-ocean-400 uppercase tracking-widest">Schedule Integrity</span>
+              <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">99.4%</p>
+              <p class="text-[11px] sm:text-xs text-slate-400">On-time berthing across all Middle East & Asia services</p>
             </div>
 
-            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
-              <span class="text-xs font-mono font-bold text-amber-accent uppercase tracking-widest">Annual Throughput</span>
-              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">2.5M+</p>
-              <p class="text-xs text-slate-400">TEUs moved safely per year across regional hubs, feeder links, and coastal ports</p>
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-amber-accent uppercase tracking-widest">Annual Volume</span>
+              <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">2.5M+</p>
+              <p class="text-[11px] sm:text-xs text-slate-400">TEUs moved safely per year across regional hubs & feeder links</p>
             </div>
 
-            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
-              <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Active Feeder Fleet</span>
-              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">66</p>
-              <p class="text-xs text-slate-400">Modern container feeder vessels deployed with satellite AIS telemetry & bow thrusters</p>
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Feeder Fleet</span>
+              <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">66</p>
+              <p class="text-[11px] sm:text-xs text-slate-400">Modern feeder vessels with satellite AIS & bow thrusters</p>
             </div>
 
-            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
-              <span class="text-xs font-mono font-bold text-ocean-300 uppercase tracking-widest">Distance Navigated</span>
-              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">1.2M NM</p>
-              <p class="text-xs text-slate-400">Nautical miles logged annually with zero lost containers at sea</p>
+            <div class="p-4 sm:p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-1.5 sm:space-y-2 group shadow-2xl">
+              <span class="text-[10px] sm:text-xs font-mono font-bold text-ocean-300 uppercase tracking-widest">Navigated</span>
+              <p class="text-3xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">1.2M NM</p>
+              <p class="text-[11px] sm:text-xs text-slate-400">Nautical miles logged with zero lost containers at sea</p>
             </div>
           </div>
 
@@ -640,50 +641,72 @@ interface WaterRipple {
       <aside
         id="maritime-hud"
         aria-label="Live Navigational Telemetry HUD"
-        class="fixed bottom-6 right-6 z-40 bg-navy-950/90 backdrop-blur-xl border border-navy-700/90 rounded-2xl p-4 shadow-2xl shadow-black/80 flex items-center gap-4 pointer-events-auto transition-transform">
+        class="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 bg-navy-950/92 backdrop-blur-xl border border-navy-700/90 rounded-2xl p-2.5 sm:p-4 shadow-2xl shadow-black/80 flex items-center gap-2.5 sm:gap-4 pointer-events-auto transition-all duration-300 max-w-[calc(100vw-1.5rem)]">
         
-        <!-- Rotating Compass Rose -->
-        <div class="relative w-14 h-14 flex items-center justify-center">
-          <!-- Compass Bezel -->
-          <div class="absolute inset-0 rounded-full border border-ocean-500/40 bg-navy-900 flex items-center justify-center">
-            <span class="absolute top-0.5 text-[8px] font-mono text-ocean-400 font-bold">N</span>
-            <span class="absolute bottom-0.5 text-[8px] font-mono text-slate-500 font-bold">S</span>
-            <span class="absolute right-1 text-[8px] font-mono text-slate-500 font-bold">E</span>
-            <span class="absolute left-1 text-[8px] font-mono text-slate-500 font-bold">W</span>
-          </div>
-          <!-- Rotating Compass Needle -->
-          <div
-            class="relative w-full h-full flex items-center justify-center transition-transform duration-100"
-            [style.transform]="'rotate(' + compassHeading() + 'deg)'">
-            <svg viewBox="0 0 40 40" class="w-8 h-8">
-              <polygon points="20,4 23,20 17,20" fill="#ef4444" /> <!-- North Red -->
-              <polygon points="20,36 23,20 17,20" fill="#94a3b8" /> <!-- South Gray -->
-              <circle cx="20" cy="20" r="2.5" fill="#ffffff" />
+        <!-- Minimized Pill View for Mobile & Compact Screens -->
+        <ng-container *ngIf="isHudMinimized()">
+          <button
+            (click)="isHudMinimized.set(false)"
+            class="flex items-center gap-2 text-xs font-mono font-bold text-white hover:text-ocean-400 py-1 px-1.5 cursor-pointer">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-ocean-400">{{ speedKnots() }} KN</span>
+            <span class="text-slate-500 text-[10px]">|</span>
+            <span class="text-slate-300 text-[11px]">{{ liveLat() }}°N, {{ liveLng() }}°E</span>
+            <svg class="w-4 h-4 text-ocean-400 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
             </svg>
-          </div>
-        </div>
+          </button>
+        </ng-container>
 
-        <!-- Telemetry Data: Knots Speedometer + Coordinates -->
-        <div class="border-l border-navy-800 pl-4 space-y-1">
-          <div class="flex items-center justify-between gap-3">
-            <span class="text-[10px] font-bold uppercase text-slate-400">Speed Over Ground</span>
-            <span class="inline-flex items-center gap-1 text-[9px] font-mono text-emerald-400">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              GPS 3D FIX
-            </span>
+        <!-- Expanded Full View -->
+        <ng-container *ngIf="!isHudMinimized()">
+          <!-- Rotating Compass Rose -->
+          <div class="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0">
+            <!-- Compass Bezel -->
+            <div class="absolute inset-0 rounded-full border border-ocean-500/40 bg-navy-900 flex items-center justify-center">
+              <span class="absolute top-0.5 text-[7px] sm:text-[8px] font-mono text-ocean-400 font-bold">N</span>
+              <span class="absolute bottom-0.5 text-[7px] sm:text-[8px] font-mono text-slate-500 font-bold">S</span>
+              <span class="absolute right-1 text-[7px] sm:text-[8px] font-mono text-slate-500 font-bold">E</span>
+              <span class="absolute left-1 text-[7px] sm:text-[8px] font-mono text-slate-500 font-bold">W</span>
+            </div>
+            <!-- Rotating Compass Needle -->
+            <div
+              class="relative w-full h-full flex items-center justify-center transition-transform duration-100"
+              [style.transform]="'rotate(' + compassHeading() + 'deg)'">
+              <svg viewBox="0 0 40 40" class="w-6 h-6 sm:w-8 sm:h-8">
+                <polygon points="20,4 23,20 17,20" fill="#ef4444" /> <!-- North Red -->
+                <polygon points="20,36 23,20 17,20" fill="#94a3b8" /> <!-- South Gray -->
+                <circle cx="20" cy="20" r="2.5" fill="#ffffff" />
+              </svg>
+            </div>
           </div>
 
-          <div class="flex items-baseline gap-1.5">
-            <span class="text-2xl font-black font-mono text-white">{{ speedKnots() }}</span>
-            <span class="text-xs font-bold font-mono text-ocean-400">KNOTS</span>
-            <span class="text-[10px] font-semibold text-slate-400 ml-2">({{ speedLabel() }})</span>
-          </div>
+          <!-- Telemetry Data: Knots Speedometer + Coordinates -->
+          <div class="border-l border-navy-800 pl-2.5 sm:pl-4 space-y-0.5 sm:space-y-1">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-[9px] sm:text-[10px] font-bold uppercase text-slate-400">Speed Over Ground</span>
+              <button
+                (click)="isHudMinimized.set(true)"
+                class="text-slate-400 hover:text-white p-0.5 -mr-1"
+                title="Minimize HUD">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
 
-          <div class="text-[11px] font-mono text-slate-300">
-            <span>{{ liveLat() }}° N</span>, <span>{{ liveLng() }}° E</span>
-            <span class="text-ocean-400 font-bold ml-1.5">{{ headingDirection() }}</span>
+            <div class="flex items-baseline gap-1 sm:gap-1.5">
+              <span class="text-xl sm:text-2xl font-black font-mono text-white">{{ speedKnots() }}</span>
+              <span class="text-[10px] sm:text-xs font-bold font-mono text-ocean-400">KN</span>
+              <span class="text-[9px] sm:text-[10px] font-semibold text-slate-400 ml-1 truncate">({{ speedLabel() }})</span>
+            </div>
+
+            <div class="text-[10px] sm:text-[11px] font-mono text-slate-300">
+              <span>{{ liveLat() }}° N</span>, <span>{{ liveLng() }}° E</span>
+              <span class="text-ocean-400 font-bold ml-1">{{ headingDirection() }}</span>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </aside>
 
     </div>
@@ -717,6 +740,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   headingDirection = signal<string>('180° S');
 
   isAnchorDropped = signal<boolean>(false);
+  isHudMinimized = signal<boolean>(typeof window !== 'undefined' ? window.innerWidth < 640 : false);
   wakeTrail = signal<WakeParticle[]>([]);
   ripples = signal<WaterRipple[]>([]);
 
@@ -1010,6 +1034,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
 
   private lastMoveTime = 0;
   onWaterMove(e: PointerEvent) {
+    if (e.pointerType === 'touch') return; // Do not spawn ripples during touch drag/scroll on mobile
     const now = performance.now();
     if (now - this.lastMoveTime < 180) return; // Throttle ripple creation
     this.lastMoveTime = now;

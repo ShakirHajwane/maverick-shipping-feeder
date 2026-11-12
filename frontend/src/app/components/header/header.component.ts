@@ -11,16 +11,16 @@ import { MaritimeService } from '../../services/maritime.service';
     <div class="bg-navy-950 border-b border-navy-800 text-xs text-slate-300 py-1.5 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
       <div class="w-full max-w-[1920px] mx-auto flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-4">
-          <span class="flex items-center gap-1.5 text-slate-400">
+          <span class="hidden sm:flex items-center gap-1.5 text-slate-400">
             <svg class="w-3.5 h-3.5 text-ocean-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="whitespace-nowrap">{{ isRtl() ? 'ساعات العمل: الأحد - الخميس 08:00 - 18:00' : 'HQ Ops: Mon - Fri 08:00 - 18:00 (GMT+4)' }}</span>
           </span>
           <span class="hidden md:inline text-navy-700">|</span>
-          <span class="hidden md:flex items-center gap-1.5 text-slate-300">
+          <span class="flex items-center gap-1.5 text-slate-300">
             <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="whitespace-nowrap">{{ isRtl() ? 'مركز العمليات البحرية يعمل 24/7' : '24/7 Marine Operations Desk Active' }}</span>
+            <span class="whitespace-nowrap text-[11px] sm:text-xs">{{ isRtl() ? 'مركز العمليات 24/7' : '24/7 Operations Desk' }}</span>
           </span>
         </div>
 
@@ -61,10 +61,10 @@ import { MaritimeService } from '../../services/maritime.service';
             </div>
             <div class="flex flex-col">
               <div class="flex items-center gap-2 whitespace-nowrap">
-                <span class="text-lg xl:text-xl font-extrabold tracking-tight text-white group-hover:text-ocean-400 transition-colors">GLOBAL FEEDERS</span>
-                <span class="text-[9px] xl:text-[10px] font-bold px-1.5 py-0.5 rounded bg-ocean-500/20 text-ocean-400 border border-ocean-500/30 tracking-wider">DP WORLD ALLIANCE</span>
+                <span class="text-base sm:text-lg xl:text-xl font-extrabold tracking-tight text-white group-hover:text-ocean-400 transition-colors">GLOBAL FEEDERS</span>
+                <span class="hidden min-[420px]:inline-block text-[9px] xl:text-[10px] font-bold px-1.5 py-0.5 rounded bg-ocean-500/20 text-ocean-400 border border-ocean-500/30 tracking-wider">DP WORLD ALLIANCE</span>
               </div>
-              <p class="text-[10px] uppercase tracking-wider text-slate-400 font-medium whitespace-nowrap">Independent Container Feeder Network</p>
+              <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-400 font-medium truncate max-w-[170px] sm:max-w-none">Independent Container Feeder Network</p>
             </div>
           </a>
         </div>

@@ -68,7 +68,7 @@ import { FeederService, Vessel } from '../../models/maritime.models';
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Leaflet Map Container (2 Cols) -->
           <div class="lg:col-span-2 relative rounded-2xl overflow-hidden border border-navy-700/80 shadow-2xl bg-[#0d1f38]">
-            <div #mapContainer class="w-full h-[520px] z-10"></div>
+            <div #mapContainer class="w-full h-[360px] sm:h-[460px] lg:h-[520px] z-10"></div>
 
             <!-- Map Floating Badge Overlay -->
             <div class="absolute bottom-4 left-4 z-20 pointer-events-none bg-navy-950/85 backdrop-blur-md px-3 py-2 rounded-xl border border-navy-700/60 text-xs space-y-1">

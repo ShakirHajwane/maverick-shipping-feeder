@@ -1,9 +1,9 @@
-<div [dir]="isRtl() ? 'rtl' : 'ltr'" class="min-h-screen bg-navy-950 text-slate-100 flex flex-col font-sans selection:bg-ocean-500 selection:text-navy-950">
+<div [dir]="isRtl() ? 'rtl' : 'ltr'" class="min-h-screen bg-navy-950 text-slate-100 flex flex-col font-sans selection:bg-ocean-500 selection:text-navy-950 overflow-x-hidden w-full max-w-full">
   <!-- Top Navigation Bar & Utility Header -->
   <app-header />
 
   <!-- Main Corporate Content Flow -->
-  <main class="flex-1">
+  <main class="flex-1 w-full max-w-full overflow-x-hidden">
     <!-- Hero Section with 3-Tab Action Engine (Intact with all animations) -->
     <app-hero-search />
 

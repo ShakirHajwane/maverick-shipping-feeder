@@ -1,0 +1,9 @@
+# Root Git Ignore
+node_modules/
+dist/
+venv/
+__pycache__/
+*.pyc
+maritime_demo.db
+.DS_Store
+.angular/

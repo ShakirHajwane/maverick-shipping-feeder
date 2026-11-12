@@ -78,3 +78,185 @@ html, body {
 .beacon-pulse {
   animation: beaconPulse 2s infinite;
 }
+
+/* =========================================
+   MARITIME ANIMATIONS & SHIPPING SCENE
+   ========================================= */
+
+/* Marine Radar Sweep */
+@keyframes radarSweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-radar-sweep {
+  animation: radarSweep 7s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Container Vessel Cruising across horizon */
+@keyframes shipCruising {
+  0% {
+    transform: translateX(-180px) translateY(0px);
+  }
+  20% {
+    transform: translateX(20vw) translateY(-2px);
+  }
+  40% {
+    transform: translateX(45vw) translateY(1.5px);
+  }
+  65% {
+    transform: translateX(70vw) translateY(-2px);
+  }
+  85% {
+    transform: translateX(90vw) translateY(1px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 220px)) translateY(0px);
+  }
+}
+
+.animate-ship-cruising {
+  animation: shipCruising 42s linear infinite;
+  will-change: transform;
+}
+
+/* Secondary distant ship sailing in opposite direction */
+@keyframes shipCruisingReverse {
+  0% {
+    transform: translateX(calc(100vw + 160px)) translateY(0px) scale(0.55);
+  }
+  50% {
+    transform: translateX(48vw) translateY(-2px) scale(0.55);
+  }
+  100% {
+    transform: translateX(-180px) translateY(0px) scale(0.55);
+  }
+}
+
+.animate-ship-reverse {
+  animation: shipCruisingReverse 65s linear infinite;
+  will-change: transform;
+}
+
+/* Layered Ocean Waves Undulation */
+@keyframes waveUndulate {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.88);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+.animate-wave-slow {
+  animation: waveUndulate 24s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+.animate-wave-medium {
+  animation: waveUndulate 16s cubic-bezier(0.36, 0.45, 0.63, 0.53) -5s infinite;
+}
+
+.animate-wave-fast {
+  animation: waveUndulate 10s cubic-bezier(0.36, 0.45, 0.63, 0.53) -2s infinite;
+}
+
+/* Gantry Crane Warning Beacon Blinking */
+@keyframes craneWarning {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+    filter: drop-shadow(0 0 6px #ef4444);
+  }
+}
+
+.animate-crane-warning {
+  animation: craneWarning 1.8s ease-in-out infinite;
+}
+
+.animate-crane-warning-amber {
+  animation: craneWarning 2.4s ease-in-out infinite 0.8s;
+}
+
+/* Navigational Buoy Bobbing on Water */
+@keyframes buoyBobbing {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-4deg);
+  }
+  75% {
+    transform: translateY(4px) rotate(3deg);
+  }
+}
+
+.animate-buoy {
+  animation: buoyBobbing 3.8s ease-in-out infinite;
+}
+
+/* Lighthouse / Terminal Searchlight Beam */
+@keyframes searchlightSweep {
+  0% {
+    transform: rotate(-25deg);
+    opacity: 0.08;
+  }
+  50% {
+    transform: rotate(30deg);
+    opacity: 0.22;
+  }
+  100% {
+    transform: rotate(-25deg);
+    opacity: 0.08;
+  }
+}
+
+.animate-searchlight {
+  animation: searchlightSweep 14s ease-in-out infinite;
+  transform-origin: 0% 0%;
+}
+
+/* Water Shimmer & Ambient Wake Glow */
+@keyframes waterShimmer {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.animate-water-shimmer {
+  animation: waterShimmer 5s ease-in-out infinite;
+}
+
+/* Maritime Operations Ticker Marquee */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 38s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

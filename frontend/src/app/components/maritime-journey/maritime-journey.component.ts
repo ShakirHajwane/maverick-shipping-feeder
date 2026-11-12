@@ -1,0 +1,1098 @@
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MaritimeService } from '../../services/maritime.service';
+import { Vessel } from '../../models/maritime.models';
+
+interface WakeParticle {
+  id: number;
+  x: number;
+  y: number;
+  angle: number;
+  createdAt: number;
+}
+
+interface WaterRipple {
+  id: number;
+  x: number;
+  y: number;
+}
+
+@Component({
+  selector: 'app-maritime-journey',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div
+      #journeyContainer
+      id="maritime-journey"
+      (click)="onWaterClick($event)"
+      (pointermove)="onWaterMove($event)"
+      [style.background]="oceanGradient()"
+      class="relative w-full overflow-hidden transition-colors duration-1000 select-none">
+
+      <!-- =========================================================
+           1. PARALLAX ATMOSPHERIC WEATHER & SEA FOG/CLOUD OVERLAYS
+           ========================================================= -->
+      <div
+        class="absolute inset-0 pointer-events-none z-10 opacity-30 animate-cloud-slow"
+        [style.transform]="'translateY(' + (journeyProgress() * -140) + 'px)'">
+        <svg class="w-full h-full" viewBox="0 0 1440 2400" preserveAspectRatio="none">
+          <defs>
+            <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="30" />
+            </filter>
+          </defs>
+          <ellipse cx="200" cy="500" rx="350" ry="120" fill="#90e0ef" opacity="0.3" filter="url(#cloudBlur)" />
+          <ellipse cx="1100" cy="1100" rx="420" ry="140" fill="#ffffff" opacity="0.25" filter="url(#cloudBlur)" />
+          <ellipse cx="300" cy="1800" rx="380" ry="130" fill="#48cae4" opacity="0.2" filter="url(#cloudBlur)" />
+          <ellipse cx="950" cy="2500" rx="400" ry="140" fill="#ffffff" opacity="0.3" filter="url(#cloudBlur)" />
+          <ellipse cx="450" cy="3300" rx="460" ry="150" fill="#90e0ef" opacity="0.25" filter="url(#cloudBlur)" />
+        </svg>
+      </div>
+
+      <div
+        class="absolute inset-0 pointer-events-none z-10 opacity-20 animate-cloud-fast"
+        [style.transform]="'translateY(' + (journeyProgress() * -280) + 'px)'">
+        <svg class="w-full h-full" viewBox="0 0 1440 2400" preserveAspectRatio="none">
+          <ellipse cx="800" cy="300" rx="300" ry="90" fill="#ffffff" opacity="0.3" filter="url(#cloudBlur)" />
+          <ellipse cx="300" cy="1300" rx="360" ry="110" fill="#90e0ef" opacity="0.25" filter="url(#cloudBlur)" />
+          <ellipse cx="1200" cy="2100" rx="420" ry="120" fill="#ffffff" opacity="0.2" filter="url(#cloudBlur)" />
+          <ellipse cx="700" cy="3000" rx="380" ry="110" fill="#48cae4" opacity="0.3" filter="url(#cloudBlur)" />
+        </svg>
+      </div>
+
+      <!-- =========================================================
+           2. INTERACTIVE WATER RIPPLE RINGS (CLICK & POINTER HOVER)
+           ========================================================= -->
+      <div class="absolute inset-0 pointer-events-none z-15 overflow-hidden">
+        <div
+          *ngFor="let rip of ripples(); trackBy: trackById"
+          class="absolute w-20 h-20 -ml-10 -mt-10 rounded-full border border-ocean-400/80 animate-ripple"
+          [style.left.px]="rip.x"
+          [style.top.px]="rip.y">
+        </div>
+      </div>
+
+      <!-- =========================================================
+           3. SVG CONTINUOUS WINDING ROUTE & BATHYMETRIC CONTOURS
+           ========================================================= -->
+      <svg
+        #svgCanvas
+        class="absolute inset-0 w-full h-full pointer-events-none z-20"
+        viewBox="0 0 1000 4000"
+        preserveAspectRatio="none">
+        
+        <defs>
+          <filter id="routeGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Bathymetric Depth Contour Lines -->
+        <g stroke="#00B4D8" stroke-opacity="0.08" stroke-width="1.5" fill="none">
+          <path d="M 0 300 Q 300 250, 600 350 T 1000 320" />
+          <path d="M 0 800 Q 400 950, 700 850 T 1000 900" />
+          <path d="M 0 1500 Q 350 1350, 700 1600 T 1000 1450" />
+          <path d="M 0 2300 Q 450 2500, 800 2350 T 1000 2400" />
+          <path d="M 0 3200 Q 300 3100, 650 3300 T 1000 3150" />
+        </g>
+
+        <!-- Static Planned Route (Faint Nautical Dotted Line) -->
+        <path
+          #backgroundPath
+          [attr.d]="routePathD"
+          fill="none"
+          stroke="#00B4D8"
+          stroke-opacity="0.25"
+          stroke-width="3"
+          stroke-dasharray="10 10" />
+
+        <!-- Dynamic Drawn Route Line (Illuminated Cyan as Ship Passes) -->
+        <path
+          #activePath
+          [attr.d]="routePathD"
+          fill="none"
+          stroke="#00B4D8"
+          stroke-width="4.5"
+          [attr.stroke-dasharray]="pathTotalLength()"
+          [attr.stroke-dashoffset]="pathDashOffset()"
+          filter="url(#routeGlow)"
+          stroke-linecap="round" />
+
+        <!-- Waypoint Anchorage Markers along the SVG Path -->
+        <!-- WP1: The Shallows (X: 800, Y: 950) -->
+        <g transform="translate(800, 950)">
+          <circle r="28" fill="none" stroke="#00B4D8" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:20s]" />
+          <circle r="14" fill="#0A192F" stroke="#00B4D8" stroke-width="2.5" />
+          <circle r="5" fill="#38bdf8" />
+        </g>
+
+        <!-- WP2: The Reef (X: 240, Y: 1950) -->
+        <g transform="translate(240, 1950)">
+          <circle r="28" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:25s]" />
+          <circle r="14" fill="#0A192F" stroke="#F59E0B" stroke-width="2.5" />
+          <circle r="5" fill="#fbbf24" />
+        </g>
+
+        <!-- WP3: The Deep Trench (X: 680, Y: 2950) -->
+        <g transform="translate(680, 2950)">
+          <circle r="28" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:15s]" />
+          <circle r="14" fill="#0A192F" stroke="#38bdf8" stroke-width="2.5" />
+          <circle r="5" fill="#00B4D8" />
+        </g>
+
+        <!-- WP4: Safe Harbor Pier (X: 500, Y: 3950) -->
+        <g transform="translate(500, 3950)">
+          <circle r="32" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 6" class="animate-spin [animation-duration:30s]" />
+          <circle r="16" fill="#0A192F" stroke="#10b981" stroke-width="3" />
+          <circle r="6" fill="#34d399" />
+        </g>
+      </svg>
+
+      <!-- =========================================================
+           4. DYNAMIC SHIP WAKE PARTICLES (1.5s FADE-OUT)
+           ========================================================= -->
+      <div class="absolute inset-0 pointer-events-none z-22 overflow-hidden">
+        <div
+          *ngFor="let wake of wakeTrail(); trackBy: trackById"
+          class="absolute w-10 h-10 -ml-5 -mt-5 rounded-full border border-white/60 bg-ocean-400/25 animate-wake-bubble"
+          [style.left]="wake.x + '%'"
+          [style.top]="wake.y + '%'"
+          [style.transform]="'rotate(' + wake.angle + 'deg)'">
+        </div>
+      </div>
+
+      <!-- =========================================================
+           5. PATH-FOLLOWING TOP-DOWN CONTAINER FEEDER VESSEL
+           ========================================================= -->
+      <div
+        class="absolute pointer-events-none z-25 transition-transform duration-75 will-change-transform"
+        [style.left]="shipXPercent() + '%'"
+        [style.top]="shipYPercent() + '%'"
+        [style.transform]="'translate(-50%, -50%) rotate(' + shipHeading() + 'deg)'">
+        
+        <!-- Detailed Top-Down Container Feeder Vessel SVG -->
+        <div class="relative w-16 sm:w-20 filter drop-shadow-[0_14px_16px_rgba(0,0,0,0.65)]">
+          <svg viewBox="0 0 100 240" class="w-full h-auto">
+            <!-- Stern Foaming Wake Spray -->
+            <path d="M 35 220 C 25 245, 10 260, 0 280 C 20 265, 30 250, 42 225 Z" fill="rgba(255, 255, 255, 0.45)" />
+            <path d="M 65 220 C 75 245, 90 260, 100 280 C 80 265, 70 250, 58 225 Z" fill="rgba(255, 255, 255, 0.45)" />
+            
+            <!-- Main Ship Hull (Tapered Bulbous Bow, Parallel Midbody, Transom Stern) -->
+            <!-- Hull Shadow Outline -->
+            <path
+              d="M 50 8 C 75 40, 92 85, 92 165 C 92 205, 84 224, 50 224 C 16 224, 8 205, 8 165 C 8 85, 25 40, 50 8 Z"
+              fill="#0A192F"
+              stroke="#00B4D8"
+              stroke-width="2.5" />
+
+            <!-- Foredeck & Waterline Marking -->
+            <polygon points="50,14 82,65 18,65" fill="#112240" />
+            <circle cx="50" cy="22" r="3" fill="#22c55e" filter="drop-shadow(0 0 4px #22c55e)" /> <!-- Masthead Light -->
+
+            <!-- Deck Hatch Covers & Container Bays -->
+            <!-- Bay 1 (Forward): Cyan & Ocean Blue Stacks -->
+            <rect x="22" y="70" width="26" height="32" rx="1.5" fill="#0284c7" stroke="#0369a1" stroke-width="0.8" />
+            <rect x="52" y="70" width="26" height="32" rx="1.5" fill="#00B4D8" stroke="#0096c7" stroke-width="0.8" />
+            
+            <!-- Bay 2 (Mid-Forward): International Orange & Amber Stacks -->
+            <rect x="22" y="106" width="26" height="32" rx="1.5" fill="#d97706" stroke="#b45309" stroke-width="0.8" />
+            <rect x="52" y="106" width="26" height="32" rx="1.5" fill="#f59e0b" stroke="#d97706" stroke-width="0.8" />
+
+            <!-- Bay 3 (Mid-Aft): Dark Teal & Green Stacks -->
+            <rect x="22" y="142" width="26" height="32" rx="1.5" fill="#0f766e" stroke="#115e59" stroke-width="0.8" />
+            <rect x="52" y="142" width="26" height="32" rx="1.5" fill="#15803d" stroke="#166534" stroke-width="0.8" />
+
+            <!-- Superstructure / Bridge Tower (Aft) -->
+            <rect x="24" y="180" width="52" height="26" rx="2" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1" />
+            <!-- Bridge Wing & Windows -->
+            <rect x="26" y="182" width="48" height="6" fill="#0A192F" rx="1" />
+            <rect x="28" y="183" width="44" height="4" fill="#fef08a" filter="drop-shadow(0 0 3px #fde047)" />
+            <!-- Funnel / Exhaust Stack with Company Colors -->
+            <ellipse cx="50" cy="198" rx="8" ry="4" fill="#0A192F" stroke="#00B4D8" stroke-width="1.2" />
+
+            <!-- Aft Mooring Deck & Transom -->
+            <rect x="26" y="210" width="48" height="10" rx="1" fill="#1e293b" />
+            <!-- Navigational Stern Lights: Port (Red), Starboard (Green) -->
+            <circle cx="16" cy="165" r="2.5" fill="#ef4444" filter="drop-shadow(0 0 4px #ef4444)" />
+            <circle cx="84" cy="165" r="2.5" fill="#22c55e" filter="drop-shadow(0 0 4px #22c55e)" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           6. FOUR FULL-HEIGHT "PORTS OF CALL" WAYPOINT SECTIONS
+           ========================================================= -->
+      
+      <!-- ---------------------------------------------------------
+           WAYPOINT 1: THE SHALLOWS (Depth: 18m - Coastal Shuttles)
+           --------------------------------------------------------- -->
+      <section
+        id="waypoint-shallows"
+        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20">
+        
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <!-- Waypoint Marker on Left -->
+          <div class="lg:col-span-5 space-y-6">
+            <div class="inline-flex items-center gap-3">
+              <div class="relative w-14 h-14 rounded-2xl bg-ocean-500/10 border border-ocean-500/30 flex items-center justify-center">
+                <span class="absolute inset-0 rounded-2xl border-2 border-ocean-400 animate-sonar-ping"></span>
+                <span class="text-xl">🌊</span>
+              </div>
+              <div>
+                <span class="text-xs font-mono font-bold uppercase tracking-wider text-ocean-400">Waypoint 01 • Nautical Mile 42</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">The Coastal Shallows</h2>
+              </div>
+            </div>
+
+            <p class="text-slate-300 text-base leading-relaxed">
+              Navigating restricted-draft waterways and coastal shallows across the Arabian Gulf, Strait of Hormuz, and Gulf of Oman. Operating high-turnaround feeder shuttles where deep-draft mother vessels cannot enter.
+            </p>
+
+            <!-- Sonar Telemetry Card -->
+            <div class="p-5 rounded-2xl bg-navy-900/80 backdrop-blur-xl border border-navy-700/80 shadow-2xl space-y-4">
+              <div class="flex items-center justify-between border-b border-navy-800 pb-3">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-xs font-bold uppercase text-slate-300">Sonar Sounder: Active</span>
+                </div>
+                <span class="text-xs font-mono text-ocean-300 font-bold">DEPTH: 22.4 METERS</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="p-2.5 rounded-xl bg-navy-950 border border-navy-800">
+                  <span class="text-[10px] text-slate-400 uppercase font-semibold">Under-Keel</span>
+                  <p class="text-sm font-black text-white mt-0.5">8.6 m</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-navy-950 border border-navy-800">
+                  <span class="text-[10px] text-slate-400 uppercase font-semibold">Tidal Shift</span>
+                  <p class="text-sm font-black text-ocean-300 mt-0.5">+1.8 m</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-navy-950 border border-navy-800">
+                  <span class="text-[10px] text-slate-400 uppercase font-semibold">Berth Window</span>
+                  <p class="text-sm font-black text-emerald-400 mt-0.5">GUARANTEED</p>
+                </div>
+              </div>
+
+              <button
+                (click)="triggerSonarPing()"
+                class="w-full py-2.5 px-4 rounded-xl bg-ocean-500/15 hover:bg-ocean-500/25 border border-ocean-500/30 text-ocean-300 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <svg class="w-4 h-4 text-ocean-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span>{{ isRtl() ? 'إرسال إشارة السونار الاستكشافية' : 'Transmit Hydrographic Sonar Ping' }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Feature Cards Sliding in on Right -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="p-6 rounded-2xl bg-navy-900/75 backdrop-blur-md border border-navy-700/70 hover:border-ocean-400/50 transition-all group">
+              <div class="flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-ocean-500/10 text-ocean-400 group-hover:scale-110 transition-transform">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white mb-1">Rapid 24-48h Shuttle Frequencies</h3>
+                  <p class="text-sm text-slate-300">Dedicated express rotations connecting Jebel Ali with Sharjah, Sohar, and Khalifa Port. Zero idle anchorages with priority berthing windows.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-navy-900/75 backdrop-blur-md border border-navy-700/70 hover:border-ocean-400/50 transition-all group">
+              <div class="flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-amber-accent/10 text-amber-accent group-hover:scale-110 transition-transform">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white mb-1">Intermodal Sea-to-Rail Customs Clearance</h3>
+                  <p class="text-sm text-slate-300">Pre-cleared bonded container transit straight to Etihad Rail and inland dry container depots without terminal congestion bottlenecks.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-navy-900/75 backdrop-blur-md border border-navy-700/70 hover:border-ocean-400/50 transition-all group">
+              <div class="flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:scale-110 transition-transform">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white mb-1">Cold-Chain Reefer Monitoring Telemetry</h3>
+                  <p class="text-sm text-slate-300">High-capacity reefer plug configurations on all coastal feeders with 24/7 automated temperature logs for pharmaceuticals and fresh produce.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------------
+           WAYPOINT 2: THE REEF (Depth: 75m - Interactive Showcase)
+           --------------------------------------------------------- -->
+      <section
+        id="waypoint-reef"
+        class="relative min-h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 py-24 z-20">
+        
+        <div class="max-w-7xl mx-auto w-full space-y-8">
+          <!-- Waypoint Header -->
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-accent/10 border border-amber-accent/30 text-amber-accent text-xs font-bold tracking-wider uppercase mb-2">
+                <span class="w-2 h-2 rounded-full bg-amber-accent animate-ping"></span>
+                <span>Waypoint 02 • Navigational Fairway</span>
+              </div>
+              <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">The Coral Reef & Archipelago</h2>
+              <p class="text-slate-300 text-sm sm:text-base max-w-2xl mt-1">
+                Channel buoys and lighted beacons guide high-capacity feeder flagships through precision navigation fairways. Explore our purpose-built fleet.
+              </p>
+            </div>
+
+            <!-- Carousel Controls (Modern Web Guidance Compliant) -->
+            <div class="flex items-center gap-3">
+              <button
+                (click)="scrollCarousel('prev')"
+                type="button"
+                aria-label="Previous vessel slide"
+                class="w-11 h-11 rounded-xl bg-navy-900 border border-navy-700 hover:border-ocean-400 text-white flex items-center justify-center transition-all cursor-pointer">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                (click)="scrollCarousel('next')"
+                type="button"
+                aria-label="Next vessel slide"
+                class="w-11 h-11 rounded-xl bg-navy-900 border border-navy-700 hover:border-ocean-400 text-white flex items-center justify-center transition-all cursor-pointer">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Horizontal Card Carousel -->
+          <div
+            #carouselTrack
+            class="carousel-track-snap gap-6 py-4 px-1"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Flagship Feeder Fleet Showcase">
+            
+            <div
+              *ngFor="let v of flagshipVessels; let i = index"
+              class="carousel-slide-snap w-80 sm:w-96 p-6 rounded-2xl bg-navy-900/85 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all flex flex-col justify-between group shadow-xl">
+              
+              <div>
+                <!-- Top Badge Row -->
+                <div class="flex items-center justify-between mb-4">
+                  <span class="px-2.5 py-1 rounded-md bg-ocean-500/10 border border-ocean-500/25 text-ocean-400 text-xs font-mono font-bold">
+                    {{ v.nominal_cap_teu }} TEU
+                  </span>
+                  <span class="text-xs px-2 py-0.5 rounded bg-navy-950 text-slate-300 font-semibold border border-navy-800">
+                    Flag: {{ v.flag }}
+                  </span>
+                </div>
+
+                <!-- Vessel Name & Service -->
+                <h3 class="text-2xl font-black text-white group-hover:text-ocean-300 transition-colors">{{ v.name }}</h3>
+                <p class="text-xs font-mono text-slate-400 mt-1">IMO: {{ v.imo }} • Built {{ v.built_year }}</p>
+
+                <!-- Spec Grid -->
+                <div class="grid grid-cols-2 gap-2.5 my-5 text-xs">
+                  <div class="p-2 rounded-lg bg-navy-950 border border-navy-800">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Service Line</span>
+                    <p class="font-bold text-white truncate">{{ v.service_code }}</p>
+                  </div>
+                  <div class="p-2 rounded-lg bg-navy-950 border border-navy-800">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Summer Draft</span>
+                    <p class="font-bold text-amber-accent">{{ v.summer_draft }} m</p>
+                  </div>
+                  <div class="p-2 rounded-lg bg-navy-950 border border-navy-800">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Deadweight</span>
+                    <p class="font-mono text-slate-200">{{ v.dwt | number }} DWT</p>
+                  </div>
+                  <div class="p-2 rounded-lg bg-navy-950 border border-navy-800">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Length (LOA)</span>
+                    <p class="font-mono text-slate-200">{{ v.loa }} m</p>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-300 leading-relaxed">{{ v.description }}</p>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="pt-5 mt-4 border-t border-navy-800 flex items-center gap-2">
+                <button
+                  (click)="openVesselModal(v)"
+                  class="flex-1 py-2.5 px-3 rounded-xl bg-ocean-500 hover:bg-ocean-400 text-navy-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md cursor-pointer">
+                  <span>{{ isRtl() ? 'المواصفات الكاملة' : 'View 16-Pt Specs' }}</span>
+                </button>
+                <button
+                  (click)="trackOnMap(v)"
+                  class="p-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-ocean-400 border border-navy-700 transition-all cursor-pointer"
+                  title="Track on Leaflet Map">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------------
+           WAYPOINT 3: THE DEEP TRENCH (Depth: 2,400m - Metrics & Tech)
+           --------------------------------------------------------- -->
+      <section
+        id="waypoint-trench"
+        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20 overflow-hidden">
+        
+        <!-- Rotating Deep-Sea Bathymetric Sonar / Lighthouse Sweep Beam -->
+        <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center opacity-40">
+          <div
+            class="w-[800px] h-[800px] rounded-full animate-lighthouse-beam pointer-events-none"
+            style="background: conic-gradient(from 0deg, rgba(0, 180, 216, 0.45) 0deg, rgba(0, 180, 216, 0.12) 35deg, transparent 65deg, transparent 360deg);">
+          </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto w-full relative z-10 space-y-12">
+          <!-- Section Title -->
+          <div class="text-center max-w-3xl mx-auto space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ocean-500/10 border border-ocean-500/30 text-ocean-400 text-xs font-bold tracking-wider uppercase">
+              <span class="w-2 h-2 rounded-full bg-ocean-400 animate-pulse"></span>
+              <span>Waypoint 03 • Abyssal Marine Trench (2,400m)</span>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">The Oceanic Trench & Metrics</h2>
+            <p class="text-slate-300 text-sm sm:text-base">
+              Deep-water long-haul ocean corridors linking the Middle East, India, and Southeast Asia. Powered by real-time telemetry, automated bunker optimization, and zero-compromise schedule integrity.
+            </p>
+          </div>
+
+          <!-- 4 Core High-Impact Stat Cards Illuminated by Sonar Sweep -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
+              <span class="text-xs font-mono font-bold text-ocean-400 uppercase tracking-widest">Schedule Integrity</span>
+              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">99.4%</p>
+              <p class="text-xs text-slate-400">On-time berthing and port-call execution across all Middle East & Asia services</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
+              <span class="text-xs font-mono font-bold text-amber-accent uppercase tracking-widest">Annual Throughput</span>
+              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">2.5M+</p>
+              <p class="text-xs text-slate-400">TEUs moved safely per year across regional hubs, feeder links, and coastal ports</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
+              <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Active Feeder Fleet</span>
+              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">66</p>
+              <p class="text-xs text-slate-400">Modern container feeder vessels deployed with satellite AIS telemetry & bow thrusters</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-navy-950/80 backdrop-blur-xl border border-navy-700/80 hover:border-ocean-400 transition-all text-center space-y-2 group shadow-2xl">
+              <span class="text-xs font-mono font-bold text-ocean-300 uppercase tracking-widest">Distance Navigated</span>
+              <p class="text-4xl sm:text-5xl font-black text-white group-hover:scale-105 transition-transform">1.2M NM</p>
+              <p class="text-xs text-slate-400">Nautical miles logged annually with zero lost containers at sea</p>
+            </div>
+          </div>
+
+          <!-- Deep Trench Architectural Pillars -->
+          <div class="p-8 rounded-3xl bg-navy-900/60 backdrop-blur-md border border-navy-800 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-2">
+              <span class="text-xs font-mono text-ocean-400 font-bold uppercase">01 / Fuel & Speed Optimization</span>
+              <h4 class="text-base font-bold text-white">Bathymetric Current Routing</h4>
+              <p class="text-xs text-slate-300">Harnessing monsoon currents and sea state telemetry to decrease carbon emissions by 14% while preserving exact port-arrival ETAs.</p>
+            </div>
+            <div class="space-y-2">
+              <span class="text-xs font-mono text-amber-accent font-bold uppercase">02 / IMO Tier III Compliance</span>
+              <h4 class="text-base font-bold text-white">Eco-Hull & Silicon Coatings</h4>
+              <p class="text-xs text-slate-300">Modern low-friction hull coatings and micro-bubble lubrication systems drastically reduce hydrodynamic drag across deep trench waters.</p>
+            </div>
+            <div class="space-y-2">
+              <span class="text-xs font-mono text-emerald-400 font-bold uppercase">03 / Dual Satellite AIS Uplinks</span>
+              <h4 class="text-base font-bold text-white">Unbroken Global Telemetry</h4>
+              <p class="text-xs text-slate-300">Real-time voyage position updates polled every 12 seconds with automatic anti-collision predictive vector calculations.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------------
+           WAYPOINT 4: SAFE HARBOR (Depth: 16m - Pier & Final CTA)
+           --------------------------------------------------------- -->
+      <section
+        id="waypoint-harbor"
+        class="relative min-h-screen flex items-center px-4 sm:px-12 lg:px-20 py-24 z-20">
+        
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <!-- Pier Graphic & Anchor Drop Micro-animation -->
+          <div class="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-navy-950/85 backdrop-blur-xl border border-navy-700/80 shadow-2xl relative">
+            <!-- Mooring Pier Graphic -->
+            <div class="w-full h-24 rounded-2xl bg-gradient-to-r from-amber-900/60 via-slate-800 to-amber-900/60 border-2 border-amber-500/40 relative overflow-hidden flex items-center justify-around px-6 mb-8">
+              <!-- Pier Warning Stripes -->
+              <div class="absolute inset-x-0 bottom-0 h-3 bg-[repeating-linear-gradient(45deg,#f59e0b,#f59e0b_10px,#0f172a_10px,#0f172a_20px)] opacity-80"></div>
+              <!-- Mooring Bollards -->
+              <div class="w-6 h-8 rounded-t-lg bg-slate-300 border border-slate-400 shadow-md flex items-center justify-center">
+                <span class="w-4 h-1 bg-slate-600 rounded"></span>
+              </div>
+              <div class="w-6 h-8 rounded-t-lg bg-slate-300 border border-slate-400 shadow-md flex items-center justify-center">
+                <span class="w-4 h-1 bg-slate-600 rounded"></span>
+              </div>
+              <div class="w-6 h-8 rounded-t-lg bg-slate-300 border border-slate-400 shadow-md flex items-center justify-center">
+                <span class="w-4 h-1 bg-slate-600 rounded"></span>
+              </div>
+            </div>
+
+            <!-- Anchor Drop Graphic & Water Splash Effect -->
+            <div class="relative w-28 h-28 flex items-center justify-center">
+              <span *ngIf="isAnchorDropped()" class="absolute inset-0 rounded-full border-2 border-emerald-400 animate-sonar-ping"></span>
+              <div [class]="isAnchorDropped() ? 'animate-anchor-drop' : 'opacity-70'">
+                <svg viewBox="0 0 100 120" class="w-20 h-20 text-emerald-400 fill-current filter drop-shadow-[0_0_12px_rgba(52,211,153,0.5)]">
+                  <!-- Anchor Ring -->
+                  <circle cx="50" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="6" />
+                  <!-- Anchor Shank -->
+                  <rect x="46" y="28" width="8" height="60" rx="2" />
+                  <!-- Stock Crossbar -->
+                  <rect x="25" y="42" width="50" height="6" rx="2" />
+                  <!-- Flukes & Crown -->
+                  <path d="M 12 70 C 18 106, 82 106, 88 70 L 98 72 C 90 118, 10 118, 2 72 Z" />
+                  <!-- Left Fluke Tip -->
+                  <polygon points="12,70 2,72 16,56" />
+                  <!-- Right Fluke Tip -->
+                  <polygon points="88,70 98,72 84,56" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="mt-4 text-center">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold font-mono tracking-wider border"
+                    [ngClass]="isAnchorDropped() ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-ocean-500/10 text-ocean-400 border-ocean-500/30'">
+                {{ isAnchorDropped() ? 'VESSEL SAFELY MOORED AT BERTH' : 'APPROACHING FINAL HARBOR PIER' }}
+              </span>
+              <p class="text-xs text-slate-400 font-mono mt-1">JEBEL ALI CONTAINER TERMINAL 2 • BERTH 08</p>
+            </div>
+          </div>
+
+          <!-- Final High-Impact CTA & Actions -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Voyage Complete • Safe Harbor</span>
+            </div>
+
+            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              Ready to Accelerate Your Maritime Supply Chain?
+            </h2>
+
+            <p class="text-base text-slate-300 leading-relaxed">
+              Join leading global container carriers who rely on our high-frequency feeder network. Instant bookings, guaranteed berthing allocations, and seamless door-to-hub visibility.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <button
+                (click)="service.toggleBookingModal(true)"
+                class="py-3.5 px-8 rounded-xl bg-ocean-500 hover:bg-ocean-400 text-navy-950 font-black text-sm tracking-wide shadow-xl shadow-ocean-500/25 transition-all transform hover:-translate-y-0.5 cursor-pointer">
+                {{ isRtl() ? 'حجز مساحة شحن فورية' : 'Book Instant Feeder Space' }}
+              </button>
+              
+              <button
+                (click)="scrollToSchedules()"
+                class="py-3.5 px-6 rounded-xl bg-navy-900 hover:bg-navy-800 text-white font-bold text-sm border border-navy-700 hover:border-ocean-400 transition-all cursor-pointer">
+                {{ isRtl() ? 'تحميل جدول الرحلات الكامل' : 'Download Schedule Book (PDF)' }}
+              </button>
+            </div>
+
+            <!-- Regional Port Agent Quick-Connect Strip -->
+            <div class="pt-6 border-t border-navy-800 space-y-2">
+              <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Immediate Port Agent Contacts:</span>
+              <div class="flex flex-wrap gap-2.5">
+                <a href="tel:+97142105105" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-ocean-400">Dubai HQ:</strong> +971 4 210 51 05
+                </a>
+                <a href="tel:+6562201888" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-ocean-400">Singapore:</strong> +65 6220 1888
+                </a>
+                <a href="tel:+912266389000" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-ocean-400">Mumbai:</strong> +91 22 6638 9000
+                </a>
+                <a href="tel:+966126512233" class="px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-800 hover:border-ocean-400 text-xs font-mono text-slate-200 transition-colors">
+                  <strong class="text-ocean-400">Jeddah:</strong> +966 12 651 2233
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           7. FIXED CORNER NAVIGATION HUD (COMPASS, KNOTS, LAT/LNG)
+           ========================================================= -->
+      <aside
+        id="maritime-hud"
+        aria-label="Live Navigational Telemetry HUD"
+        class="fixed bottom-6 right-6 z-40 bg-navy-950/90 backdrop-blur-xl border border-navy-700/90 rounded-2xl p-4 shadow-2xl shadow-black/80 flex items-center gap-4 pointer-events-auto transition-transform">
+        
+        <!-- Rotating Compass Rose -->
+        <div class="relative w-14 h-14 flex items-center justify-center">
+          <!-- Compass Bezel -->
+          <div class="absolute inset-0 rounded-full border border-ocean-500/40 bg-navy-900 flex items-center justify-center">
+            <span class="absolute top-0.5 text-[8px] font-mono text-ocean-400 font-bold">N</span>
+            <span class="absolute bottom-0.5 text-[8px] font-mono text-slate-500 font-bold">S</span>
+            <span class="absolute right-1 text-[8px] font-mono text-slate-500 font-bold">E</span>
+            <span class="absolute left-1 text-[8px] font-mono text-slate-500 font-bold">W</span>
+          </div>
+          <!-- Rotating Compass Needle -->
+          <div
+            class="relative w-full h-full flex items-center justify-center transition-transform duration-100"
+            [style.transform]="'rotate(' + compassHeading() + 'deg)'">
+            <svg viewBox="0 0 40 40" class="w-8 h-8">
+              <polygon points="20,4 23,20 17,20" fill="#ef4444" /> <!-- North Red -->
+              <polygon points="20,36 23,20 17,20" fill="#94a3b8" /> <!-- South Gray -->
+              <circle cx="20" cy="20" r="2.5" fill="#ffffff" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Telemetry Data: Knots Speedometer + Coordinates -->
+        <div class="border-l border-navy-800 pl-4 space-y-1">
+          <div class="flex items-center justify-between gap-3">
+            <span class="text-[10px] font-bold uppercase text-slate-400">Speed Over Ground</span>
+            <span class="inline-flex items-center gap-1 text-[9px] font-mono text-emerald-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              GPS 3D FIX
+            </span>
+          </div>
+
+          <div class="flex items-baseline gap-1.5">
+            <span class="text-2xl font-black font-mono text-white">{{ speedKnots() }}</span>
+            <span class="text-xs font-bold font-mono text-ocean-400">KNOTS</span>
+            <span class="text-[10px] font-semibold text-slate-400 ml-2">({{ speedLabel() }})</span>
+          </div>
+
+          <div class="text-[11px] font-mono text-slate-300">
+            <span>{{ liveLat() }}° N</span>, <span>{{ liveLng() }}° E</span>
+            <span class="text-ocean-400 font-bold ml-1.5">{{ headingDirection() }}</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  `
+})
+export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
+  service = inject(MaritimeService);
+  isRtl = this.service.isRtl;
+
+  @ViewChild('journeyContainer') containerRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('backgroundPath') pathRef!: ElementRef<SVGPathElement>;
+  @ViewChild('carouselTrack') carouselTrackRef!: ElementRef<HTMLDivElement>;
+
+  // Continuous Winding Route Path (viewBox 0 0 1000 4000)
+  readonly routePathD = 'M 500 40 C 720 300, 840 600, 800 950 C 760 1350, 220 1600, 240 1950 C 260 2350, 780 2600, 680 2950 C 580 3300, 380 3650, 500 3950';
+
+  // Reactive State Signals
+  journeyProgress = signal<number>(0);
+  pathTotalLength = signal<number>(4200);
+  pathDashOffset = signal<number>(4200);
+
+  shipXPercent = signal<number>(50);
+  shipYPercent = signal<number>(1);
+  shipHeading = signal<number>(180);
+  compassHeading = signal<number>(180);
+
+  speedKnots = signal<number>(0);
+  speedLabel = signal<string>('ALL STOP');
+  liveLat = signal<string>('25.018');
+  liveLng = signal<string>('55.061');
+  headingDirection = signal<string>('180° S');
+
+  isAnchorDropped = signal<boolean>(false);
+  wakeTrail = signal<WakeParticle[]>([]);
+  ripples = signal<WaterRipple[]>([]);
+
+  // Five Flagship Vessels for Waypoint 2 Carousel
+  flagshipVessels = [
+    {
+      id: 1,
+      name: 'GFS PRESTIGE',
+      imo: '9438925',
+      flag: 'Panama',
+      built_year: 2018,
+      nominal_cap_teu: 3500,
+      summer_draft: 11.2,
+      dwt: 42500,
+      loa: 228.0,
+      service_code: 'JSA',
+      description: 'Twin bow-thruster flagship operating high-frequency Middle East to Red Sea corridors with dedicated 450 reefer plugs.'
+    },
+    {
+      id: 2,
+      name: 'X-PRESS MEGHNA',
+      imo: '9512348',
+      flag: 'Singapore',
+      built_year: 2021,
+      nominal_cap_teu: 2700,
+      summer_draft: 10.5,
+      dwt: 34800,
+      loa: 205.5,
+      service_code: 'GALEX',
+      description: 'Ultra-efficient container liner with bulbous-bow hydrodynamic optimization for Straits of Malacca express operations.'
+    },
+    {
+      id: 3,
+      name: 'GFS ASIA',
+      imo: '9602341',
+      flag: 'Liberia',
+      built_year: 2020,
+      nominal_cap_teu: 4250,
+      summer_draft: 12.0,
+      dwt: 52000,
+      loa: 260.0,
+      service_code: 'AES',
+      description: 'Heavy feeder workhorse linking Arabian Gulf hubs to Indian Subcontinent container terminals (Mundra & Nhava Sheva).'
+    },
+    {
+      id: 4,
+      name: 'ACACIA VIRGO',
+      imo: '9345672',
+      flag: 'Cyprus',
+      built_year: 2017,
+      nominal_cap_teu: 1850,
+      summer_draft: 8.9,
+      dwt: 24200,
+      loa: 172.0,
+      service_code: 'CCG',
+      description: 'Geared container feeder equipped with twin 45-ton electro-hydraulic deck cranes for non-geared destination ports.'
+    },
+    {
+      id: 5,
+      name: 'CALLIOPE',
+      imo: '9283451',
+      flag: 'Malta',
+      built_year: 2016,
+      nominal_cap_teu: 1440,
+      summer_draft: 7.8,
+      dwt: 18500,
+      loa: 154.0,
+      service_code: 'UAE-COASTAL',
+      description: 'Shallow-draft coastal shuttle specialist running weekly round-trips connecting Dubai, Sharjah, Ras Al Khaimah, and Sohar.'
+    }
+  ];
+
+  // Environmental Ocean Color Shifting
+  oceanGradient = computed(() => {
+    const p = this.journeyProgress();
+    if (p < 0.28) {
+      // The Shallows (Coastal Turquoise to Deep Ocean Blue)
+      return 'linear-gradient(180deg, #0284c7 0%, #0369a1 45%, #075985 80%, #0c4a6e 100%)';
+    } else if (p < 0.60) {
+      // The Reef (Coral Blue into Deep Midnight Blue)
+      return 'linear-gradient(180deg, #0c4a6e 0%, #0a2540 45%, #06192d 85%, #041220 100%)';
+    } else if (p < 0.85) {
+      // The Deep Trench (Abyssal Midnight Navy & Black)
+      return 'linear-gradient(180deg, #041220 0%, #020617 35%, #010409 70%, #060d19 100%)';
+    } else {
+      // Safe Harbor (Deep Navy transitioning to Sunset Harbor Warm Glow)
+      return 'linear-gradient(180deg, #060d19 0%, #0f172a 30%, #1e1b4b 65%, #2a152e 100%)';
+    }
+  });
+
+  private lastScrollY = 0;
+  private lastScrollTime = performance.now();
+  private rafId: number | null = null;
+  private scrollListener = () => this.onScroll();
+  private wakeCounter = 0;
+  private rippleCounter = 0;
+
+  ngAfterViewInit() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', this.scrollListener, { passive: true });
+      window.addEventListener('resize', this.scrollListener, { passive: true });
+
+      // Measure SVG path length once rendered
+      setTimeout(() => {
+        if (this.pathRef?.nativeElement) {
+          const total = this.pathRef.nativeElement.getTotalLength();
+          this.pathTotalLength.set(total);
+          this.pathDashOffset.set(total);
+          this.updateShipPosition(0);
+        }
+      }, 50);
+
+      // Animation loop for pruning wake and ripple particles
+      this.startParticleLoop();
+    }
+  }
+
+  ngOnDestroy() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('scroll', this.scrollListener);
+      window.removeEventListener('resize', this.scrollListener);
+    }
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
+  }
+
+  private onScroll() {
+    if (!this.containerRef?.nativeElement || !this.pathRef?.nativeElement) return;
+
+    const container = this.containerRef.nativeElement;
+    const rect = container.getBoundingClientRect();
+    const windowH = window.innerHeight;
+
+    // Calculate progress as container scrolls through viewport
+    const totalScrollableDistance = rect.height - windowH;
+    const scrolledAmount = -rect.top;
+
+    let progress = 0;
+    if (totalScrollableDistance > 0) {
+      progress = Math.max(0, Math.min(1, scrolledAmount / totalScrollableDistance));
+    }
+
+    this.journeyProgress.set(progress);
+    this.updateShipPosition(progress);
+    this.updateSpeedometer();
+  }
+
+  private updateShipPosition(progress: number) {
+    if (!this.pathRef?.nativeElement) return;
+
+    const path = this.pathRef.nativeElement;
+    const totalLength = this.pathTotalLength();
+    const currentLength = progress * totalLength;
+
+    // Plotted drawn route line offset
+    this.pathDashOffset.set(totalLength * (1 - progress));
+
+    // Get current point along SVG path (user coordinate system 0-1000 X, 0-4000 Y)
+    const pt = path.getPointAtLength(currentLength);
+    const delta = 4;
+    const ptAhead = path.getPointAtLength(Math.min(totalLength, currentLength + delta));
+    const ptBehind = path.getPointAtLength(Math.max(0, currentLength - delta));
+
+    const dx = ptAhead.x - ptBehind.x;
+    const dy = ptAhead.y - ptBehind.y;
+    
+    // Heading in degrees (+90 because SVG ship faces upward/North)
+    let headingDeg = (Math.atan2(dy, dx) * (180 / Math.PI)) + 90;
+    if (headingDeg < 0) headingDeg += 360;
+
+    // Track scroll direction: if scrolling up, ship smoothly points back
+    const currentScrollY = window.scrollY;
+    const isScrollingUp = currentScrollY < this.lastScrollY;
+    if (isScrollingUp && Math.abs(currentScrollY - this.lastScrollY) > 2) {
+      // Smoothly orient along reverse direction
+      headingDeg = (headingDeg + 180) % 360;
+    }
+
+    this.shipXPercent.set((pt.x / 1000) * 100);
+    this.shipYPercent.set((pt.y / 4000) * 100);
+    this.shipHeading.set(Math.round(headingDeg));
+    this.compassHeading.set(Math.round(headingDeg));
+
+    // Update Live Lat/Lng and Heading Label
+    this.updateCoordinates(progress, headingDeg);
+
+    // Anchor drop trigger near pier (progress > 0.90)
+    this.isAnchorDropped.set(progress >= 0.92);
+
+    // Spawn stern wake bubbles if moving
+    if (Math.abs(currentScrollY - this.lastScrollY) > 1.5) {
+      this.spawnWakeParticle(pt.x, pt.y, headingDeg);
+    }
+  }
+
+  private updateSpeedometer() {
+    const now = performance.now();
+    const dt = Math.max(16, now - this.lastScrollTime);
+    const dy = Math.abs(window.scrollY - this.lastScrollY);
+
+    this.lastScrollY = window.scrollY;
+    this.lastScrollTime = now;
+
+    const rawSpeed = Math.min(24.5, (dy / dt) * 19.5);
+    // Exponential smoothing
+    const smoothed = Math.round((this.speedKnots() * 0.75 + rawSpeed * 0.25) * 10) / 10;
+    this.speedKnots.set(smoothed);
+
+    if (smoothed < 0.5) {
+      this.speedLabel.set(this.journeyProgress() >= 0.92 ? 'SECURED AT BERTH' : 'DRIFTING / ALL STOP');
+    } else if (smoothed < 8.0) {
+      this.speedLabel.set('SLOW AHEAD');
+    } else if (smoothed < 16.0) {
+      this.speedLabel.set('HALF AHEAD');
+    } else {
+      this.speedLabel.set('FULL AHEAD • FLANK SPEED');
+    }
+  }
+
+  private updateCoordinates(progress: number, heading: number) {
+    // Interpolating from Dubai (25.018° N, 55.061° E) to destination port (22.750° N, 69.712° E)
+    const lat = (25.018 - progress * (25.018 - 22.750)).toFixed(3);
+    const lng = (55.061 + progress * (69.712 - 55.061)).toFixed(3);
+    this.liveLat.set(lat);
+    this.liveLng.set(lng);
+
+    // Compass Cardinal directions
+    const deg = Math.round(heading) % 360;
+    let card = 'N';
+    if (deg >= 22.5 && deg < 67.5) card = 'NE';
+    else if (deg >= 67.5 && deg < 112.5) card = 'E';
+    else if (deg >= 112.5 && deg < 157.5) card = 'SE';
+    else if (deg >= 157.5 && deg < 202.5) card = 'S';
+    else if (deg >= 202.5 && deg < 247.5) card = 'SW';
+    else if (deg >= 247.5 && deg < 292.5) card = 'W';
+    else if (deg >= 292.5 && deg < 337.5) card = 'NW';
+
+    this.headingDirection.set(`${deg}° ${card}`);
+  }
+
+  private spawnWakeParticle(shipSvgX: number, shipSvgY: number, headingDeg: number) {
+    const headingRad = (headingDeg * Math.PI) / 180;
+    // Offset backward from ship center by 20 SVG units
+    const sternX = shipSvgX - Math.sin(headingRad) * 20;
+    const sternY = shipSvgY + Math.cos(headingRad) * 20;
+
+    const newParticle: WakeParticle = {
+      id: ++this.wakeCounter,
+      x: (sternX / 1000) * 100,
+      y: (sternY / 4000) * 100,
+      angle: headingDeg,
+      createdAt: performance.now()
+    };
+
+    // Keep trail capped at 18 particles
+    const updated = [...this.wakeTrail().slice(-17), newParticle];
+    this.wakeTrail.set(updated);
+  }
+
+  private startParticleLoop() {
+    const tick = () => {
+      const now = performance.now();
+      // Decay speedometer towards zero if idle
+      if (now - this.lastScrollTime > 120 && this.speedKnots() > 0) {
+        const decayed = Math.max(0, Math.round((this.speedKnots() * 0.88) * 10) / 10);
+        this.speedKnots.set(decayed);
+        if (decayed === 0) {
+          this.speedLabel.set(this.journeyProgress() >= 0.92 ? 'SECURED AT BERTH' : 'DRIFTING / ALL STOP');
+        }
+      }
+
+      // Prune wake bubbles older than 1500ms
+      const freshWake = this.wakeTrail().filter(w => now - w.createdAt < 1500);
+      if (freshWake.length !== this.wakeTrail().length) {
+        this.wakeTrail.set(freshWake);
+      }
+
+      this.rafId = requestAnimationFrame(tick);
+    };
+    this.rafId = requestAnimationFrame(tick);
+  }
+
+  // Interactive Water Ripples on Click / Pointer Move
+  onWaterClick(e: MouseEvent) {
+    const rect = this.containerRef.nativeElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    this.addRipple(x, y);
+  }
+
+  private lastMoveTime = 0;
+  onWaterMove(e: PointerEvent) {
+    const now = performance.now();
+    if (now - this.lastMoveTime < 180) return; // Throttle ripple creation
+    this.lastMoveTime = now;
+
+    const rect = this.containerRef.nativeElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    this.addRipple(x, y);
+  }
+
+  private addRipple(x: number, y: number) {
+    const newRip: WaterRipple = { id: ++this.rippleCounter, x, y };
+    this.ripples.set([...this.ripples().slice(-8), newRip]);
+    setTimeout(() => {
+      this.ripples.set(this.ripples().filter(r => r.id !== newRip.id));
+    }, 1400);
+  }
+
+  // Sonar Ping Button Micro-interaction
+  triggerSonarPing() {
+    if (!this.containerRef?.nativeElement) return;
+    const rect = this.containerRef.nativeElement.getBoundingClientRect();
+    // Spawn ripple at center of screen
+    this.addRipple(rect.width * 0.5, window.innerHeight * 0.4);
+  }
+
+  // Carousel Controls
+  scrollCarousel(direction: 'prev' | 'next') {
+    if (!this.carouselTrackRef?.nativeElement) return;
+    const track = this.carouselTrackRef.nativeElement;
+    const scrollAmount = track.clientWidth * 0.85;
+    track.scrollBy({
+      left: direction === 'next' ? scrollAmount : -scrollAmount,
+      behavior: 'smooth'
+    });
+  }
+
+  openVesselModal(vessel: any) {
+    const fullVessel: Vessel = {
+      id: vessel.id,
+      name: vessel.name,
+      imo: vessel.imo,
+      call_sign: 'V3BC9',
+      flag: vessel.flag,
+      built_year: vessel.built_year,
+      port_of_registry: vessel.flag === 'Panama' ? 'Panama City' : 'Singapore',
+      nominal_cap_teu: vessel.nominal_cap_teu,
+      effective_cap_teu: Math.round(vessel.nominal_cap_teu * 0.88),
+      reefer_plugs: 450,
+      gear: vessel.name.includes('ACACIA'),
+      bow_thruster: true,
+      grt: Math.round(vessel.dwt * 0.72),
+      nrt: Math.round(vessel.dwt * 0.45),
+      dwt: vessel.dwt,
+      loa: vessel.loa,
+      breadth: 32.2,
+      summer_draft: vessel.summer_draft,
+      current_lat: 25.018,
+      current_lng: 55.061,
+      current_status: 'Underway using Engine - 15.4 kn',
+      service_code: vessel.service_code
+    };
+    this.service.openVesselModal(fullVessel);
+  }
+
+  trackOnMap(vessel: any) {
+    this.service.focusLocationOnMap(
+      25.018,
+      55.061,
+      8,
+      vessel.name,
+      `<b>${vessel.name}</b><br/>Capacity: ${vessel.nominal_cap_teu} TEU<br/>Service: ${vessel.service_code}`
+    );
+  }
+
+  scrollToSchedules() {
+    const el = document.getElementById('tracking-engine');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  trackById(_index: number, item: { id: number }) {
+    return item.id;
+  }
+}

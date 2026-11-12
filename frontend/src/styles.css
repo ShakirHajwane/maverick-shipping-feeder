@@ -260,3 +260,153 @@ html, body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* =========================================
+   SCROLL-DRIVEN MARITIME JOURNEY ANIMATIONS
+   ========================================= */
+
+/* Sonar Ping Ring Expansion */
+@keyframes sonarPing {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+.animate-sonar-ping {
+  animation: sonarPing 2.8s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}
+
+/* Water Ripple on Click / Pointer Move */
+@keyframes waterRippleExpand {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: waterRippleExpand 1.4s ease-out forwards;
+}
+
+/* Anchor Drop Micro-animation */
+@keyframes anchorDrop {
+  0% {
+    transform: translateY(-50px) scale(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(8px) scale(1.08);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-4px) scale(0.96);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-anchor-drop {
+  animation: anchorDrop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Atmospheric Cloud & Sea Fog Drift */
+@keyframes cloudDriftSlow {
+  0% {
+    transform: translateX(-12%) translateY(0);
+  }
+  50% {
+    transform: translateX(12%) translateY(-10px);
+  }
+  100% {
+    transform: translateX(-12%) translateY(0);
+  }
+}
+
+.animate-cloud-slow {
+  animation: cloudDriftSlow 75s ease-in-out infinite;
+}
+
+@keyframes cloudDriftFast {
+  0% {
+    transform: translateX(15%) translateY(0);
+  }
+  50% {
+    transform: translateX(-15%) translateY(12px);
+  }
+  100% {
+    transform: translateX(15%) translateY(0);
+  }
+}
+
+.animate-cloud-fast {
+  animation: cloudDriftFast 48s ease-in-out infinite;
+}
+
+/* Abyssal Lighthouse / Bathymetric Sonar Sweep */
+@keyframes lighthouseBeam {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 0.45;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}
+
+.animate-lighthouse-beam {
+  animation: lighthouseBeam 16s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Ship Stern Water Wake Bubbles */
+@keyframes wakeBubbleFade {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.animate-wake-bubble {
+  animation: wakeBubbleFade 1.5s ease-out forwards;
+}
+
+/* Modern Carousel with CSS Scroll Snap */
+.carousel-track-snap {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+}
+
+.carousel-track-snap::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-slide-snap {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}
+

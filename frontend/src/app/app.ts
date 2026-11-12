@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MaritimeService } from './services/maritime.service';
 import { HeaderComponent } from './components/header/header.component';
 import { HeroSearchComponent } from './components/hero-search/hero-search.component';
-import { StatsStripComponent } from './components/stats-strip/stats-strip.component';
 import { InteractiveMapComponent } from './components/map/map.component';
-import { ServicesListComponent } from './components/services-list/services-list.component';
 import { FleetDirectoryComponent } from './components/fleet/fleet.component';
 import { SustainabilityComponent } from './components/sustainability/sustainability.component';
 import { AgentsDirectoryComponent } from './components/agents/agents.component';
+import { MaritimeJourneyComponent } from './components/maritime-journey/maritime-journey.component';
 import { VesselModalComponent } from './components/vessel-modal/vessel-modal.component';
 import { BookingModalComponent } from './components/booking-modal/booking-modal.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -20,9 +19,8 @@ import { FooterComponent } from './components/footer/footer.component';
     CommonModule,
     HeaderComponent,
     HeroSearchComponent,
-    StatsStripComponent,
+    MaritimeJourneyComponent,
     InteractiveMapComponent,
-    ServicesListComponent,
     FleetDirectoryComponent,
     SustainabilityComponent,
     AgentsDirectoryComponent,

@@ -9,19 +9,19 @@ import { FeederService, Vessel } from '../../models/maritime.models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="interactive-map-section" class="py-16 bg-navy-900 border-b border-navy-800">
+    <section id="interactive-map-section" class="py-16 bg-slate-50 border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-8">
         <!-- Section Header -->
         <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wide uppercase mb-2">
-              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 text-xs font-semibold tracking-wide uppercase mb-2">
+              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
               <span>{{ isRtl() ? 'خريطة الخطوط الملاحية والأسطول' : 'Interactive Maritime Geonavigator' }}</span>
             </div>
-            <h2 class="text-2xl sm:text-4xl font-black text-white">
+            <h2 class="text-2xl sm:text-4xl font-black text-slate-950">
               {{ isRtl() ? 'مسارات الخطوط وتمركز الأسطول البحري' : 'Trade Routes & Live Vessel Fleet' }}
             </h2>
-            <p class="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p class="text-sm text-slate-600 mt-1 max-w-2xl">
               {{ isRtl() 
                 ? 'استكشف شبكة الخطوط البحرية المتصلة بميناء جبل علي، وتتبع مواقع السفن الحية عبر الشرق الأوسط وآسيا.' 
                 : 'Explore feeder corridors connecting our primary hub at Jebel Ali (Dubai) with Red Sea, India, Gulf, and Southeast Asian ports with real-time AIS vessel telemetry.' }}
@@ -33,15 +33,15 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             <button
               (click)="toggleVesselLayer()"
               [class]="showVessels 
-                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30' 
-                : 'bg-navy-800 text-slate-400 border-navy-700 hover:text-white'"
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100 shadow-sm' 
+                : 'bg-white text-slate-600 border-slate-300 hover:text-slate-900 shadow-sm'"
               class="px-3.5 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer">
-              <span [class]="showVessels ? 'bg-emerald-400' : 'bg-slate-500'" class="w-2 h-2 rounded-full"></span>
+              <span [class]="showVessels ? 'bg-emerald-500' : 'bg-slate-400'" class="w-2 h-2 rounded-full"></span>
               <span>{{ isRtl() ? 'إظهار الأسطول الحي (AIS)' : 'Live Fleet AIS Layer' }}</span>
             </button>
             <button
               (click)="resetMapView()"
-              class="px-3.5 py-2 rounded-xl bg-navy-800 hover:bg-navy-700 text-slate-300 border border-navy-700 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
+              class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
               <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
@@ -52,13 +52,13 @@ import { FeederService, Vessel } from '../../models/maritime.models';
 
         <!-- Feeder Service Selector Pills -->
         <div class="flex flex-wrap items-center gap-2 mb-6">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">{{ isRtl() ? 'الخدمة النشطة:' : 'Feeder Route:' }}</span>
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1">{{ isRtl() ? 'الخدمة النشطة:' : 'Feeder Route:' }}</span>
           <button
             *ngFor="let s of service.services()"
             (click)="selectService(s)"
             [class]="activeService()?.code === s.code 
-              ? 'bg-amber-400 text-slate-950 font-bold border-amber-300 shadow-lg shadow-amber-500/25' 
-              : 'bg-navy-950 hover:bg-navy-800 text-slate-300 font-medium border-navy-800 hover:border-amber-400/40'"
+              ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md shadow-amber-500/20' 
+              : 'bg-white hover:bg-slate-50 text-slate-700 font-medium border-slate-300 hover:border-amber-400'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-mono border transition-all cursor-pointer">
             {{ s.code }} <span class="font-sans text-[11px] opacity-80">({{ s.transit_days }}d)</span>
           </button>
@@ -67,28 +67,28 @@ import { FeederService, Vessel } from '../../models/maritime.models';
         <!-- Map & Route Rotation Details Split -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Leaflet Map Container (2 Cols) -->
-          <div class="lg:col-span-2 relative rounded-2xl overflow-hidden border border-navy-700/80 shadow-2xl bg-[#0d1f38]">
+          <div class="lg:col-span-2 relative rounded-2xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100">
             <div #mapContainer class="w-full h-[360px] sm:h-[460px] lg:h-[520px] z-10"></div>
 
             <!-- Map Floating Badge Overlay -->
-            <div class="absolute bottom-4 left-4 z-20 pointer-events-none bg-navy-950/85 backdrop-blur-md px-3 py-2 rounded-xl border border-navy-700/60 text-xs space-y-1">
-              <div class="flex items-center gap-2 text-amber-400 font-bold">
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <div class="absolute bottom-4 left-4 z-20 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 text-xs space-y-1 shadow-md">
+              <div class="flex items-center gap-2 text-amber-700 font-bold">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                 <span>CartoDB Voyager • OpenStreetMap Layer</span>
               </div>
-              <div class="text-[11px] text-slate-400">Active Service: <span class="text-white font-mono font-semibold">{{ activeService()?.code }}</span></div>
+              <div class="text-[11px] text-slate-600">Active Service: <span class="text-slate-900 font-mono font-semibold">{{ activeService()?.code }}</span></div>
             </div>
           </div>
 
           <!-- Active Rotation & Hubs Timeline (1 Col) -->
-          <div class="bg-navy-950/90 rounded-2xl p-6 border border-navy-800 flex flex-col justify-between">
+          <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between pb-4 border-b border-navy-800 mb-5">
+              <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <span class="text-[10px] uppercase font-bold tracking-wider text-amber-400">Selected Corridor</span>
-                  <h3 class="text-lg font-black text-white">{{ activeService()?.name }}</h3>
+                  <span class="text-[10px] uppercase font-bold tracking-wider text-amber-700">Selected Corridor</span>
+                  <h3 class="text-lg font-black text-slate-950">{{ activeService()?.name }}</h3>
                 </div>
-                <span class="text-xs px-2.5 py-1 rounded-md bg-navy-900 border border-navy-700 font-mono text-amber-300 font-bold">
+                <span class="text-xs px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 font-mono text-amber-800 font-bold">
                   {{ activeService()?.code }}
                 </span>
               </div>
@@ -100,10 +100,10 @@ import { FeederService, Vessel } from '../../models/maritime.models';
                   <div class="flex flex-col items-center">
                     <button
                       (click)="focusPort(port.lat, port.lng, port.port_name)"
-                      class="w-6 h-6 rounded-full bg-navy-900 border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-slate-950 text-xs font-bold flex items-center justify-center transition-all cursor-pointer">
+                      class="w-6 h-6 rounded-full bg-slate-50 border-2 border-amber-500 text-amber-700 hover:bg-amber-400 hover:text-slate-950 text-xs font-bold flex items-center justify-center transition-all cursor-pointer shadow-sm">
                       {{ i + 1 }}
                     </button>
-                    <div *ngIf="!last" class="w-0.5 h-10 bg-gradient-to-b from-amber-400 to-navy-700 my-1"></div>
+                    <div *ngIf="!last" class="w-0.5 h-10 bg-gradient-to-b from-amber-400 to-slate-200 my-1"></div>
                   </div>
 
                   <!-- Port Details -->
@@ -111,17 +111,17 @@ import { FeederService, Vessel } from '../../models/maritime.models';
                     <div class="flex items-center justify-between">
                       <button
                         (click)="focusPort(port.lat, port.lng, port.port_name)"
-                        class="text-xs font-bold text-white hover:text-amber-400 text-left transition-colors cursor-pointer">
+                        class="text-xs font-bold text-slate-900 hover:text-amber-700 text-left transition-colors cursor-pointer">
                         {{ port.port_name }}
                       </button>
-                      <span class="text-[10px] font-mono text-slate-400 bg-navy-900 px-1.5 py-0.5 rounded">
+                      <span class="text-[10px] font-mono text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded">
                         {{ port.unlocode }}
                       </span>
                     </div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">
+                    <div class="text-[11px] text-slate-500 mt-0.5">
                       {{ port.terminal || 'Container Terminal' }}
                     </div>
-                    <div *ngIf="port.day_of_week" class="text-[10px] text-amber-400 font-medium mt-0.5">
+                    <div *ngIf="port.day_of_week" class="text-[10px] text-amber-700 font-medium mt-0.5">
                       Call Day: {{ port.day_of_week }}
                     </div>
                   </div>
@@ -130,14 +130,14 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             </div>
 
             <!-- Rotation Metrics Footer -->
-            <div class="pt-4 border-t border-navy-800 mt-6 grid grid-cols-2 gap-3 text-center">
-              <div class="bg-navy-900/60 p-2.5 rounded-xl border border-navy-800">
-                <span class="text-[10px] text-slate-400 uppercase font-semibold">Round Transit</span>
-                <p class="text-sm font-bold text-white font-mono">{{ activeService()?.transit_days }} Days</p>
+            <div class="pt-4 border-t border-slate-100 mt-6 grid grid-cols-2 gap-3 text-center">
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <span class="text-[10px] text-slate-500 uppercase font-semibold">Round Transit</span>
+                <p class="text-sm font-bold text-slate-900 font-mono">{{ activeService()?.transit_days }} Days</p>
               </div>
-              <div class="bg-navy-900/60 p-2.5 rounded-xl border border-navy-800">
-                <span class="text-[10px] text-slate-400 uppercase font-semibold">Frequency</span>
-                <p class="text-sm font-bold text-amber-400 font-mono">{{ activeService()?.frequency }}</p>
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <span class="text-[10px] text-slate-500 uppercase font-semibold">Frequency</span>
+                <p class="text-sm font-bold text-amber-700 font-mono">{{ activeService()?.frequency }}</p>
               </div>
             </div>
           </div>
@@ -304,10 +304,10 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
 
       const popupHtml = `
         <div style="font-family: inherit; padding: 4px;">
-          <div style="font-weight: 800; font-size: 13px; color: #F59E0B;">${p.port_name}</div>
-          <div style="font-size: 11px; color: #94A3B8; margin-bottom: 4px;">UN/LOCODE: <b>${p.unlocode}</b></div>
-          <div style="font-size: 12px; color: #F8FAFC;">Terminal: ${p.terminal || 'Container Quay'}</div>
-          ${p.day_of_week ? `<div style="font-size: 11px; color: #F59E0B; margin-top: 2px;">Call: ${p.day_of_week}</div>` : ''}
+          <div style="font-weight: 800; font-size: 13px; color: #D97706;">${p.port_name}</div>
+          <div style="font-size: 11px; color: #64748B; margin-bottom: 4px;">UN/LOCODE: <b style="color: #0F172A;">${p.unlocode}</b></div>
+          <div style="font-size: 12px; color: #1E293B;">Terminal: ${p.terminal || 'Container Quay'}</div>
+          ${p.day_of_week ? `<div style="font-size: 11px; color: #D97706; margin-top: 2px; font-weight: 600;">Call: ${p.day_of_week}</div>` : ''}
         </div>
       `;
 
@@ -364,11 +364,11 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
 
       const popupHtml = `
         <div style="font-family: inherit; padding: 4px; min-width: 180px;">
-          <div style="font-weight: 800; font-size: 13px; color: #F59E0B;">${v.name}</div>
-          <div style="font-size: 11px; color: #94A3B8;">IMO: ${v.imo} | Flag: ${v.flag}</div>
-          <div style="font-size: 11px; color: #F8FAFC; margin-top: 4px;">Cap: <b>${v.nominal_cap_teu} TEU</b></div>
-          <div style="font-size: 11px; color: #F8FAFC;">Service: <b>${v.service_code || 'Spot Feeder'}</b></div>
-          <div style="font-size: 11px; color: #10B981; margin-top: 4px;"><b>AIS:</b> ${v.current_status}</div>
+          <div style="font-weight: 800; font-size: 13px; color: #D97706;">${v.name}</div>
+          <div style="font-size: 11px; color: #64748B;">IMO: ${v.imo} | Flag: ${v.flag}</div>
+          <div style="font-size: 11px; color: #1E293B; margin-top: 4px;">Cap: <b style="color: #0F172A;">${v.nominal_cap_teu} TEU</b></div>
+          <div style="font-size: 11px; color: #1E293B;">Service: <b style="color: #0F172A;">${v.service_code || 'Spot Feeder'}</b></div>
+          <div style="font-size: 11px; color: #059669; margin-top: 4px; font-weight: 600;"><b>AIS:</b> ${v.current_status}</div>
         </div>
       `;
 

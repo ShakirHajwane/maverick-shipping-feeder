@@ -9,58 +9,58 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <section class="relative bg-navy-950 pt-8 pb-28 overflow-x-hidden overflow-y-clip border-b border-navy-800 w-full max-w-full">
+    <section class="relative bg-gradient-to-b from-sky-50/70 via-slate-50 to-white pt-8 pb-28 overflow-x-hidden overflow-y-clip border-b border-slate-200 w-full max-w-full">
       <!-- 1. HIGH-IMPACT MARITIME VESSEL & PORT TERMINAL PHOTOGRAPHIC BACKDROP -->
-      <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 grayscale scale-105 pointer-events-none transform-gpu"
+      <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-15 grayscale scale-105 pointer-events-none transform-gpu"
            style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=70'); -webkit-transform: translateZ(0);">
       </div>
 
-      <!-- 2. DARK OCEANIC MULTI-STOP GRADIENT MASK (Preserves 100% Contrast & Legibility) -->
-      <div class="absolute inset-0 z-0 bg-gradient-to-b from-navy-950/92 via-navy-900/85 to-navy-950 pointer-events-none"></div>
+      <!-- 2. LIGHT OCEANIC MULTI-STOP GRADIENT MASK -->
+      <div class="absolute inset-0 z-0 bg-gradient-to-b from-white/92 via-slate-50/85 to-white pointer-events-none"></div>
 
       <!-- 3. NAUTICAL COORDINATES & RADAR GRID PATTERN -->
-      <div class="absolute inset-0 z-0 opacity-15 pointer-events-none bg-[radial-gradient(#00B4D8_1px,transparent_1px)] [background-size:28px_28px]"></div>
+      <div class="absolute inset-0 z-0 opacity-20 pointer-events-none bg-[radial-gradient(#0284c7_1px,transparent_1px)] [background-size:28px_28px]"></div>
 
       <!-- 4. HARBOR LIGHTHOUSE / TERMINAL SEARCHLIGHT BEAM -->
       <div class="absolute -top-12 left-1/4 w-96 h-[600px] pointer-events-none animate-searchlight z-0"
-           style="background: conic-gradient(from 160deg at 0% 0%, transparent 0deg, rgba(0, 180, 216, 0.05) 15deg, rgba(255, 255, 255, 0.12) 20deg, rgba(0, 180, 216, 0.05) 25deg, transparent 40deg);">
+           style="background: conic-gradient(from 160deg at 0% 0%, transparent 0deg, rgba(2, 132, 199, 0.04) 15deg, rgba(245, 158, 11, 0.08) 20deg, rgba(2, 132, 199, 0.04) 25deg, transparent 40deg);">
       </div>
 
       <!-- 5. MARINE RADAR HEADS-UP DISPLAY (HUD) IN UPPER CORNER -->
-      <div class="absolute top-6 right-4 lg:right-14 z-0 w-56 h-56 sm:w-72 sm:h-72 pointer-events-none opacity-25 hover:opacity-40 transition-opacity hidden sm:block">
-        <div class="relative w-full h-full rounded-full border border-ocean-500/40 bg-navy-950/70 shadow-[0_0_30px_rgba(0,180,216,0.15)] flex items-center justify-center">
+      <div class="absolute top-6 right-4 lg:right-14 z-0 w-56 h-56 sm:w-72 sm:h-72 pointer-events-none opacity-40 hover:opacity-70 transition-opacity hidden sm:block">
+        <div class="relative w-full h-full rounded-full border border-sky-400/40 bg-white/70 shadow-[0_0_25px_rgba(2,132,199,0.1)] flex items-center justify-center">
           <!-- Concentric Range Rings (12 NM, 24 NM, 36 NM, 48 NM) -->
-          <div class="absolute inset-3 rounded-full border border-ocean-500/25"></div>
-          <div class="absolute inset-10 rounded-full border border-ocean-500/20"></div>
-          <div class="absolute inset-18 rounded-full border border-ocean-500/15"></div>
-          <div class="absolute inset-26 rounded-full border border-ocean-500/10"></div>
+          <div class="absolute inset-3 rounded-full border border-sky-400/25"></div>
+          <div class="absolute inset-10 rounded-full border border-sky-400/20"></div>
+          <div class="absolute inset-18 rounded-full border border-sky-400/15"></div>
+          <div class="absolute inset-26 rounded-full border border-sky-400/10"></div>
           <!-- Radar Crosshairs -->
-          <div class="absolute inset-x-0 top-1/2 h-px bg-ocean-500/30"></div>
-          <div class="absolute inset-y-0 left-1/2 w-px bg-ocean-500/30"></div>
+          <div class="absolute inset-x-0 top-1/2 h-px bg-sky-400/30"></div>
+          <div class="absolute inset-y-0 left-1/2 w-px bg-sky-400/30"></div>
           <!-- Compass Degree Labels -->
-          <span class="absolute top-1 text-[9px] font-mono text-ocean-400 font-bold">000°</span>
-          <span class="absolute bottom-1 text-[9px] font-mono text-ocean-400 font-bold">180°</span>
-          <span class="absolute right-1 text-[9px] font-mono text-ocean-400 font-bold">090°</span>
-          <span class="absolute left-1 text-[9px] font-mono text-ocean-400 font-bold">270°</span>
+          <span class="absolute top-1 text-[9px] font-mono text-sky-700 font-bold">000°</span>
+          <span class="absolute bottom-1 text-[9px] font-mono text-sky-700 font-bold">180°</span>
+          <span class="absolute right-1 text-[9px] font-mono text-sky-700 font-bold">090°</span>
+          <span class="absolute left-1 text-[9px] font-mono text-sky-700 font-bold">270°</span>
           <!-- Rotating Radar Sweep Beam -->
           <div class="absolute inset-0 rounded-full animate-radar-sweep pointer-events-none"
-               style="background: conic-gradient(from 0deg, rgba(0, 180, 216, 0.5) 0deg, rgba(0, 180, 216, 0.15) 30deg, transparent 60deg, transparent 360deg);">
+               style="background: conic-gradient(from 0deg, rgba(2, 132, 199, 0.35) 0deg, rgba(2, 132, 199, 0.1) 30deg, transparent 60deg, transparent 360deg);">
           </div>
           <!-- AIS Vessel Target Blips on Radar -->
-          <div class="absolute top-14 right-16 w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse">
-            <span class="absolute -top-3.5 -right-2 text-[8px] font-mono text-emerald-300">GFS-66</span>
+          <div class="absolute top-14 right-16 w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981] animate-pulse">
+            <span class="absolute -top-3.5 -right-2 text-[8px] font-mono text-emerald-700 font-bold">GFS-66</span>
           </div>
-          <div class="absolute bottom-16 left-14 w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]">
-            <span class="absolute -bottom-3.5 -left-2 text-[8px] font-mono text-amber-300">X-CAP</span>
+          <div class="absolute bottom-16 left-14 w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]">
+            <span class="absolute -bottom-3.5 -left-2 text-[8px] font-mono text-amber-700 font-bold">X-CAP</span>
           </div>
-          <div class="absolute top-24 left-16 w-1.5 h-1.5 rounded-full bg-ocean-400 shadow-[0_0_6px_#38bdf8]">
-            <span class="absolute -top-3 -left-2 text-[8px] font-mono text-ocean-300">HUB-JEA</span>
+          <div class="absolute top-24 left-16 w-1.5 h-1.5 rounded-full bg-sky-600 shadow-[0_0_6px_#0284c7]">
+            <span class="absolute -top-3 -left-2 text-[8px] font-mono text-sky-800 font-bold">HUB-JEA</span>
           </div>
-          <div class="absolute bottom-12 right-20 w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]"></div>
+          <div class="absolute bottom-12 right-20 w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></div>
           <!-- Center Vessel Icon -->
-          <div class="w-3 h-3 rounded-full bg-ocean-400 shadow-[0_0_10px_#00B4D8] border border-white"></div>
+          <div class="w-3 h-3 rounded-full bg-amber-500 shadow-[0_0_10px_#f59e0b] border border-white"></div>
         </div>
-        <div class="text-center mt-2 text-[9px] font-mono text-ocean-400/80 tracking-widest uppercase">
+        <div class="text-center mt-2 text-[9px] font-mono text-slate-500 tracking-widest uppercase font-semibold">
           AIS RADAR: 48 NM • ARPA AUTO-ACQUIRE
         </div>
       </div>
@@ -232,53 +232,53 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
       </div>
 
       <!-- 9. MARITIME OPERATIONS AIS TELEMETRY TICKER -->
-      <div class="w-full overflow-hidden bg-navy-950/80 border-b border-navy-800/80 py-2.5 mb-8 backdrop-blur-md relative z-10">
-        <div class="animate-marquee items-center gap-10 text-xs font-mono text-slate-300">
-          <span class="inline-flex items-center gap-2 text-emerald-400 font-bold">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 beacon-pulse"></span>
+      <div class="w-full overflow-hidden bg-white/90 border-b border-slate-200 py-2.5 mb-8 backdrop-blur-md relative z-10 shadow-sm">
+        <div class="animate-marquee items-center gap-10 text-xs font-mono text-slate-700">
+          <span class="inline-flex items-center gap-2 text-emerald-700 font-bold">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 beacon-pulse"></span>
             AIS OPERATIONS: 66 FEEDER VESSELS ACTIVE
           </span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">ARABIAN GULF:</strong> 24 FEEDERS UNDERWAY (AVG SPEED 14.8 KN)</span>
+          <span class="text-slate-600"><strong class="text-slate-900">ARABIAN GULF:</strong> 24 FEEDERS UNDERWAY (AVG SPEED 14.8 KN)</span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">RED SEA / SUEZ:</strong> 14 IN TRANSIT • ZERO DISRUPTIONS</span>
+          <span class="text-slate-600"><strong class="text-slate-900">RED SEA / SUEZ:</strong> 14 IN TRANSIT • ZERO DISRUPTIONS</span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">INDIAN SUBCONTINENT:</strong> 18 CALLS AT MUNDRA & NHAVA SHEVA</span>
+          <span class="text-slate-600"><strong class="text-slate-900">INDIAN SUBCONTINENT:</strong> 18 CALLS AT MUNDRA & NHAVA SHEVA</span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">STRAIT OF MALACCA:</strong> 10 BOUND FOR SINGAPORE PSA TERMINALS</span>
+          <span class="text-slate-600"><strong class="text-slate-900">STRAIT OF MALACCA:</strong> 10 BOUND FOR SINGAPORE PSA TERMINALS</span>
           <span>•</span>
-          <span class="text-amber-400 font-semibold">TERMINAL STATUS: JEBEL ALI T1/T2/T3 NORMAL BERTHING (0 DELAYS)</span>
+          <span class="text-amber-800 font-bold">TERMINAL STATUS: JEBEL ALI T1/T2/T3 NORMAL BERTHING (0 DELAYS)</span>
           <span>•</span>
-          <span class="inline-flex items-center gap-2 text-emerald-400 font-bold">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 beacon-pulse"></span>
+          <span class="inline-flex items-center gap-2 text-emerald-700 font-bold">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 beacon-pulse"></span>
             AIS OPERATIONS: 66 FEEDER VESSELS ACTIVE
           </span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">ARABIAN GULF:</strong> 24 FEEDERS UNDERWAY (AVG SPEED 14.8 KN)</span>
+          <span class="text-slate-600"><strong class="text-slate-900">ARABIAN GULF:</strong> 24 FEEDERS UNDERWAY (AVG SPEED 14.8 KN)</span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">RED SEA / SUEZ:</strong> 14 IN TRANSIT • ZERO DISRUPTIONS</span>
+          <span class="text-slate-600"><strong class="text-slate-900">RED SEA / SUEZ:</strong> 14 IN TRANSIT • ZERO DISRUPTIONS</span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">INDIAN SUBCONTINENT:</strong> 18 CALLS AT MUNDRA & NHAVA SHEVA</span>
+          <span class="text-slate-600"><strong class="text-slate-900">INDIAN SUBCONTINENT:</strong> 18 CALLS AT MUNDRA & NHAVA SHEVA</span>
           <span>•</span>
-          <span class="text-slate-300"><strong class="text-ocean-300">STRAIT OF MALACCA:</strong> 10 BOUND FOR SINGAPORE PSA TERMINALS</span>
+          <span class="text-slate-600"><strong class="text-slate-900">STRAIT OF MALACCA:</strong> 10 BOUND FOR SINGAPORE PSA TERMINALS</span>
           <span>•</span>
-          <span class="text-amber-400 font-semibold">TERMINAL STATUS: JEBEL ALI T1/T2/T3 NORMAL BERTHING (0 DELAYS)</span>
+          <span class="text-amber-800 font-bold">TERMINAL STATUS: JEBEL ALI T1/T2/T3 NORMAL BERTHING (0 DELAYS)</span>
         </div>
       </div>
 
       <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         <!-- Hero Text Header -->
         <div class="max-w-3xl mb-12">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wide uppercase mb-4 shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold tracking-wide uppercase mb-4 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
             <span>{{ isRtl() ? 'الشبكة البحرية الإقليمية الرائدة' : 'Premier Independent Feeder Network' }}</span>
           </div>
 
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-5">
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-tight mb-5">
             {{ isRtl() ? 'تمكين عمالقة الشحن من خلال الابتكار الملاحي' : 'Empowering Shipping Giants Through Feeder Innovation' }}
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
             {{ isRtl() 
               ? 'ربط الموانئ المحورية في الخليج العربي والبحر الأحمر وشبه القارة الهندية وجنوب شرق آسيا بأعلى تردد وأدق مواعيد.' 
               : 'Connecting key container hubs across the Arabian Gulf, Red Sea, Indian Subcontinent, and Southeast Asia with high-frequency feeder reliability and precision logistics.' }}
@@ -286,16 +286,16 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
         </div>
 
         <!-- 3-Tab Action Engine Widget (Global Feeders Style) -->
-        <div id="tracking-engine" class="bg-navy-900/90 backdrop-blur-xl border border-navy-700/80 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
+        <div id="tracking-engine" class="bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
           <!-- Tab Navigation Headers -->
-          <div class="grid grid-cols-3 border-b border-navy-700/80 bg-navy-950/70 text-center text-sm font-semibold">
+          <div class="grid grid-cols-3 border-b border-slate-200 bg-slate-50 text-center text-sm font-semibold">
             <!-- Tab 1: Find a Service -->
             <button
               (click)="activeTab.set('service')"
               [class]="activeTab() === 'service' 
-                ? 'bg-navy-900 text-amber-400 border-b-2 border-amber-400 font-bold py-4 px-4 flex items-center justify-center gap-2 transition-all shadow-inner'
-                : 'text-slate-400 hover:text-slate-200 py-4 px-4 flex items-center justify-center gap-2 hover:bg-navy-900/40 transition-all'">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                ? 'bg-white text-amber-700 border-b-2 border-amber-500 font-bold py-4 px-4 flex items-center justify-center gap-2 transition-all shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 py-4 px-4 flex items-center justify-center gap-2 hover:bg-slate-100/60 transition-all'">
+              <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
               </svg>
               <span class="truncate">{{ isRtl() ? 'البحث عن خدمة' : 'Find a Service' }}</span>
@@ -305,9 +305,9 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
             <button
               (click)="activeTab.set('schedule')"
               [class]="activeTab() === 'schedule' 
-                ? 'bg-navy-900 text-amber-400 border-b-2 border-amber-400 font-bold py-4 px-4 flex items-center justify-center gap-2 transition-all shadow-inner'
-                : 'text-slate-400 hover:text-slate-200 py-4 px-4 flex items-center justify-center gap-2 hover:bg-navy-900/40 transition-all'">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                ? 'bg-white text-amber-700 border-b-2 border-amber-500 font-bold py-4 px-4 flex items-center justify-center gap-2 transition-all shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 py-4 px-4 flex items-center justify-center gap-2 hover:bg-slate-100/60 transition-all'">
+              <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span class="truncate">{{ isRtl() ? 'جدول الرحلات' : 'Find Schedule' }}</span>
@@ -317,9 +317,9 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
             <button
               (click)="activeTab.set('tracking')"
               [class]="activeTab() === 'tracking' 
-                ? 'bg-navy-900 text-amber-400 border-b-2 border-amber-400 font-bold py-4 px-4 flex items-center justify-center gap-2 transition-all shadow-inner'
-                : 'text-slate-400 hover:text-slate-200 py-4 px-4 flex items-center justify-center gap-2 hover:bg-navy-900/40 transition-all'">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                ? 'bg-white text-amber-700 border-b-2 border-amber-500 font-bold py-4 px-4 flex items-center justify-center gap-2 transition-all shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 py-4 px-4 flex items-center justify-center gap-2 hover:bg-slate-100/60 transition-all'">
+              <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -333,19 +333,19 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
             <div *ngIf="activeTab() === 'service'" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <div class="md:col-span-2 space-y-1.5">
-                  <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider">
+                  <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
                     {{ isRtl() ? 'اختر خط الخدمة الملاحية' : 'Select Feeder Service Code' }}
                   </label>
                   <div class="relative">
                     <select
                       [ngModel]="selectedServiceCode()"
                       (ngModelChange)="onServiceCodeChange($event)"
-                      class="w-full bg-navy-950 border border-navy-700 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-amber-400 appearance-none cursor-pointer">
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-amber-500 focus:bg-white appearance-none cursor-pointer">
                       <option *ngFor="let s of service.services()" [value]="s.code">
                         {{ s.code }} — {{ s.name }} ({{ s.frequency }})
                       </option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                       </svg>
@@ -356,7 +356,7 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
                 <div>
                   <button
                     (click)="jumpToInteractiveRoute()"
-                    class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25 cursor-pointer">
+                    class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-amber-500/20 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
@@ -366,37 +366,37 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
               </div>
 
               <!-- Active Service Preview Card -->
-              <div *ngIf="currentService() as cs" class="p-5 rounded-xl bg-navy-950/80 border border-navy-800 space-y-4">
+              <div *ngIf="currentService() as cs" class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <div class="flex items-center gap-2.5">
-                      <span class="text-xl font-black text-white">{{ cs.code }}</span>
-                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">
+                      <span class="text-xl font-black text-slate-950">{{ cs.code }}</span>
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold">
                         {{ cs.frequency }}
                       </span>
-                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 font-semibold">
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold">
                         {{ cs.transit_days }} {{ isRtl() ? 'يوم عبور' : 'Days Round Transit' }}
                       </span>
                     </div>
-                    <h3 class="text-sm font-semibold text-slate-300 mt-1">{{ cs.name }}</h3>
+                    <h3 class="text-sm font-bold text-slate-800 mt-1">{{ cs.name }}</h3>
                   </div>
-                  <p class="text-xs text-slate-400 max-w-md">{{ cs.description }}</p>
+                  <p class="text-xs text-slate-600 max-w-md">{{ cs.description }}</p>
                 </div>
 
                 <!-- Port Call Sequence Timeline -->
-                <div class="space-y-1.5 pt-2 border-t border-navy-800">
-                  <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">{{ isRtl() ? 'تسلسل الموانئ والدوران:' : 'Port Call Rotation & Hubs:' }}</span>
+                <div class="space-y-1.5 pt-2 border-t border-slate-200">
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-600">{{ isRtl() ? 'تسلسل الموانئ والدوران:' : 'Port Call Rotation & Hubs:' }}</span>
                   <div class="flex flex-wrap items-center gap-2 pt-1">
                     <ng-container *ngFor="let port of cs.port_rotation; let i = index; let last = last">
-                      <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-navy-900 border border-navy-700 text-xs">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                        <span class="font-bold text-white">{{ port.port_name }}</span>
-                        <span class="text-[10px] text-slate-400 font-mono">({{ port.unlocode }})</span>
-                        <span *ngIf="port.day_of_week" class="text-[10px] text-amber-300 bg-navy-950 px-1.5 py-0.5 rounded">
+                      <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-xs shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span class="font-bold text-slate-900">{{ port.port_name }}</span>
+                        <span class="text-[10px] text-slate-500 font-mono">({{ port.unlocode }})</span>
+                        <span *ngIf="port.day_of_week" class="text-[10px] text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded font-bold">
                           {{ port.day_of_week }}
                         </span>
                       </div>
-                      <span *ngIf="!last" class="text-slate-500 font-bold">→</span>
+                      <span *ngIf="!last" class="text-slate-400 font-bold">→</span>
                     </ng-container>
                   </div>
                 </div>
@@ -408,13 +408,13 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                 <!-- Port of Loading -->
                 <div class="space-y-1.5">
-                  <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider">
+                  <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
                     {{ isRtl() ? 'ميناء الشحن (POL)' : 'Port of Loading (POL)' }}
                   </label>
                   <select
                     [ngModel]="schedulePol()"
                     (ngModelChange)="onPolChange($event)"
-                    class="w-full bg-navy-950 border border-navy-700 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-ocean-400 cursor-pointer">
+                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-amber-500 focus:bg-white cursor-pointer">
                     <option value="">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
                     <option value="Jebel Ali">Jebel Ali (AEJEA)</option>
                     <option value="Mundra">Mundra (INMUN)</option>
@@ -427,13 +427,13 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
 
                 <!-- Port of Discharge -->
                 <div class="space-y-1.5">
-                  <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider">
+                  <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
                     {{ isRtl() ? 'ميناء التفريغ (POD)' : 'Port of Discharge (POD)' }}
                   </label>
                   <select
                     [ngModel]="schedulePod()"
                     (ngModelChange)="onPodChange($event)"
-                    class="w-full bg-navy-950 border border-navy-700 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-ocean-400 cursor-pointer">
+                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-amber-500 focus:bg-white cursor-pointer">
                     <option value="">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
                     <option value="Mundra">Mundra (INMUN)</option>
                     <option value="Singapore">Singapore (SGSIN)</option>
@@ -450,7 +450,7 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
                 <div>
                   <button
                     (click)="searchSchedules()"
-                    class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25 cursor-pointer">
+                    class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-amber-500/20 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -460,9 +460,9 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
               </div>
 
               <!-- Schedules Result Table -->
-              <div class="overflow-x-auto rounded-xl border border-navy-800 bg-navy-950/60">
-                <table class="w-full text-left text-xs text-slate-300">
-                  <thead class="bg-navy-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-navy-800">
+              <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+                <table class="w-full text-left text-xs text-slate-700">
+                  <thead class="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
                     <tr>
                       <th class="py-3 px-4 font-bold">{{ isRtl() ? 'اسم السفينة' : 'Vessel' }}</th>
                       <th class="py-3 px-4 font-bold">{{ isRtl() ? 'رقم الرحلة' : 'Voyage No' }}</th>
@@ -476,44 +476,44 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
                       <th class="py-3 px-4 font-bold text-right">{{ isRtl() ? 'إجراء' : 'Action' }}</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-navy-800/80">
-                    <tr *ngFor="let s of filteredSchedules()" class="hover:bg-navy-900/50 transition-colors">
-                      <td class="py-3 px-4 font-bold text-white flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <tbody class="divide-y divide-slate-100">
+                    <tr *ngFor="let s of filteredSchedules()" class="hover:bg-slate-50 transition-colors">
+                      <td class="py-3 px-4 font-bold text-slate-900 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                         <span>{{ s.vessel_name }}</span>
                       </td>
-                      <td class="py-3 px-4 font-mono font-medium text-amber-300">{{ s.voyage_no }}</td>
+                      <td class="py-3 px-4 font-mono font-bold text-amber-700">{{ s.voyage_no }}</td>
                       <td class="py-3 px-4">
-                        <span class="px-2 py-0.5 rounded bg-navy-800 border border-navy-700 text-slate-200 font-mono text-[11px]">
+                        <span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-800 font-mono text-[11px] font-bold">
                           {{ s.service_code }}
                         </span>
                       </td>
-                      <td class="py-3 px-4 text-slate-200">{{ s.pol }}</td>
-                      <td class="py-3 px-4 text-slate-200">{{ s.pod }}</td>
-                      <td class="py-3 px-4 font-mono text-slate-300">{{ s.etd | date:'mediumDate' }}</td>
-                      <td class="py-3 px-4 font-mono text-amber-300 font-semibold">{{ s.eta | date:'mediumDate' }}</td>
-                      <td class="py-3 px-4 font-mono text-amber-400">{{ s.cutoff_date | date:'mediumDate' }}</td>
+                      <td class="py-3 px-4 text-slate-800 font-medium">{{ s.pol }}</td>
+                      <td class="py-3 px-4 text-slate-800 font-medium">{{ s.pod }}</td>
+                      <td class="py-3 px-4 font-mono text-slate-600">{{ s.etd | date:'mediumDate' }}</td>
+                      <td class="py-3 px-4 font-mono text-amber-700 font-bold">{{ s.eta | date:'mediumDate' }}</td>
+                      <td class="py-3 px-4 font-mono text-amber-600 font-semibold">{{ s.cutoff_date | date:'mediumDate' }}</td>
                       <td class="py-3 px-4">
                         <span [ngClass]="{
-                          'bg-emerald-500/10 text-emerald-400 border-emerald-500/20': s.status === 'On Schedule',
-                          'bg-amber-500/10 text-amber-400 border-amber-500/20': s.status === 'In Transit',
-                          'bg-sky-500/10 text-sky-400 border-sky-500/20': s.status === 'At Berth'
-                        }" class="px-2 py-0.5 rounded-full text-[10px] font-semibold border">
+                          'bg-emerald-50 text-emerald-800 border-emerald-300': s.status === 'On Schedule',
+                          'bg-amber-50 text-amber-800 border-amber-300': s.status === 'In Transit',
+                          'bg-sky-50 text-sky-800 border-sky-300': s.status === 'At Berth'
+                        }" class="px-2 py-0.5 rounded-full text-[10px] font-bold border">
                           {{ s.status }}
                         </span>
                       </td>
                       <td class="py-3 px-4 text-right">
                         <button
                           (click)="trackVesselFromSchedule(s)"
-                          class="px-2.5 py-1 rounded bg-navy-800 hover:bg-amber-400 hover:text-slate-950 text-amber-400 text-[11px] font-semibold border border-navy-700 hover:border-amber-400 transition-all cursor-pointer">
+                          class="px-2.5 py-1 rounded bg-slate-100 hover:bg-amber-400 hover:text-slate-950 text-slate-800 hover:border-amber-400 text-[11px] font-bold border border-slate-300 transition-all cursor-pointer shadow-sm">
                           {{ isRtl() ? 'تتبع' : 'Track' }}
                         </button>
                       </td>
                     </tr>
                     <tr *ngIf="filteredSchedules().length === 0">
-                      <td colspan="10" class="py-6 text-center text-slate-400">
+                      <td colspan="10" class="py-6 text-center text-slate-500 font-medium">
                         {{ isRtl() ? 'لا توجد رحلات مطابقة للمعايير المحددة.' : 'No voyage schedules found for the selected port pair.' }}
                       </td>
                     </tr>
@@ -526,7 +526,7 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
             <div *ngIf="activeTab() === 'tracking'" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <div class="md:col-span-2 space-y-1.5">
-                  <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider">
+                  <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
                     {{ isRtl() ? 'اسم السفينة أو رقم المنظمة البحرية (IMO) أو الرحلة' : 'Search Vessel by Name, IMO, or Voyage Number' }}
                   </label>
                   <div class="relative">
@@ -535,7 +535,7 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
                       [ngModel]="vesselSearchQuery()"
                       (ngModelChange)="onVesselSearchChange($event)"
                       placeholder="e.g., GFS RHINE, X-PRESS CAPELLA, 9338278, 2611E..."
-                      class="w-full bg-navy-950 border border-navy-700 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-amber-400 placeholder-slate-500" />
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-amber-500 focus:bg-white placeholder-slate-400" />
                     <div class="absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 pointer-events-none">
                       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -547,7 +547,7 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
                 <div>
                   <button
                     (click)="findAndFocusVessel()"
-                    class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25 cursor-pointer">
+                    class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-amber-500/20 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     </svg>
@@ -558,27 +558,27 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
 
               <!-- Quick Vessel Chips -->
               <div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs font-semibold text-slate-400">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
+                <span class="text-xs font-bold text-slate-600">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
                 <button
                   *ngFor="let name of ['GFS RHINE', 'X-PRESS CAPELLA', 'GFS ROJA', 'AL FARAHIDI', 'ACACIA HAWK', 'CALLIOPE']"
                   (click)="quickSelectVessel(name)"
-                  class="px-2.5 py-1 rounded-lg bg-navy-950 hover:bg-navy-800 text-xs font-mono text-amber-300 border border-navy-800 hover:border-amber-400/60 transition-colors">
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-mono text-slate-800 font-semibold border border-slate-300 hover:border-amber-500 transition-colors">
                   {{ name }}
                 </button>
               </div>
 
               <!-- Live Tracked Vessel Card -->
-              <div *ngIf="matchedVessel() as mv" class="p-6 rounded-xl bg-navy-950/80 border border-navy-700 space-y-4">
+              <div *ngIf="matchedVessel() as mv" class="p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                   <div>
                     <div class="flex items-center gap-2">
-                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 beacon-pulse"></span>
-                      <h3 class="text-xl font-black text-white">{{ mv.name }}</h3>
-                      <span class="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">
+                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 beacon-pulse"></span>
+                      <h3 class="text-xl font-black text-slate-950">{{ mv.name }}</h3>
+                      <span class="text-xs px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold">
                         {{ mv.flag }}
                       </span>
                     </div>
-                    <p class="text-xs font-mono text-slate-400 mt-1">
+                    <p class="text-xs font-mono text-slate-600 mt-1 font-medium">
                       IMO: {{ mv.imo }} | Call Sign: {{ mv.call_sign }} | Service: {{ mv.service_code }}
                     </p>
                   </div>
@@ -595,31 +595,31 @@ import { FeederService, VoyageSchedule, Vessel } from '../../models/maritime.mod
                     </button>
                     <button
                       (click)="service.openVesselModal(mv)"
-                      class="px-4 py-2 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-semibold text-xs border border-navy-700 transition-all">
+                      class="px-4 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs border border-slate-300 transition-all shadow-sm">
                       {{ isRtl() ? 'المواصفات الفنية (16 نقطة)' : 'Full 16-Pt Specs' }}
                     </button>
                   </div>
                 </div>
 
                 <!-- Live Status Metrics Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-navy-800">
-                  <div class="bg-navy-900/80 p-3 rounded-lg border border-navy-800">
-                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">AIS Status</span>
-                    <p class="text-xs font-semibold text-emerald-400 mt-1 truncate">{{ mv.current_status }}</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-200">
+                  <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">AIS Status</span>
+                    <p class="text-xs font-bold text-emerald-700 mt-1 truncate">{{ mv.current_status }}</p>
                   </div>
-                  <div class="bg-navy-900/80 p-3 rounded-lg border border-navy-800">
-                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Coordinates</span>
-                    <p class="text-xs font-mono font-semibold text-amber-300 mt-1">
+                  <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Coordinates</span>
+                    <p class="text-xs font-mono font-bold text-amber-700 mt-1">
                       {{ mv.current_lat.toFixed(3) }}°N, {{ mv.current_lng.toFixed(3) }}°E
                     </p>
                   </div>
-                  <div class="bg-navy-900/80 p-3 rounded-lg border border-navy-800">
-                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Nominal Capacity</span>
-                    <p class="text-xs font-semibold text-white mt-1">{{ mv.nominal_cap_teu }} TEU</p>
+                  <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Nominal Capacity</span>
+                    <p class="text-xs font-bold text-slate-900 mt-1">{{ mv.nominal_cap_teu }} TEU</p>
                   </div>
-                  <div class="bg-navy-900/80 p-3 rounded-lg border border-navy-800">
-                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Summer Draft</span>
-                    <p class="text-xs font-semibold text-amber-400 mt-1">{{ mv.summer_draft }} m</p>
+                  <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Summer Draft</span>
+                    <p class="text-xs font-bold text-amber-700 mt-1">{{ mv.summer_draft }} m</p>
                   </div>
                 </div>
               </div>

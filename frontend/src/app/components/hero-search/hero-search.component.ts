@@ -85,6 +85,9 @@ interface TelemetryNode {
       (click)="onSectionClick($event)"
       (mousemove)="onSectionMouseMove($event)"
       (mouseleave)="onSectionMouseLeave()"
+      (touchstart)="onTouchStart()"
+      (touchend)="onTouchEnd()"
+      (touchcancel)="onTouchEnd()"
       class="relative w-full h-screen min-h-[760px] max-h-[1100px] overflow-hidden bg-gradient-to-b from-[#f0f5fc] via-[#e8f1fb] to-[#ffffff] border-b border-slate-200 perspective-1200 preserve-3d select-none flex flex-col justify-between">
 
       <!-- =========================================================
@@ -92,7 +95,7 @@ interface TelemetryNode {
            ========================================================= -->
       <canvas
         #heroCanvas
-        class="absolute inset-0 w-full h-full pointer-events-auto z-0 cursor-crosshair">
+        class="absolute inset-0 w-full h-full pointer-events-none lg:pointer-events-auto z-0 lg:cursor-crosshair">
       </canvas>
 
       <!-- =========================================================
@@ -127,7 +130,7 @@ interface TelemetryNode {
            ========================================================= -->
       <svg
         #tetherSvg
-        class="absolute inset-0 w-full h-full pointer-events-none z-15">
+        class="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-15">
         <ng-container *ngFor="let node of telemetryNodes">
           <!-- Draw dynamic tether line if node has hover or glow -->
           <g *ngIf="node.isHovered || node.glowFactor > 0.05">
@@ -922,6 +925,9 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   normMouseY = signal<number>(0);
   scrollProgress = signal<number>(0);
 
+  // Mobile Viewport Signal (disables cursor-only tethers & sonar effects on touch devices)
+  isMobileView = signal<boolean>(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+
   // Magnetic Button Signals
   btnDx = signal<number>(0);
   btnDy = signal<number>(0);
@@ -1375,6 +1381,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   private drawDynamicTethers(ctx: CanvasRenderingContext2D, time: number) {
+    if (this.isMobileView()) return;
     const vx = this.vesselCenterX();
     const vy = this.vesselCenterY();
 
@@ -1539,6 +1546,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   private drawSonarShockwaves(ctx: CanvasRenderingContext2D) {
+    if (this.isMobileView()) return;
     for (const s of this.sonarShockwaves) {
       // 1. Glowing outer crimson shockwave ring (#DD0103)
       ctx.beginPath();
@@ -1567,6 +1575,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   private drawIlluminatedTargets(ctx: CanvasRenderingContext2D) {
+    if (this.isMobileView()) return;
     for (const t of this.hiddenTargets) {
       if (t.illumination <= 0.01) continue;
 
@@ -1626,17 +1635,19 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   // INTERACTIVE EVENT HANDLERS: MOUSE, CLICK, & PROXIMITY
   // =========================================================
   onCanvasClick(e: MouseEvent) {
+    if (this.isMobileView()) return;
     this.triggerSonarPing(e.clientX, e.clientY);
   }
 
   onSectionClick(e: MouseEvent) {
+    if (this.isMobileView()) return;
     const target = e.target as HTMLElement;
     if (target.closest('button, select, input, a, .magnetic-liquid-btn')) return;
     this.triggerSonarPing(e.clientX, e.clientY);
   }
 
   private triggerSonarPing(clientX: number, clientY: number) {
-    if (!this.sectionRef) return;
+    if (this.isMobileView() || !this.sectionRef) return;
     const rect = this.sectionRef.nativeElement.getBoundingClientRect();
     const x = clientX - rect.left;
     const y = clientY - rect.top;
@@ -1652,7 +1663,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   onSectionMouseMove(e: MouseEvent) {
-    if (!this.sectionRef) return;
+    if (this.isMobileView() || !this.sectionRef) return;
     const rect = this.sectionRef.nativeElement.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -1693,8 +1704,40 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  onTouchStart() {
+    if (this.isMobileView()) {
+      this.isMouseInside = false;
+      this.targetMouseX = -1000;
+      this.targetMouseY = -1000;
+    }
+  }
+
+  onTouchEnd() {
+    if (this.isMobileView()) {
+      this.isMouseInside = false;
+      this.targetMouseX = -1000;
+      this.targetMouseY = -1000;
+      this.normMouseX.set(0);
+      this.normMouseY.set(0);
+      this.btnDx.set(0);
+      this.btnDy.set(0);
+
+      for (const node of this.telemetryNodes) {
+        node.dx = 0;
+        node.dy = 0;
+        node.isHovered = false;
+        node.glowFactor = 0;
+      }
+      if (this.activeHoveredNodeId() !== null) {
+        this.ngZone.run(() => {
+          this.activeHoveredNodeId.set(null);
+        });
+      }
+    }
+  }
+
   private calculateMagneticButton(clientX: number, clientY: number) {
-    if (!this.magneticBtnRef) return;
+    if (this.isMobileView() || !this.magneticBtnRef) return;
     const btnRect = this.magneticBtnRef.nativeElement.getBoundingClientRect();
     const btnCenterX = btnRect.left + btnRect.width / 2;
     const btnCenterY = btnRect.top + btnRect.height / 2;
@@ -1722,7 +1765,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateNodeProximity() {
-    if (!this.sectionRef || !this.isMouseInside || this.lerpMouseX < 0) return;
+    if (this.isMobileView() || !this.sectionRef || !this.isMouseInside || this.lerpMouseX < 0) return;
     const rect = this.sectionRef.nativeElement.getBoundingClientRect();
     const w = rect.width;
     const h = rect.height;
@@ -1802,6 +1845,24 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   private onWindowResize = () => {
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+    this.isMobileView.set(isMobile);
+    if (isMobile) {
+      this.sonarShockwaves = [];
+      for (const t of this.hiddenTargets) {
+        t.illumination = 0;
+      }
+      for (const node of this.telemetryNodes) {
+        node.dx = 0;
+        node.dy = 0;
+        node.isHovered = false;
+        node.glowFactor = 0;
+      }
+      this.normMouseX.set(0);
+      this.normMouseY.set(0);
+      this.btnDx.set(0);
+      this.btnDy.set(0);
+    }
     this.initCanvas();
     this.updateVesselCoordinates();
   };

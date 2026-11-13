@@ -271,13 +271,15 @@ interface SampledPoint {
           stroke-dasharray="10 10"
           vector-effect="non-scaling-stroke" />
 
-        <!-- Dynamic Drawn Route Line: Wide Ambient Sunny Gold Glow (GPU accelerated) -->
+        <!-- Dynamic Drawn Route Line: Wide Ambient Sunny Gold Glow (GPU accelerated on desktop) -->
         <path
+          #glowPath
           [attr.d]="routePathD"
           fill="none"
           stroke="#dd0103"
           stroke-opacity="0.45"
           stroke-width="12"
+          class="hidden sm:block"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
           stroke-linecap="round" />
@@ -285,6 +287,7 @@ interface SampledPoint {
         <!-- Dynamic Drawn Route Line: Core Illuminated Sunbeam Route -->
         <path
           #activePath
+          id="activePath"
           [attr.d]="routePathD"
           fill="none"
           stroke="#b50102"
@@ -403,12 +406,13 @@ interface SampledPoint {
 
       <!-- =========================================================
            5. PATH-FOLLOWING TOP-DOWN CONTAINER FEEDER VESSEL (Z-20: Beneath Elevated Cards)
+           Direct GPU transform with zero layout reflow and zero filter cost for 120 FPS iOS scrolling
            ========================================================= -->
       <div
-        class="absolute pointer-events-none z-20 will-change-transform transform-gpu"
-        [style.left]="shipXPercent() + '%'"
-        [style.top]="shipYPercent() + '%'"
-        [style.transform]="'translate3d(-50%, -50%, 0) rotate(' + shipHeading() + 'deg)'">
+        #shipEl
+        id="ship-feeder"
+        class="absolute top-0 left-0 pointer-events-none z-20 will-change-transform transform-gpu"
+        style="transform: translate3d(500px, 200px, 0) translate3d(-50%, -50%, 0) rotate(180deg); -webkit-transform: translate3d(500px, 200px, 0) translate3d(-50%, -50%, 0) rotate(180deg);">
         
         <!-- Detailed Top-Down Container Feeder Vessel SVG -->
         <div class="relative w-16 sm:w-20">
@@ -458,9 +462,11 @@ interface SampledPoint {
 
             <!-- Aft Mooring Deck & Transom -->
             <rect x="26" y="210" width="48" height="10" rx="1" fill="#1e293b" />
-            <!-- Navigational Stern Lights: Port (Red), Starboard (Green) -->
-            <circle cx="16" cy="165" r="2.5" fill="#ef4444" filter="drop-shadow(0 0 4px #ef4444)" />
-            <circle cx="84" cy="165" r="2.5" fill="#22c55e" filter="drop-shadow(0 0 4px #22c55e)" />
+            <!-- Navigational Stern Lights: Port (Red), Starboard (Green) with zero-cost vector halos -->
+            <circle cx="16" cy="165" r="4.5" fill="rgba(239, 68, 68, 0.35)" />
+            <circle cx="16" cy="165" r="2" fill="#ef4444" />
+            <circle cx="84" cy="165" r="4.5" fill="rgba(34, 197, 94, 0.35)" />
+            <circle cx="84" cy="165" r="2" fill="#22c55e" />
           </svg>
         </div>
       </div>
@@ -1134,6 +1140,9 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('journeyContainer') containerRef!: ElementRef<HTMLDivElement>;
   @ViewChild('backgroundPath') pathRef!: ElementRef<SVGPathElement>;
+  @ViewChild('activePath') activePathRef!: ElementRef<SVGPathElement>;
+  @ViewChild('glowPath') glowPathRef!: ElementRef<SVGPathElement>;
+  @ViewChild('shipEl') shipEl!: ElementRef<HTMLDivElement>;
   @ViewChild('carouselTrack') carouselTrackRef!: ElementRef<HTMLDivElement>;
 
   // Continuous Winding Route Path (viewBox 0 0 1000 4000)
@@ -1318,85 +1327,89 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   private lastScrollY = 0;
   private lastScrollTime = performance.now();
   private rafId: number | null = null;
-  private scrollListener: (() => void) | null = null;
-  private resizeListener: (() => void) | null = null;
+  private scrollLoopRaf: number | null = null;
+  private cleanupListeners: (() => void) | null = null;
   private wakeCounter = 0;
   private rippleCounter = 0;
 
   // Cached layout dimensions to eliminate forced layout reflows on scroll
   private containerTop = 0;
+  private containerWidth = 1000;
   private containerHeight = 4000;
   private windowH = typeof window !== 'undefined' ? window.innerHeight : 800;
   private isMobileDevice = typeof window !== 'undefined' ? (window.innerWidth < 768 || 'ontouchstart' in window) : false;
   private lastTelemetryTime = 0;
 
-  // Precomputed path lookup table to eliminate all getPointAtLength queries on scroll
+  // Precomputed path lookup table (800 sample points for high fidelity)
   private sampledPoints: SampledPoint[] = [];
-  private isTicking = false;
+  private isScrollLoopActive = false;
+  private lastRenderedScrollY = -999999;
+  private lastScrollChangeTime = 0;
   private isParticleLoopRunning = false;
-  private lastProgress = -1;
+  private lastProgress = 0;
 
   private measureContainer() {
     if (!this.containerRef?.nativeElement) return;
     const rect = this.containerRef.nativeElement.getBoundingClientRect();
     this.containerTop = rect.top + window.scrollY;
+    this.containerWidth = rect.width || (typeof window !== 'undefined' ? window.innerWidth : 1000);
     this.containerHeight = rect.height || 4000;
-    this.windowH = window.innerHeight;
-    this.isMobileDevice = window.innerWidth < 768 || 'ontouchstart' in window;
+    this.windowH = typeof window !== 'undefined' ? window.innerHeight : 800;
+    this.isMobileDevice = typeof window !== 'undefined' ? (window.innerWidth < 768 || 'ontouchstart' in window) : false;
   }
 
   ngAfterViewInit() {
     if (typeof window !== 'undefined') {
-      // Precompute path samples once upon initialization (0 DOM reflows during scroll)
       setTimeout(() => {
         this.measureContainer();
         this.precomputePathSamples();
-        this.updateShipPosition(0);
+        this.renderFrame(window.scrollY);
+        this.syncThrottledState(this.lastProgress);
       }, 30);
 
-      // Decouple scroll handling completely from Angular zone and throttle via requestAnimationFrame
       this.ngZone.runOutsideAngular(() => {
-        this.scrollListener = () => {
-          if (!this.isTicking) {
-            this.isTicking = true;
-            requestAnimationFrame(() => {
-              this.onScrollTick();
-              this.isTicking = false;
-            });
-          }
+        const trigger = () => {
+          this.startScrollLoop();
         };
 
-        this.resizeListener = () => {
-          if (!this.isTicking) {
-            this.isTicking = true;
-            requestAnimationFrame(() => {
-              this.measureContainer();
-              this.precomputePathSamples();
-              this.onScrollTick();
-              this.isTicking = false;
-            });
-          }
+        const onResize = () => {
+          this.measureContainer();
+          this.precomputePathSamples();
+          this.renderFrame(window.scrollY);
+          this.syncThrottledState(this.lastProgress);
         };
 
-        window.addEventListener('scroll', this.scrollListener, { passive: true });
-        window.addEventListener('resize', this.resizeListener, { passive: true });
+        window.addEventListener('scroll', trigger, { passive: true });
+        window.addEventListener('touchmove', trigger, { passive: true });
+        window.addEventListener('touchstart', trigger, { passive: true });
+        window.addEventListener('resize', onResize, { passive: true });
+        window.addEventListener('orientationchange', onResize, { passive: true });
+
+        this.cleanupListeners = () => {
+          window.removeEventListener('scroll', trigger);
+          window.removeEventListener('touchmove', trigger);
+          window.removeEventListener('touchstart', trigger);
+          window.removeEventListener('resize', onResize);
+          window.removeEventListener('orientationchange', onResize);
+        };
       });
     }
   }
 
   ngOnDestroy() {
-    if (typeof window !== 'undefined') {
-      if (this.scrollListener) {
-        window.removeEventListener('scroll', this.scrollListener);
-      }
-      if (this.resizeListener) {
-        window.removeEventListener('resize', this.resizeListener);
-      }
+    if (this.cleanupListeners) {
+      this.cleanupListeners();
+      this.cleanupListeners = null;
+    }
+    if (this.scrollLoopRaf) {
+      cancelAnimationFrame(this.scrollLoopRaf);
+      this.scrollLoopRaf = null;
     }
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
+    this.isScrollLoopActive = false;
     this.isParticleLoopRunning = false;
   }
 
@@ -1418,7 +1431,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
       scaleY = h / 4000;
     }
 
-    const SAMPLES_COUNT = 600;
+    const SAMPLES_COUNT = 800;
     const samples: SampledPoint[] = [];
     for (let i = 0; i <= SAMPLES_COUNT; i++) {
       const l = (i / SAMPLES_COUNT) * total;
@@ -1441,11 +1454,37 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     this.sampledPoints = samples;
   }
 
-  private onScrollTick() {
+  private startScrollLoop() {
+    this.lastScrollChangeTime = performance.now();
+    if (this.isScrollLoopActive) return;
+    this.isScrollLoopActive = true;
+    this.scrollLoop();
+  }
+
+  private scrollLoop = () => {
+    const now = performance.now();
+    const currentScrollY = window.scrollY;
+
+    if (Math.abs(currentScrollY - this.lastRenderedScrollY) > 0.4) {
+      this.lastRenderedScrollY = currentScrollY;
+      this.lastScrollChangeTime = now;
+      this.renderFrame(currentScrollY);
+    }
+
+    const elapsed = now - this.lastScrollChangeTime;
+    // Continue running while actively scrolling, plus 140ms after scrolling ceases to capture deceleration and settle
+    if (elapsed < 140) {
+      this.scrollLoopRaf = requestAnimationFrame(this.scrollLoop);
+    } else {
+      this.isScrollLoopActive = false;
+      this.scrollLoopRaf = null;
+      this.syncThrottledState(this.lastProgress, undefined, currentScrollY);
+    }
+  };
+
+  private renderFrame(scrollY: number) {
     if (this.sampledPoints.length === 0) return;
 
-    // Use pre-cached top offset to prevent synchronous layout reflows during scroll
-    const scrollY = window.scrollY;
     const scrolledAmount = scrollY - this.containerTop;
     const totalScrollableDistance = this.containerHeight - this.windowH;
 
@@ -1454,18 +1493,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
       progress = Math.max(0, Math.min(1, scrolledAmount / totalScrollableDistance));
     }
 
-    if (Math.abs(progress - this.lastProgress) > 0.0003) {
-      this.lastProgress = progress;
-      this.updateShipPosition(progress);
-      this.updateSpeedometer();
-      if (!this.isMobileDevice) {
-        this.ensureParticleLoop();
-      }
-    }
-  }
-
-  private updateShipPosition(progress: number) {
-    if (this.sampledPoints.length === 0) return;
+    this.lastProgress = progress;
 
     const count = this.sampledPoints.length - 1;
     const pos = progress * count;
@@ -1476,8 +1504,6 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     const p1 = this.sampledPoints[idx1];
     const p2 = this.sampledPoints[idx2];
 
-    const x = p1.x + (p2.x - p1.x) * frac;
-    const y = p1.y + (p2.y - p1.y) * frac;
     const rawX = p1.rawX + (p2.rawX - p1.rawX) * frac;
     const rawY = p1.rawY + (p2.rawY - p1.rawY) * frac;
 
@@ -1486,41 +1512,69 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     if (dHeading < -180) dHeading += 360;
     const headingDeg = (p1.heading + dHeading * frac + 360) % 360;
 
-    const currentScrollY = window.scrollY;
+    const pxX = (rawX / 1000) * this.containerWidth;
+    const pxY = (rawY / 4000) * this.containerHeight;
+
+    // DIRECT GPU COMPOSITOR UPDATE: 0ms delay, 0 layout reflow, 0 change detection
+    if (this.shipEl?.nativeElement) {
+      const transformStr = `translate3d(${pxX.toFixed(1)}px, ${pxY.toFixed(1)}px, 0) translate3d(-50%, -50%, 0) rotate(${headingDeg.toFixed(1)}deg)`;
+      this.shipEl.nativeElement.style.transform = transformStr;
+      this.shipEl.nativeElement.style.webkitTransform = transformStr;
+    }
+
+    // Direct active path stroke dashoffset update
     const totalLength = this.pathTotalLength();
     const newOffset = totalLength * (1 - progress);
-    const roundedHeading = Math.round(headingDeg);
-
-    // Apply reactive signals
-    this.journeyProgress.set(progress);
-    this.pathDashOffset.set(newOffset);
-    this.shipRawX.set(Math.round(rawX));
-    this.shipRawY.set(Math.round(rawY));
-    this.shipXPercent.set(Math.round(x * 100) / 100);
-    this.shipYPercent.set(Math.round(y * 100) / 100);
-    this.shipHeading.set(roundedHeading);
-    this.compassHeading.set(roundedHeading);
-
-    // Throttle textual coordinates update to keep mobile UI thread 100% fluid
-    const now = performance.now();
-    if (now - this.lastTelemetryTime > 120 && progress > 0.02) {
-      this.lastTelemetryTime = now;
-      this.updateCoordinates(progress, headingDeg);
+    if (this.activePathRef?.nativeElement) {
+      this.activePathRef.nativeElement.style.strokeDashoffset = `${newOffset.toFixed(1)}px`;
     }
-    this.isAnchorDropped.set(progress >= 0.98);
+    if (this.glowPathRef?.nativeElement) {
+      this.glowPathRef.nativeElement.style.strokeDashoffset = `${newOffset.toFixed(1)}px`;
+    }
 
-    // Only spawn wake bubbles on desktop mouse scrolling (touch devices skip DOM churn)
-    if (!this.isMobileDevice && Math.abs(currentScrollY - this.lastScrollY) > 8) {
-      this.spawnWakeParticle(rawX, rawY, roundedHeading);
+    // Mooring lines & thruster updates near terminals (berth 01 / berth 08)
+    if (progress <= 0.05 || progress >= 0.95) {
+      this.shipRawX.set(Math.round(rawX));
+      this.shipRawY.set(Math.round(rawY));
+      this.journeyProgress.set(progress);
+    }
+
+    // Throttled HUD telemetry & speedometer updates (every 80ms)
+    const now = performance.now();
+    if (now - this.lastTelemetryTime > 80) {
+      this.lastTelemetryTime = now;
+      this.syncThrottledState(progress, headingDeg, scrollY);
+    }
+
+    // Desktop mouse wake bubbles only
+    if (!this.isMobileDevice && Math.abs(scrollY - this.lastScrollY) > 8) {
+      this.spawnWakeParticle(rawX, rawY, Math.round(headingDeg));
+      this.ensureParticleLoop();
     }
   }
 
-  private updateSpeedometer() {
+  private syncThrottledState(progress: number, headingDeg?: number, currentScrollY?: number) {
+    this.journeyProgress.set(progress);
+    this.pathDashOffset.set(this.pathTotalLength() * (1 - progress));
+
+    const heading = headingDeg !== undefined ? headingDeg : this.shipHeading();
+    const roundedHeading = Math.round(heading);
+    this.shipHeading.set(roundedHeading);
+    this.compassHeading.set(roundedHeading);
+
+    this.updateSpeedometer(currentScrollY ?? window.scrollY);
+    if (progress > 0.02) {
+      this.updateCoordinates(progress, heading);
+    }
+    this.isAnchorDropped.set(progress >= 0.98);
+  }
+
+  private updateSpeedometer(currentScrollY: number) {
     const now = performance.now();
     const dt = Math.max(16, now - this.lastScrollTime);
-    const dy = Math.abs(window.scrollY - this.lastScrollY);
+    const dy = Math.abs(currentScrollY - this.lastScrollY);
 
-    this.lastScrollY = window.scrollY;
+    this.lastScrollY = currentScrollY;
     this.lastScrollTime = now;
 
     const rawSpeed = Math.min(24.5, (dy / dt) * 19.5);

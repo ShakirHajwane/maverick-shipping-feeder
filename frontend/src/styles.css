@@ -453,6 +453,16 @@ html, body {
   transform: translateZ(0);
 }
 
+@media (max-width: 768px) {
+  /* On mobile touch devices, disable expensive Metal GPU backdrop blurs on stacked cards for buttery-smooth 60/120fps */
+  .backdrop-blur-xl,
+  .backdrop-blur-lg,
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
 /* Hardware accelerate moving elements */
 .animate-ship-cruising,
 .animate-ship-reverse,

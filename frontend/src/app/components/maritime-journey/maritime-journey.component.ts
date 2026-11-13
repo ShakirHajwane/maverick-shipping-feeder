@@ -411,8 +411,13 @@ interface SampledPoint {
         [style.transform]="'translate3d(-50%, -50%, 0) rotate(' + shipHeading() + 'deg)'">
         
         <!-- Detailed Top-Down Container Feeder Vessel SVG -->
-        <div class="relative w-16 sm:w-20 filter drop-shadow-[0_14px_16px_rgba(0,0,0,0.65)]">
-          <svg viewBox="0 0 100 240" class="w-full h-auto">
+        <div class="relative w-16 sm:w-20">
+          <svg viewBox="0 0 100 240" class="w-full h-auto overflow-visible">
+            <!-- Hydrodynamic Hull Shadow (Hardware-Accelerated Vector Shadow) -->
+            <path
+              d="M 50 14 C 77 44, 95 88, 95 168 C 95 210, 86 230, 50 230 C 14 230, 5 210, 5 168 C 5 88, 23 44, 50 14 Z"
+              fill="rgba(2, 25, 75, 0.35)" />
+
             <!-- Stern Foaming Wake Spray -->
             <path d="M 35 220 C 25 245, 10 260, 0 280 C 20 265, 30 250, 42 225 Z" fill="rgba(255, 255, 255, 0.45)" />
             <path d="M 65 220 C 75 245, 90 260, 100 280 C 80 265, 70 250, 58 225 Z" fill="rgba(255, 255, 255, 0.45)" />
@@ -427,7 +432,8 @@ interface SampledPoint {
 
             <!-- Foredeck & Waterline Marking -->
             <polygon points="50,14 82,65 18,65" fill="#112240" />
-            <circle cx="50" cy="22" r="3" fill="#FDE047" filter="drop-shadow(0 0 4px #FDE047)" /> <!-- Masthead Light -->
+            <circle cx="50" cy="22" r="5" fill="rgba(253, 224, 71, 0.35)" />
+            <circle cx="50" cy="22" r="3" fill="#FDE047" /> <!-- Masthead Light -->
 
             <!-- Deck Hatch Covers & Container Bays -->
             <!-- Bay 1 (Forward): Amber & Sun Gold Stacks -->
@@ -446,7 +452,7 @@ interface SampledPoint {
             <rect x="24" y="180" width="52" height="26" rx="2" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1" />
             <!-- Bridge Wing & Windows -->
             <rect x="26" y="182" width="48" height="6" fill="#02194b" rx="1" />
-            <rect x="28" y="183" width="44" height="4" fill="#fef08a" filter="drop-shadow(0 0 3px #fde047)" />
+            <rect x="28" y="183" width="44" height="4" fill="#fef08a" />
             <!-- Funnel / Exhaust Stack with Company Colors -->
             <ellipse cx="50" cy="198" rx="8" ry="4" fill="#02194b" stroke="#dd0103" stroke-width="1.2" />
 
@@ -1317,16 +1323,33 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   private wakeCounter = 0;
   private rippleCounter = 0;
 
+  // Cached layout dimensions to eliminate forced layout reflows on scroll
+  private containerTop = 0;
+  private containerHeight = 4000;
+  private windowH = typeof window !== 'undefined' ? window.innerHeight : 800;
+  private isMobileDevice = typeof window !== 'undefined' ? (window.innerWidth < 768 || 'ontouchstart' in window) : false;
+  private lastTelemetryTime = 0;
+
   // Precomputed path lookup table to eliminate all getPointAtLength queries on scroll
   private sampledPoints: SampledPoint[] = [];
   private isTicking = false;
   private isParticleLoopRunning = false;
   private lastProgress = -1;
 
+  private measureContainer() {
+    if (!this.containerRef?.nativeElement) return;
+    const rect = this.containerRef.nativeElement.getBoundingClientRect();
+    this.containerTop = rect.top + window.scrollY;
+    this.containerHeight = rect.height || 4000;
+    this.windowH = window.innerHeight;
+    this.isMobileDevice = window.innerWidth < 768 || 'ontouchstart' in window;
+  }
+
   ngAfterViewInit() {
     if (typeof window !== 'undefined') {
       // Precompute path samples once upon initialization (0 DOM reflows during scroll)
       setTimeout(() => {
+        this.measureContainer();
         this.precomputePathSamples();
         this.updateShipPosition(0);
       }, 30);
@@ -1347,6 +1370,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
           if (!this.isTicking) {
             this.isTicking = true;
             requestAnimationFrame(() => {
+              this.measureContainer();
               this.precomputePathSamples();
               this.onScrollTick();
               this.isTicking = false;
@@ -1418,27 +1442,25 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   }
 
   private onScrollTick() {
-    if (!this.containerRef?.nativeElement || this.sampledPoints.length === 0) return;
+    if (this.sampledPoints.length === 0) return;
 
-    const container = this.containerRef.nativeElement;
-    const rect = container.getBoundingClientRect();
-    const windowH = window.innerHeight;
-
-    // Ship remains securely docked at Berth 01 until the journey reaches viewport top (rect.top <= 0).
-    // As user scrolls into the journey, progress advances smoothly from 0 to 1 without starting prematurely.
-    const scrolledAmount = -rect.top;
-    const totalScrollableDistance = rect.height - windowH;
+    // Use pre-cached top offset to prevent synchronous layout reflows during scroll
+    const scrollY = window.scrollY;
+    const scrolledAmount = scrollY - this.containerTop;
+    const totalScrollableDistance = this.containerHeight - this.windowH;
 
     let progress = 0;
     if (totalScrollableDistance > 0) {
       progress = Math.max(0, Math.min(1, scrolledAmount / totalScrollableDistance));
     }
 
-    if (Math.abs(progress - this.lastProgress) > 0.0004) {
+    if (Math.abs(progress - this.lastProgress) > 0.0003) {
       this.lastProgress = progress;
       this.updateShipPosition(progress);
       this.updateSpeedometer();
-      this.ensureParticleLoop();
+      if (!this.isMobileDevice) {
+        this.ensureParticleLoop();
+      }
     }
   }
 
@@ -1462,14 +1484,9 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     let dHeading = p2.heading - p1.heading;
     if (dHeading > 180) dHeading -= 360;
     if (dHeading < -180) dHeading += 360;
-    let headingDeg = (p1.heading + dHeading * frac + 360) % 360;
+    const headingDeg = (p1.heading + dHeading * frac + 360) % 360;
 
     const currentScrollY = window.scrollY;
-    const isScrollingUp = currentScrollY < this.lastScrollY;
-    if (isScrollingUp && Math.abs(currentScrollY - this.lastScrollY) > 2) {
-      headingDeg = (headingDeg + 180) % 360;
-    }
-
     const totalLength = this.pathTotalLength();
     const newOffset = totalLength * (1 - progress);
     const roundedHeading = Math.round(headingDeg);
@@ -1484,10 +1501,16 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     this.shipHeading.set(roundedHeading);
     this.compassHeading.set(roundedHeading);
 
-    this.updateCoordinates(progress, headingDeg);
+    // Throttle textual coordinates update to keep mobile UI thread 100% fluid
+    const now = performance.now();
+    if (now - this.lastTelemetryTime > 120 && progress > 0.02) {
+      this.lastTelemetryTime = now;
+      this.updateCoordinates(progress, headingDeg);
+    }
     this.isAnchorDropped.set(progress >= 0.98);
 
-    if (Math.abs(currentScrollY - this.lastScrollY) > 2) {
+    // Only spawn wake bubbles on desktop mouse scrolling (touch devices skip DOM churn)
+    if (!this.isMobileDevice && Math.abs(currentScrollY - this.lastScrollY) > 8) {
       this.spawnWakeParticle(rawX, rawY, roundedHeading);
     }
   }
@@ -1543,6 +1566,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   }
 
   private spawnWakeParticle(shipSvgX: number, shipSvgY: number, headingDeg: number) {
+    if (this.isMobileDevice) return;
     const headingRad = (headingDeg * Math.PI) / 180;
     const sternX = shipSvgX - Math.sin(headingRad) * 20;
     const sternY = shipSvgY + Math.cos(headingRad) * 20;

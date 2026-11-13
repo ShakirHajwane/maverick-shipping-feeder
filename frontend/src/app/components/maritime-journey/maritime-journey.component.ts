@@ -73,117 +73,171 @@ interface SampledPoint {
       </div>
 
       <!-- =========================================================
-           PORT OF DEPARTURE: ORIGIN CONTAINER TERMINAL (START OF ROUTE)
+           PORT OF DEPARTURE: ORIGIN CONTAINER TERMINAL (CANAL BERTH 01)
            ========================================================= -->
-      <div class="relative z-25 w-full pt-6 pb-2 flex flex-col items-center pointer-events-none">
+      <div class="relative z-25 w-full pt-6 pb-4 flex flex-col items-center pointer-events-none">
         
         <!-- Terminal Header Pill with Dynamic Docked / Undocking / Underway Status -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-300 shadow-md text-xs font-mono font-bold text-[#02194b] mb-3 pointer-events-auto">
           <span class="w-2.5 h-2.5 rounded-full" [ngClass]="departureStatusDotClass()"></span>
           <span class="text-[#dd0103]">PORT OF ORIGIN:</span>
-          <span>JEBEL ALI TERMINAL 1 • BERTH 01</span>
+          <span>JEBEL ALI TERMINAL 1 • CANAL BERTH 01</span>
           <span class="text-slate-400">|</span>
           <span [ngClass]="departureStatusTextClass()">{{ departureStatusText() }}</span>
         </div>
 
-        <!-- Detailed Container Terminal Quay & Berth Illustration -->
-        <div class="relative w-[92%] sm:w-[680px] lg:w-[840px] max-w-full">
-          <!-- Terminal Pier Apron -->
-          <div class="w-full h-20 sm:h-24 rounded-2xl bg-gradient-to-b from-slate-200 via-slate-100 to-slate-300 border-2 border-slate-300 shadow-xl relative overflow-hidden flex items-end justify-between px-6 pb-2">
+        <!-- Dual-Quay Canal Harbor Slipway (Ship Docks in the Middle Channel) -->
+        <div class="relative w-[94%] sm:w-[760px] lg:w-[920px] max-w-full">
+          
+          <div class="flex items-stretch justify-between relative min-h-[110px] sm:min-h-[130px]">
             
-            <!-- Pier Warning Stripes on Waterline -->
-            <div class="absolute inset-x-0 bottom-0 h-3 bg-[repeating-linear-gradient(45deg,#f59e0b,#f59e0b_12px,#0f172a_12px,#0f172a_24px)] opacity-90 shadow-sm"></div>
-            
-            <!-- Rubber Marine Fenders hanging on water edge -->
-            <div class="absolute inset-x-12 bottom-0 flex justify-around">
-              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
-              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
-              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
-              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
+            <!-- 1. LEFT PIER (WEST QUAY APRON - PORT SIDE) -->
+            <div class="w-[37%] sm:w-[39%] rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 border-2 border-slate-300 shadow-xl relative overflow-visible flex flex-col justify-between p-3 sm:p-4">
+              <!-- Canal Waterline Warning Stripes (Inner Canal Edge) -->
+              <div class="absolute right-0 inset-y-0 w-2.5 bg-[repeating-linear-gradient(45deg,#f59e0b,#f59e0b_8px,#0f172a_8px,#0f172a_16px)] opacity-95 shadow-sm rounded-r-xs"></div>
+              
+              <!-- Rubber Marine Cylindrical Fenders on Canal Wall -->
+              <div class="absolute -right-1 inset-y-3 flex flex-col justify-around pointer-events-none z-10">
+                <span class="w-2 h-5 bg-slate-800 rounded-l-xs shadow-md border-r border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-l-xs shadow-md border-r border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-l-xs shadow-md border-r border-slate-600"></span>
+              </div>
+
+              <!-- Cast Iron Mooring Bollards along Canal Edge -->
+              <div class="flex items-center justify-end gap-6 sm:gap-10 pr-3 relative z-10">
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 01</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 02</span>
+                </div>
+              </div>
+
+              <!-- Quay Details: Container Stacks & Watchtower -->
+              <div class="flex items-end justify-between relative z-10 mt-auto pt-2">
+                <!-- Stacked Containers -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="w-9 sm:w-11 h-3 rounded-xs bg-[#dd0103] border border-[#b50102] flex items-center justify-center text-[5.5px] font-mono text-white font-bold">40FT • MAV</div>
+                  <div class="w-9 sm:w-11 h-3 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[5.5px] font-mono text-white font-bold">40FT • SEA</div>
+                </div>
+
+                <!-- Harbormaster Watchtower / Beacon -->
+                <div class="flex flex-col items-center">
+                  <div class="w-3.5 h-6 bg-slate-700 border border-slate-500 rounded-t-sm flex flex-col items-center justify-between p-0.5">
+                    <span class="w-2 h-1 bg-amber-400 rounded-xs"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  </div>
+                  <span class="text-[6px] font-mono font-bold text-slate-600">TOWER 1</span>
+                </div>
+              </div>
+
+              <!-- Pierhead Port Lateral Beacon (Red) -->
+              <div class="absolute -bottom-3 right-2 flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-red-200 shadow-sm z-20">
+                <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+                <span class="text-[7px] font-mono font-bold text-[#dd0103]">PORT MARKER 01</span>
+              </div>
             </div>
 
-            <!-- Heavy Cast Iron Mooring Bollards with Coiled Ropes -->
-            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mb-2">
-              <div class="flex flex-col items-center">
-                <span class="w-5 h-6 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
-                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
-                </span>
-                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 01</span>
+            <!-- 2. CENTRAL CANAL WATER CHANNEL (BERTH SLIPWAY - SHIP GLIDES HERE) -->
+            <div class="w-[26%] sm:w-[22%] relative flex flex-col items-center justify-between py-1 pointer-events-none">
+              <!-- Fairway Centerline Marking -->
+              <div class="w-full flex justify-between items-center px-1 text-[7px] font-mono font-bold text-slate-500/80">
+                <span>◀ PORT</span>
+                <span class="px-1.5 py-0.5 rounded bg-white/80 border border-slate-200 shadow-2xs text-[6.5px] text-[#02194b]">CANAL FAIRWAY</span>
+                <span>STBD ▶</span>
               </div>
-              <div class="flex flex-col items-center">
-                <span class="w-5 h-6 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
-                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
-                </span>
-                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 02</span>
+
+              <!-- Depth Sounding Water Badge -->
+              <div class="text-[7.5px] sm:text-[8px] font-mono font-bold text-slate-600 bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-300 shadow-xs">
+                DEPTH 18.5M • BERTH 01
+              </div>
+
+              <!-- Canal Exit Channel Gate -->
+              <div class="w-full flex items-center justify-center gap-1 opacity-70">
+                <span class="h-0.5 flex-1 bg-gradient-to-r from-red-400 to-transparent"></span>
+                <span class="text-[6px] font-mono text-slate-500">GATE 01</span>
+                <span class="h-0.5 flex-1 bg-gradient-to-l from-emerald-400 to-transparent"></span>
               </div>
             </div>
 
-            <!-- Quay Container Stacks Grid (Maverick Red, Navy, Amber, White Reefer) -->
-            <div class="hidden sm:flex items-end gap-1.5 mb-2 relative z-10">
-              <div class="flex flex-col gap-0.5">
-                <div class="w-10 h-3.5 rounded-xs bg-[#dd0103] border border-[#b50102] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
-                <div class="w-10 h-3.5 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
+            <!-- 3. RIGHT PIER (EAST QUAY APRON - STARBOARD SIDE with OVERHANGING STS CRANE) -->
+            <div class="w-[37%] sm:w-[39%] rounded-2xl bg-gradient-to-bl from-slate-200 via-slate-100 to-slate-300 border-2 border-slate-300 shadow-xl relative overflow-visible flex flex-col justify-between p-3 sm:p-4">
+              <!-- Canal Waterline Warning Stripes (Inner Canal Edge) -->
+              <div class="absolute left-0 inset-y-0 w-2.5 bg-[repeating-linear-gradient(45deg,#f59e0b,#f59e0b_8px,#0f172a_8px,#0f172a_16px)] opacity-95 shadow-sm rounded-l-xs"></div>
+              
+              <!-- Rubber Marine Cylindrical Fenders on Canal Wall -->
+              <div class="absolute -left-1 inset-y-3 flex flex-col justify-around pointer-events-none z-10">
+                <span class="w-2 h-5 bg-slate-800 rounded-r-xs shadow-md border-l border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-r-xs shadow-md border-l border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-r-xs shadow-md border-l border-slate-600"></span>
               </div>
-              <div class="flex flex-col gap-0.5">
-                <div class="w-8 h-3.5 rounded-xs bg-amber-500 border border-amber-600 flex items-center justify-center text-[6px] font-mono text-white font-bold">20FT</div>
-                <div class="w-8 h-3.5 rounded-xs bg-white border border-slate-300 flex items-center justify-center text-[6px] font-mono text-[#02194b] font-bold">REEFER</div>
-                <div class="w-8 h-3.5 rounded-xs bg-[#dd0103] border border-[#b50102]"></div>
+
+              <!-- STS Gantry Crane reaching LEFT over the central canal -->
+              <div class="absolute -top-3 sm:-top-5 -left-10 sm:-left-16 z-25 pointer-events-none">
+                <svg viewBox="0 0 160 100" class="w-36 sm:w-48 h-auto overflow-visible select-none">
+                  <!-- Crane Gantry Legs on Right Pier Rails -->
+                  <line x1="88" y1="95" x2="114" y2="35" stroke="#dd0103" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="142" y1="95" x2="126" y2="35" stroke="#dd0103" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="94" y1="70" x2="136" y2="70" stroke="#b50102" stroke-width="2.5" />
+                  <line x1="104" y1="50" x2="130" y2="50" stroke="#b50102" stroke-width="2.5" />
+                  
+                  <!-- Portal Apex Tower -->
+                  <line x1="120" y1="35" x2="120" y2="10" stroke="#02194b" stroke-width="3" />
+                  <line x1="120" y1="10" x2="12" y2="35" stroke="#02194b" stroke-width="1.8" />
+                  <line x1="120" y1="10" x2="152" y2="35" stroke="#02194b" stroke-width="1.8" />
+                  
+                  <!-- Extended Boom reaching into the Central Canal above ship -->
+                  <line x1="10" y1="35" x2="152" y2="35" stroke="#dd0103" stroke-width="4" stroke-linecap="round" />
+                  
+                  <!-- Operator Cab & Container Spreader poised over canal -->
+                  <rect x="36" y="37" width="14" height="8" rx="1" fill="#02194b" />
+                  <line x1="43" y1="45" x2="43" y2="60" stroke="#475569" stroke-width="1.2" />
+                  <rect x="32" y="60" width="22" height="4.5" rx="0.5" fill="#f59e0b" stroke="#d97706" stroke-width="0.5" />
+                  
+                  <!-- High-intensity Warning Beacons -->
+                  <circle cx="120" cy="10" r="2.2" fill="#ef4444" class="animate-ping" />
+                  <circle cx="120" cy="10" r="1.5" fill="#dd0103" />
+                  <circle cx="10" cy="35" r="1.8" fill="#f59e0b" />
+                </svg>
               </div>
-            </div>
 
-            <!-- STS Gantry Crane (Ship-to-Shore) in Maverick Red & Deep Blue -->
-            <div class="relative z-10 mb-2 flex items-end">
-              <svg viewBox="0 0 120 90" class="w-24 sm:w-28 h-auto overflow-visible">
-                <!-- Crane A-Frame Legs -->
-                <line x1="20" y1="90" x2="45" y2="25" stroke="#dd0103" stroke-width="4.5" />
-                <line x1="70" y1="90" x2="55" y2="25" stroke="#dd0103" stroke-width="4.5" />
-                <line x1="26" y1="65" x2="64" y2="65" stroke="#b50102" stroke-width="2.5" />
-                <line x1="33" y1="45" x2="58" y2="45" stroke="#b50102" stroke-width="2.5" />
-                <!-- Extended Boom over water -->
-                <line x1="10" y1="25" x2="115" y2="25" stroke="#dd0103" stroke-width="4" />
-                <line x1="45" y1="25" x2="50" y2="5" stroke="#02194b" stroke-width="3" />
-                <line x1="50" y1="5" x2="110" y2="25" stroke="#02194b" stroke-width="1.8" />
-                <!-- Operator Cab & Trolley -->
-                <rect x="75" y="27" width="12" height="7" rx="1" fill="#02194b" />
-                <!-- Hoist Wire & Spreader -->
-                <line x1="81" y1="34" x2="81" y2="50" stroke="#475569" stroke-width="1" />
-                <rect x="73" y="50" width="16" height="4" fill="#f59e0b" />
-                <!-- Crane Beacon -->
-                <circle cx="50" cy="5" r="2" fill="#ef4444" class="animate-ping" />
-              </svg>
-            </div>
+              <!-- Cast Iron Mooring Bollards along Canal Edge -->
+              <div class="flex items-center justify-start gap-6 sm:gap-10 pl-3 relative z-10">
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 03</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 04</span>
+                </div>
+              </div>
 
-            <!-- Harbormaster Control Tower & Bollard 03 -->
-            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mb-2">
-              <div class="flex flex-col items-center">
-                <span class="w-5 h-6 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
-                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
-                </span>
-                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 03</span>
+              <!-- Quay Staging Reefer Stacks -->
+              <div class="flex items-end justify-end gap-1.5 relative z-10 mt-auto pt-2">
+                <div class="w-8 sm:w-10 h-3 rounded-xs bg-white border border-slate-300 flex items-center justify-center text-[5.5px] font-mono text-[#02194b] font-bold">REEFER</div>
+                <div class="w-8 sm:w-10 h-3 rounded-xs bg-amber-500 border border-amber-600 flex items-center justify-center text-[5.5px] font-mono text-white font-bold">HAZ • 20FT</div>
+              </div>
+
+              <!-- Pierhead Starboard Lateral Beacon (Green) -->
+              <div class="absolute -bottom-3 left-2 flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-emerald-200 shadow-sm z-20">
+                <span class="text-[7px] font-mono font-bold text-emerald-700">STARBOARD 02</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
               </div>
             </div>
 
           </div>
 
-          <!-- Port Departure Channel Buoys (Starboard Green & Port Red) -->
-          <div class="flex justify-between items-center px-4 -mt-3 relative z-20">
-            <!-- Port Lateral Beacon (Red) -->
-            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-red-200 shadow-sm">
-              <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
-              <span class="text-[8px] font-mono font-bold text-[#dd0103]">PORT MARKER 01</span>
-            </div>
-            
-            <!-- Harbor Berth 01 Center Marker -->
-            <div class="text-[9px] font-mono font-bold text-slate-600 bg-white/90 backdrop-blur-md px-3 py-0.5 rounded-full border border-slate-200 shadow-xs">
-              BERTH 01 POCKET • DEPTH 17.5M
-            </div>
-
-            <!-- Starboard Lateral Beacon (Green) -->
-            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-200 shadow-sm">
-              <span class="text-[8px] font-mono font-bold text-emerald-700">STARBOARD MARKER 02</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -824,108 +878,169 @@ interface SampledPoint {
       </section>
 
       <!-- =========================================================
-           PORT OF ARRIVAL: SAFE HARBOR DESTINATION TERMINAL (END OF ROUTE)
+           PORT OF ARRIVAL: SAFE HARBOR DESTINATION TERMINAL (CANAL BERTH 08)
            ========================================================= -->
-      <div class="relative z-25 w-full pt-4 pb-14 flex flex-col items-center pointer-events-none">
+      <div id="arrival-terminal-dock" class="relative z-25 w-full pt-4 pb-14 flex flex-col items-center pointer-events-none">
         
         <!-- Terminal Arrival Status Pill with Dynamic Inbound / Docking / All Fast Status -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-emerald-300 shadow-md text-xs font-mono font-bold text-[#02194b] mb-3 pointer-events-auto">
           <span class="w-2.5 h-2.5 rounded-full" [ngClass]="arrivalStatusDotClass()"></span>
           <span class="text-emerald-700 font-black">DESTINATION PORT:</span>
-          <span>SAFE HARBOR CONTAINER TERMINAL • BERTH 08</span>
+          <span>SAFE HARBOR CONTAINER TERMINAL • CANAL BERTH 08</span>
           <span class="text-slate-400">|</span>
           <span [ngClass]="arrivalStatusTextClass()">{{ arrivalStatusText() }}</span>
         </div>
 
-        <!-- Detailed Container Terminal Quay & Berth Illustration (Bottom Dock) -->
-        <div class="relative w-[92%] sm:w-[680px] lg:w-[840px] max-w-full">
-          <!-- Terminal Pier Apron -->
-          <div class="w-full h-20 sm:h-24 rounded-2xl bg-gradient-to-t from-slate-200 via-slate-100 to-slate-300 border-2 border-emerald-400 shadow-2xl relative overflow-hidden flex items-start justify-between px-6 pt-2">
+        <!-- Dual-Quay Receiving Canal Harbor Basin (Ship Enters in the Middle Channel) -->
+        <div class="relative w-[94%] sm:w-[760px] lg:w-[920px] max-w-full">
+          
+          <div class="flex items-stretch justify-between relative min-h-[110px] sm:min-h-[130px]">
             
-            <!-- Pier Warning Stripes on Waterline (Top of Dock) -->
-            <div class="absolute inset-x-0 top-0 h-3 bg-[repeating-linear-gradient(45deg,#10b981,#10b981_12px,#0f172a_12px,#0f172a_24px)] opacity-90 shadow-sm"></div>
-            
-            <!-- Rubber Marine Fenders hanging on water edge -->
-            <div class="absolute inset-x-12 top-0 flex justify-around">
-              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
-              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
-              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
-              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
-            </div>
-
-            <!-- Heavy Mooring Bollards Left -->
-            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mt-2">
-              <div class="flex flex-col items-center">
-                <span class="w-5 h-6 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
-                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
-                </span>
-                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08A</span>
+            <!-- 1. LEFT RECEIVING PIER (WEST QUAY APRON - PORT SIDE) -->
+            <div class="w-[37%] sm:w-[39%] rounded-2xl bg-gradient-to-tr from-slate-200 via-slate-100 to-slate-300 border-2 border-emerald-300 shadow-xl relative overflow-visible flex flex-col justify-between p-3 sm:p-4">
+              <!-- Canal Waterline Warning Stripes (Emerald & Dark Slate on Canal Edge) -->
+              <div class="absolute right-0 inset-y-0 w-2.5 bg-[repeating-linear-gradient(45deg,#10b981,#10b981_8px,#0f172a_8px,#0f172a_16px)] opacity-95 shadow-sm rounded-r-xs"></div>
+              
+              <!-- Rubber Cylindrical Marine Fenders facing Canal -->
+              <div class="absolute -right-1 inset-y-3 flex flex-col justify-around pointer-events-none z-10">
+                <span class="w-2 h-5 bg-slate-800 rounded-l-xs shadow-md border-r border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-l-xs shadow-md border-r border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-l-xs shadow-md border-r border-slate-600"></span>
               </div>
-              <div class="flex flex-col items-center">
-                <span class="w-5 h-6 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
-                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
-                </span>
-                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08B</span>
-              </div>
-            </div>
 
-            <!-- Arrival Discharge Gantry Crane in Emerald & Navy -->
-            <div class="relative z-10 mt-2 flex items-start">
-              <svg viewBox="0 0 120 90" class="w-24 sm:w-28 h-auto overflow-visible">
-                <!-- Crane A-Frame Legs -->
-                <line x1="20" y1="0" x2="45" y2="65" stroke="#047857" stroke-width="4.5" />
-                <line x1="70" y1="0" x2="55" y2="65" stroke="#047857" stroke-width="4.5" />
-                <line x1="26" y1="25" x2="64" y2="25" stroke="#065f46" stroke-width="2.5" />
-                <!-- Extended Boom over water -->
-                <line x1="10" y1="65" x2="115" y2="65" stroke="#10b981" stroke-width="4" />
-                <line x1="45" y1="65" x2="50" y2="85" stroke="#02194b" stroke-width="3" />
-                <!-- Operator Cab & Trolley -->
-                <rect x="75" y="56" width="12" height="7" rx="1" fill="#02194b" />
-                <!-- Green Crane Beacon -->
-                <circle cx="50" cy="85" r="2" fill="#10b981" class="animate-ping" />
-              </svg>
-            </div>
-
-            <!-- Discharge Terminal Container Stacks -->
-            <div class="hidden sm:flex items-start gap-1.5 mt-2 relative z-10">
-              <div class="flex flex-col gap-0.5">
-                <div class="w-10 h-3.5 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
-                <div class="w-10 h-3.5 rounded-xs bg-[#dd0103] border border-[#b50102] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
+              <!-- Pier Approach Port Beacon (Red) on top canal entry point -->
+              <div class="absolute -top-3 right-2 flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-red-200 shadow-sm z-20">
+                <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+                <span class="text-[7px] font-mono font-bold text-[#dd0103]">APPROACH 01</span>
               </div>
-              <div class="flex flex-col gap-0.5">
-                <div class="w-8 h-3.5 rounded-xs bg-emerald-600 border border-emerald-700 flex items-center justify-center text-[6px] font-mono text-white font-bold">CUSTOMS</div>
-                <div class="w-8 h-3.5 rounded-xs bg-white border border-slate-300 flex items-center justify-center text-[6px] font-mono text-[#02194b] font-bold">CLEARED</div>
+
+              <!-- Arrival Mooring Bollards along Canal Edge -->
+              <div class="flex items-center justify-end gap-6 sm:gap-10 pr-3 relative z-10 mt-1">
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08A</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08B</span>
+                </div>
+              </div>
+
+              <!-- Customs Clearance & Inbound Holding Stacks -->
+              <div class="flex items-end justify-between relative z-10 mt-auto pt-2">
+                <div class="flex flex-col gap-0.5">
+                  <div class="w-9 sm:w-11 h-3 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[5.5px] font-mono text-white font-bold">40FT • INBOUND</div>
+                  <div class="w-9 sm:w-11 h-3 rounded-xs bg-emerald-600 border border-emerald-700 flex items-center justify-center text-[5.5px] font-mono text-white font-bold">CUSTOMS CLEARED</div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                  <div class="w-4 h-6 bg-emerald-950 border border-emerald-600 rounded-t-sm flex flex-col items-center justify-between p-0.5">
+                    <span class="w-2.5 h-1 bg-emerald-400 rounded-xs"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  </div>
+                  <span class="text-[6px] font-mono font-bold text-emerald-800">CUSTOMS</span>
+                </div>
               </div>
             </div>
 
-            <!-- Mooring Bollards Right -->
-            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mt-2">
-              <div class="flex flex-col items-center">
-                <span class="w-5 h-6 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
-                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
-                </span>
-                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08C</span>
+            <!-- 2. CENTRAL RECEIVING CANAL WATER CHANNEL (BERTH BASIN) -->
+            <div class="w-[26%] sm:w-[22%] relative flex flex-col items-center justify-between py-1 pointer-events-none">
+              <!-- Canal Fairway Guide -->
+              <div class="w-full flex items-center justify-center gap-1 opacity-75">
+                <span class="h-0.5 flex-1 bg-gradient-to-r from-red-400 to-transparent"></span>
+                <span class="text-[6px] font-mono text-slate-500">CANAL GATE 08</span>
+                <span class="h-0.5 flex-1 bg-gradient-to-l from-emerald-400 to-transparent"></span>
+              </div>
+
+              <!-- Receiving Basin Center Badge -->
+              <div class="text-[7.5px] sm:text-[8px] font-mono font-bold text-emerald-800 bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-emerald-300 shadow-xs">
+                DEPTH 19.0M • BERTH 08
+              </div>
+
+              <!-- Fairway Approach Indicator -->
+              <div class="w-full flex justify-between items-center px-1 text-[7px] font-mono font-bold text-emerald-700/80">
+                <span>◀ DOCK A</span>
+                <span class="px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-[6.5px]">ALL FAST BASIN</span>
+                <span>DOCK B ▶</span>
+              </div>
+            </div>
+
+            <!-- 3. RIGHT RECEIVING PIER (EAST QUAY APRON with UPRIGHT DISCHARGE STS CRANE) -->
+            <div class="w-[37%] sm:w-[39%] rounded-2xl bg-gradient-to-tl from-slate-200 via-slate-100 to-slate-300 border-2 border-emerald-300 shadow-xl relative overflow-visible flex flex-col justify-between p-3 sm:p-4">
+              <!-- Canal Waterline Warning Stripes (Emerald on Inner Canal Edge) -->
+              <div class="absolute left-0 inset-y-0 w-2.5 bg-[repeating-linear-gradient(45deg,#10b981,#10b981_8px,#0f172a_8px,#0f172a_16px)] opacity-95 shadow-sm rounded-l-xs"></div>
+              
+              <!-- Rubber Cylindrical Marine Fenders facing Canal -->
+              <div class="absolute -left-1 inset-y-3 flex flex-col justify-around pointer-events-none z-10">
+                <span class="w-2 h-5 bg-slate-800 rounded-r-xs shadow-md border-l border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-r-xs shadow-md border-l border-slate-600"></span>
+                <span class="w-2 h-5 bg-slate-800 rounded-r-xs shadow-md border-l border-slate-600"></span>
+              </div>
+
+              <!-- Approach Starboard Beacon (Green) on top canal entry point -->
+              <div class="absolute -top-3 left-2 flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-emerald-200 shadow-sm z-20">
+                <span class="text-[7px] font-mono font-bold text-emerald-700">APPROACH 02</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              </div>
+
+              <!-- Upright Discharge STS Gantry Crane reaching LEFT over receiving canal -->
+              <div class="absolute -top-3 sm:-top-5 -left-10 sm:-left-16 z-25 pointer-events-none">
+                <svg viewBox="0 0 160 100" class="w-36 sm:w-48 h-auto overflow-visible select-none">
+                  <!-- Crane Gantry Legs on Right Pier Rails (UPRIGHT) -->
+                  <line x1="88" y1="95" x2="114" y2="35" stroke="#047857" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="142" y1="95" x2="126" y2="35" stroke="#047857" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="94" y1="70" x2="136" y2="70" stroke="#065f46" stroke-width="2.5" />
+                  <line x1="104" y1="50" x2="130" y2="50" stroke="#065f46" stroke-width="2.5" />
+                  
+                  <!-- Portal Apex Tower -->
+                  <line x1="120" y1="35" x2="120" y2="10" stroke="#02194b" stroke-width="3" />
+                  <line x1="120" y1="10" x2="12" y2="35" stroke="#02194b" stroke-width="1.8" />
+                  <line x1="120" y1="10" x2="152" y2="35" stroke="#02194b" stroke-width="1.8" />
+                  
+                  <!-- Extended Boom reaching into the Central Canal above ship -->
+                  <line x1="10" y1="35" x2="152" y2="35" stroke="#10b981" stroke-width="4" stroke-linecap="round" />
+                  
+                  <!-- Operator Cab & Discharge Spreader poised over incoming vessel -->
+                  <rect x="36" y="37" width="14" height="8" rx="1" fill="#02194b" />
+                  <line x1="43" y1="45" x2="43" y2="60" stroke="#475569" stroke-width="1.2" />
+                  <rect x="32" y="60" width="22" height="4.5" rx="0.5" fill="#10b981" stroke="#047857" stroke-width="0.5" />
+                  
+                  <!-- High-intensity Green Beacon -->
+                  <circle cx="120" cy="10" r="2.2" fill="#10b981" class="animate-ping" />
+                  <circle cx="120" cy="10" r="1.5" fill="#047857" />
+                  <circle cx="10" cy="35" r="1.8" fill="#10b981" />
+                </svg>
+              </div>
+
+              <!-- Arrival Mooring Bollards along Canal Edge -->
+              <div class="flex items-center justify-start gap-6 sm:gap-10 pl-3 relative z-10 mt-1">
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08C</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="w-4 h-5 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                    <span class="w-2.5 h-1 bg-slate-300 rounded-xs"></span>
+                  </span>
+                  <span class="text-[6.5px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08D</span>
+                </div>
+              </div>
+
+              <!-- Discharge Staging Container Stacks -->
+              <div class="flex items-end justify-end gap-1.5 relative z-10 mt-auto pt-2">
+                <div class="w-8 sm:w-10 h-3 rounded-xs bg-[#dd0103] border border-[#b50102] flex items-center justify-center text-[5.5px] font-mono text-white font-bold">DISCHARGE</div>
+                <div class="w-8 sm:w-10 h-3 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[5.5px] font-mono text-white font-bold">40FT • EXP</div>
               </div>
             </div>
 
           </div>
 
-          <!-- Port Arrival Channel Buoys -->
-          <div class="flex justify-between items-center px-4 -mt-3 relative z-20">
-            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-red-200 shadow-sm">
-              <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
-              <span class="text-[8px] font-mono font-bold text-[#dd0103]">PORT MARKER 08</span>
-            </div>
-            
-            <div class="text-[9px] font-mono font-bold text-emerald-800 bg-white/90 backdrop-blur-md px-3 py-0.5 rounded-full border border-emerald-200 shadow-xs">
-              BERTH 08 BASIN • SAFE HARBOR REACHED
-            </div>
-
-            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-200 shadow-sm">
-              <span class="text-[8px] font-mono font-bold text-emerald-700">STARBOARD MARKER 08</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            </div>
-          </div>
         </div>
       </div>
 

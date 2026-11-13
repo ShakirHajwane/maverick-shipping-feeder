@@ -602,10 +602,10 @@ def seed_database(db: Session):
         {
             "country": "UAE",
             "city": "Dubai",
-            "office_name": "Global Feeder & DP World Shipping Hub HQ",
+            "office_name": "Maverick Shipping Hub HQ",
             "address": "Level 14, Tower 3, JAFZA One, Jebel Ali Free Zone, Dubai, UAE",
             "phone": "+971 4 210 51 05",
-            "email": "commercial.uae@globalfeeders.com",
+            "email": "commercial.uae@maverickshipping.com",
             "lat": 24.996,
             "lng": 55.086
         },
@@ -615,7 +615,7 @@ def seed_database(db: Session):
             "office_name": "Abu Dhabi Regional Operations Office",
             "address": "Al Khatem Tower, ADGM Square, Al Maryah Island, Abu Dhabi, UAE",
             "phone": "+971 2 443 89 20",
-            "email": "operations.auh@globalfeeders.com",
+            "email": "operations.auh@maverickshipping.com",
             "lat": 24.498,
             "lng": 54.389
         },
@@ -625,7 +625,7 @@ def seed_database(db: Session):
             "office_name": "Red Sea Regional Maritime Agency",
             "address": "Floor 9, Al Andalus Maritime Tower, King Abdulaziz Road, Jeddah, KSA",
             "phone": "+966 12 654 33 11",
-            "email": "agency.jeddah@globalfeeders.com",
+            "email": "agency.jeddah@maverickshipping.com",
             "lat": 21.543,
             "lng": 39.172
         },
@@ -635,7 +635,7 @@ def seed_database(db: Session):
             "office_name": "Eastern Province Shipping Agency",
             "address": "Port Gate 1 Complex, King Abdulaziz Port, Dammam, KSA",
             "phone": "+966 13 835 12 00",
-            "email": "agency.dammam@globalfeeders.com",
+            "email": "agency.dammam@maverickshipping.com",
             "lat": 26.434,
             "lng": 50.103
         },
@@ -645,7 +645,7 @@ def seed_database(db: Session):
             "office_name": "India Country Management & Liner Agency",
             "address": "Express Towers, 18th Floor, Nariman Point, Mumbai 400021, India",
             "phone": "+91 22 6633 4400",
-            "email": "commercial.in@globalfeeders.com",
+            "email": "commercial.in@maverickshipping.com",
             "lat": 18.928,
             "lng": 72.822
         },
@@ -655,7 +655,7 @@ def seed_database(db: Session):
             "office_name": "Gujarat Port Operations Office",
             "address": "Port User Building, 2nd Floor, Adani Port SEZ, Mundra, Kutch, Gujarat 370421",
             "phone": "+91 2838 255 100",
-            "email": "mundra.ops@globalfeeders.com",
+            "email": "mundra.ops@maverickshipping.com",
             "lat": 22.842,
             "lng": 69.712
         },
@@ -665,7 +665,7 @@ def seed_database(db: Session):
             "office_name": "Southeast Asia Regional HQ & Transshipment Desk",
             "address": "12 Marina Boulevard, #28-02, Marina Bay Financial Centre Tower 3, Singapore 018982",
             "phone": "+65 6832 9900",
-            "email": "sea.hub@globalfeeders.com",
+            "email": "sea.hub@maverickshipping.com",
             "lat": 1.279,
             "lng": 103.854
         },
@@ -675,7 +675,7 @@ def seed_database(db: Session):
             "office_name": "Egypt & North Africa Directorate",
             "address": "Plot 42, North 90th Street, 5th Settlement, New Cairo, Egypt",
             "phone": "+20 2 2813 6500",
-            "email": "cairo.desk@globalfeeders.com",
+            "email": "cairo.desk@maverickshipping.com",
             "lat": 30.029,
             "lng": 31.470
         },
@@ -685,7 +685,7 @@ def seed_database(db: Session):
             "office_name": "Sokhna Port Liner & Feeder Office",
             "address": "Port Management Building, Zone 1, DP World Sokhna, Suez, Egypt",
             "phone": "+20 62 371 0800",
-            "email": "sokhna.ops@globalfeeders.com",
+            "email": "sokhna.ops@maverickshipping.com",
             "lat": 29.623,
             "lng": 32.339
         },
@@ -695,7 +695,7 @@ def seed_database(db: Session):
             "office_name": "Far East Commercial Representation",
             "address": "Floor 31, Shanghai World Financial Center, 100 Century Ave, Pudong, Shanghai, China",
             "phone": "+86 21 6877 8820",
-            "email": "fareast.sales@globalfeeders.com",
+            "email": "fareast.sales@maverickshipping.com",
             "lat": 31.236,
             "lng": 121.503
         },
@@ -705,7 +705,7 @@ def seed_database(db: Session):
             "office_name": "South China Feeder Operations Office",
             "address": "Shekou Port Service Center, Nanshan District, Shenzhen, Guangdong, China",
             "phone": "+86 755 2688 1200",
-            "email": "shenzhen.desk@globalfeeders.com",
+            "email": "shenzhen.desk@maverickshipping.com",
             "lat": 22.483,
             "lng": 113.916
         }

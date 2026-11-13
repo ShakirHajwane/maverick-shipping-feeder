@@ -17,7 +17,7 @@ import { MaritimeService } from '../../services/maritime.service';
               <span>{{ isRtl() ? 'الاستدامة والحياد الكربوني 2050' : 'GREEN FEEDER INITIATIVE' }}</span>
             </div>
 
-            <h2 class="text-3xl sm:text-4xl font-black text-slate-950 leading-tight">
+            <h2 class="text-3xl sm:text-4xl font-black text-[#02194b] leading-tight">
               {{ isRtl() 
                 ? 'قيادة التحول الأخضر في النقل البحري الإقليمي' 
                 : 'Pioneering Decarbonized Feeder Shipping' }}
@@ -38,7 +38,7 @@ import { MaritimeService } from '../../services/maritime.service';
                   </svg>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  <h4 class="text-xs font-bold text-[#02194b] uppercase tracking-wider">
                     {{ isRtl() ? 'الكهرباء الشاطئية في الموانئ (Cold Ironing)' : 'Cold Ironing & Shore Power Ready' }}
                   </h4>
                   <p class="text-xs text-slate-500 mt-0.5">
@@ -48,13 +48,13 @@ import { MaritimeService } from '../../services/maritime.service';
               </div>
 
               <div class="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+                <div class="w-8 h-8 rounded-lg bg-red-50 text-[#dd0103] flex items-center justify-center shrink-0 border border-red-100">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  <h4 class="text-xs font-bold text-[#02194b] uppercase tracking-wider">
                     {{ isRtl() ? 'جاهزية وقود الميثانول الأخضر والبيوديزل' : 'Bio-Methanol & B24 Biofuel Prepared' }}
                   </h4>
                   <p class="text-xs text-slate-500 mt-0.5">
@@ -64,13 +64,13 @@ import { MaritimeService } from '../../services/maritime.service';
               </div>
 
               <div class="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+                <div class="w-8 h-8 rounded-lg bg-red-50 text-[#dd0103] flex items-center justify-center shrink-0 border border-red-100">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  <h4 class="text-xs font-bold text-[#02194b] uppercase tracking-wider">
                     {{ isRtl() ? 'توجيه المسارات بالذكاء الاصطناعي والطقس' : 'AI Weather & Trim Optimization' }}
                   </h4>
                   <p class="text-xs text-slate-500 mt-0.5">
@@ -83,10 +83,10 @@ import { MaritimeService } from '../../services/maritime.service';
 
           <!-- Infographic Card -->
           <div class="relative bg-white rounded-2xl border border-slate-200 p-8 shadow-xl overflow-hidden">
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-[#dd0103]/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
-              <span class="text-xs font-mono text-amber-700 uppercase font-bold">IMO CII RATING COMPLIANCE</span>
+              <span class="text-xs font-mono text-[#dd0103] uppercase font-bold">IMO CII RATING COMPLIANCE</span>
               <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">Rating: A / B Certified</span>
             </div>
 
@@ -95,10 +95,10 @@ import { MaritimeService } from '../../services/maritime.service';
               <div>
                 <div class="flex justify-between text-xs font-semibold mb-1.5">
                   <span class="text-slate-700">Fleet Shore-Power Compatibility</span>
-                  <span class="text-amber-700 font-mono font-bold">85%</span>
+                  <span class="text-[#dd0103] font-mono font-bold">85%</span>
                 </div>
                 <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full" style="width: 85%"></div>
+                  <div class="h-full bg-gradient-to-r from-[#dd0103] to-[#ef2325] rounded-full" style="width: 85%"></div>
                 </div>
               </div>
 
@@ -115,10 +115,10 @@ import { MaritimeService } from '../../services/maritime.service';
               <div>
                 <div class="flex justify-between text-xs font-semibold mb-1.5">
                   <span class="text-slate-700">Biofuel Blend Readiness</span>
-                  <span class="text-amber-700 font-mono font-bold">100%</span>
+                  <span class="text-[#dd0103] font-mono font-bold">100%</span>
                 </div>
                 <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div class="h-full bg-amber-400 rounded-full" style="width: 100%"></div>
+                  <div class="h-full bg-[#dd0103] rounded-full" style="width: 100%"></div>
                 </div>
               </div>
             </div>

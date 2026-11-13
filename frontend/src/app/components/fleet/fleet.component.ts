@@ -14,11 +14,11 @@ import { Vessel } from '../../models/maritime.models';
         <!-- Section Header -->
         <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 text-xs font-semibold tracking-wide uppercase mb-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-semibold tracking-wide uppercase mb-2">
+              <span class="w-2 h-2 rounded-full bg-[#dd0103]"></span>
               <span>{{ isRtl() ? 'دليل الأسطول البحري' : 'MODERN CONTAINER FLEET' }}</span>
             </div>
-            <h2 class="text-2xl sm:text-4xl font-black text-slate-950">
+            <h2 class="text-2xl sm:text-4xl font-black text-[#02194b]">
               {{ isRtl() ? 'أسطول متطور ومرن للمسافات الإقليمية' : 'High-Efficiency Feeder Fleet' }}
             </h2>
             <p class="text-sm text-slate-600 mt-1 max-w-2xl">
@@ -29,7 +29,7 @@ import { Vessel } from '../../models/maritime.models';
           </div>
 
           <div class="text-xs font-mono text-slate-600 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
-            {{ isRtl() ? 'إجمالي السفن المعروضة:' : 'Showing Vessels:' }} <span class="text-amber-700 font-bold">{{ filteredVessels().length }}</span> / {{ service.vessels().length }}
+            {{ isRtl() ? 'إجمالي السفن المعروضة:' : 'Showing Vessels:' }} <span class="text-[#dd0103] font-bold">{{ filteredVessels().length }}</span> / {{ service.vessels().length }}
           </div>
         </div>
 
@@ -47,7 +47,7 @@ import { Vessel } from '../../models/maritime.models';
                   [(ngModel)]="searchQuery"
                   (input)="applyFilters()"
                   placeholder="e.g., GFS, X-PRESS, Liberia, JSA..."
-                  class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-sm" />
+                  class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#dd0103] shadow-sm" />
                 <div class="absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400 pointer-events-none">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -64,7 +64,7 @@ import { Vessel } from '../../models/maritime.models';
               <select
                 [(ngModel)]="selectedFlag"
                 (change)="applyFilters()"
-                class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-500 shadow-sm cursor-pointer">
+                class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#dd0103] shadow-sm cursor-pointer">
                 <option value="all">{{ isRtl() ? 'جميع الأعلام' : 'All Flags' }}</option>
                 <option value="Liberia">Liberia</option>
                 <option value="Singapore">Singapore</option>
@@ -84,7 +84,7 @@ import { Vessel } from '../../models/maritime.models';
                 <button
                   (click)="setCapacityTier('all')"
                   [class]="capacityTier === 'all' 
-                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md shadow-amber-500/20' 
+                    ? 'bg-gradient-to-r from-[#dd0103] to-[#b30002] text-white font-bold border-[#dd0103] shadow-md shadow-[#dd0103]/25' 
                     : 'bg-white text-slate-600 border-slate-300 hover:text-slate-900 shadow-sm'"
                   class="flex-1 py-2 px-2 rounded-lg text-[11px] border transition-all text-center cursor-pointer">
                   {{ isRtl() ? 'الكل' : 'All' }}
@@ -92,7 +92,7 @@ import { Vessel } from '../../models/maritime.models';
                 <button
                   (click)="setCapacityTier('under_1500')"
                   [class]="capacityTier === 'under_1500' 
-                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md shadow-amber-500/20' 
+                    ? 'bg-gradient-to-r from-[#dd0103] to-[#b30002] text-white font-bold border-[#dd0103] shadow-md shadow-[#dd0103]/25' 
                     : 'bg-white text-slate-600 border-slate-300 hover:text-slate-900 shadow-sm'"
                   class="flex-1 py-2 px-2 rounded-lg text-[11px] border transition-all text-center cursor-pointer">
                   &lt; 1500 TEU
@@ -100,7 +100,7 @@ import { Vessel } from '../../models/maritime.models';
                 <button
                   (click)="setCapacityTier('1500_to_8000')"
                   [class]="capacityTier === '1500_to_8000' 
-                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md shadow-amber-500/20' 
+                    ? 'bg-gradient-to-r from-[#dd0103] to-[#b30002] text-white font-bold border-[#dd0103] shadow-md shadow-[#dd0103]/25' 
                     : 'bg-white text-slate-600 border-slate-300 hover:text-slate-900 shadow-sm'"
                   class="flex-1 py-2 px-2 rounded-lg text-[11px] border transition-all text-center cursor-pointer">
                   1500 - 8000 TEU
@@ -114,12 +114,12 @@ import { Vessel } from '../../models/maritime.models';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
             *ngFor="let vessel of filteredVessels()"
-            class="bg-white border border-slate-200 hover:border-amber-400/80 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all hover:-translate-y-1 group flex flex-col justify-between">
+            class="bg-white border border-slate-200 hover:border-[#dd0103]/80 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all hover:-translate-y-1 group flex flex-col justify-between">
             
             <!-- Card Top: Visual Graphic & Badges -->
             <div class="p-6 pb-4">
               <div class="flex items-center justify-between mb-3">
-                <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-bold font-mono">
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-red-50 text-[#dd0103] border border-red-200 font-bold font-mono">
                   {{ vessel.service_code || 'Spot Feeder' }}
                 </span>
                 <span class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
@@ -129,7 +129,7 @@ import { Vessel } from '../../models/maritime.models';
               </div>
 
               <!-- Vessel Title & IMO -->
-              <h3 class="text-xl font-black text-slate-950 group-hover:text-amber-700 transition-colors">
+              <h3 class="text-xl font-black text-[#02194b] group-hover:text-[#dd0103] transition-colors">
                 {{ vessel.name }}
               </h3>
               <p class="text-xs font-mono text-slate-500 mt-0.5">
@@ -144,16 +144,16 @@ import { Vessel } from '../../models/maritime.models';
                   <!-- Container Stacks -->
                   <rect x="50" y="25" width="22" height="15" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.2"/>
                   <rect x="74" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.5" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="98" y="15" width="22" height="25" rx="1" fill="#F59E0B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="98" y="15" width="22" height="25" rx="1" fill="#DD0103" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
                   <rect x="122" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.4" stroke="currentColor" stroke-width="1.2"/>
                   <rect x="146" y="15" width="22" height="25" rx="1" fill="currentColor" fill-opacity="0.6" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="170" y="25" width="22" height="15" rx="1" fill="#FBBF24" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="170" y="25" width="22" height="15" rx="1" fill="#02194B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
                   <!-- Bridge Tower -->
                   <polygon points="210,40 215,10 235,10 238,40" fill="currentColor" fill-opacity="0.8"/>
                   <rect x="220" y="14" width="10" height="4" fill="#0F172A"/>
                   <!-- Ship Hull -->
                   <path d="M20,42 L250,42 L240,65 L55,65 Z" fill="currentColor" fill-opacity="0.85"/>
-                  <line x1="15" y1="65" x2="285" y2="65" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4,4"/>
+                  <line x1="15" y1="65" x2="285" y2="65" stroke="#DD0103" stroke-width="2" stroke-dasharray="4,4"/>
                 </svg>
               </div>
 
@@ -165,7 +165,7 @@ import { Vessel } from '../../models/maritime.models';
                 </div>
                 <div class="bg-slate-50 p-2 rounded-lg border border-slate-200">
                   <span class="block text-[10px] uppercase font-bold text-slate-500">Nominal Cap</span>
-                  <span class="font-bold text-amber-700 font-mono text-xs mt-0.5 block">{{ vessel.nominal_cap_teu }} TEU</span>
+                  <span class="font-bold text-[#dd0103] font-mono text-xs mt-0.5 block">{{ vessel.nominal_cap_teu }} TEU</span>
                 </div>
                 <div class="bg-slate-50 p-2 rounded-lg border border-slate-200">
                   <span class="block text-[10px] uppercase font-bold text-slate-500">GRT</span>
@@ -177,7 +177,7 @@ import { Vessel } from '../../models/maritime.models';
                 </div>
                 <div class="bg-slate-50 p-2 rounded-lg border border-slate-200">
                   <span class="block text-[10px] uppercase font-bold text-slate-500">DWT</span>
-                  <span class="font-semibold text-amber-700 font-mono text-xs mt-0.5 block">{{ vessel.dwt | number }}</span>
+                  <span class="font-semibold text-[#dd0103] font-mono text-xs mt-0.5 block">{{ vessel.dwt | number }}</span>
                 </div>
                 <div class="bg-slate-50 p-2 rounded-lg border border-slate-200">
                   <span class="block text-[10px] uppercase font-bold text-slate-500">LOA</span>
@@ -190,8 +190,8 @@ import { Vessel } from '../../models/maritime.models';
             <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center gap-2.5">
               <button
                 (click)="service.openVesselModal(vessel)"
-                class="flex-1 py-2 px-3 rounded-xl bg-white hover:bg-amber-400 hover:text-slate-950 text-slate-800 font-semibold text-xs border border-slate-300 hover:border-amber-400 shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                class="flex-1 py-2 px-3 rounded-xl bg-white hover:bg-amber-400 hover:text-[#02194b] text-slate-800 font-semibold text-xs border border-slate-300 hover:border-[#dd0103] shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>{{ isRtl() ? 'المزيد من المعلومات (16 مواصفة)' : 'More Info' }}</span>
@@ -199,7 +199,7 @@ import { Vessel } from '../../models/maritime.models';
 
               <button
                 (click)="trackVessel(vessel)"
-                class="py-2 px-3 rounded-xl bg-amber-50 hover:bg-amber-400 text-amber-800 hover:text-slate-950 font-bold text-xs border border-amber-300 shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                class="py-2 px-3 rounded-xl bg-amber-50 hover:bg-amber-400 text-amber-800 hover:text-[#02194b] font-bold text-xs border border-amber-300 shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 [title]="isRtl() ? 'تتبع على الخريطة' : 'Track on Map'">
                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -211,7 +211,7 @@ import { Vessel } from '../../models/maritime.models';
 
         <div *ngIf="filteredVessels().length === 0" class="p-12 text-center text-slate-500 bg-slate-50 rounded-2xl border border-slate-200 mt-6 shadow-sm">
           <p class="text-base font-medium">{{ isRtl() ? 'لا توجد سفن مطابقة لمعايير البحث الحالية.' : 'No vessels match the specified filters.' }}</p>
-          <button (click)="resetFilters()" class="mt-3 text-xs text-amber-700 font-semibold underline cursor-pointer">{{ isRtl() ? 'إعادة ضبط الفلاتر' : 'Reset all filters' }}</button>
+          <button (click)="resetFilters()" class="mt-3 text-xs text-[#dd0103] font-semibold underline cursor-pointer">{{ isRtl() ? 'إعادة ضبط الفلاتر' : 'Reset all filters' }}</button>
         </div>
       </div>
     </section>
@@ -257,7 +257,7 @@ export class FleetDirectoryComponent {
       vessel.name,
       `
         <div style="font-family: inherit; padding: 4px;">
-          <div style="font-weight: 800; font-size: 14px; color: #D97706;">${vessel.name}</div>
+          <div style="font-weight: 800; font-size: 14px; color: #DD0103;">${vessel.name}</div>
           <div style="font-size: 11px; color: #64748B; margin-bottom: 6px;">Flag: ${vessel.flag} | IMO: ${vessel.imo}</div>
           <div style="font-size: 12px; color: #1E293B;"><b>Capacity:</b> ${vessel.nominal_cap_teu} TEU</div>
           <div style="font-size: 12px; color: #1E293B;"><b>Service:</b> ${vessel.service_code || 'Spot'}</div>

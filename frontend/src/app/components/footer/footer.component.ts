@@ -14,68 +14,66 @@ import { MaritimeService } from '../../services/maritime.service';
           <!-- Column 1: Brand & HQ (2 cols) -->
           <div class="lg:col-span-2 space-y-4">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center border border-amber-300/40 text-slate-950 font-bold shadow-md shadow-amber-500/20">
-                <svg class="w-5 h-5 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                </svg>
-              </div>
-              <span class="text-lg font-black text-slate-950 tracking-tight">GLOBAL FEEDERS</span>
+              <img 
+                src="maverick-logo.svg" 
+                alt="MAVERICK SHIPPING LLC" 
+                class="h-11 w-auto object-contain" />
             </div>
 
             <p class="text-xs text-slate-600 leading-relaxed max-w-sm">
               {{ isRtl()
-                ? 'الناقل الإقليمي المستقل الرائد لربط الموانئ المحورية بشبكة تغذية مرنة عالية التردد عبر الشرق الأوسط وشبه القارة الهندية وجنوب شرق آسيا.'
-                : 'Premier independent common feeder container operator delivering scheduled frequency, rapid turnarounds, and transshipment connectivity across Middle East, Red Sea, India, and Far East hubs.' }}
+                ? 'مافريك للشحن البحري: الناقل الإقليمي الرائد لربط الموانئ المحورية بشبكة شحن وتغذية حاويات متطورة وعالية التردد.'
+                : 'Maverick Shipping LLC: Premier container shipping and independent common feeder operator delivering scheduled frequency, rapid turnarounds, and transshipment connectivity across primary global maritime hubs.' }}
             </p>
 
             <div class="space-y-1.5 pt-2">
               <div class="flex items-center gap-2 text-slate-700">
-                <span class="text-amber-700 font-bold">Global HQ:</span>
+                <span class="text-[#dd0103] font-bold">Global HQ:</span>
                 <span>JAFZA One Tower, Jebel Ali Free Zone, Dubai, UAE</span>
               </div>
               <div class="flex items-center gap-2 text-slate-700">
-                <span class="text-amber-700 font-bold">24/7 Duty Desk:</span>
-                <a href="tel:+97142105105" class="hover:text-amber-700 font-mono font-bold transition-colors">+971 4 210 51 05</a>
+                <span class="text-[#dd0103] font-bold">24/7 Duty Desk:</span>
+                <a href="tel:+97142105105" class="hover:text-[#dd0103] font-mono font-bold transition-colors">+971 4 210 51 05</a>
               </div>
             </div>
           </div>
 
           <!-- Column 2: Feeder Corridors -->
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-950">{{ isRtl() ? 'الخطوط الملاحية' : 'Feeder Corridors' }}</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[#02194b]">{{ isRtl() ? 'الخطوط الملاحية' : 'Feeder Corridors' }}</h4>
             <ul class="space-y-2 text-xs">
-              <li><a href="#interactive-map-section" class="hover:text-amber-700 transition-colors">JSA (Jebel Ali - Red Sea)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-amber-700 transition-colors">GALEX (Gulf Asia Express)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-amber-700 transition-colors">AES (Emirates Suez Feeder)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-amber-700 transition-colors">CCG (Central Coast & Gulf)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-amber-700 transition-colors">IMS (India ME Shuttle)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-amber-700 transition-colors">UAE-COASTAL (Emirates Feeder)</a></li>
+              <li><a href="#interactive-map-section" class="hover:text-[#dd0103] transition-colors">JSA (Jebel Ali - Red Sea)</a></li>
+              <li><a href="#interactive-map-section" class="hover:text-[#dd0103] transition-colors">GALEX (Gulf Asia Express)</a></li>
+              <li><a href="#interactive-map-section" class="hover:text-[#dd0103] transition-colors">AES (Emirates Suez Feeder)</a></li>
+              <li><a href="#interactive-map-section" class="hover:text-[#dd0103] transition-colors">CCG (Central Coast & Gulf)</a></li>
+              <li><a href="#interactive-map-section" class="hover:text-[#dd0103] transition-colors">IMS (India ME Shuttle)</a></li>
+              <li><a href="#interactive-map-section" class="hover:text-[#dd0103] transition-colors">UAE-COASTAL (Emirates Feeder)</a></li>
             </ul>
           </div>
 
           <!-- Column 3: Tools & Services -->
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-950">{{ isRtl() ? 'الأدوات والخدمات' : 'Online Portals' }}</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[#02194b]">{{ isRtl() ? 'الأدوات والخدمات' : 'Online Portals' }}</h4>
             <ul class="space-y-2 text-xs">
-              <li><a href="#tracking-engine" class="hover:text-amber-700 transition-colors">Vessel AIS Tracking</a></li>
-              <li><a href="#tracking-engine" class="hover:text-amber-700 transition-colors">Point-to-Point Schedules</a></li>
-              <li><a href="#fleet-section" class="hover:text-amber-700 transition-colors">Technical Fleet Register</a></li>
-              <li><a href="#sustainability-section" class="hover:text-amber-700 transition-colors">Green Feeder Roadmap</a></li>
-              <li><a href="#agents-section" class="hover:text-amber-700 transition-colors">Port Agent Network</a></li>
-              <li><button (click)="service.toggleBookingModal(true)" class="hover:text-amber-700 transition-colors text-left cursor-pointer">Slot Rate Inquiries</button></li>
+              <li><a href="#tracking-engine" class="hover:text-[#dd0103] transition-colors">Vessel AIS Tracking</a></li>
+              <li><a href="#tracking-engine" class="hover:text-[#dd0103] transition-colors">Point-to-Point Schedules</a></li>
+              <li><a href="#fleet-section" class="hover:text-[#dd0103] transition-colors">Technical Fleet Register</a></li>
+              <li><a href="#sustainability-section" class="hover:text-[#dd0103] transition-colors">Green Feeder Roadmap</a></li>
+              <li><a href="#agents-section" class="hover:text-[#dd0103] transition-colors">Port Agent Network</a></li>
+              <li><button (click)="service.toggleBookingModal(true)" class="hover:text-[#dd0103] transition-colors text-left cursor-pointer">Slot Rate Inquiries</button></li>
             </ul>
           </div>
 
           <!-- Column 4: Compliance & Memberships -->
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-950">{{ isRtl() ? 'الاعتمادات والمعايير' : 'Quality & Standards' }}</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[#02194b]">{{ isRtl() ? 'الاعتمادات والمعايير' : 'Quality & Standards' }}</h4>
             <div class="space-y-2">
               <div class="p-2.5 rounded-lg bg-white border border-slate-200 shadow-sm">
-                <span class="block font-bold text-slate-900 text-[11px]">BIMCO Member</span>
+                <span class="block font-bold text-[#02194b] text-[11px]">BIMCO Member</span>
                 <span class="text-[10px] text-slate-500">Certified Carrier Standing</span>
               </div>
               <div class="p-2.5 rounded-lg bg-white border border-slate-200 shadow-sm">
-                <span class="block font-bold text-slate-900 text-[11px]">ISO 9001 / 14001</span>
+                <span class="block font-bold text-[#02194b] text-[11px]">ISO 9001 / 14001</span>
                 <span class="text-[10px] text-slate-500">Integrated Marine Management</span>
               </div>
             </div>
@@ -85,13 +83,13 @@ import { MaritimeService } from '../../services/maritime.service';
         <!-- Copyright & Disclaimers -->
         <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[11px] text-slate-500">
           <div>
-            &copy; 2026 Global Feeders & DP World Shipping Alliance. All rights reserved.
+            &copy; 2026 Maverick Shipping LLC. All rights reserved.
           </div>
           <div class="flex items-center gap-6">
-            <span class="hover:text-slate-800 cursor-pointer">Terms of Carriage</span>
-            <span class="hover:text-slate-800 cursor-pointer">Standard Bill of Lading (B/L)</span>
-            <span class="hover:text-slate-800 cursor-pointer">Port State Control Safety</span>
-            <span class="hover:text-slate-800 cursor-pointer">Privacy Policy</span>
+            <span class="hover:text-[#02194b] cursor-pointer">Terms of Carriage</span>
+            <span class="hover:text-[#02194b] cursor-pointer">Standard Bill of Lading (B/L)</span>
+            <span class="hover:text-[#02194b] cursor-pointer">Port State Control Safety</span>
+            <span class="hover:text-[#02194b] cursor-pointer">Privacy Policy</span>
           </div>
         </div>
       </div>

@@ -2,6 +2,12 @@
 @import "leaflet/dist/leaflet.css";
 
 @theme {
+  --color-maverick-navy: #02194b;
+  --color-maverick-navy-dark: #010d28;
+  --color-maverick-navy-light: #062569;
+  --color-maverick-red: #dd0103;
+  --color-maverick-red-dark: #b50102;
+  --color-maverick-red-light: #ef2325;
   --color-navy-950: #f8fafc;
   --color-navy-900: #ffffff;
   --color-navy-800: #f1f5f9;
@@ -12,12 +18,12 @@
   --color-ocean-500: #0284c7;
   --color-ocean-600: #075985;
   --color-ocean-700: #0c4a6e;
-  --color-amber-accent: #f59e0b;
-  --color-sun-300: #fde047;
-  --color-sun-400: #facc15;
-  --color-sun-500: #f59e0b;
-  --color-sun-600: #d97706;
-  --color-crisp: #0f172a;
+  --color-amber-accent: #dd0103;
+  --color-sun-300: #fca5a5;
+  --color-sun-400: #f87171;
+  --color-sun-500: #dd0103;
+  --color-sun-600: #b50102;
+  --color-crisp: #02194b;
 }
 
 html {
@@ -32,7 +38,7 @@ html, body {
   max-width: 100vw;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: #f8fafc;
-  color: #0f172a;
+  color: #02194b;
   overflow-x: hidden;
   position: relative;
 }
@@ -50,7 +56,7 @@ html, body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #f59e0b;
+  background: #dd0103;
 }
 
 /* Leaflet Container customization */

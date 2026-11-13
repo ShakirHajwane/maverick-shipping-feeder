@@ -14,11 +14,11 @@ import { FeederService, Vessel } from '../../models/maritime.models';
         <!-- Section Header -->
         <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 text-xs font-semibold tracking-wide uppercase mb-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-semibold tracking-wide uppercase mb-2">
+              <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-pulse"></span>
               <span>{{ isRtl() ? 'خريطة الخطوط الملاحية والأسطول' : 'Interactive Maritime Geonavigator' }}</span>
             </div>
-            <h2 class="text-2xl sm:text-4xl font-black text-slate-950">
+            <h2 class="text-2xl sm:text-4xl font-black text-[#02194b]">
               {{ isRtl() ? 'مسارات الخطوط وتمركز الأسطول البحري' : 'Trade Routes & Live Vessel Fleet' }}
             </h2>
             <p class="text-sm text-slate-600 mt-1 max-w-2xl">
@@ -57,8 +57,8 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             *ngFor="let s of service.services()"
             (click)="selectService(s)"
             [class]="activeService()?.code === s.code 
-              ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md shadow-amber-500/20' 
-              : 'bg-white hover:bg-slate-50 text-slate-700 font-medium border-slate-300 hover:border-amber-400'"
+              ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-[#02194b] font-bold border-amber-300 shadow-md shadow-amber-500/20' 
+              : 'bg-white hover:bg-slate-50 text-slate-700 font-medium border-slate-300 hover:border-[#dd0103]'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-mono border transition-all cursor-pointer">
             {{ s.code }} <span class="font-sans text-[11px] opacity-80">({{ s.transit_days }}d)</span>
           </button>
@@ -72,8 +72,8 @@ import { FeederService, Vessel } from '../../models/maritime.models';
 
             <!-- Map Floating Badge Overlay -->
             <div class="absolute bottom-4 left-4 z-20 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 text-xs space-y-1 shadow-md">
-              <div class="flex items-center gap-2 text-amber-700 font-bold">
-                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+              <div class="flex items-center gap-2 text-[#dd0103] font-bold">
+                <span class="w-2 h-2 rounded-full bg-[#dd0103]"></span>
                 <span>CartoDB Voyager • OpenStreetMap Layer</span>
               </div>
               <div class="text-[11px] text-slate-600">Active Service: <span class="text-slate-900 font-mono font-semibold">{{ activeService()?.code }}</span></div>
@@ -85,10 +85,10 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             <div>
               <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <span class="text-[10px] uppercase font-bold tracking-wider text-amber-700">Selected Corridor</span>
-                  <h3 class="text-lg font-black text-slate-950">{{ activeService()?.name }}</h3>
+                  <span class="text-[10px] uppercase font-bold tracking-wider text-[#dd0103]">Selected Corridor</span>
+                  <h3 class="text-lg font-black text-[#02194b]">{{ activeService()?.name }}</h3>
                 </div>
-                <span class="text-xs px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 font-mono text-amber-800 font-bold">
+                <span class="text-xs px-2.5 py-1 rounded-md bg-red-50 border border-red-200 font-mono text-[#dd0103] font-bold">
                   {{ activeService()?.code }}
                 </span>
               </div>
@@ -100,10 +100,10 @@ import { FeederService, Vessel } from '../../models/maritime.models';
                   <div class="flex flex-col items-center">
                     <button
                       (click)="focusPort(port.lat, port.lng, port.port_name)"
-                      class="w-6 h-6 rounded-full bg-slate-50 border-2 border-amber-500 text-amber-700 hover:bg-amber-400 hover:text-slate-950 text-xs font-bold flex items-center justify-center transition-all cursor-pointer shadow-sm">
+                      class="w-6 h-6 rounded-full bg-slate-50 border-2 border-[#dd0103] text-[#dd0103] hover:bg-amber-400 hover:text-[#02194b] text-xs font-bold flex items-center justify-center transition-all cursor-pointer shadow-sm">
                       {{ i + 1 }}
                     </button>
-                    <div *ngIf="!last" class="w-0.5 h-10 bg-gradient-to-b from-amber-400 to-slate-200 my-1"></div>
+                    <div *ngIf="!last" class="w-0.5 h-10 bg-gradient-to-b from-[#dd0103] to-slate-200 my-1"></div>
                   </div>
 
                   <!-- Port Details -->
@@ -111,7 +111,7 @@ import { FeederService, Vessel } from '../../models/maritime.models';
                     <div class="flex items-center justify-between">
                       <button
                         (click)="focusPort(port.lat, port.lng, port.port_name)"
-                        class="text-xs font-bold text-slate-900 hover:text-amber-700 text-left transition-colors cursor-pointer">
+                        class="text-xs font-bold text-slate-900 hover:text-[#dd0103] text-left transition-colors cursor-pointer">
                         {{ port.port_name }}
                       </button>
                       <span class="text-[10px] font-mono text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded">
@@ -121,7 +121,7 @@ import { FeederService, Vessel } from '../../models/maritime.models';
                     <div class="text-[11px] text-slate-500 mt-0.5">
                       {{ port.terminal || 'Container Terminal' }}
                     </div>
-                    <div *ngIf="port.day_of_week" class="text-[10px] text-amber-700 font-medium mt-0.5">
+                    <div *ngIf="port.day_of_week" class="text-[10px] text-[#dd0103] font-medium mt-0.5">
                       Call Day: {{ port.day_of_week }}
                     </div>
                   </div>
@@ -137,7 +137,7 @@ import { FeederService, Vessel } from '../../models/maritime.models';
               </div>
               <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                 <span class="text-[10px] text-slate-500 uppercase font-semibold">Frequency</span>
-                <p class="text-sm font-bold text-amber-700 font-mono">{{ activeService()?.frequency }}</p>
+                <p class="text-sm font-bold text-[#dd0103] font-mono">{{ activeService()?.frequency }}</p>
               </div>
             </div>
           </div>
@@ -219,10 +219,9 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
       scrollWheelZoom: true
     });
 
-    // Free CartoDB Voyager tiles - zero API key required
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
+    // Free OpenStreetMap tiles - zero API key required, crisp maritime cartography
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
     }).addTo(this.map);
 
@@ -265,7 +264,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
 
     // Draw glowing feeder polyline
     this.routePolyline = L.polyline(latLngs, {
-      color: '#F59E0B',
+      color: '#DD0103',
       weight: 3.5,
       opacity: 0.9,
       dashArray: '8, 8',
@@ -281,7 +280,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
           width: ${isHub ? '28px' : '22px'};
           height: ${isHub ? '28px' : '22px'};
           background: ${isHub ? '#F59E0B' : '#112240'};
-          border: 2px solid ${isHub ? '#FFFFFF' : '#F59E0B'};
+          border: 2px solid ${isHub ? '#FFFFFF' : '#DD0103'};
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -289,7 +288,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
           color: ${isHub ? '#0A192F' : '#FFFFFF'};
           font-weight: 800;
           font-size: ${isHub ? '12px' : '10px'};
-          box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+          box-shadow: 0 0 10px rgba(221, 1, 3, 0.5);
         ">
           ${idx + 1}
         </div>
@@ -304,10 +303,10 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
 
       const popupHtml = `
         <div style="font-family: inherit; padding: 4px;">
-          <div style="font-weight: 800; font-size: 13px; color: #D97706;">${p.port_name}</div>
+          <div style="font-weight: 800; font-size: 13px; color: #DD0103;">${p.port_name}</div>
           <div style="font-size: 11px; color: #64748B; margin-bottom: 4px;">UN/LOCODE: <b style="color: #0F172A;">${p.unlocode}</b></div>
           <div style="font-size: 12px; color: #1E293B;">Terminal: ${p.terminal || 'Container Quay'}</div>
-          ${p.day_of_week ? `<div style="font-size: 11px; color: #D97706; margin-top: 2px; font-weight: 600;">Call: ${p.day_of_week}</div>` : ''}
+          ${p.day_of_week ? `<div style="font-size: 11px; color: #DD0103; margin-top: 2px; font-weight: 600;">Call: ${p.day_of_week}</div>` : ''}
         </div>
       `;
 
@@ -340,7 +339,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
         <div style="
           width: 32px;
           height: 32px;
-          background: ${isUnderway ? '#10B981' : '#F59E0B'};
+          background: ${isUnderway ? '#059669' : '#02194B'};
           border: 2px solid #FFFFFF;
           border-radius: 8px;
           display: flex;
@@ -364,7 +363,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
 
       const popupHtml = `
         <div style="font-family: inherit; padding: 4px; min-width: 180px;">
-          <div style="font-weight: 800; font-size: 13px; color: #D97706;">${v.name}</div>
+          <div style="font-weight: 800; font-size: 13px; color: #DD0103;">${v.name}</div>
           <div style="font-size: 11px; color: #64748B;">IMO: ${v.imo} | Flag: ${v.flag}</div>
           <div style="font-size: 11px; color: #1E293B; margin-top: 4px;">Cap: <b style="color: #0F172A;">${v.nominal_cap_teu} TEU</b></div>
           <div style="font-size: 11px; color: #1E293B;">Service: <b style="color: #0F172A;">${v.service_code || 'Spot Feeder'}</b></div>

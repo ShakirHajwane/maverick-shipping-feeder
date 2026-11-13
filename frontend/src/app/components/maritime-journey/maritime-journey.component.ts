@@ -1048,9 +1048,10 @@ interface SampledPoint {
            7. FIXED CORNER NAVIGATION HUD (COMPASS, KNOTS, LAT/LNG)
            ========================================================= -->
       <aside
+        *ngIf="journeyProgress() > 0.02"
         id="maritime-hud"
         aria-label="Live Navigational Telemetry HUD"
-        class="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 bg-white/95 backdrop-blur-xl border border-slate-300 rounded-2xl p-2.5 sm:p-4 shadow-xl flex items-center gap-2.5 sm:gap-4 pointer-events-auto transition-all duration-300 max-w-[calc(100vw-1.5rem)] text-slate-900">
+        class="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 bg-white/95 backdrop-blur-xl border border-slate-300 rounded-2xl p-2.5 sm:p-4 shadow-xl flex items-center gap-2.5 sm:gap-4 pointer-events-auto transition-all duration-300 max-w-[calc(100vw-1.5rem)] text-slate-900 animate-fade-in">
         
         <!-- Minimized Pill View for Mobile & Compact Screens -->
         <ng-container *ngIf="isHudMinimized()">

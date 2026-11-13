@@ -17,7 +17,7 @@ import { MaritimeService } from '../../services/maritime.service';
               <img 
                 src="maverick-logo.svg" 
                 alt="MAVERICK SHIPPING LLC" 
-                class="h-11 w-auto object-contain" />
+                class="h-14 sm:h-16 w-auto object-contain" />
             </div>
 
             <p class="text-xs text-slate-600 leading-relaxed max-w-sm">

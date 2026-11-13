@@ -99,33 +99,6 @@ interface TelemetryNode {
       </canvas>
 
       <!-- =========================================================
-           TOP REAL-TIME AIS TICKER STRIP
-           ========================================================= -->
-      <div class="relative z-20 w-full overflow-hidden bg-white/90 border-b border-slate-200/80 py-2 backdrop-blur-md shadow-sm">
-        <div class="animate-marquee items-center gap-10 text-[11px] font-mono text-slate-700">
-          <span class="inline-flex items-center gap-2 text-emerald-700 font-bold">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 beacon-pulse"></span>
-            AIS LIVE SATELLITE FEED: 66 ACTIVE FEEDER VESSELS
-          </span>
-          <span>•</span>
-          <span class="text-slate-600"><strong class="text-[#02194b]">ARABIAN GULF:</strong> 24 FEEDERS UNDERWAY (AVG 14.8 KN)</span>
-          <span>•</span>
-          <span class="text-slate-600"><strong class="text-[#02194b]">RED SEA / SUEZ:</strong> 14 IN TRANSIT • ZERO DISRUPTIONS</span>
-          <span>•</span>
-          <span class="text-slate-600"><strong class="text-[#02194b]">INDIAN SUBCONTINENT:</strong> 18 CALLS AT MUNDRA & NHAVA SHEVA</span>
-          <span>•</span>
-          <span class="text-[#dd0103] font-bold">JEBEL ALI HUB T1/T2/T3: 100% BERTHING EFFICIENCY</span>
-          <span>•</span>
-          <span class="inline-flex items-center gap-2 text-emerald-700 font-bold">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 beacon-pulse"></span>
-            AIS LIVE SATELLITE FEED: 66 ACTIVE FEEDER VESSELS
-          </span>
-          <span>•</span>
-          <span class="text-slate-600"><strong class="text-[#02194b]">ARABIAN GULF:</strong> 24 FEEDERS UNDERWAY (AVG 14.8 KN)</span>
-        </div>
-      </div>
-
-      <!-- =========================================================
            DYNAMIC SVG TETHER LINES (CONNECTS ACTIVE NODES TO FLAGSHIP)
            ========================================================= -->
       <svg

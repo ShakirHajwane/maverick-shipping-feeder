@@ -48,14 +48,14 @@ import { MaritimeService } from '../../services/maritime.service';
 
     <!-- Main Navigation Bar -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-      <div class="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-3 flex items-center justify-between gap-4 xl:gap-8">
+      <div class="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-2 sm:py-2.5 flex items-center justify-between gap-4 xl:gap-8">
         <!-- Maverick Brand Logo (Left) -->
         <div class="flex-shrink-0">
           <a href="#" class="flex items-center gap-2 group py-0.5">
             <img 
               src="maverick-logo.svg" 
               alt="MAVERICK SHIPPING LLC" 
-              class="h-10 sm:h-12 w-auto object-contain group-hover:scale-[1.02] transition-transform duration-200" />
+              class="h-14 sm:h-16 lg:h-20 w-auto object-contain group-hover:scale-[1.02] transition-transform duration-200" />
           </a>
         </div>
 

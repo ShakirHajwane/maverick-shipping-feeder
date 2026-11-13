@@ -235,62 +235,397 @@ interface TelemetryNode {
               class="relative pointer-events-none transition-all duration-300 ease-out will-change-transform"
               [style.transform]="flagshipTransform()">
               
-              <div class="relative w-60 sm:w-80 lg:w-88 filter drop-shadow-[0_20px_25px_rgba(2,25,75,0.25)]">
-                <svg viewBox="0 0 380 130" class="w-full h-auto overflow-visible">
-                  <!-- Bow Parting Waves -->
-                  <path d="M 190 20 C 130 10, 40 40, 10 90 C 80 55, 140 40, 190 25 Z" fill="rgba(255,255,255,0.75)" />
-                  <path d="M 190 20 C 250 10, 340 40, 370 90 C 300 55, 240 40, 190 25 Z" fill="rgba(255,255,255,0.75)" />
+              <div class="relative w-64 sm:w-88 lg:w-[460px] xl:w-[500px] filter drop-shadow-[0_25px_35px_rgba(2,25,75,0.28)]">
+                <svg viewBox="0 0 540 340" class="w-full h-auto overflow-visible" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <!-- Ocean Hydrodynamic Gradients -->
+                    <linearGradient id="flagship_bowWakeLeft" x1="1" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+                      <stop offset="40%" stop-color="#38bdf8" stop-opacity="0.6" />
+                      <stop offset="100%" stop-color="#0284c7" stop-opacity="0" />
+                    </linearGradient>
+                    <linearGradient id="flagship_bowWakeRight" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+                      <stop offset="40%" stop-color="#38bdf8" stop-opacity="0.6" />
+                      <stop offset="100%" stop-color="#0284c7" stop-opacity="0" />
+                    </linearGradient>
+                    <linearGradient id="flagship_hullGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#041c54" />
+                      <stop offset="20%" stop-color="#082b78" />
+                      <stop offset="50%" stop-color="#0f3794" />
+                      <stop offset="80%" stop-color="#082b78" />
+                      <stop offset="100%" stop-color="#02143d" />
+                    </linearGradient>
+                    <linearGradient id="flagship_keelGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#ff2a2d" />
+                      <stop offset="60%" stop-color="#dd0103" />
+                      <stop offset="100%" stop-color="#990002" />
+                    </linearGradient>
+                    <linearGradient id="flagship_deckGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#1e293b" />
+                      <stop offset="100%" stop-color="#0f172a" />
+                    </linearGradient>
+                    <linearGradient id="flagship_containerRed" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#ef2325" />
+                      <stop offset="50%" stop-color="#dd0103" />
+                      <stop offset="100%" stop-color="#b50102" />
+                    </linearGradient>
+                    <linearGradient id="flagship_containerNavy" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#0f2b6e" />
+                      <stop offset="50%" stop-color="#02194b" />
+                      <stop offset="100%" stop-color="#010d29" />
+                    </linearGradient>
+                    <linearGradient id="flagship_containerReefer" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#ffffff" />
+                      <stop offset="60%" stop-color="#f1f5f9" />
+                      <stop offset="100%" stop-color="#cbd5e1" />
+                    </linearGradient>
+                    <linearGradient id="flagship_containerGold" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#fbbf24" />
+                      <stop offset="50%" stop-color="#d97706" />
+                      <stop offset="100%" stop-color="#b45309" />
+                    </linearGradient>
+                    <linearGradient id="flagship_bridgeGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#ffffff" />
+                      <stop offset="60%" stop-color="#f8fafc" />
+                      <stop offset="100%" stop-color="#e2e8f0" />
+                    </linearGradient>
+                    <filter id="flagship_glowGold" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                    <filter id="flagship_glowBeacon" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
 
-                  <!-- Stern Engine Wake Bubbles -->
-                  <ellipse cx="190" cy="118" rx="48" ry="14" fill="rgba(2,132,199,0.22)" />
-                  <ellipse cx="190" cy="115" rx="32" ry="9" fill="rgba(255,255,255,0.85)" />
+                  <!-- ==================== 1. HYDRODYNAMIC OCEAN WAKES & BOW SPRAY ==================== -->
+                  <!-- Outer Stern Dispersion Wake -->
+                  <path d="M 195 285 C 130 310, 40 325, 10 338 C 90 328, 170 305, 220 290 Z" fill="rgba(255,255,255,0.65)" />
+                  <path d="M 345 285 C 410 310, 500 325, 530 338 C 450 328, 370 305, 320 290 Z" fill="rgba(255,255,255,0.65)" />
 
-                  <!-- Outer Hull Contour (Maverick Navy #02194B) -->
+                  <!-- Churning Engine Prop-wash Foam -->
+                  <ellipse cx="270" cy="295" rx="55" ry="16" fill="rgba(2, 132, 199, 0.25)" />
+                  <ellipse cx="270" cy="292" rx="38" ry="10" fill="rgba(255,255,255,0.85)" />
+                  <circle cx="255" cy="293" r="5" fill="#ffffff" />
+                  <circle cx="285" cy="293" r="5" fill="#ffffff" />
+
+                  <!-- Sweeping Bow Wave Left Wing -->
+                  <path d="M 270 42 C 210 25, 110 70, 25 155 C 95 110, 180 80, 250 50 Z" fill="url(#flagship_bowWakeLeft)" />
+                  <path d="M 270 46 C 225 38, 140 80, 65 145 C 120 110, 195 78, 255 52 Z" fill="rgba(255,255,255,0.85)" />
+
+                  <!-- Sweeping Bow Wave Right Wing -->
+                  <path d="M 270 42 C 330 25, 430 70, 515 155 C 445 110, 360 80, 290 50 Z" fill="url(#flagship_bowWakeRight)" />
+                  <path d="M 270 46 C 315 38, 400 80, 475 145 C 420 110, 345 78, 285 52 Z" fill="rgba(255,255,255,0.85)" />
+
+                  <!-- Spray Droplets -->
+                  <circle cx="95" cy="115" r="2.5" fill="#ffffff" opacity="0.8" />
+                  <circle cx="65" cy="135" r="2" fill="#ffffff" opacity="0.7" />
+                  <circle cx="445" cy="115" r="2.5" fill="#ffffff" opacity="0.8" />
+                  <circle cx="475" cy="135" r="2" fill="#ffffff" opacity="0.7" />
+
+                  <!-- ==================== 2. MAIN HULL STRUCTURE ==================== -->
+                  <!-- Hull Drop Shadow -->
+                  <path d="M 270 38 C 340 70, 365 130, 360 275 L 180 275 C 175 130, 200 70, 270 38 Z" fill="rgba(1, 13, 41, 0.35)" filter="blur(8px)" />
+
+                  <!-- Outer Main Hull (Hydrodynamic Sculpted Flare) -->
                   <path
-                    d="M 190 15 C 220 36, 230 68, 226 108 L 154 108 C 150 68, 160 36, 190 15 Z"
-                    fill="#02194b"
+                    d="M 270 34
+                       C 318 62, 356 112, 354 185
+                       C 352 235, 346 270, 335 278
+                       L 205 278
+                       C 194 270, 188 235, 186 185
+                       C 184 112, 222 62, 270 34 Z"
+                    fill="url(#flagship_hullGrad)"
                     stroke="#ffffff"
                     stroke-width="1.8" />
 
-                  <!-- Bulbous Bow Tip & Red Keel Accent (#DD0103) -->
-                  <path d="M 190 15 C 196 23, 198 29, 190 33 C 182 29, 184 23, 190 15 Z" fill="#dd0103" />
+                  <!-- Bulbous Bow Keel (Red Antifouling Accent #DD0103) -->
+                  <path
+                    d="M 270 28
+                       C 284 38, 286 52, 270 58
+                       C 254 52, 256 38, 270 28 Z"
+                    fill="url(#flagship_keelGrad)"
+                    stroke="#b50102"
+                    stroke-width="0.8" />
+                  <!-- Bulbous Bow Highlight Glow -->
+                  <ellipse cx="270" cy="40" rx="4" ry="7" fill="#ffffff" opacity="0.45" />
 
-                  <!-- Foredeck -->
-                  <polygon points="190,31 168,44 212,44" fill="#0f2b6e" />
-                  <circle cx="190" cy="37" r="2.5" fill="#94a3b8" />
+                  <!-- White Waterline Boot-Topping Stripe -->
+                  <path
+                    d="M 264 56
+                       C 292 78, 344 125, 345 195
+                       L 348 195
+                       C 347 122, 295 75, 266 54 Z"
+                    fill="#ffffff"
+                    opacity="0.9" />
+                  <path
+                    d="M 276 56
+                       C 248 78, 196 125, 195 195
+                       L 192 195
+                       C 193 122, 245 75, 274 54 Z"
+                    fill="#ffffff"
+                    opacity="0.9" />
 
-                  <!-- Container Stacks Grid (Alternating Maverick Red #DD0103 & Navy #02194B) -->
-                  <!-- Tier 1 -->
-                  <rect x="166" y="46" width="11" height="16" rx="1" fill="#dd0103" stroke="#b50102" stroke-width="0.5" />
-                  <rect x="179" y="46" width="11" height="16" rx="1" fill="#02194b" stroke="#062569" stroke-width="0.5" />
-                  <rect x="192" y="46" width="11" height="16" rx="1" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.5" /> <!-- Reefer -->
-                  <rect x="205" y="46" width="11" height="16" rx="1" fill="#dd0103" stroke="#b50102" stroke-width="0.5" />
+                  <!-- Foredeck Plate (Deep Navy / Teak Non-Skid Deck) -->
+                  <polygon points="270,55 330,105 210,105" fill="url(#flagship_deckGrad)" stroke="#334155" stroke-width="0.6" />
+                  
+                  <!-- Foredeck Breakwater (V-Shaped Wave Deflector Shield) -->
+                  <polyline points="228,98 270,82 312,98" fill="none" stroke="#dd0103" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <polyline points="232,100 270,85 308,100" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" />
 
-                  <!-- Tier 2 -->
-                  <rect x="164" y="65" width="11" height="16" rx="1" fill="#02194b" stroke="#062569" stroke-width="0.5" />
-                  <rect x="177" y="65" width="11" height="16" rx="1" fill="#dd0103" stroke="#b50102" stroke-width="0.5" />
-                  <rect x="190" y="65" width="11" height="16" rx="1" fill="#02194b" stroke="#062569" stroke-width="0.5" />
-                  <rect x="203" y="65" width="11" height="16" rx="1" fill="#dd0103" stroke="#b50102" stroke-width="0.5" />
+                  <!-- Anchor Hawse Pipes & Bower Anchors -->
+                  <ellipse cx="240" cy="68" rx="3.5" ry="5" fill="#02091c" stroke="#64748b" stroke-width="0.5" />
+                  <ellipse cx="300" cy="68" rx="3.5" ry="5" fill="#02091c" stroke="#64748b" stroke-width="0.5" />
+                  <path d="M 238 68 Q 235 73 241 73 Q 243 71 241 68" fill="#94a3b8" />
+                  <path d="M 302 68 Q 305 73 299 73 Q 297 71 299 68" fill="#94a3b8" />
 
-                  <!-- Tier 3 -->
-                  <rect x="164" y="84" width="11" height="13" rx="1" fill="#dd0103" stroke="#b50102" stroke-width="0.5" />
-                  <rect x="177" y="84" width="11" height="13" rx="1" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.5" /> <!-- Reefer -->
-                  <rect x="190" y="84" width="11" height="13" rx="1" fill="#dd0103" stroke="#b50102" stroke-width="0.5" />
-                  <rect x="203" y="84" width="11" height="13" rx="1" fill="#02194b" stroke="#062569" stroke-width="0.5" />
+                  <!-- Mooring Winch Drums & Fairleads -->
+                  <rect x="248" y="88" width="8" height="5" rx="1" fill="#475569" stroke="#94a3b8" stroke-width="0.4" />
+                  <rect x="284" y="88" width="8" height="5" rx="1" fill="#475569" stroke="#94a3b8" stroke-width="0.4" />
+                  <circle cx="270" cy="65" r="2.2" fill="#cbd5e1" />
 
-                  <!-- Superstructure Bridge Tower (Aft) -->
-                  <rect x="170" y="99" width="40" height="9" rx="1.5" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8" />
-                  <rect x="174" y="100.5" width="32" height="2.8" rx="0.5" fill="#fef08a" /> <!-- Bridge Windows Glow -->
-                  <circle cx="190" cy="103" r="1.5" fill="#dd0103" /> <!-- Radar Mast Beacon -->
+                  <!-- ==================== 3. GRAND CONTAINER CARGO STACKS ==================== -->
+                  <!-- Side Cell Guide Structures (Vertical Cargo Hold Framing) -->
+                  <rect x="202" y="106" width="3" height="116" fill="#334155" />
+                  <rect x="335" y="106" width="3" height="116" fill="#334155" />
 
-                  <!-- Masthead Navigation Lights -->
-                  <circle cx="154" cy="74" r="2.2" fill="#ef4444" class="animate-pulse" /> <!-- Port Red Light -->
-                  <circle cx="226" cy="74" r="2.2" fill="#22c55e" class="animate-pulse" /> <!-- Starboard Green Light -->
-                  <circle cx="190" cy="18" r="2.5" fill="#ffffff" filter="drop-shadow(0 0 6px #ffffff)" /> <!-- Steaming Light -->
+                  <!-- CARGO BAY 1: FORWARD (Y = 108 to 142) -->
+                  <!-- Row 1 -->
+                  <g transform="translate(206, 108)">
+                    <rect x="0" y="0" width="28" height="15" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="7" y1="0" x2="7" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="14" y1="0" x2="14" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="21" y1="0" x2="21" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(237, 108)">
+                    <rect x="0" y="0" width="31" height="15" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="15" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="15" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="15" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(271, 108)">
+                    <rect x="0" y="0" width="31" height="15" rx="1" fill="url(#flagship_containerReefer)" stroke="#94a3b8" stroke-width="0.6" />
+                    <circle cx="5" cy="7.5" r="1.2" fill="#10b981" />
+                    <line x1="10" y1="0" x2="10" y2="15" stroke="#64748b" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="18" y1="0" x2="18" y2="15" stroke="#64748b" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="26" y1="0" x2="26" y2="15" stroke="#64748b" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(305, 108)">
+                    <rect x="0" y="0" width="28" height="15" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="7" y1="0" x2="7" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="14" y1="0" x2="14" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="21" y1="0" x2="21" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
 
-                  <!-- Vessel Name Branding -->
-                  <text x="190" y="122" font-size="5.5" font-family="monospace" font-weight="900" fill="#02194b" text-anchor="middle" letter-spacing="1">
-                    MAVERICK FLAGSHIP
+                  <!-- Row 2 -->
+                  <g transform="translate(206, 126)">
+                    <rect x="0" y="0" width="28" height="15" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="7" y1="0" x2="7" y2="15" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="14" y1="0" x2="14" y2="15" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="21" y1="0" x2="21" y2="15" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(237, 126)">
+                    <rect x="0" y="0" width="31" height="15" rx="1" fill="url(#flagship_containerGold)" stroke="#b45309" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(271, 126)">
+                    <rect x="0" y="0" width="31" height="15" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="15" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(305, 126)">
+                    <rect x="0" y="0" width="28" height="15" rx="1" fill="url(#flagship_containerReefer)" stroke="#94a3b8" stroke-width="0.6" />
+                    <circle cx="5" cy="7.5" r="1.2" fill="#10b981" />
+                    <line x1="7" y1="0" x2="7" y2="15" stroke="#64748b" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="14" y1="0" x2="14" y2="15" stroke="#64748b" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="21" y1="0" x2="21" y2="15" stroke="#64748b" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+
+                  <!-- Walkway / Bay Break 1 -->
+                  <line x1="204" y1="144" x2="336" y2="144" stroke="#475569" stroke-width="1.2" />
+
+                  <!-- CARGO BAY 2: MID-BODY (Y = 146 to 180) -->
+                  <!-- Row 1 -->
+                  <g transform="translate(204, 146)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerReefer)" stroke="#94a3b8" stroke-width="0.6" />
+                    <circle cx="5" cy="8" r="1.2" fill="#10b981" />
+                  </g>
+                  <g transform="translate(236, 146)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(271, 146)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(306, 146)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+
+                  <!-- Row 2 -->
+                  <g transform="translate(204, 164)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(236, 164)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(271, 164)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(306, 164)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerGold)" stroke="#b45309" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+
+                  <!-- Walkway / Bay Break 2 -->
+                  <line x1="204" y1="182" x2="336" y2="182" stroke="#475569" stroke-width="1.2" />
+
+                  <!-- CARGO BAY 3: MID-AFT (Y = 184 to 218) -->
+                  <!-- Row 1 -->
+                  <g transform="translate(204, 184)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(236, 184)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerReefer)" stroke="#94a3b8" stroke-width="0.6" />
+                    <circle cx="5" cy="8" r="1.2" fill="#10b981" />
+                  </g>
+                  <g transform="translate(271, 184)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(306, 184)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+
+                  <!-- Row 2 -->
+                  <g transform="translate(204, 202)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerGold)" stroke="#b45309" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(236, 202)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerNavy)" stroke="#062363" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.5" />
+                  </g>
+                  <g transform="translate(271, 202)">
+                    <rect x="0" y="0" width="32" height="16" rx="1" fill="url(#flagship_containerReefer)" stroke="#94a3b8" stroke-width="0.6" />
+                    <circle cx="5" cy="8" r="1.2" fill="#10b981" />
+                  </g>
+                  <g transform="translate(306, 202)">
+                    <rect x="0" y="0" width="30" height="16" rx="1" fill="url(#flagship_containerRed)" stroke="#990002" stroke-width="0.6" />
+                    <line x1="8" y1="0" x2="8" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="16" y1="0" x2="16" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                    <line x1="24" y1="0" x2="24" y2="16" stroke="#ffffff" stroke-opacity="0.3" stroke-width="0.5" />
+                  </g>
+
+                  <!-- ==================== 4. COMMAND SUPERSTRUCTURE & NAVIGATION BRIDGE ==================== -->
+                  <!-- Main Accommodation Deck Tier 1 -->
+                  <rect x="210" y="222" width="120" height="38" rx="2" fill="url(#flagship_bridgeGrad)" stroke="#94a3b8" stroke-width="0.8" />
+                  
+                  <!-- Panoramic Bridge Wings (Extending across hull sides) -->
+                  <path d="M 175 238 L 210 238 L 210 248 L 178 248 Z" fill="#f1f5f9" stroke="#94a3b8" stroke-width="0.6" />
+                  <path d="M 365 238 L 330 238 L 330 248 L 362 248 Z" fill="#f1f5f9" stroke="#94a3b8" stroke-width="0.6" />
+                  
+                  <!-- Bridge Wing Safety Railings -->
+                  <line x1="175" y1="237" x2="210" y2="237" stroke="#dd0103" stroke-width="1" />
+                  <line x1="330" y1="237" x2="365" y2="237" stroke="#dd0103" stroke-width="1" />
+
+                  <!-- Port & Starboard Navigation Lights (Red Port & Green Starboard) -->
+                  <circle cx="176" cy="242" r="3" fill="#ef4444" class="animate-pulse" filter="url(#flagship_glowBeacon)" />
+                  <circle cx="364" cy="242" r="3" fill="#10b981" class="animate-pulse" filter="url(#flagship_glowBeacon)" />
+
+                  <!-- Navigation Wheelhouse Tier 2 (Top Bridge Deck) -->
+                  <rect x="222" y="226" width="96" height="15" rx="1.5" fill="#ffffff" stroke="#94a3b8" stroke-width="0.8" />
+
+                  <!-- Continuous Panoramic Wheelhouse Windows (Warm Golden Illumination) -->
+                  <rect x="226" y="229" width="88" height="6" rx="1" fill="#fef08a" filter="url(#flagship_glowGold)" />
+                  <line x1="238" y1="229" x2="238" y2="235" stroke="#02194b" stroke-width="0.8" />
+                  <line x1="250" y1="229" x2="250" y2="235" stroke="#02194b" stroke-width="0.8" />
+                  <line x1="262" y1="229" x2="262" y2="235" stroke="#02194b" stroke-width="0.8" />
+                  <line x1="274" y1="229" x2="274" y2="235" stroke="#02194b" stroke-width="0.8" />
+                  <line x1="286" y1="229" x2="286" y2="235" stroke="#02194b" stroke-width="0.8" />
+                  <line x1="298" y1="229" x2="298" y2="235" stroke="#02194b" stroke-width="0.8" />
+                  <line x1="310" y1="229" x2="310" y2="235" stroke="#02194b" stroke-width="0.8" />
+
+                  <!-- Twin Marine Exhaust Funnels (Smokestacks) in Maverick Livery -->
+                  <!-- Port Funnel -->
+                  <g transform="translate(236, 244)">
+                    <rect x="0" y="0" width="16" height="12" rx="2" fill="#02194b" stroke="#0f2b6e" stroke-width="0.6" />
+                    <rect x="0" y="4" width="16" height="4" fill="#dd0103" /> <!-- Crimson Livery Band -->
+                    <ellipse cx="8" cy="1" rx="6" ry="1.5" fill="#010d29" />
+                  </g>
+                  <!-- Starboard Funnel -->
+                  <g transform="translate(288, 244)">
+                    <rect x="0" y="0" width="16" height="12" rx="2" fill="#02194b" stroke="#0f2b6e" stroke-width="0.6" />
+                    <rect x="0" y="4" width="16" height="4" fill="#dd0103" /> <!-- Crimson Livery Band -->
+                    <ellipse cx="8" cy="1" rx="6" ry="1.5" fill="#010d29" />
+                  </g>
+
+                  <!-- Central High-Tech Communications & Radar Mast -->
+                  <rect x="268" y="210" width="4" height="18" fill="#e2e8f0" stroke="#64748b" stroke-width="0.5" />
+                  <line x1="256" y1="216" x2="284" y2="216" stroke="#94a3b8" stroke-width="1.2" />
+                  <line x1="260" y1="221" x2="280" y2="221" stroke="#94a3b8" stroke-width="1" />
+
+                  <!-- Rotating X-Band Marine Radar Scanner -->
+                  <rect x="254" y="208" width="32" height="2.5" rx="1" fill="#dd0103" />
+                  <circle cx="270" cy="209" r="1.8" fill="#ffffff" />
+
+                  <!-- Twin Satellite Communication Radomes (Satcom Domes) -->
+                  <ellipse cx="250" cy="222" rx="4" ry="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6" />
+                  <ellipse cx="290" cy="222" rx="4" ry="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6" />
+
+                  <!-- Masthead High-Intensity Flashing Beacon -->
+                  <circle cx="270" cy="204" r="2.8" fill="#ffffff" class="animate-pulse" filter="url(#flagship_glowBeacon)" />
+                  <circle cx="270" cy="204" r="1.5" fill="#dd0103" />
+
+                  <!-- Steaming Light at Bow Jackstaff -->
+                  <circle cx="270" cy="62" r="3" fill="#ffffff" filter="url(#flagship_glowBeacon)" />
+
+                  <!-- ==================== 5. TRANSOM STERN & METALLIC CALL-SIGN BRANDING ==================== -->
+                  <rect x="225" y="266" width="90" height="9" rx="1.5" fill="#0b1e4a" stroke="#1e3a8a" stroke-width="0.5" />
+                  
+                  <text x="270" y="273" font-size="6" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1.5">
+                    MAVERICK TITAN • DUBAI
                   </text>
                 </svg>
               </div>

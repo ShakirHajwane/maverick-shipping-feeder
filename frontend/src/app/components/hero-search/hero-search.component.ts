@@ -1327,6 +1327,12 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   private animationFrameId: number | null = null;
   private canvasWidth = 0;
   private canvasHeight = 0;
+  private gridCols = 0;
+  private gridRows = 0;
+  private currentDpr = 1;
+  private lastRenderTime = 0;
+  private resizeObserver: ResizeObserver | null = null;
+  private dprMediaQuery: MediaQueryList | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
 
   private targetMouseX = -1000;
@@ -1472,28 +1478,52 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+    if (this.dprMediaQuery) {
+      this.dprMediaQuery.removeEventListener('change', this.onDprChange);
+      this.dprMediaQuery = null;
+    }
     window.removeEventListener('scroll', this.onWindowScroll);
     window.removeEventListener('resize', this.onWindowResize);
+    window.removeEventListener('focus', this.onWindowFocus);
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    }
   }
 
   // =========================================================
   // CANVAS ENGINE: WAVE MESH, DISPLACEMENT, & SONAR
   // =========================================================
   private initCanvas() {
-    if (!this.canvasRef) return;
+    if (!this.canvasRef || !this.sectionRef) return;
     const canvas = this.canvasRef.nativeElement;
     const rect = canvas.getBoundingClientRect();
+
+    // Guard: During macOS Space/desktop transitions or when hidden, rect can report 0 width/height.
+    // Never re-initialize with 0 or negative dimensions to avoid collapsing or distorting the grid!
+    if (rect.width <= 0 || rect.height <= 0) return;
+
     const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
+    const newWidth = Math.round(rect.width);
+    const newHeight = Math.round(rect.height);
+    const newPixelWidth = Math.round(newWidth * dpr);
+    const newPixelHeight = Math.round(newHeight * dpr);
 
-    this.canvasWidth = rect.width;
-    this.canvasHeight = rect.height;
+    this.canvasWidth = newWidth;
+    this.canvasHeight = newHeight;
+    this.currentDpr = dpr;
 
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    // Set backing store physical pixel resolution
+    canvas.width = newPixelWidth;
+    canvas.height = newPixelHeight;
 
     this.ctx = canvas.getContext('2d');
     if (this.ctx) {
-      this.ctx.scale(dpr, dpr);
+      // Use setTransform instead of scale to guarantee clean identity scaling without compounding zoom!
+      this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     this.initGridMesh();
@@ -1505,6 +1535,8 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
     const spacing = 48;
     const cols = Math.ceil(this.canvasWidth / spacing) + 1;
     const rows = Math.ceil(this.canvasHeight / spacing) + 1;
+    this.gridCols = cols;
+    this.gridRows = rows;
 
     const soundings = ['14.2m', '18.6m', '24.0m', '31.5m', '42.8m', '8.9m', '12.4m', '28.0m'];
 
@@ -1533,22 +1565,26 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
     if (this.flagshipRef && this.sectionRef) {
       const sRect = this.sectionRef.nativeElement.getBoundingClientRect();
       const fRect = this.flagshipRef.nativeElement.getBoundingClientRect();
-      this.vesselCenterX.set(fRect.left - sRect.left + fRect.width / 2);
-      this.vesselCenterY.set(fRect.top - sRect.top + fRect.height / 2);
+      if (sRect.width > 0 && fRect.width > 0) {
+        this.vesselCenterX.set(fRect.left - sRect.left + fRect.width / 2);
+        this.vesselCenterY.set(fRect.top - sRect.top + fRect.height / 2);
+      }
     } else if (this.sectionRef) {
       const rect = this.sectionRef.nativeElement.getBoundingClientRect();
-      this.vesselCenterX.set(rect.width * 0.72);
-      this.vesselCenterY.set(rect.height * 0.48);
+      if (rect.width > 0) {
+        this.vesselCenterX.set(rect.width * 0.72);
+        this.vesselCenterY.set(rect.height * 0.48);
+      }
     }
   }
 
   private startRenderLoop() {
     this.ngZone.runOutsideAngular(() => {
-      let lastTime = performance.now();
+      this.lastRenderTime = performance.now();
 
       const loop = (currentTime: number) => {
-        const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
-        lastTime = currentTime;
+        const dt = Math.min((currentTime - this.lastRenderTime) / 1000, 0.1);
+        this.lastRenderTime = currentTime;
 
         this.updatePhysics(currentTime, dt);
         this.renderCanvas(currentTime);
@@ -1777,9 +1813,9 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   private drawNauticalGrid(ctx: CanvasRenderingContext2D) {
-    const spacing = 48;
-    const cols = Math.ceil(this.canvasWidth / spacing) + 1;
-    const rows = Math.ceil(this.canvasHeight / spacing) + 1;
+    if (this.gridCols <= 0 || this.gridRows <= 0) return;
+    const cols = this.gridCols;
+    const rows = this.gridRows;
 
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'rgba(2, 25, 75, 0.055)';
@@ -2150,6 +2186,57 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
 
   private initResizeListener() {
     window.addEventListener('resize', this.onWindowResize, { passive: true });
+    window.addEventListener('focus', this.onWindowFocus, { passive: true });
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', this.onVisibilityChange, { passive: true });
+    }
+
+    // Use ResizeObserver for accurate container box layout tracking
+    if (typeof ResizeObserver !== 'undefined' && this.sectionRef) {
+      this.resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+            this.initCanvas();
+            this.updateVesselCoordinates();
+            break;
+          }
+        }
+      });
+      this.resizeObserver.observe(this.sectionRef.nativeElement);
+    }
+
+    this.listenToDprChange();
+  }
+
+  private onWindowFocus = () => {
+    this.initCanvas();
+    this.updateVesselCoordinates();
+  };
+
+  private onVisibilityChange = () => {
+    if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+      // Returned from another desktop/space or tab: refresh canvas size and reset animation loop timer
+      this.initCanvas();
+      this.updateVesselCoordinates();
+      this.lastRenderTime = performance.now();
+    } else {
+      // Switched desktop or tab hidden: safely disengage mouse interaction
+      this.onSectionMouseLeave();
+    }
+  };
+
+  private onDprChange = () => {
+    this.initCanvas();
+    this.listenToDprChange();
+  };
+
+  private listenToDprChange() {
+    if (typeof window === 'undefined') return;
+    if (this.dprMediaQuery) {
+      this.dprMediaQuery.removeEventListener('change', this.onDprChange);
+    }
+    this.dprMediaQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`);
+    this.dprMediaQuery.addEventListener('change', this.onDprChange, { once: true });
   }
 
   private onWindowResize = () => {

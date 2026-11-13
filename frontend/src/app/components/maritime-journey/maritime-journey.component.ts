@@ -77,13 +77,13 @@ interface SampledPoint {
            ========================================================= -->
       <div class="relative z-25 w-full pt-6 pb-2 flex flex-col items-center pointer-events-none">
         
-        <!-- Terminal Header Pill -->
+        <!-- Terminal Header Pill with Dynamic Docked / Undocking / Underway Status -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-300 shadow-md text-xs font-mono font-bold text-[#02194b] mb-3 pointer-events-auto">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="w-2.5 h-2.5 rounded-full" [ngClass]="departureStatusDotClass()"></span>
           <span class="text-[#dd0103]">PORT OF ORIGIN:</span>
           <span>JEBEL ALI TERMINAL 1 • BERTH 01</span>
           <span class="text-slate-400">|</span>
-          <span class="text-emerald-700">CLEARANCE: OUTBOUND READY</span>
+          <span [ngClass]="departureStatusTextClass()">{{ departureStatusText() }}</span>
         </div>
 
         <!-- Detailed Container Terminal Quay & Berth Illustration -->
@@ -226,8 +226,7 @@ interface SampledPoint {
           stroke-width="12"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
-          stroke-linecap="round"
-          vector-effect="non-scaling-stroke" />
+          stroke-linecap="round" />
 
         <!-- Dynamic Drawn Route Line: Core Illuminated Sunbeam Route -->
         <path
@@ -238,8 +237,39 @@ interface SampledPoint {
           stroke-width="4.5"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
-          stroke-linecap="round"
-          vector-effect="non-scaling-stroke" />
+          stroke-linecap="round" />
+
+        <!-- Berth 01 Mooring Hawser Lines (Taut when Progress < 0.045) -->
+        <g *ngIf="journeyProgress() < 0.045" [style.opacity]="mooringLinesDepartureOpacity()">
+          <line
+            x1="430" y1="150"
+            [attr.x2]="shipRawX() - 14" [attr.y2]="shipRawY() - 35"
+            stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" />
+          <line
+            x1="570" y1="150"
+            [attr.x2]="shipRawX() + 14" [attr.y2]="shipRawY() - 35"
+            stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" />
+        </g>
+
+        <!-- Undocking Bow & Stern Thrusters Froth / Jet spray (Active between 0.003 and 0.045) -->
+        <g *ngIf="journeyProgress() > 0.003 && journeyProgress() < 0.045" [style.opacity]="undockingThrustersOpacity()">
+          <circle [attr.cx]="shipRawX() - 28" [attr.cy]="shipRawY() - 15" r="12" fill="rgba(255,255,255,0.75)" class="animate-ping" />
+          <circle [attr.cx]="shipRawX() + 28" [attr.cy]="shipRawY() - 15" r="12" fill="rgba(255,255,255,0.75)" class="animate-ping" />
+          <circle [attr.cx]="shipRawX() - 24" [attr.cy]="shipRawY() + 35" r="14" fill="rgba(255,255,255,0.7)" class="animate-pulse" />
+          <circle [attr.cx]="shipRawX() + 24" [attr.cy]="shipRawY() + 35" r="14" fill="rgba(255,255,255,0.7)" class="animate-pulse" />
+        </g>
+
+        <!-- Berth 08 Safe Harbor Mooring Hawser Lines (Attached when Progress >= 0.96) -->
+        <g *ngIf="journeyProgress() >= 0.96" [style.opacity]="mooringLinesArrivalOpacity()">
+          <line
+            x1="430" y1="3840"
+            [attr.x2]="shipRawX() - 14" [attr.y2]="shipRawY() + 35"
+            stroke="#10b981" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" />
+          <line
+            x1="570" y1="3840"
+            [attr.x2]="shipRawX() + 14" [attr.y2]="shipRawY() + 35"
+            stroke="#10b981" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" />
+        </g>
       </svg>
 
       <!-- =========================================================
@@ -798,13 +828,13 @@ interface SampledPoint {
            ========================================================= -->
       <div class="relative z-25 w-full pt-4 pb-14 flex flex-col items-center pointer-events-none">
         
-        <!-- Terminal Arrival Status Pill -->
+        <!-- Terminal Arrival Status Pill with Dynamic Inbound / Docking / All Fast Status -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-emerald-300 shadow-md text-xs font-mono font-bold text-[#02194b] mb-3 pointer-events-auto">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="w-2.5 h-2.5 rounded-full" [ngClass]="arrivalStatusDotClass()"></span>
           <span class="text-emerald-700 font-black">DESTINATION PORT:</span>
           <span>SAFE HARBOR CONTAINER TERMINAL • BERTH 08</span>
           <span class="text-slate-400">|</span>
-          <span class="text-[#dd0103]">ALL FAST • SAFELY MOORED</span>
+          <span [ngClass]="arrivalStatusTextClass()">{{ arrivalStatusText() }}</span>
         </div>
 
         <!-- Detailed Container Terminal Quay & Berth Illustration (Bottom Dock) -->
@@ -985,20 +1015,23 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
   @ViewChild('carouselTrack') carouselTrackRef!: ElementRef<HTMLDivElement>;
 
   // Continuous Winding Route Path (viewBox 0 0 1000 4000)
-  readonly routePathD = 'M 500 40 C 720 300, 840 600, 800 950 C 760 1350, 220 1600, 240 1950 C 260 2350, 780 2600, 680 2950 C 580 3300, 380 3650, 500 3950';
+  // Origin starts at Berth 01 Quay (X: 500, Y: 200) and sails down fairway to destination Safe Harbor Berth 08 (X: 500, Y: 3800)
+  readonly routePathD = 'M 500 200 C 500 320, 840 600, 800 950 C 760 1350, 220 1600, 240 1950 C 260 2350, 780 2600, 680 2950 C 580 3300, 480 3650, 500 3800';
 
   // Reactive State Signals
   journeyProgress = signal<number>(0);
   pathTotalLength = signal<number>(4200);
   pathDashOffset = signal<number>(4200);
 
+  shipRawX = signal<number>(500);
+  shipRawY = signal<number>(200);
   shipXPercent = signal<number>(50);
-  shipYPercent = signal<number>(1);
+  shipYPercent = signal<number>(5);
   shipHeading = signal<number>(180);
   compassHeading = signal<number>(180);
 
   speedKnots = signal<number>(0);
-  speedLabel = signal<string>('ALL STOP');
+  speedLabel = signal<string>('SECURED AT BERTH 01 (ALL FAST)');
   liveLat = signal<string>('25.018');
   liveLng = signal<string>('55.061');
   headingDirection = signal<string>('180° S');
@@ -1093,6 +1126,69 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
       // Safe Harbor (Deep Navy transitioning to Sunset Harbor Warm Glow)
       return 'linear-gradient(180deg, #060d19 0%, #0f172a 30%, #1e1b4b 65%, #2a152e 100%)';
     }
+  });
+
+  // Dynamic Terminal Status Indicators & Mooring Rigging
+  departureStatusText = computed(() => {
+    const p = this.journeyProgress();
+    if (p <= 0.005) return 'STATUS: MOORED AT BERTH 01 • ALL FAST';
+    if (p < 0.045) return 'STATUS: UNDOCKING • CAST OFF • CLEARING BERTH';
+    return 'STATUS: UNDERWAY • FULL SPEED AHEAD';
+  });
+
+  departureStatusDotClass = computed(() => {
+    const p = this.journeyProgress();
+    if (p <= 0.005) return 'bg-amber-500 animate-pulse';
+    if (p < 0.045) return 'bg-sky-500 animate-ping';
+    return 'bg-emerald-500 animate-ping';
+  });
+
+  departureStatusTextClass = computed(() => {
+    const p = this.journeyProgress();
+    if (p <= 0.005) return 'text-amber-700 font-bold';
+    if (p < 0.045) return 'text-sky-700 font-bold';
+    return 'text-emerald-700 font-bold';
+  });
+
+  arrivalStatusText = computed(() => {
+    const p = this.journeyProgress();
+    if (p < 0.95) return 'APPROACH CHANNEL • INBOUND STANDBY';
+    if (p < 0.98) return 'BASIN MANEUVERING • DOCKING BERTH 08';
+    return 'ALL FAST • SAFELY MOORED AT BERTH 08';
+  });
+
+  arrivalStatusDotClass = computed(() => {
+    const p = this.journeyProgress();
+    if (p < 0.95) return 'bg-slate-400';
+    if (p < 0.98) return 'bg-amber-500 animate-ping';
+    return 'bg-emerald-500 animate-ping';
+  });
+
+  arrivalStatusTextClass = computed(() => {
+    const p = this.journeyProgress();
+    if (p < 0.95) return 'text-slate-500';
+    if (p < 0.98) return 'text-amber-600 font-bold';
+    return 'text-emerald-700 font-black';
+  });
+
+  mooringLinesDepartureOpacity = computed(() => {
+    const p = this.journeyProgress();
+    if (p <= 0.005) return 1;
+    if (p >= 0.045) return 0;
+    return 1 - ((p - 0.005) / 0.04);
+  });
+
+  undockingThrustersOpacity = computed(() => {
+    const p = this.journeyProgress();
+    if (p <= 0.003 || p >= 0.045) return 0;
+    if (p < 0.02) return (p - 0.003) / 0.017;
+    return 1 - ((p - 0.02) / 0.025);
+  });
+
+  mooringLinesArrivalOpacity = computed(() => {
+    const p = this.journeyProgress();
+    if (p < 0.96) return 0;
+    return Math.min(1, (p - 0.96) / 0.03);
   });
 
   private ngZone = inject(NgZone);
@@ -1212,10 +1308,10 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     const rect = container.getBoundingClientRect();
     const windowH = window.innerHeight;
 
-    // Start earlier: starts smoothly as soon as the top of the journey enters view (75% of viewport height)
-    const startThreshold = windowH * 0.75;
-    const scrolledAmount = startThreshold - rect.top;
-    const totalScrollableDistance = rect.height - windowH + startThreshold;
+    // Ship remains securely docked at Berth 01 until the journey reaches viewport top (rect.top <= 0).
+    // As user scrolls into the journey, progress advances smoothly from 0 to 1 without starting prematurely.
+    const scrolledAmount = -rect.top;
+    const totalScrollableDistance = rect.height - windowH;
 
     let progress = 0;
     if (totalScrollableDistance > 0) {
@@ -1265,13 +1361,15 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     // Apply reactive signals
     this.journeyProgress.set(progress);
     this.pathDashOffset.set(newOffset);
+    this.shipRawX.set(Math.round(rawX));
+    this.shipRawY.set(Math.round(rawY));
     this.shipXPercent.set(Math.round(x * 100) / 100);
     this.shipYPercent.set(Math.round(y * 100) / 100);
     this.shipHeading.set(roundedHeading);
     this.compassHeading.set(roundedHeading);
 
     this.updateCoordinates(progress, headingDeg);
-    this.isAnchorDropped.set(progress >= 0.92);
+    this.isAnchorDropped.set(progress >= 0.98);
 
     if (Math.abs(currentScrollY - this.lastScrollY) > 2) {
       this.spawnWakeParticle(rawX, rawY, roundedHeading);
@@ -1291,7 +1389,15 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     this.speedKnots.set(smoothed);
 
     if (smoothed < 0.5) {
-      this.speedLabel.set(this.journeyProgress() >= 0.92 ? 'SECURED AT BERTH' : 'DRIFTING / ALL STOP');
+      if (this.journeyProgress() <= 0.005) {
+        this.speedLabel.set('SECURED AT BERTH 01 (ALL FAST)');
+      } else if (this.journeyProgress() >= 0.98) {
+        this.speedLabel.set('SECURED AT BERTH 08 (ALL FAST)');
+      } else {
+        this.speedLabel.set('DRIFTING / ALL STOP');
+      }
+    } else if (this.journeyProgress() < 0.045) {
+      this.speedLabel.set('DEAD SLOW AHEAD • CLEARING BERTH');
     } else if (smoothed < 8.0) {
       this.speedLabel.set('SLOW AHEAD');
     } else if (smoothed < 16.0) {

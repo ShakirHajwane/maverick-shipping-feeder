@@ -73,8 +73,123 @@ interface SampledPoint {
       </div>
 
       <!-- =========================================================
+           PORT OF DEPARTURE: ORIGIN CONTAINER TERMINAL (START OF ROUTE)
+           ========================================================= -->
+      <div class="relative z-25 w-full pt-6 pb-2 flex flex-col items-center pointer-events-none">
+        
+        <!-- Terminal Header Pill -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-300 shadow-md text-xs font-mono font-bold text-[#02194b] mb-3 pointer-events-auto">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="text-[#dd0103]">PORT OF ORIGIN:</span>
+          <span>JEBEL ALI TERMINAL 1 • BERTH 01</span>
+          <span class="text-slate-400">|</span>
+          <span class="text-emerald-700">CLEARANCE: OUTBOUND READY</span>
+        </div>
+
+        <!-- Detailed Container Terminal Quay & Berth Illustration -->
+        <div class="relative w-[92%] sm:w-[680px] lg:w-[840px] max-w-full">
+          <!-- Terminal Pier Apron -->
+          <div class="w-full h-20 sm:h-24 rounded-2xl bg-gradient-to-b from-slate-200 via-slate-100 to-slate-300 border-2 border-slate-300 shadow-xl relative overflow-hidden flex items-end justify-between px-6 pb-2">
+            
+            <!-- Pier Warning Stripes on Waterline -->
+            <div class="absolute inset-x-0 bottom-0 h-3 bg-[repeating-linear-gradient(45deg,#f59e0b,#f59e0b_12px,#0f172a_12px,#0f172a_24px)] opacity-90 shadow-sm"></div>
+            
+            <!-- Rubber Marine Fenders hanging on water edge -->
+            <div class="absolute inset-x-12 bottom-0 flex justify-around">
+              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
+              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
+              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
+              <span class="w-5 h-2.5 bg-slate-800 rounded-t-sm shadow"></span>
+            </div>
+
+            <!-- Heavy Cast Iron Mooring Bollards with Coiled Ropes -->
+            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mb-2">
+              <div class="flex flex-col items-center">
+                <span class="w-5 h-6 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
+                </span>
+                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 01</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <span class="w-5 h-6 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
+                </span>
+                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 02</span>
+              </div>
+            </div>
+
+            <!-- Quay Container Stacks Grid (Maverick Red, Navy, Amber, White Reefer) -->
+            <div class="hidden sm:flex items-end gap-1.5 mb-2 relative z-10">
+              <div class="flex flex-col gap-0.5">
+                <div class="w-10 h-3.5 rounded-xs bg-[#dd0103] border border-[#b50102] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
+                <div class="w-10 h-3.5 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <div class="w-8 h-3.5 rounded-xs bg-amber-500 border border-amber-600 flex items-center justify-center text-[6px] font-mono text-white font-bold">20FT</div>
+                <div class="w-8 h-3.5 rounded-xs bg-white border border-slate-300 flex items-center justify-center text-[6px] font-mono text-[#02194b] font-bold">REEFER</div>
+                <div class="w-8 h-3.5 rounded-xs bg-[#dd0103] border border-[#b50102]"></div>
+              </div>
+            </div>
+
+            <!-- STS Gantry Crane (Ship-to-Shore) in Maverick Red & Deep Blue -->
+            <div class="relative z-10 mb-2 flex items-end">
+              <svg viewBox="0 0 120 90" class="w-24 sm:w-28 h-auto overflow-visible">
+                <!-- Crane A-Frame Legs -->
+                <line x1="20" y1="90" x2="45" y2="25" stroke="#dd0103" stroke-width="4.5" />
+                <line x1="70" y1="90" x2="55" y2="25" stroke="#dd0103" stroke-width="4.5" />
+                <line x1="26" y1="65" x2="64" y2="65" stroke="#b50102" stroke-width="2.5" />
+                <line x1="33" y1="45" x2="58" y2="45" stroke="#b50102" stroke-width="2.5" />
+                <!-- Extended Boom over water -->
+                <line x1="10" y1="25" x2="115" y2="25" stroke="#dd0103" stroke-width="4" />
+                <line x1="45" y1="25" x2="50" y2="5" stroke="#02194b" stroke-width="3" />
+                <line x1="50" y1="5" x2="110" y2="25" stroke="#02194b" stroke-width="1.8" />
+                <!-- Operator Cab & Trolley -->
+                <rect x="75" y="27" width="12" height="7" rx="1" fill="#02194b" />
+                <!-- Hoist Wire & Spreader -->
+                <line x1="81" y1="34" x2="81" y2="50" stroke="#475569" stroke-width="1" />
+                <rect x="73" y="50" width="16" height="4" fill="#f59e0b" />
+                <!-- Crane Beacon -->
+                <circle cx="50" cy="5" r="2" fill="#ef4444" class="animate-ping" />
+              </svg>
+            </div>
+
+            <!-- Harbormaster Control Tower & Bollard 03 -->
+            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mb-2">
+              <div class="flex flex-col items-center">
+                <span class="w-5 h-6 rounded-t-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
+                </span>
+                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BOLLARD 03</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Port Departure Channel Buoys (Starboard Green & Port Red) -->
+          <div class="flex justify-between items-center px-4 -mt-3 relative z-20">
+            <!-- Port Lateral Beacon (Red) -->
+            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-red-200 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+              <span class="text-[8px] font-mono font-bold text-[#dd0103]">PORT MARKER 01</span>
+            </div>
+            
+            <!-- Harbor Berth 01 Center Marker -->
+            <div class="text-[9px] font-mono font-bold text-slate-600 bg-white/90 backdrop-blur-md px-3 py-0.5 rounded-full border border-slate-200 shadow-xs">
+              BERTH 01 POCKET • DEPTH 17.5M
+            </div>
+
+            <!-- Starboard Lateral Beacon (Green) -->
+            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-200 shadow-sm">
+              <span class="text-[8px] font-mono font-bold text-emerald-700">STARBOARD MARKER 02</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================================================
            3. SVG CONTINUOUS WINDING ROUTE & BATHYMETRIC CONTOURS
-           (Dual SVG Path: Radiant Sunny Gold Navigational Route)
+           (Uniform Non-Scaling Strokes for Crisp Path Lines on All Devices)
            ========================================================= -->
       <svg
         #svgCanvas
@@ -84,11 +199,11 @@ interface SampledPoint {
 
         <!-- Bathymetric Depth Contour Lines -->
         <g stroke="#b50102" stroke-opacity="0.18" stroke-width="1.5" fill="none">
-          <path d="M 0 300 Q 300 250, 600 350 T 1000 320" />
-          <path d="M 0 800 Q 400 950, 700 850 T 1000 900" />
-          <path d="M 0 1500 Q 350 1350, 700 1600 T 1000 1450" />
-          <path d="M 0 2300 Q 450 2500, 800 2350 T 1000 2400" />
-          <path d="M 0 3200 Q 300 3100, 650 3300 T 1000 3150" />
+          <path d="M 0 300 Q 300 250, 600 350 T 1000 320" vector-effect="non-scaling-stroke" />
+          <path d="M 0 800 Q 400 950, 700 850 T 1000 900" vector-effect="non-scaling-stroke" />
+          <path d="M 0 1500 Q 350 1350, 700 1600 T 1000 1450" vector-effect="non-scaling-stroke" />
+          <path d="M 0 2300 Q 450 2500, 800 2350 T 1000 2400" vector-effect="non-scaling-stroke" />
+          <path d="M 0 3200 Q 300 3100, 650 3300 T 1000 3150" vector-effect="non-scaling-stroke" />
         </g>
 
         <!-- Static Planned Route (Faint Nautical Dotted Line) -->
@@ -99,7 +214,8 @@ interface SampledPoint {
           stroke="#dd0103"
           stroke-opacity="0.3"
           stroke-width="3"
-          stroke-dasharray="10 10" />
+          stroke-dasharray="10 10"
+          vector-effect="non-scaling-stroke" />
 
         <!-- Dynamic Drawn Route Line: Wide Ambient Sunny Gold Glow (GPU accelerated) -->
         <path
@@ -107,10 +223,11 @@ interface SampledPoint {
           fill="none"
           stroke="#dd0103"
           stroke-opacity="0.45"
-          stroke-width="14"
+          stroke-width="12"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
-          stroke-linecap="round" />
+          stroke-linecap="round"
+          vector-effect="non-scaling-stroke" />
 
         <!-- Dynamic Drawn Route Line: Core Illuminated Sunbeam Route -->
         <path
@@ -121,37 +238,71 @@ interface SampledPoint {
           stroke-width="4.5"
           [attr.stroke-dasharray]="pathTotalLength()"
           [attr.stroke-dashoffset]="pathDashOffset()"
-          stroke-linecap="round" />
-
-        <!-- Waypoint Anchorage Markers along the SVG Path -->
-        <!-- WP1: The Shallows (X: 800, Y: 950) -->
-        <g transform="translate(800, 950)">
-          <circle r="28" fill="none" stroke="#dd0103" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:20s]" />
-          <circle r="14" fill="#ffffff" stroke="#dd0103" stroke-width="2.5" />
-          <circle r="5" fill="#dd0103" />
-        </g>
-
-        <!-- WP2: The Reef (X: 240, Y: 1950) -->
-        <g transform="translate(240, 1950)">
-          <circle r="28" fill="none" stroke="#dd0103" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:25s]" />
-          <circle r="14" fill="#ffffff" stroke="#dd0103" stroke-width="2.5" />
-          <circle r="5" fill="#dd0103" />
-        </g>
-
-        <!-- WP3: The Deep Trench (X: 680, Y: 2950) -->
-        <g transform="translate(680, 2950)">
-          <circle r="28" fill="none" stroke="#dd0103" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin [animation-duration:15s]" />
-          <circle r="14" fill="#ffffff" stroke="#dd0103" stroke-width="2.5" />
-          <circle r="5" fill="#dd0103" />
-        </g>
-
-        <!-- WP4: Safe Harbor Pier (X: 500, Y: 3950) -->
-        <g transform="translate(500, 3950)">
-          <circle r="32" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 6" class="animate-spin [animation-duration:30s]" />
-          <circle r="16" fill="#ffffff" stroke="#10b981" stroke-width="3" />
-          <circle r="6" fill="#10b981" />
-        </g>
+          stroke-linecap="round"
+          vector-effect="non-scaling-stroke" />
       </svg>
+
+      <!-- =========================================================
+           WAYPOINT ANCHORAGE MARKERS (DOM OVERLAYS: GUARANTEED 100% CIRCULAR ON ALL SCREENS)
+           ========================================================= -->
+      <div class="absolute inset-0 pointer-events-none z-16 overflow-hidden">
+        
+        <!-- Waypoint 1 Marker: The Shallows (X: 80%, Y: 23.75%) -->
+        <div
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style="left: 80%; top: 23.75%;">
+          <div class="relative w-14 h-14 flex items-center justify-center">
+            <!-- Rotating dashed ring (Guaranteed 100% circular) -->
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-[#dd0103] animate-spin [animation-duration:20s]"></div>
+            <!-- Sonar ripple pulse -->
+            <div class="absolute inset-1.5 rounded-full border border-red-500/40 animate-ping"></div>
+            <!-- Center waypoint core -->
+            <div class="w-7 h-7 rounded-full bg-white border-2 border-[#dd0103] shadow-md flex items-center justify-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-[#dd0103]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waypoint 2 Marker: The Reef (X: 24%, Y: 48.75%) -->
+        <div
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style="left: 24%; top: 48.75%;">
+          <div class="relative w-14 h-14 flex items-center justify-center">
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-[#dd0103] animate-spin [animation-duration:25s]"></div>
+            <div class="absolute inset-1.5 rounded-full border border-red-500/40 animate-ping"></div>
+            <div class="w-7 h-7 rounded-full bg-white border-2 border-[#dd0103] shadow-md flex items-center justify-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-[#dd0103]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waypoint 3 Marker: The Deep Trench (X: 68%, Y: 73.75%) -->
+        <div
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style="left: 68%; top: 73.75%;">
+          <div class="relative w-14 h-14 flex items-center justify-center">
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-[#dd0103] animate-spin [animation-duration:15s]"></div>
+            <div class="absolute inset-1.5 rounded-full border border-red-500/40 animate-ping"></div>
+            <div class="w-7 h-7 rounded-full bg-white border-2 border-[#dd0103] shadow-md flex items-center justify-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-[#dd0103]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waypoint 4 Marker: Safe Harbor Arrival (X: 50%, Y: 98.75%) -->
+        <div
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style="left: 50%; top: 98.75%;">
+          <div class="relative w-16 h-16 flex items-center justify-center">
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-emerald-500 animate-spin [animation-duration:30s]"></div>
+            <div class="absolute inset-1.5 rounded-full border border-emerald-500/40 animate-ping"></div>
+            <div class="w-8 h-8 rounded-full bg-white border-2 border-emerald-600 shadow-xl flex items-center justify-center">
+              <div class="w-3 h-3 rounded-full bg-emerald-600"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
       <!-- =========================================================
            4. DYNAMIC SHIP WAKE PARTICLES (1.5s FADE-OUT)
@@ -643,6 +794,112 @@ interface SampledPoint {
       </section>
 
       <!-- =========================================================
+           PORT OF ARRIVAL: SAFE HARBOR DESTINATION TERMINAL (END OF ROUTE)
+           ========================================================= -->
+      <div class="relative z-25 w-full pt-4 pb-14 flex flex-col items-center pointer-events-none">
+        
+        <!-- Terminal Arrival Status Pill -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-emerald-300 shadow-md text-xs font-mono font-bold text-[#02194b] mb-3 pointer-events-auto">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="text-emerald-700 font-black">DESTINATION PORT:</span>
+          <span>SAFE HARBOR CONTAINER TERMINAL • BERTH 08</span>
+          <span class="text-slate-400">|</span>
+          <span class="text-[#dd0103]">ALL FAST • SAFELY MOORED</span>
+        </div>
+
+        <!-- Detailed Container Terminal Quay & Berth Illustration (Bottom Dock) -->
+        <div class="relative w-[92%] sm:w-[680px] lg:w-[840px] max-w-full">
+          <!-- Terminal Pier Apron -->
+          <div class="w-full h-20 sm:h-24 rounded-2xl bg-gradient-to-t from-slate-200 via-slate-100 to-slate-300 border-2 border-emerald-400 shadow-2xl relative overflow-hidden flex items-start justify-between px-6 pt-2">
+            
+            <!-- Pier Warning Stripes on Waterline (Top of Dock) -->
+            <div class="absolute inset-x-0 top-0 h-3 bg-[repeating-linear-gradient(45deg,#10b981,#10b981_12px,#0f172a_12px,#0f172a_24px)] opacity-90 shadow-sm"></div>
+            
+            <!-- Rubber Marine Fenders hanging on water edge -->
+            <div class="absolute inset-x-12 top-0 flex justify-around">
+              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
+              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
+              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
+              <span class="w-5 h-2.5 bg-slate-800 rounded-b-sm shadow"></span>
+            </div>
+
+            <!-- Heavy Mooring Bollards Left -->
+            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mt-2">
+              <div class="flex flex-col items-center">
+                <span class="w-5 h-6 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
+                </span>
+                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08A</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <span class="w-5 h-6 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
+                </span>
+                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08B</span>
+              </div>
+            </div>
+
+            <!-- Arrival Discharge Gantry Crane in Emerald & Navy -->
+            <div class="relative z-10 mt-2 flex items-start">
+              <svg viewBox="0 0 120 90" class="w-24 sm:w-28 h-auto overflow-visible">
+                <!-- Crane A-Frame Legs -->
+                <line x1="20" y1="0" x2="45" y2="65" stroke="#047857" stroke-width="4.5" />
+                <line x1="70" y1="0" x2="55" y2="65" stroke="#047857" stroke-width="4.5" />
+                <line x1="26" y1="25" x2="64" y2="25" stroke="#065f46" stroke-width="2.5" />
+                <!-- Extended Boom over water -->
+                <line x1="10" y1="65" x2="115" y2="65" stroke="#10b981" stroke-width="4" />
+                <line x1="45" y1="65" x2="50" y2="85" stroke="#02194b" stroke-width="3" />
+                <!-- Operator Cab & Trolley -->
+                <rect x="75" y="56" width="12" height="7" rx="1" fill="#02194b" />
+                <!-- Green Crane Beacon -->
+                <circle cx="50" cy="85" r="2" fill="#10b981" class="animate-ping" />
+              </svg>
+            </div>
+
+            <!-- Discharge Terminal Container Stacks -->
+            <div class="hidden sm:flex items-start gap-1.5 mt-2 relative z-10">
+              <div class="flex flex-col gap-0.5">
+                <div class="w-10 h-3.5 rounded-xs bg-[#02194b] border border-[#062569] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
+                <div class="w-10 h-3.5 rounded-xs bg-[#dd0103] border border-[#b50102] flex items-center justify-center text-[6px] font-mono text-white font-bold">40FT</div>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <div class="w-8 h-3.5 rounded-xs bg-emerald-600 border border-emerald-700 flex items-center justify-center text-[6px] font-mono text-white font-bold">CUSTOMS</div>
+                <div class="w-8 h-3.5 rounded-xs bg-white border border-slate-300 flex items-center justify-center text-[6px] font-mono text-[#02194b] font-bold">CLEARED</div>
+              </div>
+            </div>
+
+            <!-- Mooring Bollards Right -->
+            <div class="flex items-center gap-10 sm:gap-20 relative z-10 mt-2">
+              <div class="flex flex-col items-center">
+                <span class="w-5 h-6 rounded-b-lg bg-slate-700 border border-slate-500 shadow flex items-center justify-center">
+                  <span class="w-3.5 h-1 bg-slate-300 rounded"></span>
+                </span>
+                <span class="text-[7px] font-mono font-bold text-slate-500 mt-0.5">BERTH 08C</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Port Arrival Channel Buoys -->
+          <div class="flex justify-between items-center px-4 -mt-3 relative z-20">
+            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-red-200 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+              <span class="text-[8px] font-mono font-bold text-[#dd0103]">PORT MARKER 08</span>
+            </div>
+            
+            <div class="text-[9px] font-mono font-bold text-emerald-800 bg-white/90 backdrop-blur-md px-3 py-0.5 rounded-full border border-emerald-200 shadow-xs">
+              BERTH 08 BASIN • SAFE HARBOR REACHED
+            </div>
+
+            <div class="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-200 shadow-sm">
+              <span class="text-[8px] font-mono font-bold text-emerald-700">STARBOARD MARKER 08</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================================================
            7. FIXED CORNER NAVIGATION HUD (COMPASS, KNOTS, LAT/LNG)
            ========================================================= -->
       <aside
@@ -878,6 +1135,7 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
           if (!this.isTicking) {
             this.isTicking = true;
             requestAnimationFrame(() => {
+              this.precomputePathSamples();
               this.onScrollTick();
               this.isTicking = false;
             });
@@ -911,7 +1169,18 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     const path = this.pathRef.nativeElement;
     const total = path.getTotalLength();
     this.pathTotalLength.set(total);
-    this.pathDashOffset.set(total);
+    this.pathDashOffset.set(total * (1 - this.journeyProgress()));
+
+    // Screen-space aspect ratio scaling so ship angle matches visible path tangent on any viewport width
+    let scaleX = 1;
+    let scaleY = 1;
+    if (this.containerRef?.nativeElement) {
+      const rect = this.containerRef.nativeElement.getBoundingClientRect();
+      const w = rect.width || (typeof window !== 'undefined' ? window.innerWidth : 1000);
+      const h = rect.height || 4000;
+      scaleX = w / 1000;
+      scaleY = h / 4000;
+    }
 
     const SAMPLES_COUNT = 600;
     const samples: SampledPoint[] = [];
@@ -921,8 +1190,8 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
       const delta = 4;
       const ptAhead = path.getPointAtLength(Math.min(total, l + delta));
       const ptBehind = path.getPointAtLength(Math.max(0, l - delta));
-      const dx = ptAhead.x - ptBehind.x;
-      const dy = ptAhead.y - ptBehind.y;
+      const dx = (ptAhead.x - ptBehind.x) * scaleX;
+      const dy = (ptAhead.y - ptBehind.y) * scaleY;
       let headingDeg = (Math.atan2(dy, dx) * (180 / Math.PI)) + 90;
       if (headingDeg < 0) headingDeg += 360;
       samples.push({
@@ -943,9 +1212,10 @@ export class MaritimeJourneyComponent implements AfterViewInit, OnDestroy {
     const rect = container.getBoundingClientRect();
     const windowH = window.innerHeight;
 
-    // Calculate progress as container scrolls through viewport
-    const totalScrollableDistance = rect.height - windowH;
-    const scrolledAmount = -rect.top;
+    // Start earlier: starts smoothly as soon as the top of the journey enters view (75% of viewport height)
+    const startThreshold = windowH * 0.75;
+    const scrolledAmount = startThreshold - rect.top;
+    const totalScrollableDistance = rect.height - windowH + startThreshold;
 
     let progress = 0;
     if (totalScrollableDistance > 0) {

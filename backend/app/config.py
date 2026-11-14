@@ -1,8 +1,11 @@
 import os
 from pydantic_settings import BaseSettings
 
+is_vercel = os.getenv("VERCEL") == "1"
+default_db_url = "sqlite:////tmp/maritime_demo.db" if is_vercel else "sqlite:///./maritime_demo.db"
+
 class Settings(BaseSettings):
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./maritime_demo.db")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", default_db_url)
     APP_NAME: str = "Maritime Feeder & Container Shipping API"
     API_V1_STR: str = "/api"
 

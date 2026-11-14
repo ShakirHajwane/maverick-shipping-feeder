@@ -1,6 +1,5 @@
 export const environment = {
   production: true,
-  // Update this URL with your actual deployed Render backend URL once deployed on Render:
-  // e.g., 'https://maritime-feeder-api.onrender.com/api'
-  apiUrl: 'https://maritime-feeder-api.onrender.com/api'
+  // Unified Full-Stack Vercel deployment: relative /api routes directly to FastAPI serverless backend
+  apiUrl: '/api'
 };

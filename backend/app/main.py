@@ -1,7 +1,7 @@
 import json
 from contextlib import asynccontextmanager
 from typing import List, Optional
-from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi import FastAPI, Depends, HTTPException, Query, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
@@ -19,7 +19,7 @@ from app.seed import seed_database
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize database tables
+    # Initialize database tables and seed data automatically
     Base.metadata.create_all(bind=engine)
     db = next(get_db())
     try:
@@ -35,7 +35,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Enable CORS for demo flexibility
+# Enable CORS for full flexibility
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -44,23 +44,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def root():
-    return {
-        "status": "online",
-        "service": "Maritime Feeder API",
-        "docs": "/docs",
-        "endpoints": [
-            "/api/stats",
-            "/api/services",
-            "/api/schedules",
-            "/api/vessels",
-            "/api/vessels/{id}",
-            "/api/agents"
-        ]
-    }
+api_router = APIRouter()
 
-@app.get("/api/stats", response_model=StatsResponse)
+@api_router.get("/stats", response_model=StatsResponse)
 def get_stats():
     return StatsResponse(
         port_calls="15.5K",
@@ -71,7 +57,7 @@ def get_stats():
         feeder_services=32
     )
 
-@app.get("/api/services", response_model=List[FeederServiceResponse])
+@api_router.get("/services", response_model=List[FeederServiceResponse])
 def get_services(code: Optional[str] = None, db: Session = Depends(get_db)):
     query = db.query(FeederService)
     if code:
@@ -87,7 +73,7 @@ def get_services(code: Optional[str] = None, db: Session = Depends(get_db)):
         results.append(res)
     return results
 
-@app.get("/api/schedules", response_model=List[VoyageScheduleResponse])
+@api_router.get("/schedules", response_model=List[VoyageScheduleResponse])
 def get_schedules(
     pol: Optional[str] = None,
     pod: Optional[str] = None,
@@ -109,7 +95,7 @@ def get_schedules(
         query = query.filter(VoyageSchedule.voyage_no.ilike(f"%{voyage_no.strip()}%"))
     return query.order_by(VoyageSchedule.etd.asc()).all()
 
-@app.get("/api/vessels", response_model=List[VesselResponse])
+@api_router.get("/vessels", response_model=List[VesselResponse])
 def get_vessels(
     search: Optional[str] = None,
     flag: Optional[str] = None,
@@ -138,16 +124,36 @@ def get_vessels(
 
     return query.order_by(Vessel.nominal_cap_teu.desc()).all()
 
-@app.get("/api/vessels/{id}", response_model=VesselResponse)
+@api_router.get("/vessels/{id}", response_model=VesselResponse)
 def get_vessel_by_id(id: int, db: Session = Depends(get_db)):
     vessel = db.query(Vessel).filter(Vessel.id == id).first()
     if not vessel:
         raise HTTPException(status_code=404, detail="Vessel not found")
     return vessel
 
-@app.get("/api/agents", response_model=List[RegionalAgentResponse])
+@api_router.get("/agents", response_model=List[RegionalAgentResponse])
 def get_agents(country: Optional[str] = None, db: Session = Depends(get_db)):
     query = db.query(RegionalAgent)
     if country and country.lower() != "all":
         query = query.filter(RegionalAgent.country.ilike(f"%{country.strip()}%"))
     return query.order_by(RegionalAgent.country.asc(), RegionalAgent.city.asc()).all()
+
+# Mount router under both /api and root / for seamless routing compatibility across all hosting providers
+app.include_router(api_router, prefix="/api")
+app.include_router(api_router, prefix="")
+
+@app.get("/")
+def root():
+    return {
+        "status": "online",
+        "service": "Maritime Feeder API",
+        "docs": "/docs",
+        "endpoints": [
+            "/api/stats",
+            "/api/services",
+            "/api/schedules",
+            "/api/vessels",
+            "/api/vessels/{id}",
+            "/api/agents"
+        ]
+    }

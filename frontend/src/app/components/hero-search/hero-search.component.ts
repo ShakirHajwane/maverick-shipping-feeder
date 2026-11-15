@@ -88,7 +88,8 @@ interface TelemetryNode {
       (touchstart)="onTouchStart()"
       (touchend)="onTouchEnd()"
       (touchcancel)="onTouchEnd()"
-      class="relative w-full min-h-screen py-4 sm:py-6 lg:py-6 overflow-hidden bg-gradient-to-b from-[#f0f5fc] via-[#e8f1fb] to-[#ffffff] border-b border-slate-200 perspective-1200 preserve-3d select-none flex flex-col justify-between">
+      [style.background]="heroBackgroundStyle()"
+      class="relative w-full min-h-screen py-4 sm:py-6 lg:py-6 overflow-hidden border-b border-slate-200 perspective-1200 preserve-3d select-none flex flex-col justify-between transition-[background] duration-700">
 
       <!-- =========================================================
            BACKGROUND LAYER: INTERACTIVE HTML5 CANVAS OCEAN & SONAR GRID
@@ -98,7 +99,7 @@ interface TelemetryNode {
         class="absolute inset-0 w-full h-full pointer-events-none lg:pointer-events-auto z-0 lg:cursor-crosshair">
       </canvas>
 
-            <!-- =========================================================
+      <!-- =========================================================
            MIDGROUND 2-COLUMN STAGE: TYPOGRAPHY (LEFT) & INTEGRATED LOGISTICS CONSOLE (RIGHT)
            ========================================================= -->
       <div class="relative z-20 flex-1 max-w-7xl mx-auto px-4 sm:px-8 w-full flex items-center">
@@ -121,34 +122,73 @@ interface TelemetryNode {
               </span>
             </div>
 
-            <!-- Live-Ticking Nautical Telemetry Bar -->
-            <div class="flex items-center gap-2 text-[10.5px] font-mono text-slate-600 bg-white/80 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200/90 w-fit shadow-xs">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span class="text-emerald-700 font-bold">DGPS LOCK</span>
-              <span>•</span>
-              <span class="text-[#02194b] font-bold">LAT 25°01.8' N</span>
-              <span>•</span>
-              <span class="text-[#02194b] font-bold">LON 055°06.4' E</span>
-              <span>•</span>
-              <span class="text-[#dd0103] font-bold">TIDE +1.4m</span>
+            <!-- Live-Ticking Nautical Telemetry Bar & Water Style Switcher -->
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="flex items-center gap-2 text-[10.5px] font-mono text-slate-600 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200/90 shadow-xs">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-emerald-700 font-bold">DGPS LOCK</span>
+                <span>•</span>
+                <span class="text-[#02194b] font-bold">LAT 25°01.8' N</span>
+                <span>•</span>
+                <span class="text-[#02194b] font-bold">LON 055°06.4' E</span>
+                <span>•</span>
+                <span class="text-[#dd0103] font-bold">TIDE +1.4m</span>
+              </div>
+
+              <!-- Interactive Water & Waves Style Switcher -->
+              <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-xs text-[10px] font-mono font-bold text-slate-700">
+                <span class="text-sky-500 text-xs">🌊</span>
+                <span class="text-slate-500 uppercase tracking-wider text-[9px] hidden sm:inline">WATER:</span>
+                <button
+                  type="button"
+                  (click)="setWaterTheme('azure')"
+                  [class]="waterTheme() === 'azure' ? 'bg-sky-600 text-white px-2 py-0.5 rounded shadow-2xs font-bold cursor-pointer' : 'text-slate-600 hover:text-slate-900 px-1.5 py-0.5 cursor-pointer'">
+                  Azure Sea
+                </button>
+                <button
+                  type="button"
+                  (click)="setWaterTheme('deep')"
+                  [class]="waterTheme() === 'deep' ? 'bg-[#02194b] text-white px-2 py-0.5 rounded shadow-2xs font-bold cursor-pointer' : 'text-slate-600 hover:text-slate-900 px-1.5 py-0.5 cursor-pointer'">
+                  Deep Ocean
+                </button>
+                <button
+                  type="button"
+                  (click)="setWaterTheme('slate')"
+                  [class]="waterTheme() === 'slate' ? 'bg-slate-700 text-white px-2 py-0.5 rounded shadow-2xs font-bold cursor-pointer' : 'text-slate-600 hover:text-slate-900 px-1.5 py-0.5 cursor-pointer'">
+                  Calm Slate
+                </button>
+                <button
+                  type="button"
+                  (click)="toggleWaterMotion()"
+                  [title]="isWaterMotionPaused() ? 'Resume Waves' : 'Pause Waves'"
+                  class="ml-0.5 px-1 py-0.5 rounded hover:bg-slate-200/80 text-slate-700 text-[11px] cursor-pointer">
+                  {{ isWaterMotionPaused() ? '▶️' : '⏸️' }}
+                </button>
+              </div>
             </div>
 
             <!-- Headline with Staggered Clip-Path Reveal -->
-            <h1 class="text-3xl sm:text-4xl lg:text-[38px] xl:text-[45px] font-black text-[#02194b] tracking-tight leading-[1.1]">
+            <h1 class="text-3xl sm:text-4xl lg:text-[38px] xl:text-[45px] font-black tracking-tight leading-[1.1]">
               <span class="block overflow-hidden">
-                <span class="inline-block animate-clip-reveal-1">
+                <span
+                  class="inline-block animate-clip-reveal-1 transition-colors duration-500"
+                  [ngClass]="waterTheme() === 'deep' ? 'text-white drop-shadow-md' : 'text-[#02194b]'">
                   {{ isRtl() ? 'تمكين عمالقة الشحن' : 'Empowering Shipping Giants' }}
                 </span>
               </span>
               <span class="block overflow-hidden">
-                <span class="inline-block text-[#dd0103] animate-clip-reveal-2">
+                <span
+                  class="inline-block animate-clip-reveal-2 transition-colors duration-500"
+                  [ngClass]="waterTheme() === 'deep' ? 'text-[#ff3b4e] drop-shadow-md' : 'text-[#dd0103]'">
                   {{ isRtl() ? 'من خلال الابتكار الملاحي' : 'Through Feeder Innovation' }}
                 </span>
               </span>
             </h1>
 
             <!-- Subtitle Description -->
-            <p class="text-xs sm:text-sm lg:text-[15px] text-slate-700 leading-relaxed max-w-xl font-normal animate-fade-up">
+            <p
+              class="text-xs sm:text-sm lg:text-[15px] leading-relaxed max-w-xl animate-fade-up transition-colors duration-500"
+              [ngClass]="waterTheme() === 'deep' ? 'text-slate-100 font-medium' : (waterTheme() === 'azure' ? 'text-slate-900 font-medium' : 'text-slate-700 font-normal')">
               {{ isRtl() 
                 ? 'ربط الموانئ المحورية في الخليج العربي والبحر الأحمر وشبه القارة الهندية وجنوب شرق آسيا بأعلى تردد وأدق مواعيد.' 
                 : 'Connecting key container hubs across the Arabian Gulf, Red Sea, Indian Subcontinent, and Southeast Asia with high-frequency feeder reliability and precision logistics.' }}
@@ -542,7 +582,9 @@ interface TelemetryNode {
         <button
           (click)="sailToRoute()"
           class="flex flex-col items-center gap-1 text-slate-500 hover:text-[#dd0103] transition-colors cursor-pointer group">
-          <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-[#02194b] group-hover:text-[#dd0103]">
+          <span
+            class="text-[10px] font-mono font-bold uppercase tracking-widest group-hover:text-[#dd0103] transition-colors"
+            [ngClass]="waterTheme() === 'deep' ? 'text-slate-200' : 'text-[#02194b]'">
             {{ isRtl() ? 'تمرير لبدء الرحلة الملاحية' : 'SCROLL TO SAIL ROUTE' }}
           </span>
           <svg class="w-5 h-5 text-[#dd0103] animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -550,9 +592,19 @@ interface TelemetryNode {
           </svg>
         </button>
       </div>
-    </section>
 
-    
+      <!-- =========================================================
+           LAYERED ANIMATED OCEAN WAVE RIBBON (TRANSITIONS TO CANAL)
+           ========================================================= -->
+      <div class="absolute bottom-0 inset-x-0 w-full pointer-events-none z-10 overflow-hidden leading-none h-14 sm:h-20">
+        <svg class="relative block w-[200%] h-full animate-wave-slow opacity-60 will-change-transform" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0 C150,90 350,-40 500,40 C650,120 900,10 1200,45 L1200,120 L0,120 Z" [attr.fill]="bottomWaveFill1()"></path>
+        </svg>
+        <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-fast opacity-85 will-change-transform" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,20 C200,100 450,10 700,70 C950,130 1100,30 1200,60 L1200,120 L0,120 Z" [attr.fill]="bottomWaveFill2()"></path>
+        </svg>
+      </div>
+    </section>
   `
 })
 export class HeroSearchComponent implements AfterViewInit, OnDestroy {
@@ -564,6 +616,54 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   @ViewChild('heroCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('flagshipEl') flagshipRef?: ElementRef<HTMLElement>;
   @ViewChild('magneticBtn') magneticBtnRef!: ElementRef<HTMLButtonElement>;
+
+  // Water & Waves Atmosphere State
+  waterTheme = signal<'azure' | 'deep' | 'slate'>('azure');
+  isWaterMotionPaused = signal<boolean>(false);
+
+  setWaterTheme(theme: 'azure' | 'deep' | 'slate') {
+    this.waterTheme.set(theme);
+  }
+
+  toggleWaterMotion() {
+    this.isWaterMotionPaused.update(v => !v);
+  }
+
+  heroBackgroundStyle(): string {
+    switch (this.waterTheme()) {
+      case 'deep':
+        return 'radial-gradient(ellipse at 50% 15%, #042766 0%, #021a47 40%, #01102e 100%)';
+      case 'azure':
+        return 'linear-gradient(180deg, #bae6fd 0%, #7dd3fc 18%, #38bdf8 38%, #0ea5e9 60%, #0284c7 80%, #0369a1 100%)';
+      case 'slate':
+      default:
+        return 'linear-gradient(180deg, #f0f5fc 0%, #e8f1fb 50%, #ffffff 100%)';
+    }
+  }
+
+  bottomWaveFill1(): string {
+    switch (this.waterTheme()) {
+      case 'deep':
+        return 'rgba(2, 25, 75, 0.75)';
+      case 'azure':
+        return 'rgba(14, 165, 233, 0.65)';
+      case 'slate':
+      default:
+        return 'rgba(226, 232, 240, 0.75)';
+    }
+  }
+
+  bottomWaveFill2(): string {
+    switch (this.waterTheme()) {
+      case 'deep':
+        return '#02194b';
+      case 'azure':
+        return '#0284c7';
+      case 'slate':
+      default:
+        return '#f0f4fa';
+    }
+  }
 
   // 3-Tab Action Engine Signals
   activeTab = signal<'service' | 'schedule' | 'tracking'>('service');
@@ -854,11 +954,16 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
       this.lastRenderTime = performance.now();
 
       const loop = (currentTime: number) => {
-        const dt = Math.min((currentTime - this.lastRenderTime) / 1000, 0.1);
-        this.lastRenderTime = currentTime;
+        if (!this.isWaterMotionPaused()) {
+          const dt = Math.min((currentTime - this.lastRenderTime) / 1000, 0.1);
+          this.lastRenderTime = currentTime;
 
-        this.updatePhysics(currentTime, dt);
-        this.renderCanvas(currentTime);
+          this.updatePhysics(currentTime, dt);
+          this.renderCanvas(currentTime);
+        } else {
+          // If paused (e.g. user toggle or reduced-motion), preserve steady frame
+          this.renderCanvas(this.lastRenderTime);
+        }
 
         this.animationFrameId = requestAnimationFrame(loop);
       };
@@ -1041,55 +1146,244 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   private drawOceanWaves(ctx: CanvasRenderingContext2D, time: number) {
     const w = this.canvasWidth;
     const h = this.canvasHeight;
+    const theme = this.waterTheme();
     const t = time * 0.001;
 
-    // Layer 1: Deep Fluid Wave Contour (Maverick Navy #02194B wash)
+    // 0. Sunlight Water Caustics (Underwater Refraction Shimmer)
+    if (theme !== 'slate') {
+      this.drawWaterCaustics(ctx, time, theme);
+    }
+
+    // Determine water wave color palettes based on active theme
+    let wave1Fill: CanvasGradient;
+    let wave2Fill: CanvasGradient;
+    let wave3Fill: CanvasGradient;
+    let wave4Fill: CanvasGradient;
+    let foamStroke = 'rgba(255, 255, 255, 0.75)';
+
+    if (theme === 'deep') {
+      // Deep Abyssal Swell: midnight navy with bioluminescent cyan touches
+      wave1Fill = ctx.createLinearGradient(0, h * 0.35, 0, h);
+      wave1Fill.addColorStop(0, 'rgba(3, 30, 85, 0.70)');
+      wave1Fill.addColorStop(1, 'rgba(1, 15, 45, 0.90)');
+
+      wave2Fill = ctx.createLinearGradient(0, h * 0.48, 0, h);
+      wave2Fill.addColorStop(0, 'rgba(2, 60, 135, 0.65)');
+      wave2Fill.addColorStop(1, 'rgba(2, 25, 75, 0.85)');
+
+      wave3Fill = ctx.createLinearGradient(0, h * 0.62, 0, h);
+      wave3Fill.addColorStop(0, 'rgba(14, 165, 233, 0.40)');
+      wave3Fill.addColorStop(1, 'rgba(3, 40, 100, 0.75)');
+
+      wave4Fill = ctx.createLinearGradient(0, h * 0.78, 0, h);
+      wave4Fill.addColorStop(0, 'rgba(56, 189, 248, 0.35)');
+      wave4Fill.addColorStop(1, 'rgba(2, 20, 60, 0.85)');
+
+      foamStroke = 'rgba(224, 242, 254, 0.85)';
+    } else if (theme === 'azure') {
+      // Azure Coastal Sea: vibrant daylight marine aquamarine to cerulean
+      wave1Fill = ctx.createLinearGradient(0, h * 0.35, 0, h);
+      wave1Fill.addColorStop(0, 'rgba(14, 165, 233, 0.55)');
+      wave1Fill.addColorStop(1, 'rgba(3, 105, 161, 0.75)');
+
+      wave2Fill = ctx.createLinearGradient(0, h * 0.48, 0, h);
+      wave2Fill.addColorStop(0, 'rgba(56, 189, 248, 0.60)');
+      wave2Fill.addColorStop(1, 'rgba(2, 132, 199, 0.80)');
+
+      wave3Fill = ctx.createLinearGradient(0, h * 0.62, 0, h);
+      wave3Fill.addColorStop(0, 'rgba(125, 211, 252, 0.65)');
+      wave3Fill.addColorStop(1, 'rgba(14, 165, 233, 0.85)');
+
+      wave4Fill = ctx.createLinearGradient(0, h * 0.78, 0, h);
+      wave4Fill.addColorStop(0, 'rgba(186, 230, 253, 0.70)');
+      wave4Fill.addColorStop(1, 'rgba(3, 105, 161, 0.90)');
+
+      foamStroke = 'rgba(255, 255, 255, 0.90)';
+    } else {
+      // Calm Slate: subtle corporate water wash
+      wave1Fill = ctx.createLinearGradient(0, h * 0.50, 0, h);
+      wave1Fill.addColorStop(0, 'rgba(2, 25, 75, 0.04)');
+      wave1Fill.addColorStop(1, 'rgba(2, 25, 75, 0.08)');
+
+      wave2Fill = ctx.createLinearGradient(0, h * 0.65, 0, h);
+      wave2Fill.addColorStop(0, 'rgba(2, 132, 199, 0.05)');
+      wave2Fill.addColorStop(1, 'rgba(2, 132, 199, 0.10)');
+
+      wave3Fill = ctx.createLinearGradient(0, h * 0.78, 0, h);
+      wave3Fill.addColorStop(0, 'rgba(221, 1, 3, 0.03)');
+      wave3Fill.addColorStop(1, 'rgba(221, 1, 3, 0.06)');
+
+      wave4Fill = wave3Fill;
+      foamStroke = 'rgba(255, 255, 255, 0.35)';
+    }
+
+    // ==========================================
+    // LAYER 1: DEEP OCEAN GROUND SWELL (Background)
+    // ==========================================
     ctx.beginPath();
-    ctx.moveTo(0, h * 0.52);
+    ctx.moveTo(0, h * 0.40);
     for (let x = 0; x <= w; x += 25) {
-      const y = h * 0.52 + Math.sin(x * 0.003 + t * 0.8) * 16 + Math.cos(x * 0.006 - t * 0.5) * 8;
+      const y = h * 0.40 +
+        Math.sin(x * 0.0022 + t * 0.7) * 22 +
+        Math.cos(x * 0.0045 - t * 0.4) * 12;
       ctx.lineTo(x, y);
     }
     ctx.lineTo(w, h);
     ctx.lineTo(0, h);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(2, 25, 75, 0.035)';
+    ctx.fillStyle = wave1Fill;
     ctx.fill();
 
-    // Layer 2: Mid Oceanic Azure Wave (Sky/Teal wash)
+    // ==========================================
+    // LAYER 2: MID-WATER ROLLING SURGE
+    // ==========================================
     ctx.beginPath();
-    ctx.moveTo(0, h * 0.65);
-    for (let x = 0; x <= w; x += 20) {
-      const y = h * 0.65 + Math.sin(x * 0.004 - t * 1.1) * 20 + Math.cos(x * 0.008 + t * 0.6) * 10;
+    const wave2Points: { x: number; y: number }[] = [];
+    ctx.moveTo(0, h * 0.52);
+    for (let x = 0; x <= w; x += 18) {
+      const y = h * 0.52 +
+        Math.sin(x * 0.0032 - t * 1.0 + 1.6) * 25 +
+        Math.cos(x * 0.0065 + t * 0.6) * 14;
+      wave2Points.push({ x, y });
       ctx.lineTo(x, y);
     }
     ctx.lineTo(w, h);
     ctx.lineTo(0, h);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(2, 132, 199, 0.04)';
+    ctx.fillStyle = wave2Fill;
     ctx.fill();
 
-    // Layer 3: Foreground Shimmer Crest with subtle Maverick Red tone
+    // Subtle foam crest on Layer 2
+    if (theme !== 'slate') {
+      ctx.beginPath();
+      for (let i = 0; i < wave2Points.length; i++) {
+        const pt = wave2Points[i];
+        if (i === 0) ctx.moveTo(pt.x, pt.y);
+        else ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.strokeStyle = foamStroke;
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+    }
+
+    // ==========================================
+    // LAYER 3: SURFACE WAVE ROLLERS
+    // ==========================================
     ctx.beginPath();
-    ctx.moveTo(0, h * 0.78);
-    for (let x = 0; x <= w; x += 15) {
-      const y = h * 0.78 + Math.sin(x * 0.005 + t * 1.4) * 14;
+    const wave3Points: { x: number; y: number }[] = [];
+    ctx.moveTo(0, h * 0.68);
+    for (let x = 0; x <= w; x += 14) {
+      const y = h * 0.68 +
+        Math.sin(x * 0.0045 + t * 1.3) * 20 +
+        Math.cos(x * 0.009 - t * 0.9) * 10;
+      wave3Points.push({ x, y });
       ctx.lineTo(x, y);
     }
     ctx.lineTo(w, h);
     ctx.lineTo(0, h);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(221, 1, 3, 0.025)';
+    ctx.fillStyle = wave3Fill;
     ctx.fill();
+
+    // White foam breaker line along Layer 3 crests
+    if (theme !== 'slate') {
+      ctx.beginPath();
+      for (let i = 0; i < wave3Points.length; i++) {
+        const pt = wave3Points[i];
+        if (i === 0) ctx.moveTo(pt.x, pt.y);
+        else ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.strokeStyle = foamStroke;
+      ctx.lineWidth = 2.4;
+      ctx.stroke();
+    }
+
+    // ==========================================
+    // LAYER 4: FOREGROUND WAVE CREST & SURF FOAM
+    // ==========================================
+    ctx.beginPath();
+    const wave4Points: { x: number; y: number }[] = [];
+    ctx.moveTo(0, h * 0.82);
+    for (let x = 0; x <= w; x += 12) {
+      const y = h * 0.82 +
+        Math.sin(x * 0.006 - t * 1.6 + 0.8) * 16 +
+        Math.cos(x * 0.012 + t * 1.1) * 8;
+      wave4Points.push({ x, y });
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fillStyle = wave4Fill;
+    ctx.fill();
+
+    // Foam spray line and sparkling bubbles
+    if (theme !== 'slate') {
+      ctx.beginPath();
+      for (let i = 0; i < wave4Points.length; i++) {
+        const pt = wave4Points[i];
+        if (i === 0) ctx.moveTo(pt.x, pt.y);
+        else ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.92)';
+      ctx.lineWidth = 3.0;
+      ctx.stroke();
+
+      // Spray foam bubbles at wave crest peaks
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      for (let i = 0; i < wave4Points.length; i += 3) {
+        const pt = wave4Points[i];
+        const sparkle = Math.sin(pt.x * 0.05 + t * 4);
+        if (sparkle > 0.4) {
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y - 3 + sparkle * 2, 1.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+  }
+
+  private drawWaterCaustics(ctx: CanvasRenderingContext2D, time: number, theme: 'deep' | 'azure' | 'slate') {
+    const w = this.canvasWidth;
+    const h = this.canvasHeight;
+    const t = time * 0.0006;
+    const causticAlpha = theme === 'deep' ? 0.08 : 0.16;
+
+    ctx.save();
+    ctx.strokeStyle = `rgba(255, 255, 255, ${causticAlpha})`;
+    ctx.lineWidth = 1.5;
+
+    // Draw 3 interwoven caustic light curves simulating underwater refraction
+    for (let c = 0; c < 3; c++) {
+      ctx.beginPath();
+      const phase = c * 1.8;
+      const baseY = h * (0.25 + c * 0.15);
+      for (let x = 0; x <= w; x += 30) {
+        const y = baseY +
+          Math.sin(x * 0.005 + t * (c + 1) + phase) * 20 +
+          Math.cos(x * 0.009 - t * 1.5) * 12;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
   }
 
   private drawNauticalGrid(ctx: CanvasRenderingContext2D) {
     if (this.gridCols <= 0 || this.gridRows <= 0) return;
     const cols = this.gridCols;
     const rows = this.gridRows;
+    const theme = this.waterTheme();
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(2, 25, 75, 0.055)';
+    if (theme === 'deep') {
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+    } else if (theme === 'azure') {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+    } else {
+      ctx.strokeStyle = 'rgba(2, 25, 75, 0.055)';
+    }
 
     // Draw horizontal grid lines across displaced vertices
     for (let r = 0; r < rows; r++) {
@@ -1121,7 +1415,13 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
 
     // Draw intersection crosses & depth soundings
     ctx.font = '9px monospace';
-    ctx.fillStyle = 'rgba(2, 25, 75, 0.35)';
+    if (theme === 'deep') {
+      ctx.fillStyle = 'rgba(125, 211, 252, 0.55)';
+    } else if (theme === 'azure') {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.70)';
+    } else {
+      ctx.fillStyle = 'rgba(2, 25, 75, 0.35)';
+    }
 
     for (let i = 0; i < this.gridVertices.length; i++) {
       const v = this.gridVertices[i];

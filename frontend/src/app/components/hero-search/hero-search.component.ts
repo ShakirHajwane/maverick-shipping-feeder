@@ -618,15 +618,15 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   @ViewChild('magneticBtn') magneticBtnRef!: ElementRef<HTMLButtonElement>;
 
   // Water & Waves Atmosphere State
-  waterTheme = signal<'azure' | 'deep' | 'slate'>('azure');
-  isWaterMotionPaused = signal<boolean>(false);
+  waterTheme = this.service.waterTheme;
+  isWaterMotionPaused = this.service.isWaterMotionPaused;
 
   setWaterTheme(theme: 'azure' | 'deep' | 'slate') {
-    this.waterTheme.set(theme);
+    this.service.setWaterTheme(theme);
   }
 
   toggleWaterMotion() {
-    this.isWaterMotionPaused.update(v => !v);
+    this.service.toggleWaterMotion();
   }
 
   heroBackgroundStyle(): string {

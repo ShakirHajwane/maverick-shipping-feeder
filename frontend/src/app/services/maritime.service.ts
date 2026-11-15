@@ -35,6 +35,18 @@ export class MaritimeService {
   isLoadingVessels = signal<boolean>(false);
   isLoadingSchedules = signal<boolean>(false);
 
+  // Global Ocean Water Atmosphere State
+  waterTheme = signal<'azure' | 'deep' | 'slate'>('azure');
+  isWaterMotionPaused = signal<boolean>(false);
+
+  setWaterTheme(theme: 'azure' | 'deep' | 'slate') {
+    this.waterTheme.set(theme);
+  }
+
+  toggleWaterMotion() {
+    this.isWaterMotionPaused.update(v => !v);
+  }
+
   // Computed state
   serviceCodes = computed(() => this.services().map(s => s.code));
   availableFlags = computed(() => {

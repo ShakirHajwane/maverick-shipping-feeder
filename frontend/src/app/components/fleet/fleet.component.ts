@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, signal, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal, computed, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaritimeService } from '../../services/maritime.service';
@@ -64,6 +64,119 @@ import { Vessel } from '../../models/maritime.models';
             <!-- Vessels Count Badge -->
             <div class="text-xs font-mono text-slate-600 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
               {{ isRtl() ? 'إجمالي السفن:' : 'Vessels:' }} <span class="text-[#dd0103] font-bold">{{ filteredVessels().length }}</span> / {{ service.vessels().length }}
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             INNOVATIVE HYDRODYNAMIC WAVE BASIN & SEA TRIAL TANK
+             Interactive Graphic Canvas: Real-Time Hull Displacement & Waves
+             ========================================================= -->
+        <div class="mb-8 rounded-2xl sm:rounded-3xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden relative text-white">
+          <!-- Top Control Header Bar -->
+          <div class="p-4 sm:p-5 border-b border-slate-800/80 bg-slate-900/90 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center shrink-0 shadow-inner">
+                <span class="text-xl">🌊</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800/60">
+                    HYDRODYNAMIC WAVE BASIN
+                  </span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-[10px] font-mono text-emerald-400 font-bold">LIVE SEA TRIAL SIMULATION</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-white mt-0.5">
+                  {{ isRtl() ? 'مختبر اختبارات ديناميكا الأمواج ومقاومة الهيكل' : 'Naval Architecture Wave Resistance & Sea Trial Lab' }}
+                </h3>
+              </div>
+            </div>
+
+            <!-- Sea State & Simulation Speed Selectors -->
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+              <!-- Sea State Selector -->
+              <div class="inline-flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700/80 text-xs font-mono">
+                <span class="px-2 text-[10px] font-bold text-slate-400 uppercase hidden sm:inline">SEA STATE:</span>
+                <button
+                  type="button"
+                  (click)="setSeaState('calm')"
+                  [class]="seaState() === 'calm' ? 'bg-sky-600 text-white font-bold shadow-xs' : 'text-slate-300 hover:text-white'"
+                  class="px-2.5 py-1 rounded-lg transition-all cursor-pointer">
+                  Calm (0.6m)
+                </button>
+                <button
+                  type="button"
+                  (click)="setSeaState('moderate')"
+                  [class]="seaState() === 'moderate' ? 'bg-sky-600 text-white font-bold shadow-xs' : 'text-slate-300 hover:text-white'"
+                  class="px-2.5 py-1 rounded-lg transition-all cursor-pointer">
+                  Moderate (2.2m)
+                </button>
+                <button
+                  type="button"
+                  (click)="setSeaState('rough')"
+                  [class]="seaState() === 'rough' ? 'bg-[#dd0103] text-white font-bold shadow-xs' : 'text-slate-300 hover:text-white'"
+                  class="px-2.5 py-1 rounded-lg transition-all cursor-pointer">
+                  Rough (4.8m)
+                </button>
+              </div>
+
+              <!-- Speed Knots Selector -->
+              <div class="inline-flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700/80 text-xs font-mono">
+                <span class="px-2 text-[10px] font-bold text-slate-400 uppercase hidden sm:inline">SPEED:</span>
+                <button
+                  type="button"
+                  (click)="setSimSpeed(12)"
+                  [class]="simSpeed() === 12 ? 'bg-emerald-600 text-white font-bold shadow-xs' : 'text-slate-300 hover:text-white'"
+                  class="px-2 py-1 rounded-lg transition-all cursor-pointer">
+                  12 KN
+                </button>
+                <button
+                  type="button"
+                  (click)="setSimSpeed(18)"
+                  [class]="simSpeed() === 18 ? 'bg-emerald-600 text-white font-bold shadow-xs' : 'text-slate-300 hover:text-white'"
+                  class="px-2 py-1 rounded-lg transition-all cursor-pointer">
+                  18 KN
+                </button>
+                <button
+                  type="button"
+                  (click)="setSimSpeed(24)"
+                  [class]="simSpeed() === 24 ? 'bg-emerald-600 text-white font-bold shadow-xs' : 'text-slate-300 hover:text-white'"
+                  class="px-2 py-1 rounded-lg transition-all cursor-pointer">
+                  24 KN
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Graphic Wave Tank Canvas Viewport -->
+          <div class="relative w-full h-64 sm:h-80 overflow-hidden bg-gradient-to-b from-[#02112e] via-[#03204e] to-[#01091b]">
+            <canvas
+              #waveTankCanvas
+              (mousemove)="onTankMouseMove($event)"
+              (click)="onTankClick($event)"
+              class="w-full h-full cursor-crosshair block">
+            </canvas>
+
+            <!-- Real-Time Telemetry HUD Overlay -->
+            <div class="absolute bottom-3 left-3 sm:left-5 pointer-events-none z-10 flex flex-wrap gap-2 sm:gap-3 text-[10px] font-mono font-bold">
+              <div class="bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-slate-300 shadow-lg">
+                <span class="text-slate-400">HEAVE:</span> <span class="text-sky-400 font-bold ml-1">{{ heaveReadout() }}</span>
+              </div>
+              <div class="bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-slate-300 shadow-lg">
+                <span class="text-slate-400">PITCH:</span> <span class="text-amber-400 font-bold ml-1">{{ pitchReadout() }}</span>
+              </div>
+              <div class="bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-slate-300 shadow-lg">
+                <span class="text-slate-400">HULL RESISTANCE:</span> <span class="text-[#ff4d5e] font-bold ml-1">{{ dragReadout() }}</span>
+              </div>
+              <div class="bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-slate-300 shadow-lg">
+                <span class="text-slate-400">BOW BULB EFFICIENCY:</span> <span class="text-emerald-400 font-bold ml-1">{{ efficiencyReadout() }}</span>
+              </div>
+            </div>
+
+            <!-- Interactive Wave Hint Pill -->
+            <div class="absolute top-3 right-3 sm:right-5 pointer-events-none z-10 text-[9.5px] font-mono text-sky-400/90 bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-sky-900/60 hidden sm:flex items-center gap-1.5">
+              <span>🖱️ Click or move cursor in wave tank to generate rogue waves</span>
             </div>
           </div>
         </div>
@@ -443,11 +556,31 @@ import { Vessel } from '../../models/maritime.models';
     </section>
   `
 })
-export class FleetDirectoryComponent {
+export class FleetDirectoryComponent implements AfterViewInit, OnDestroy {
   service = inject(MaritimeService);
+  private ngZone = inject(NgZone);
   isRtl = this.service.isRtl;
 
   @ViewChild('vesselSlider') sliderRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('waveTankCanvas') waveTankCanvasRef!: ElementRef<HTMLCanvasElement>;
+
+  // Hydrodynamic Wave Basin Simulation State
+  seaState = signal<'calm' | 'moderate' | 'rough'>('moderate');
+  simSpeed = signal<number>(18);
+  heaveReadout = signal<string>('±0.38m');
+  pitchReadout = signal<string>('+1.2°');
+  dragReadout = signal<string>('148 kN');
+  efficiencyReadout = signal<string>('96.4%');
+
+  private tankAnimId: number | null = null;
+  private tankCtx: CanvasRenderingContext2D | null = null;
+  private tankWidth = 800;
+  private tankHeight = 280;
+  private isTankVisible = false;
+  private tankObserver: IntersectionObserver | null = null;
+  private resizeObserver: ResizeObserver | null = null;
+  private tankSprayParticles: { x: number; y: number; vx: number; vy: number; r: number; alpha: number; life: number }[] = [];
+  private tankRogueWaves: { x: number; amp: number; speed: number; width: number }[] = [];
 
   searchQuery = '';
   selectedFlag = 'all';
@@ -558,5 +691,437 @@ export class FleetDirectoryComponent {
         </div>
       `
     );
+  }
+
+  // =========================================================
+  // HYDRODYNAMIC WAVE BASIN SIMULATION ENGINE
+  // =========================================================
+  ngAfterViewInit() {
+    this.initWaveTank();
+    this.setupTankObserver();
+    this.startTankLoop();
+  }
+
+  ngOnDestroy() {
+    if (this.tankAnimId) {
+      cancelAnimationFrame(this.tankAnimId);
+    }
+    this.tankObserver?.disconnect();
+    this.resizeObserver?.disconnect();
+  }
+
+  setSeaState(state: 'calm' | 'moderate' | 'rough') {
+    this.seaState.set(state);
+    this.updateTelemetryHUD();
+  }
+
+  setSimSpeed(speed: number) {
+    this.simSpeed.set(speed);
+    this.updateTelemetryHUD();
+  }
+
+  private updateTelemetryHUD() {
+    const state = this.seaState();
+    const speed = this.simSpeed();
+    const ratio = speed / 18;
+    if (state === 'calm') {
+      this.heaveReadout.set(`±${(0.14 * ratio).toFixed(2)}m`);
+      this.pitchReadout.set(`+${(0.4 * ratio).toFixed(1)}°`);
+      this.dragReadout.set(`${Math.round(82 * Math.pow(ratio, 1.8))} kN`);
+      this.efficiencyReadout.set('98.4%');
+    } else if (state === 'moderate') {
+      this.heaveReadout.set(`±${(0.38 * ratio).toFixed(2)}m`);
+      this.pitchReadout.set(`+${(1.2 * ratio).toFixed(1)}°`);
+      this.dragReadout.set(`${Math.round(148 * Math.pow(ratio, 1.8))} kN`);
+      this.efficiencyReadout.set('96.4%');
+    } else {
+      this.heaveReadout.set(`±${(0.92 * ratio).toFixed(2)}m`);
+      this.pitchReadout.set(`+${(3.2 * ratio).toFixed(1)}°`);
+      this.dragReadout.set(`${Math.round(265 * Math.pow(ratio, 1.8))} kN`);
+      this.efficiencyReadout.set('91.5%');
+    }
+  }
+
+  onTankClick(e: MouseEvent) {
+    if (!this.waveTankCanvasRef) return;
+    const rect = this.waveTankCanvasRef.nativeElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    this.tankRogueWaves.push({
+      x,
+      amp: this.seaState() === 'rough' ? 28 : 16,
+      speed: 4.8,
+      width: 120
+    });
+  }
+
+  onTankMouseMove(e: MouseEvent) {
+    if (Math.random() < 0.2) {
+      const rect = this.waveTankCanvasRef.nativeElement.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      this.tankRogueWaves.push({
+        x,
+        amp: 7,
+        speed: 3.5,
+        width: 75
+      });
+    }
+  }
+
+  private initWaveTank() {
+    if (!this.waveTankCanvasRef) return;
+    const canvas = this.waveTankCanvasRef.nativeElement;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
+
+    this.tankWidth = Math.round(rect.width || 800);
+    this.tankHeight = Math.round(rect.height || 280);
+
+    canvas.width = Math.round(this.tankWidth * dpr);
+    canvas.height = Math.round(this.tankHeight * dpr);
+
+    this.tankCtx = canvas.getContext('2d');
+    if (this.tankCtx) {
+      this.tankCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+  }
+
+  private setupTankObserver() {
+    if (typeof window === 'undefined') return;
+
+    if (this.waveTankCanvasRef) {
+      this.tankObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          this.isTankVisible = entry.isIntersecting;
+        });
+      }, { threshold: 0.05 });
+      this.tankObserver.observe(this.waveTankCanvasRef.nativeElement);
+
+      this.resizeObserver = new ResizeObserver(() => {
+        this.initWaveTank();
+      });
+      this.resizeObserver.observe(this.waveTankCanvasRef.nativeElement);
+    }
+  }
+
+  private startTankLoop() {
+    this.ngZone.runOutsideAngular(() => {
+      let lastTime = performance.now();
+
+      const loop = (currentTime: number) => {
+        if (this.isTankVisible) {
+          const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
+          lastTime = currentTime;
+
+          this.updateTankPhysics(currentTime, dt);
+          this.renderWaveTank(currentTime);
+        } else {
+          lastTime = currentTime;
+        }
+
+        this.tankAnimId = requestAnimationFrame(loop);
+      };
+
+      this.tankAnimId = requestAnimationFrame(loop);
+    });
+  }
+
+  private updateTankPhysics(currentTime: number, dt: number) {
+    // 1. Update Rogue Wave Pulses
+    for (let i = this.tankRogueWaves.length - 1; i >= 0; i--) {
+      const rw = this.tankRogueWaves[i];
+      rw.x += rw.speed * dt * 25;
+      rw.amp *= 0.985;
+      if (rw.amp < 0.5 || rw.x > this.tankWidth + 150) {
+        this.tankRogueWaves.splice(i, 1);
+      }
+    }
+
+    // 2. Update Spray Particles
+    for (let i = this.tankSprayParticles.length - 1; i >= 0; i--) {
+      const p = this.tankSprayParticles[i];
+      p.x += p.vx * dt * 30;
+      p.y += p.vy * dt * 30;
+      p.vy += dt * 9.8; // gravity
+      p.life -= dt * 1.5;
+      p.alpha = Math.max(0, p.life);
+      if (p.life <= 0) {
+        this.tankSprayParticles.splice(i, 1);
+      }
+    }
+  }
+
+  private renderWaveTank(currentTime: number) {
+    const ctx = this.tankCtx;
+    if (!ctx) return;
+
+    const w = this.tankWidth;
+    const h = this.tankHeight;
+    const state = this.seaState();
+    const speed = this.simSpeed();
+    const t = currentTime * 0.001;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // 1. Underwater Bathymetric Grid & Acoustic Beam Lines
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+    ctx.lineWidth = 1;
+    for (let y = 40; y < h; y += 40) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+      ctx.stroke();
+    }
+    for (let x = 60; x < w; x += 80) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+
+    // 2. Wave Dynamic Parameters
+    const baseY = h * 0.58;
+    const waveAmp = state === 'calm' ? 8 : (state === 'moderate' ? 18 : 34);
+    const waveFreq = state === 'calm' ? 0.006 : (state === 'moderate' ? 0.0045 : 0.0035);
+    const waveSpeed = (speed / 18) * 2.4;
+
+    // Calculate Ship Dynamics (Heave & Pitch)
+    const shipCenterNormX = 0.48;
+    const shipX = w * shipCenterNormX;
+    const primaryWaveAtShip = Math.sin(shipX * waveFreq - t * waveSpeed) * waveAmp;
+    const slopeAtShip = Math.cos(shipX * waveFreq - t * waveSpeed) * waveAmp * waveFreq;
+
+    const heave = primaryWaveAtShip * 0.65;
+    const pitch = Math.atan(slopeAtShip) * (180 / Math.PI) * (state === 'rough' ? 1.4 : 0.9);
+
+    // 3. Draw Background Deep Water Swell
+    ctx.beginPath();
+    ctx.moveTo(0, baseY + 15);
+    for (let x = 0; x <= w; x += 20) {
+      const y = (baseY + 15) +
+        Math.sin(x * (waveFreq * 0.8) - t * (waveSpeed * 0.7)) * (waveAmp * 0.8) +
+        Math.cos(x * 0.002 + t * 0.5) * 6;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(2, 40, 100, 0.45)';
+    ctx.fill();
+
+    // 4. Draw Centerpiece Container Feeder Vessel
+    this.drawSimulatedVessel(ctx, shipX, baseY, heave, pitch, speed, state, t);
+
+    // 5. Draw Foreground Primary Water Surface & Moving Waves
+    const wavePoints: { x: number; y: number }[] = [];
+    ctx.beginPath();
+    ctx.moveTo(0, baseY);
+
+    for (let x = 0; x <= w; x += 10) {
+      let y = baseY +
+        Math.sin(x * waveFreq - t * waveSpeed) * waveAmp +
+        Math.sin(x * waveFreq * 2.2 + t * waveSpeed * 1.3) * (waveAmp * 0.28);
+
+      // Add Rogue Wave Disturbances
+      for (const rw of this.tankRogueWaves) {
+        const dist = Math.abs(x - rw.x);
+        if (dist < rw.width) {
+          y -= Math.cos((dist / rw.width) * (Math.PI / 2)) * rw.amp;
+        }
+      }
+
+      wavePoints.push({ x, y });
+      ctx.lineTo(x, y);
+    }
+
+    ctx.lineTo(w, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+
+    // Fluid Ocean Water Gradient
+    const waterGrad = ctx.createLinearGradient(0, baseY - waveAmp, 0, h);
+    waterGrad.addColorStop(0, 'rgba(14, 165, 233, 0.65)');
+    waterGrad.addColorStop(0.35, 'rgba(2, 132, 199, 0.85)');
+    waterGrad.addColorStop(1, 'rgba(2, 25, 75, 0.98)');
+    ctx.fillStyle = waterGrad;
+    ctx.fill();
+
+    // Crisp Glistening Surf Foam Line on Crests
+    ctx.beginPath();
+    for (let i = 0; i < wavePoints.length; i++) {
+      const pt = wavePoints[i];
+      if (i === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    }
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.lineWidth = 2.8;
+    ctx.stroke();
+
+    // 6. Draw Spray Particles at Bulbous Bow
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    for (const p of this.tankSprayParticles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(224, 242, 254, ${p.alpha})`;
+      ctx.fill();
+    }
+
+    // 7. Waterline Summer Draft Calibration Line
+    ctx.beginPath();
+    ctx.setLineDash([6, 6]);
+    ctx.moveTo(w * 0.25, baseY + 6);
+    ctx.lineTo(w * 0.75, baseY + 6);
+    ctx.strokeStyle = 'rgba(221, 1, 3, 0.65)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.font = 'bold 9px monospace';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+    ctx.fillText('DESIGN SUMMER DRAFT WATERLINE: 8.50m', w * 0.25 + 6, baseY + 20);
+  }
+
+  private drawSimulatedVessel(
+    ctx: CanvasRenderingContext2D,
+    shipX: number,
+    baseY: number,
+    heave: number,
+    pitch: number,
+    speed: number,
+    state: string,
+    t: number
+  ) {
+    const shipW = Math.min(270, this.tankWidth * 0.42);
+    const shipH = shipW * 0.28;
+
+    ctx.save();
+    ctx.translate(shipX, baseY + heave);
+    ctx.rotate((pitch * Math.PI) / 180);
+
+    // Ship Hull coordinates relative to center (0, 0)
+    const bowX = shipW * 0.5;
+    const sternX = -shipW * 0.5;
+    const keelY = shipH * 0.5;
+    const deckY = -shipH * 0.1;
+
+    // 1. Main Hull (Freeboard & Antifouling Bottom)
+    // Topsides (Maverick Navy #02194B)
+    ctx.beginPath();
+    ctx.moveTo(sternX, deckY);
+    ctx.lineTo(bowX - 15, deckY);
+    ctx.lineTo(bowX, deckY + 12);
+    ctx.lineTo(bowX - 10, keelY);
+    ctx.lineTo(sternX + 15, keelY);
+    ctx.lineTo(sternX, deckY);
+    ctx.closePath();
+    ctx.fillStyle = '#02194b';
+    ctx.fill();
+    ctx.strokeStyle = '#dd0103';
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    // Red Bottom Antifouling Hull
+    ctx.beginPath();
+    ctx.moveTo(sternX + 10, keelY - 14);
+    ctx.lineTo(bowX - 8, keelY - 14);
+    ctx.lineTo(bowX - 10, keelY);
+    ctx.lineTo(sternX + 15, keelY);
+    ctx.closePath();
+    ctx.fillStyle = '#b50102';
+    ctx.fill();
+
+    // Bulbous Bow (Forward Protrusion Below Waterline)
+    ctx.beginPath();
+    ctx.ellipse(bowX - 2, keelY - 4, 12, 7, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#990000';
+    ctx.fill();
+    ctx.strokeStyle = '#ef2325';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // 2. Container Bays on Deck
+    const containerW = 22;
+    const containerH = 14;
+    const bayStartX = sternX + 45;
+    const bayEndX = bowX - 35;
+    const colors = ['#dd0103', '#fbbf24', '#0f766e', '#1e293b', '#0284c7', '#ea580c'];
+
+    let colIdx = 0;
+    for (let bx = bayStartX; bx < bayEndX; bx += containerW + 4) {
+      // Tier 1 (Deck Level)
+      ctx.fillStyle = colors[colIdx % colors.length];
+      ctx.fillRect(bx, deckY - containerH, containerW, containerH);
+      ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+      ctx.strokeRect(bx, deckY - containerH, containerW, containerH);
+
+      // Tier 2 (Upper Tier)
+      ctx.fillStyle = colors[(colIdx + 2) % colors.length];
+      ctx.fillRect(bx, deckY - containerH * 2, containerW, containerH);
+      ctx.strokeRect(bx, deckY - containerH * 2, containerW, containerH);
+
+      // Tier 3 (Partial High Stacks)
+      if (colIdx % 2 === 0) {
+        ctx.fillStyle = colors[(colIdx + 4) % colors.length];
+        ctx.fillRect(bx, deckY - containerH * 3, containerW, containerH);
+        ctx.strokeRect(bx, deckY - containerH * 3, containerW, containerH);
+      }
+      colIdx++;
+    }
+
+    // 3. Superstructure Bridge Tower (Aft)
+    const bridgeX = sternX + 16;
+    const bridgeY = deckY - containerH * 3.2;
+    const bridgeW = 26;
+    const bridgeH = containerH * 3.2;
+
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(bridgeX, bridgeY, bridgeW, bridgeH);
+    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(bridgeX, bridgeY, bridgeW, bridgeH);
+
+    // Bridge Windows (Navigational Helm)
+    ctx.fillStyle = '#fef08a';
+    ctx.fillRect(bridgeX + 2, bridgeY + 3, bridgeW - 4, 5);
+
+    // Funnel / Exhaust Mast with Maverick Brand Stripe
+    ctx.fillStyle = '#02194b';
+    ctx.fillRect(bridgeX - 10, deckY - containerH * 2.4, 9, containerH * 2.4);
+    ctx.fillStyle = '#dd0103';
+    ctx.fillRect(bridgeX - 10, deckY - containerH * 2.0, 9, 4);
+
+    // Radar Mast on Bridge Roof
+    ctx.beginPath();
+    ctx.moveTo(bridgeX + bridgeW / 2, bridgeY);
+    ctx.lineTo(bridgeX + bridgeW / 2, bridgeY - 14);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Rotating Radar Scanner
+    const scannerX = Math.cos(t * 6) * 6;
+    ctx.beginPath();
+    ctx.moveTo(bridgeX + bridgeW / 2 - scannerX, bridgeY - 14);
+    ctx.lineTo(bridgeX + bridgeW / 2 + scannerX, bridgeY - 14);
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.restore();
+
+    // 4. Emit Dynamic Bow Spray Particles from Bulbous Bow
+    const globalBowX = shipX + (bowX * Math.cos(pitch * Math.PI / 180));
+    const globalBowY = baseY + heave + (bowX * Math.sin(pitch * Math.PI / 180));
+
+    if (state !== 'calm' && Math.random() < (state === 'rough' ? 0.65 : 0.35)) {
+      this.tankSprayParticles.push({
+        x: globalBowX + (Math.random() - 0.5) * 6,
+        y: globalBowY - 4,
+        vx: -speed * 1.8 + (Math.random() - 0.5) * 4,
+        vy: -Math.random() * (state === 'rough' ? 9 : 5) - 2,
+        r: Math.random() * 2.5 + 1.2,
+        alpha: 0.95,
+        life: 1.0
+      });
+    }
   }
 }

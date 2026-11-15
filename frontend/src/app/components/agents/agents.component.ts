@@ -1,7 +1,21 @@
-import { Component, ElementRef, ViewChild, inject, signal, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal, computed, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaritimeService } from '../../services/maritime.service';
 import { RegionalAgent } from '../../models/maritime.models';
+
+interface PortRadarPreset {
+  id: string;
+  name: string;
+  fullName: string;
+  countryVal: string;
+  coords: string;
+  depth: string;
+  clearance: string;
+  tideState: string;
+  tideHeight: string;
+  current: string;
+  vesselCount: number;
+}
 
 @Component({
   selector: 'app-agents',
@@ -62,6 +76,97 @@ import { RegionalAgent } from '../../models/maritime.models';
             <!-- Total Count Badge -->
             <div class="text-xs font-mono text-slate-600 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
               {{ isRtl() ? 'المكاتب:' : 'Offices:' }} <span class="text-[#dd0103] font-bold">{{ filteredAgents().length }}</span> / {{ service.agents().length }}
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             INNOVATIVE GLOBAL PORT TIDE SONAR & FAIRWAY APPROACH RADAR
+             Interactive Graphic Canvas: Live Port Tides, Currents & Fairway Traffic
+             ========================================================= -->
+        <div class="mb-8 rounded-2xl sm:rounded-3xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden relative text-white" style="content-visibility: auto; contain-intrinsic-size: auto none auto 380px;">
+          <!-- Header Bar with Live Indicator & Selected Port -->
+          <div class="p-4 sm:p-5 border-b border-slate-800/80 bg-slate-900/90 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center shrink-0 shadow-inner">
+                <span class="text-xl">📡</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800/60">
+                    PORT APPROACH RADAR & TIDE STATION
+                  </span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-[10px] font-mono text-emerald-400 font-bold">FAIRWAY TELEMETRY ONLINE</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-white mt-0.5">
+                  {{ isRtl() ? 'رادار الميناء الحي وأرصاد المد والجزر والتيارات' : 'Global Port Tide Radar & Harborside Ocean Current Telemetry' }}
+                </h3>
+              </div>
+            </div>
+
+            <!-- Port Selection Buttons -->
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <button
+                *ngFor="let port of portRadarPresets"
+                type="button"
+                (click)="selectRadarPort(port.id)"
+                [class]="selectedPortId() === port.id ? 'bg-[#dd0103] text-white font-bold shadow-md shadow-red-900/30' : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80'"
+                class="px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer border border-slate-700/60">
+                {{ port.name }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Radar & Tide Basin Canvas -->
+          <div class="relative w-full h-[280px] sm:h-[320px] bg-gradient-to-b from-[#030e22] via-[#021330] to-[#010816] overflow-hidden">
+            <canvas #radarCanvas class="w-full h-full block cursor-crosshair"></canvas>
+
+            <!-- Floating Port Telemetry HUD Cards -->
+            <div class="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
+              <div class="bg-slate-900/85 backdrop-blur-md border border-slate-700/70 rounded-xl px-3 py-2 shadow-lg text-xs font-mono">
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">ACTIVE PORT STATION</div>
+                <div class="text-white font-bold text-sm text-sky-400">{{ activePortData().fullName }}</div>
+                <div class="text-[11px] text-slate-300">{{ activePortData().coords }}</div>
+              </div>
+            </div>
+
+            <div class="absolute top-3 right-3 flex flex-col gap-2 pointer-events-none">
+              <div class="bg-slate-900/85 backdrop-blur-md border border-slate-700/70 rounded-xl px-3 py-2 shadow-lg text-xs font-mono text-right">
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">WATER DEPTH & CLEARANCE</div>
+                <div class="text-emerald-400 font-bold text-sm">{{ activePortData().depth }} CD</div>
+                <div class="text-[11px] text-slate-300">{{ activePortData().clearance }}</div>
+              </div>
+            </div>
+
+            <!-- Bottom Telemetry HUD Ribbon -->
+            <div class="absolute bottom-2 inset-x-2 sm:inset-x-4 bg-slate-950/85 backdrop-blur-md border border-slate-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+              <div class="flex items-center gap-4">
+                <div>
+                  <span class="text-slate-400 text-[10px] uppercase">TIDAL PHASE:</span>
+                  <span class="ml-1.5 text-sky-400 font-bold">{{ activePortData().tideState }}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 text-[10px] uppercase">WATER ELEVATION:</span>
+                  <span class="ml-1.5 text-emerald-400 font-bold">{{ activePortData().tideHeight }}</span>
+                </div>
+                <div class="hidden sm:block">
+                  <span class="text-slate-400 text-[10px] uppercase">CURRENT VECTOR:</span>
+                  <span class="ml-1.5 text-amber-400 font-bold">{{ activePortData().current }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="text-slate-400 text-[10px] hidden md:block">
+                  VESSELS IN FAIRWAY: <span class="text-white font-bold">{{ activePortData().vesselCount }} DETECTED</span>
+                </div>
+                <button
+                  type="button"
+                  (click)="filterCountry(activePortData().countryVal)"
+                  class="px-2.5 py-1 rounded bg-sky-600 hover:bg-sky-500 text-white text-[11px] font-bold cursor-pointer transition-all shadow-xs">
+                  {{ isRtl() ? 'عرض مكاتب هذا الميناء' : 'Filter Offices For This Port' }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -323,11 +428,109 @@ import { RegionalAgent } from '../../models/maritime.models';
     </section>
   `
 })
-export class AgentsDirectoryComponent {
+export class AgentsDirectoryComponent implements AfterViewInit, OnDestroy {
   service = inject(MaritimeService);
+  ngZone = inject(NgZone);
   isRtl = this.service.isRtl;
 
   @ViewChild('agentSlider') sliderRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('radarCanvas') radarCanvasRef!: ElementRef<HTMLCanvasElement>;
+
+  private radarAnimId: number | null = null;
+  private radarObserver?: IntersectionObserver;
+  private isRadarVisible = false;
+  private sweepAngle = 0;
+  private currentParticles: Array<{ x: number; y: number; speed: number; size: number; alpha: number }> = [];
+
+  portRadarPresets: PortRadarPreset[] = [
+    {
+      id: 'dubai',
+      name: 'Dubai Jebel Ali',
+      fullName: 'Jebel Ali Port Terminal 1 • DP World',
+      countryVal: 'UAE',
+      coords: '24°59\'N 55°03\'E',
+      depth: '17.5m',
+      clearance: 'Unrestricted Deep Channel',
+      tideState: 'HIGH TIDE (FLOODING)',
+      tideHeight: '+2.4m',
+      current: '1.2 kn ENE',
+      vesselCount: 8
+    },
+    {
+      id: 'singapore',
+      name: 'Singapore Keppel',
+      fullName: 'PSA Keppel & Pasir Panjang Terminals',
+      countryVal: 'Singapore',
+      coords: '01°16\'N 103°50\'E',
+      depth: '18.0m',
+      clearance: 'Deep Water Straits Route',
+      tideState: 'EBB TIDE (STAND)',
+      tideHeight: '+1.6m',
+      current: '2.4 kn SSW',
+      vesselCount: 14
+    },
+    {
+      id: 'mumbai',
+      name: 'Mumbai Nhava Sheva',
+      fullName: 'Jawaharlal Nehru Port Trust (JNPT)',
+      countryVal: 'India',
+      coords: '18°57\'N 72°57\'E',
+      depth: '15.0m',
+      clearance: 'Tidal Window Managed',
+      tideState: 'SPRING TIDE (PEAK FLOOD)',
+      tideHeight: '+4.2m',
+      current: '3.1 kn NNE',
+      vesselCount: 6
+    },
+    {
+      id: 'jeddah',
+      name: 'Jeddah Islamic',
+      fullName: 'Red Sea Gateway Terminal (RSGT)',
+      countryVal: 'Saudi Arabia',
+      coords: '21°28\'N 39°10\'E',
+      depth: '16.5m',
+      clearance: 'Coral Channel Marked',
+      tideState: 'NEAP TIDE (SLACK)',
+      tideHeight: '+1.1m',
+      current: '0.9 kn NNW',
+      vesselCount: 5
+    },
+    {
+      id: 'shanghai',
+      name: 'Shanghai Yangshan',
+      fullName: 'Yangshan Deepwater Port Terminal 4',
+      countryVal: 'China',
+      coords: '30°37\'N 122°04\'E',
+      depth: '16.8m',
+      clearance: 'Automated Fairway Clearance',
+      tideState: 'FLOOD TIDE',
+      tideHeight: '+3.6m',
+      current: '2.7 kn SE',
+      vesselCount: 19
+    },
+    {
+      id: 'rotterdam',
+      name: 'Rotterdam Maasvlakte',
+      fullName: 'ECT Delta & Maasvlakte II',
+      countryVal: 'all',
+      coords: '51°57\'N 04°02\'E',
+      depth: '20.0m',
+      clearance: 'Ultra-Large Feeder Clearance',
+      tideState: 'EBB TIDE',
+      tideHeight: '+1.9m',
+      current: '1.6 kn WNW',
+      vesselCount: 11
+    }
+  ];
+
+  selectedPortId = signal<string>('dubai');
+  activePortData = computed(() => {
+    return this.portRadarPresets.find(p => p.id === this.selectedPortId()) || this.portRadarPresets[0];
+  });
+
+  selectRadarPort(id: string) {
+    this.selectedPortId.set(id);
+  }
 
   selectedCountry = 'all';
   viewMode = signal<'carousel' | 'grid' | 'list'>('carousel');
@@ -453,5 +656,236 @@ export class AgentsDirectoryComponent {
       return { status: 'SPRING TIDE', height: '+3.8m', trend: '▲ Flood' };
     }
     return { status: 'COASTAL WATER', height: '+1.7m', trend: '• Mean' };
+  }
+
+  ngAfterViewInit() {
+    this.initRadarCanvas();
+  }
+
+  ngOnDestroy() {
+    if (this.radarAnimId) {
+      cancelAnimationFrame(this.radarAnimId);
+      this.radarAnimId = null;
+    }
+    if (this.radarObserver) {
+      this.radarObserver.disconnect();
+    }
+  }
+
+  private initRadarCanvas() {
+    const canvas = this.radarCanvasRef?.nativeElement;
+    if (!canvas) return;
+
+    this.currentParticles = [];
+    for (let i = 0; i < 40; i++) {
+      this.currentParticles.push({
+        x: Math.random() * 800,
+        y: Math.random() * 320,
+        speed: Math.random() * 1.5 + 0.8,
+        size: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.5 + 0.2
+      });
+    }
+
+    this.radarObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.isRadarVisible = true;
+          this.startRadarLoop();
+        } else {
+          this.isRadarVisible = false;
+          if (this.radarAnimId) {
+            cancelAnimationFrame(this.radarAnimId);
+            this.radarAnimId = null;
+          }
+        }
+      });
+    }, { rootMargin: '100px' });
+
+    this.radarObserver.observe(canvas);
+  }
+
+  private startRadarLoop() {
+    if (this.radarAnimId) return;
+
+    this.ngZone.runOutsideAngular(() => {
+      const render = () => {
+        if (!this.isRadarVisible) return;
+        this.drawRadarFrame();
+        this.radarAnimId = requestAnimationFrame(render);
+      };
+      this.radarAnimId = requestAnimationFrame(render);
+    });
+  }
+
+  private drawRadarFrame() {
+    const canvas = this.radarCanvasRef?.nativeElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    if (canvas.width !== rect.width * dpr || canvas.height !== rect.height * dpr) {
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    const w = rect.width;
+    const h = rect.height;
+
+    // Clear background
+    ctx.fillStyle = '#020b1c';
+    ctx.fillRect(0, 0, w, h);
+
+    // 1. Draw Harbor Current Streamline Particles
+    for (const p of this.currentParticles) {
+      p.x += p.speed;
+      if (p.x > w + 20) p.x = -20;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(56, 189, 248, ${p.alpha * 0.4})`;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x - p.speed * 8, p.y);
+      ctx.strokeStyle = `rgba(56, 189, 248, ${p.alpha * 0.2})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // 2. Harmonic Tidal Wave Surface across the bottom of the canvas
+    const tideData = this.activePortData();
+    const isHigh = tideData.tideState.includes('HIGH') || tideData.tideState.includes('SPRING') || tideData.tideState.includes('FLOOD');
+    const baseWaveY = h - (isHigh ? 65 : 45);
+    const now = performance.now() * 0.002;
+
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let x = 0; x <= w; x += 10) {
+      const y = baseWaveY + Math.sin(x * 0.012 + now) * 8 + Math.cos(x * 0.024 - now * 1.4) * 4;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    const waveGrad = ctx.createLinearGradient(0, baseWaveY - 10, 0, h);
+    waveGrad.addColorStop(0, 'rgba(14, 165, 233, 0.35)');
+    waveGrad.addColorStop(1, 'rgba(2, 25, 75, 0.7)');
+    ctx.fillStyle = waveGrad;
+    ctx.fill();
+
+    // Waterline datum reference line
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 3. Central Radar Screen
+    const radarCenterX = Math.min(w * 0.35, 180);
+    const radarCenterY = h * 0.48;
+    const maxRadius = Math.min(radarCenterY - 15, 105);
+
+    // Range rings
+    const rings = [0.33, 0.66, 1.0];
+    const ringLabels = ['5 NM', '10 NM', '15 NM'];
+    ctx.lineWidth = 1;
+    for (let i = 0; i < rings.length; i++) {
+      const r = maxRadius * rings[i];
+      ctx.beginPath();
+      ctx.arc(radarCenterX, radarCenterY, r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+      ctx.font = '9px monospace';
+      ctx.fillText(ringLabels[i], radarCenterX + r - 22, radarCenterY - 3);
+    }
+
+    // Crosshairs
+    ctx.beginPath();
+    ctx.moveTo(radarCenterX - maxRadius, radarCenterY);
+    ctx.lineTo(radarCenterX + maxRadius, radarCenterY);
+    ctx.moveTo(radarCenterX, radarCenterY - maxRadius);
+    ctx.lineTo(radarCenterX, radarCenterY + maxRadius);
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+    ctx.stroke();
+
+    // Rotating Sweep Beam
+    this.sweepAngle += 0.028;
+    if (this.sweepAngle > Math.PI * 2) this.sweepAngle -= Math.PI * 2;
+
+    const sweepX = radarCenterX + Math.cos(this.sweepAngle) * maxRadius;
+    const sweepY = radarCenterY + Math.sin(this.sweepAngle) * maxRadius;
+
+    ctx.beginPath();
+    ctx.moveTo(radarCenterX, radarCenterY);
+    ctx.lineTo(sweepX, sweepY);
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Sweep tail sector (fading phosphor trail)
+    const tailAngle = 0.55;
+    ctx.beginPath();
+    ctx.moveTo(radarCenterX, radarCenterY);
+    ctx.arc(radarCenterX, radarCenterY, maxRadius, this.sweepAngle - tailAngle, this.sweepAngle);
+    ctx.closePath();
+    const sweepGrad = ctx.createRadialGradient(radarCenterX, radarCenterY, 5, radarCenterX, radarCenterY, maxRadius);
+    sweepGrad.addColorStop(0, 'rgba(14, 165, 233, 0.35)');
+    sweepGrad.addColorStop(1, 'rgba(14, 165, 233, 0.0)');
+    ctx.fillStyle = sweepGrad;
+    ctx.fill();
+
+    // 4. Detected Vessels in Fairway (Blips)
+    const seed = tideData.id.length;
+    const vessels = [
+      { dist: 0.42, angle: 0.8 + seed * 0.1, name: 'MAVERICK EMIRATES', speed: '16 kn' },
+      { dist: 0.75, angle: 2.1 + seed * 0.15, name: 'FEEDER FALCON', speed: '14 kn' },
+      { dist: 0.88, angle: 4.3 + seed * 0.08, name: 'PORT TUG 04', speed: '8 kn' },
+      { dist: 0.55, angle: 5.6 + seed * 0.12, name: 'SHUTTLE EXPRESS', speed: '18 kn' }
+    ];
+
+    for (const v of vessels) {
+      const bx = radarCenterX + Math.cos(v.angle) * (maxRadius * v.dist);
+      const by = radarCenterY + Math.sin(v.angle) * (maxRadius * v.dist);
+
+      let angleDiff = this.sweepAngle - v.angle;
+      while (angleDiff < 0) angleDiff += Math.PI * 2;
+      while (angleDiff > Math.PI * 2) angleDiff -= Math.PI * 2;
+      const illuminated = angleDiff < 0.6;
+
+      ctx.beginPath();
+      ctx.arc(bx, by, illuminated ? 4 : 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = illuminated ? '#ef4444' : 'rgba(56, 189, 248, 0.7)';
+      ctx.fill();
+
+      if (illuminated) {
+        ctx.beginPath();
+        ctx.arc(bx, by, 7, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.5)';
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '8px monospace';
+        ctx.fillText(v.name, bx + 8, by - 2);
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(v.speed, bx + 8, by + 7);
+      }
+    }
+
+    // Central Radar Station Beacon
+    ctx.beginPath();
+    ctx.arc(radarCenterX, radarCenterY, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#dd0103';
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.restore();
   }
 }

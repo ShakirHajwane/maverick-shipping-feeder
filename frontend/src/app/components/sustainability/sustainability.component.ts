@@ -19,7 +19,7 @@ interface EcoParticle {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="sustainability-section" class="py-16 relative bg-gradient-to-b from-slate-50 via-emerald-50/20 to-slate-50 border-b border-slate-200 overflow-hidden">
+    <section id="sustainability-section" class="py-16 relative bg-transparent border-b border-white/20 overflow-hidden">
       <!-- Animated Eco-Bioluminescent Ocean Wave Ribbon -->
       <div class="absolute top-0 inset-x-0 h-10 pointer-events-none opacity-30 overflow-hidden">
         <svg class="block w-[200%] h-full animate-wave-slow text-emerald-400" viewBox="0 0 1200 40" preserveAspectRatio="none">

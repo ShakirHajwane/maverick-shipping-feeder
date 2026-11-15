@@ -29,7 +29,7 @@ interface PortClock {
       </svg>
     </div>
 
-    <footer class="bg-slate-950 text-slate-400 text-xs pt-8 sm:pt-12 pb-12 border-t border-slate-800 relative overflow-hidden">
+    <footer class="bg-slate-950/85 backdrop-blur-md text-slate-400 text-xs pt-8 sm:pt-12 pb-12 border-t border-slate-800/80 relative overflow-hidden">
       <!-- Water Reflection Grid Backdrop Glow -->
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(14,165,233,0.15),transparent)] pointer-events-none"></div>
 

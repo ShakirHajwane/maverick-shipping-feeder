@@ -8,7 +8,7 @@ import { RegionalAgent } from '../../models/maritime.models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="agents-section" class="py-16 bg-white border-b border-slate-200">
+    <section id="agents-section" class="py-16 bg-transparent border-b border-white/20">
       <div class="max-w-7xl mx-auto px-4 sm:px-8">
         <!-- Section Header -->
         <div class="flex flex-wrap items-end justify-between gap-4 mb-6">

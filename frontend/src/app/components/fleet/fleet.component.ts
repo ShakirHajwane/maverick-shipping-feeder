@@ -9,7 +9,7 @@ import { Vessel } from '../../models/maritime.models';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <section id="fleet-section" class="py-16 bg-white border-b border-slate-200">
+    <section id="fleet-section" class="py-16 bg-transparent border-b border-white/20">
       <div class="max-w-7xl mx-auto px-4 sm:px-8">
         <!-- Section Header -->
         <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
@@ -69,7 +69,7 @@ import { Vessel } from '../../models/maritime.models';
         </div>
 
         <!-- Filter Bar -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-6 space-y-4 shadow-sm">
+        <div class="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 sm:p-5 mb-6 space-y-4 shadow-md">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Search Input -->
             <div class="space-y-1">

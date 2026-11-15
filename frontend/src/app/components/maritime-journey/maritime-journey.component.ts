@@ -260,6 +260,12 @@ interface SampledPoint {
           <path d="M 0 3200 Q 300 3100, 650 3300 T 1000 3150" vector-effect="non-scaling-stroke" />
         </g>
 
+        <!-- Dynamic Animated Canal Water Current Stream Vectors -->
+        <g stroke="#0284c7" stroke-opacity="0.30" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="16 24" class="animate-current-flow">
+          <path d="M 450 200 C 470 500, 480 850, 460 1200 C 440 1600, 520 2000, 490 2400 C 470 2800, 520 3200, 490 3700" />
+          <path d="M 550 200 C 530 500, 520 850, 540 1200 C 560 1600, 480 2000, 510 2400 C 530 2800, 480 3200, 510 3700" />
+        </g>
+
         <!-- Static Planned Route (Faint Nautical Dotted Line) -->
         <path
           #backgroundPath
@@ -417,6 +423,23 @@ interface SampledPoint {
         <!-- Detailed Top-Down Container Feeder Vessel SVG -->
         <div class="relative w-16 sm:w-20">
           <svg viewBox="0 0 100 240" class="w-full h-auto overflow-visible">
+            <!-- Dynamic Hydrodynamic Bow Wave V-Crests (Twin Parting Surf) -->
+            <g class="animate-bow-wave">
+              <path d="M 40 20 C 22 28, 5 45, -15 65 C -2 52, 18 36, 42 26 Z" fill="rgba(255, 255, 255, 0.75)" />
+              <path d="M 35 25 C 15 35, -5 55, -25 80" stroke="rgba(56, 189, 248, 0.85)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+              <path d="M 60 20 C 78 28, 95 45, 115 65 C 102 52, 82 36, 58 26 Z" fill="rgba(255, 255, 255, 0.75)" />
+              <path d="M 65 25 C 85 35, 105 55, 125 80" stroke="rgba(56, 189, 248, 0.85)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+            </g>
+
+            <!-- Dynamic Propeller Churn Foam & Expanding Kelvin Stern Wake Wash -->
+            <g class="animate-prop-churn">
+              <ellipse cx="50" cy="238" rx="14" ry="9" fill="rgba(255, 255, 255, 0.85)" />
+              <ellipse cx="50" cy="258" rx="22" ry="13" fill="rgba(224, 242, 254, 0.70)" />
+              <ellipse cx="50" cy="285" rx="30" ry="16" fill="rgba(186, 230, 253, 0.45)" />
+              <path d="M 32 225 C 18 255, -8 295, -35 335 C -15 310, 12 275, 36 235 Z" fill="rgba(255, 255, 255, 0.60)" />
+              <path d="M 68 225 C 82 255, 108 295, 135 335 C 115 310, 88 275, 64 235 Z" fill="rgba(255, 255, 255, 0.60)" />
+            </g>
+
             <!-- Hydrodynamic Hull Shadow (Hardware-Accelerated Vector Shadow) -->
             <path
               d="M 50 14 C 77 44, 95 88, 95 168 C 95 210, 86 230, 50 230 C 14 230, 5 210, 5 168 C 5 88, 23 44, 50 14 Z"

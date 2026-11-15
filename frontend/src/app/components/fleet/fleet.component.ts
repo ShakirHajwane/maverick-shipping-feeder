@@ -349,24 +349,43 @@ import { Vessel } from '../../models/maritime.models';
             IMO: {{ vessel.imo }} | Call Sign: {{ vessel.call_sign }}
           </p>
 
-          <!-- Vessel Graphic Schematic Representation -->
-          <div class="my-3.5 h-20 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center p-2 relative overflow-hidden">
-            <div class="absolute bottom-0 inset-x-0 h-3 bg-gradient-to-t from-red-500/10 to-transparent"></div>
-            <svg class="w-full h-14 text-slate-400 group-hover:text-red-500/80 transition-colors" viewBox="0 0 300 80" fill="none">
-              <!-- Container Stacks -->
-              <rect x="50" y="25" width="22" height="15" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.2"/>
-              <rect x="74" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.5" stroke="currentColor" stroke-width="1.2"/>
-              <rect x="98" y="15" width="22" height="25" rx="1" fill="#DD0103" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
-              <rect x="122" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.4" stroke="currentColor" stroke-width="1.2"/>
-              <rect x="146" y="15" width="22" height="25" rx="1" fill="currentColor" fill-opacity="0.6" stroke="currentColor" stroke-width="1.2"/>
-              <rect x="170" y="25" width="22" height="15" rx="1" fill="#02194B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
-              <!-- Bridge Tower -->
-              <polygon points="210,40 215,10 235,10 238,40" fill="currentColor" fill-opacity="0.8"/>
-              <rect x="220" y="14" width="10" height="4" fill="#0F172A"/>
-              <!-- Ship Hull -->
-              <path d="M20,42 L250,42 L240,65 L55,65 Z" fill="currentColor" fill-opacity="0.85"/>
-              <line x1="15" y1="65" x2="285" y2="65" stroke="#DD0103" stroke-width="2" stroke-dasharray="4,4"/>
-            </svg>
+          <!-- Vessel Graphic Schematic Representation with Interactive Buoyancy & Waterline -->
+          <div class="my-3.5 h-20 rounded-xl bg-gradient-to-b from-slate-50 to-sky-50/40 border border-slate-200 flex items-center justify-center p-2 relative overflow-hidden group/schematic">
+            
+            <!-- Dynamic Summer Draft Waterline Badge on Hover -->
+            <div class="absolute top-1.5 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10 bg-slate-900/85 backdrop-blur-xs text-sky-300 px-2 py-0.5 rounded text-[9px] font-mono font-bold flex items-center gap-1 border border-sky-400/30 shadow-xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+              <span>DRAFT: {{ vessel.summer_draft }}m WATERLINE</span>
+            </div>
+
+            <!-- Floating Vessel SVG with 3D Ocean Swell Bobbing -->
+            <div class="w-full relative z-5 transition-transform duration-500 group-hover:animate-ship-float">
+              <svg class="w-full h-14 text-slate-400 group-hover:text-red-500/80 transition-colors" viewBox="0 0 300 80" fill="none">
+                <!-- Container Stacks -->
+                <rect x="50" y="25" width="22" height="15" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="74" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.5" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="98" y="15" width="22" height="25" rx="1" fill="#DD0103" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="122" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.4" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="146" y="15" width="22" height="25" rx="1" fill="currentColor" fill-opacity="0.6" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="170" y="25" width="22" height="15" rx="1" fill="#02194B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                <!-- Bridge Tower -->
+                <polygon points="210,40 215,10 235,10 238,40" fill="currentColor" fill-opacity="0.8"/>
+                <rect x="220" y="14" width="10" height="4" fill="#0F172A"/>
+                <!-- Ship Hull -->
+                <path d="M20,42 L250,42 L240,65 L55,65 Z" fill="currentColor" fill-opacity="0.85"/>
+                <line x1="15" y1="65" x2="285" y2="65" stroke="#DD0103" stroke-width="2" stroke-dasharray="4,4"/>
+              </svg>
+            </div>
+
+            <!-- Animated Layered Water Waves along the Vessel Keel -->
+            <div class="absolute bottom-0 inset-x-0 h-6 overflow-hidden pointer-events-none opacity-70 group-hover:opacity-95 transition-opacity">
+              <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-slow text-sky-400/40" viewBox="0 0 600 30" preserveAspectRatio="none">
+                <path d="M0,15 C75,5 150,25 225,15 C300,5 375,25 450,15 C525,5 600,25 600,30 L0,30 Z" fill="currentColor"></path>
+              </svg>
+              <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-fast text-sky-500/60" viewBox="0 0 600 30" preserveAspectRatio="none">
+                <path d="M0,20 C80,28 160,10 240,20 C320,28 400,10 480,20 C560,28 600,15 600,30 L0,30 Z" fill="currentColor"></path>
+              </svg>
+            </div>
           </div>
 
           <!-- 6 Core Metrics Grid -->

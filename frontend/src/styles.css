@@ -619,5 +619,74 @@ html, body {
   }
 }
 
+/* Innovative Water & Vessel Dynamics for Lower Sections */
+@keyframes shipFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.8deg);
+  }
+}
+
+.group:hover .group-hover\:animate-ship-float {
+  animation: shipFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes bowWavePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.95;
+  }
+}
+
+@keyframes propChurnWash {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(5px) scaleY(1.18);
+    opacity: 1;
+  }
+}
+
+.animate-bow-wave {
+  animation: bowWavePulse 1.8s ease-in-out infinite;
+  transform-origin: 50% 20px;
+}
+
+.animate-prop-churn {
+  animation: propChurnWash 1.2s ease-in-out infinite;
+  transform-origin: 50% 230px;
+}
+
+@keyframes currentFlow {
+  0% {
+    stroke-dashoffset: 60;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-current-flow {
+  animation: currentFlow 2.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .group-hover\:animate-ship-float,
+  .animate-bow-wave,
+  .animate-prop-churn,
+  .animate-current-flow {
+    animation: none !important;
+  }
+}
+
+
 
 

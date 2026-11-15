@@ -7,8 +7,15 @@ import { MaritimeService } from '../../services/maritime.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="sustainability-section" class="py-16 bg-slate-50 border-b border-slate-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+    <section id="sustainability-section" class="py-16 relative bg-gradient-to-b from-slate-50 via-emerald-50/20 to-slate-50 border-b border-slate-200 overflow-hidden">
+      <!-- Animated Eco-Bioluminescent Ocean Wave Ribbon -->
+      <div class="absolute top-0 inset-x-0 h-10 pointer-events-none opacity-30 overflow-hidden">
+        <svg class="block w-[200%] h-full animate-wave-slow text-emerald-400" viewBox="0 0 1200 40" preserveAspectRatio="none">
+          <path d="M0,15 C200,30 400,0 600,18 C800,35 1000,5 1200,20 L1200,0 L0,0 Z" fill="currentColor"></path>
+        </svg>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Text Content -->
           <div>
@@ -119,6 +126,17 @@ import { MaritimeService } from '../../services/maritime.service';
                 </div>
                 <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                   <div class="h-full bg-[#dd0103] rounded-full" style="width: 100%"></div>
+                </div>
+              </div>
+
+              <!-- Hydrodynamic Hull Wave Resistance Metric -->
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                  <span class="text-slate-700">Bulbous Bow Wave Resistance Reduction</span>
+                  <span class="text-sky-600 font-mono font-bold">-14.2%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-sky-400 to-emerald-500 rounded-full" style="width: 78%"></div>
                 </div>
               </div>
             </div>

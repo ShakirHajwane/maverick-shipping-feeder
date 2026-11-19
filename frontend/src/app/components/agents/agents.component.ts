@@ -180,17 +180,17 @@ import { RegionalAgent } from '../../models/maritime.models';
                 🏢 {{ isRtl() ? 'المكتب المركزي لإدارة الرحلات والوكالات الملاحية' : 'Corporate Operations Headquarters coordinates all vessel operations and customer inquiries.' }}
               </span>
 
-              <div class="flex items-center gap-3">
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
                 <a
                   [href]="'mailto:' + filteredAgents()[0].email"
-                  class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-1.5">
+                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-1.5">
                   <span>✉️</span>
                   <span>{{ isRtl() ? 'مراسلة العمليات' : 'Email Ops Desk' }}</span>
                 </a>
                 <button
                   type="button"
                   (click)="locateAgent(filteredAgents()[0])"
-                  class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
+                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>

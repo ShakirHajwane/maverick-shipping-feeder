@@ -256,18 +256,18 @@ import { Vessel } from '../../models/maritime.models';
                 🚢 {{ isRtl() ? 'السفينة في الخدمة النشطة حالياً على مسار صحار - كراتشي' : 'Vessel currently on active rotation on the Sohar - Mundra - Nhava Sheva - Karachi Express loop.' }}
               </span>
 
-              <div class="flex items-center gap-3">
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
                 <button
                   type="button"
                   (click)="service.openVesselModal(filteredVessels()[0])"
-                  class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-2">
+                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-2">
                   <span>{{ isRtl() ? 'المواصفات الفنية (١٦ نقطة)' : 'View 16-Pt Specs' }}</span>
                   <span>→</span>
                 </button>
                 <button
                   type="button"
                   (click)="trackVessel(filteredVessels()[0])"
-                  class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
+                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>

@@ -122,7 +122,7 @@ interface TelemetryNode {
               </span>
             </div>
 
-            <!-- Live-Ticking Nautical Telemetry Bar & Water Style Switcher -->
+            <!-- Live-Ticking Nautical Telemetry Bar & Waves Simulation Status -->
             <div class="flex flex-wrap items-center gap-2">
               <div class="flex items-center gap-2 text-[10.5px] font-mono text-slate-600 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200/90 shadow-xs">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -135,34 +135,17 @@ interface TelemetryNode {
                 <span class="text-[#dd0103] font-bold">TIDE +1.4m</span>
               </div>
 
-              <!-- Interactive Water & Waves Style Switcher -->
-              <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-xs text-[10px] font-mono font-bold text-slate-700">
+              <!-- Wave Animation Indicator / Control -->
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-xs text-[10px] font-mono font-bold text-slate-700">
                 <span class="text-sky-500 text-xs">🌊</span>
-                <span class="text-slate-500 uppercase tracking-wider text-[9px] hidden sm:inline">WATER:</span>
-                <button
-                  type="button"
-                  (click)="setWaterTheme('azure')"
-                  [class]="waterTheme() === 'azure' ? 'bg-sky-600 text-white px-2 py-0.5 rounded shadow-2xs font-bold cursor-pointer' : 'text-slate-600 hover:text-slate-900 px-1.5 py-0.5 cursor-pointer'">
-                  Azure Sea
-                </button>
-                <button
-                  type="button"
-                  (click)="setWaterTheme('deep')"
-                  [class]="waterTheme() === 'deep' ? 'bg-[#02194b] text-white px-2 py-0.5 rounded shadow-2xs font-bold cursor-pointer' : 'text-slate-600 hover:text-slate-900 px-1.5 py-0.5 cursor-pointer'">
-                  Deep Ocean
-                </button>
-                <button
-                  type="button"
-                  (click)="setWaterTheme('slate')"
-                  [class]="waterTheme() === 'slate' ? 'bg-slate-700 text-white px-2 py-0.5 rounded shadow-2xs font-bold cursor-pointer' : 'text-slate-600 hover:text-slate-900 px-1.5 py-0.5 cursor-pointer'">
-                  Calm Slate
-                </button>
+                <span class="text-slate-600 hidden sm:inline">SIMULATION:</span>
+                <span [class]="isWaterMotionPaused() ? 'text-amber-600' : 'text-emerald-600'">{{ isWaterMotionPaused() ? 'PAUSED' : 'ACTIVE' }}</span>
                 <button
                   type="button"
                   (click)="toggleWaterMotion()"
                   [title]="isWaterMotionPaused() ? 'Resume Waves' : 'Pause Waves'"
-                  class="ml-0.5 px-1 py-0.5 rounded hover:bg-slate-200/80 text-slate-700 text-[11px] cursor-pointer">
-                  {{ isWaterMotionPaused() ? '▶️' : '⏸️' }}
+                  class="ml-1 px-1.5 py-0.5 rounded hover:bg-slate-100 text-slate-700 text-[10px] cursor-pointer border border-slate-200">
+                  {{ isWaterMotionPaused() ? '▶️ Resume' : '⏸️ Pause' }}
                 </button>
               </div>
             </div>
@@ -390,12 +373,11 @@ interface TelemetryNode {
                         (ngModelChange)="onPolChange($event)"
                         class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] focus:bg-white cursor-pointer text-xs">
                         <option value="">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
-                        <option value="Jebel Ali">Jebel Ali (AEJEA)</option>
-                        <option value="Mundra">Mundra (INMUN)</option>
-                        <option value="Jeddah">Jeddah (SAJED)</option>
-                        <option value="Singapore">Singapore (SGSIN)</option>
-                        <option value="Dammam">Dammam (SADMN)</option>
-                        <option value="Shuwaikh">Shuwaikh (KWSWK)</option>
+                        <option value="Sohar">Sohar, Oman (OMSOH)</option>
+                        <option value="Mundra">Mundra, India (INMUN)</option>
+                        <option value="Nhava Sheva">Nhava Sheva, India (INNSA)</option>
+                        <option value="Karachi">Karachi, Pakistan (PKKHI)</option>
+                        <option value="Jebel Ali">Jebel Ali, UAE (AEJEA)</option>
                       </select>
                     </div>
 
@@ -408,14 +390,11 @@ interface TelemetryNode {
                         (ngModelChange)="onPodChange($event)"
                         class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] focus:bg-white cursor-pointer text-xs">
                         <option value="">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
-                        <option value="Mundra">Mundra (INMUN)</option>
-                        <option value="Singapore">Singapore (SGSIN)</option>
-                        <option value="Sokhna">Ain Sokhna (EGSOK)</option>
-                        <option value="Jeddah">Jeddah (SAJED)</option>
-                        <option value="Colombo">Colombo (LKCMB)</option>
-                        <option value="Nhava Sheva">Nhava Sheva (INNSA)</option>
-                        <option value="Fujairah">Fujairah (AEFJR)</option>
-                        <option value="Sharjah">Sharjah (AESHJ)</option>
+                        <option value="Mundra">Mundra, India (INMUN)</option>
+                        <option value="Nhava Sheva">Nhava Sheva, India (INNSA)</option>
+                        <option value="Karachi">Karachi, Pakistan (PKKHI)</option>
+                        <option value="Sohar">Sohar, Oman (OMSOH)</option>
+                        <option value="Jebel Ali">Jebel Ali, UAE (AEJEA)</option>
                       </select>
                     </div>
                   </div>
@@ -479,7 +458,7 @@ interface TelemetryNode {
                       type="text"
                       [ngModel]="vesselSearchQuery()"
                       (ngModelChange)="onVesselSearchChange($event)"
-                      placeholder="GFS RHINE, X-PRESS CAPELLA, 9338278..."
+                      placeholder="MAVERICK SOHAR, 9418298..."
                       class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] focus:bg-white placeholder-slate-400 text-xs sm:text-sm" />
                     <div class="absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400 pointer-events-none">
                       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -492,10 +471,10 @@ interface TelemetryNode {
                   <div class="flex flex-wrap items-center gap-1.5">
                     <span class="text-[10px] font-bold text-slate-500">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
                     <button
-                      *ngFor="let name of ['GFS RHINE', 'X-PRESS CAPELLA', 'GFS ROJA', 'AL FARAHIDI']"
+                      *ngFor="let name of ['MAVERICK SOHAR']"
                       (click)="quickSelectVessel(name)"
-                      class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-mono text-slate-700 font-semibold border border-slate-200 hover:border-[#dd0103] transition-colors cursor-pointer">
-                      {{ name }}
+                      class="px-2.5 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-mono text-slate-800 font-bold border border-slate-300 hover:border-[#dd0103] transition-colors cursor-pointer">
+                      🚢 {{ name }}
                     </button>
                   </div>
 

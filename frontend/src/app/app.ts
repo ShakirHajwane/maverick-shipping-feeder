@@ -7,7 +7,6 @@ import { InteractiveMapComponent } from './components/map/map.component';
 import { FleetDirectoryComponent } from './components/fleet/fleet.component';
 import { SustainabilityComponent } from './components/sustainability/sustainability.component';
 import { AgentsDirectoryComponent } from './components/agents/agents.component';
-import { MaritimeJourneyComponent } from './components/maritime-journey/maritime-journey.component';
 import { VesselModalComponent } from './components/vessel-modal/vessel-modal.component';
 import { BookingModalComponent } from './components/booking-modal/booking-modal.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -37,7 +36,6 @@ interface WaterParticle {
     CommonModule,
     HeaderComponent,
     HeroSearchComponent,
-    MaritimeJourneyComponent,
     InteractiveMapComponent,
     FleetDirectoryComponent,
     SustainabilityComponent,

@@ -4,51 +4,8 @@
 
   <!-- Main Corporate Content Flow -->
   <main class="flex-1 w-full max-w-full overflow-x-hidden">
-    <!-- Top Concept Switcher Banner (Idea 1 vs Idea 2) -->
-    <div class="bg-gradient-to-r from-[#02194b] via-[#092b6b] to-[#02194b] text-white py-2 px-4 sm:px-8 border-b border-slate-700/60 shadow-inner">
-      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded bg-red-600/30 border border-red-500/40 text-red-200 font-bold uppercase tracking-wider text-[10px]">
-            {{ isRtl() ? 'عرض النموذج' : 'CONCEPT TOGGLE' }}
-          </span>
-          <span class="text-slate-200">
-            {{ service.activeConcept() === 'simple' 
-              ? (isRtl() ? 'الفكرة ٢: مسار مبسط (صحار - موندرا - نهافا شيفا - كراتشي - صحار)' : 'Idea 2: Simple Corridor (Sohar - Mundra - Nhava Sheva - Karachi - Sohar)') 
-              : (isRtl() ? 'الفكرة ١: التجربة البحرية الكاملة مع مسار السفينة التفاعلي' : 'Idea 1: Full Maritime Experience with Interactive Scroll Journey') }}
-          </span>
-        </div>
-
-        <!-- Interactive Pill Switcher -->
-        <div class="inline-flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-700 shadow-md">
-          <button
-            type="button"
-            (click)="service.setActiveConcept('standard')"
-            [class]="service.activeConcept() === 'standard' 
-              ? 'bg-white text-[#02194b] font-bold shadow-sm' 
-              : 'text-slate-300 hover:text-white'"
-            class="px-3 py-1 rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
-            <span>🌐</span>
-            <span>{{ isRtl() ? 'الفكرة ١ (الكاملة)' : 'Idea 1 (Full)' }}</span>
-          </button>
-          <button
-            type="button"
-            (click)="service.setActiveConcept('simple')"
-            [class]="service.activeConcept() === 'simple' 
-              ? 'bg-gradient-to-r from-[#dd0103] to-[#b30002] text-white font-bold shadow-md shadow-red-900/40' 
-              : 'text-slate-300 hover:text-white'"
-            class="px-3 py-1 rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
-            <span>⚡</span>
-            <span>{{ isRtl() ? 'الفكرة ٢ (مسار صحار)' : 'Idea 2 (Simple Route)' }}</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Hero Section with 3-Tab Action Engine (Intact with all animations) -->
     <app-hero-search />
-
-    <!-- IDEA 1: Interactive Scroll-Driven Maritime Journey (Shown only in Standard/Full Mode) -->
-    <app-maritime-journey *ngIf="service.activeConcept() === 'standard'" />
 
     <!-- Interactive Leaflet Trade Route & Live Vessel Map -->
     <app-map />

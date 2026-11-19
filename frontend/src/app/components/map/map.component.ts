@@ -23,8 +23,8 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             </h2>
             <p class="text-sm text-slate-600 mt-1 max-w-2xl">
               {{ isRtl() 
-                ? 'استكشف شبكة الخطوط البحرية المتصلة بميناء جبل علي، وتتبع مواقع السفن الحية عبر الشرق الأوسط وآسيا.' 
-                : 'Explore feeder corridors connecting our primary hub at Jebel Ali (Dubai) with Red Sea, India, Gulf, and Southeast Asian ports with real-time AIS vessel telemetry.' }}
+                ? 'استكشف مسار صحار - موندرا - نهافا شيفا - كراتشي - صحار، وتتبع موقع السفينة الحية عبر الخليج وبحر العرب.' 
+                : 'Explore our dedicated SMNK Express Loop connecting Sohar, Mundra, Nhava Sheva, and Karachi with real-time AIS vessel telemetry across the Arabian Sea.' }}
             </p>
           </div>
 

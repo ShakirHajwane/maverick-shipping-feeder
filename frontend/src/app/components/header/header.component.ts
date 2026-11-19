@@ -25,31 +25,11 @@ import { MaritimeService } from '../../services/maritime.service';
           </span>
         </div>
 
-        <!-- Center: Concept Toggle Switch (Idea 1: Full Experience vs Idea 2: Simple Sohar-Karachi Route) -->
-        <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 shadow-xs">
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1 hidden md:inline">{{ isRtl() ? 'النمط:' : 'Mode:' }}</span>
-          <button
-            type="button"
-            (click)="service.setActiveConcept('standard')"
-            [class]="service.activeConcept() === 'standard' 
-              ? 'bg-[#02194b] text-white font-bold shadow-xs' 
-              : 'text-slate-600 hover:text-slate-900'"
-            class="px-2.5 py-1 rounded-lg text-[11px] flex items-center gap-1.5 transition-all cursor-pointer font-medium"
-            [title]="isRtl() ? 'التجربة البحرية الكاملة مع مسار السفينة التفاعلي' : 'Full Experience with Ship Journey'">
-            <span>🌐</span>
-            <span>{{ isRtl() ? 'الكاملة' : 'Full View' }}</span>
-          </button>
-          <button
-            type="button"
-            (click)="service.setActiveConcept('simple')"
-            [class]="service.activeConcept() === 'simple' 
-              ? 'bg-gradient-to-r from-[#dd0103] to-[#b30002] text-white font-bold shadow-xs shadow-red-600/30' 
-              : 'text-slate-600 hover:text-slate-900'"
-            class="px-2.5 py-1 rounded-lg text-[11px] flex items-center gap-1.5 transition-all cursor-pointer font-medium"
-            [title]="isRtl() ? 'مسار مبسط: صحار - موندرا - نهافا شيفا - كراتشي - صحار' : 'Simple Route: Sohar - Mundra - Nhava Sheva - Karachi - Sohar'">
-            <span>⚡</span>
-            <span>{{ isRtl() ? 'مسار صحار - كراتشي' : 'Sohar–Karachi Loop' }}</span>
-          </button>
+        <!-- Center: Active Corridor Status Pill (Desktop/Tablet) -->
+        <div class="hidden md:flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-slate-200 text-[11px] font-mono text-slate-700 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-pulse"></span>
+          <span class="font-bold text-[#02194b]">SMNK EXPRESS LOOP:</span>
+          <span class="text-slate-500">Sohar • Mundra • Nhava Sheva • Karachi</span>
         </div>
 
         <div class="flex items-center gap-4">
@@ -113,8 +93,9 @@ import { MaritimeService } from '../../services/maritime.service';
 
           <!-- Mobile Hamburger Toggle -->
           <button
+            aria-label="Toggle Navigation Menu"
             (click)="mobileMenuOpen = !mobileMenuOpen"
-            class="lg:hidden p-2 rounded-lg bg-slate-100 text-[#02194b] hover:text-[#dd0103] border border-slate-300">
+            class="lg:hidden p-2 rounded-lg bg-slate-100 text-[#02194b] hover:text-[#dd0103] border border-slate-300 cursor-pointer">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path *ngIf="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               <path *ngIf="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -124,37 +105,57 @@ import { MaritimeService } from '../../services/maritime.service';
       </div>
 
       <!-- Mobile Dropdown Menu -->
-      <div *ngIf="mobileMenuOpen" class="lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 shadow-lg">
-        <!-- Mobile Mode Switcher -->
-        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
-          <div class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">{{ isRtl() ? 'اختيار النمط' : 'Concept Mode' }}</div>
-          <div class="grid grid-cols-2 gap-2">
-            <button
-              (click)="service.setActiveConcept('standard'); mobileMenuOpen = false"
-              [class]="service.activeConcept() === 'standard' ? 'bg-[#02194b] text-white font-bold shadow-xs' : 'bg-white text-slate-700'"
-              class="py-2 px-2 rounded-lg text-xs font-semibold text-center border border-slate-200">
-              🌐 {{ isRtl() ? 'الكاملة' : 'Full View' }}
-            </button>
-            <button
-              (click)="service.setActiveConcept('simple'); mobileMenuOpen = false"
-              [class]="service.activeConcept() === 'simple' ? 'bg-[#dd0103] text-white font-bold shadow-xs' : 'bg-white text-slate-700'"
-              class="py-2 px-2 rounded-lg text-xs font-semibold text-center border border-slate-200">
-              ⚡ {{ isRtl() ? 'مسار صحار' : 'Sohar–Karachi' }}
-            </button>
+      <div *ngIf="mobileMenuOpen" class="lg:hidden bg-white border-b border-slate-200 px-5 py-4 space-y-3.5 shadow-xl animate-fadeIn">
+        <!-- Mobile Corridor Info Card -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase text-[#dd0103] tracking-wider">SMNK Express Loop</span>
+            <span class="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Weekly Fixed Day</span>
           </div>
+          <div class="text-xs font-bold text-[#02194b]">Sohar • Mundra • Nhava Sheva • Karachi</div>
         </div>
 
-        <a (click)="mobileMenuOpen = false" href="#services-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#interactive-map-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#fleet-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#tracking-engine" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'تتبع السفن' : 'Vessel Tracking' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#sustainability-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'الاستدامة' : 'Sustainability' }}</a>
-        <a (click)="mobileMenuOpen = false" href="#agents-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'المكاتب والوكلاء' : 'Offices & Agents' }}</a>
-        <button
-          (click)="service.toggleBookingModal(true); mobileMenuOpen = false"
-          class="w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r from-[#dd0103] to-[#b50102] text-white font-bold text-sm text-center shadow-md shadow-red-600/25">
-          {{ isRtl() ? 'طلب حجز / تسعيرة' : 'Request Booking' }}
-        </button>
+        <nav class="space-y-1 pt-1 text-sm font-semibold text-[#02194b]">
+          <a (click)="mobileMenuOpen = false" href="#services-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#dd0103] transition-colors">
+            <span>{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" href="#interactive-map-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#dd0103] transition-colors">
+            <span>{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" href="#fleet-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#dd0103] transition-colors">
+            <span>{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" href="#tracking-engine" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#dd0103] transition-colors">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-pulse"></span>
+              <span>{{ isRtl() ? 'تتبع السفن' : 'Vessel Tracking' }}</span>
+            </span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" href="#sustainability-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#dd0103] transition-colors">
+            <span>{{ isRtl() ? 'الاستدامة' : 'Sustainability' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" href="#agents-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#dd0103] transition-colors">
+            <span>{{ isRtl() ? 'المكاتب والوكلاء' : 'Offices & Agents' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+        </nav>
+
+        <div class="pt-2 border-t border-slate-100 flex flex-col gap-2">
+          <a href="tel:+97142105105" class="w-full py-2 px-3 rounded-lg bg-slate-100 text-[#02194b] font-mono font-bold text-xs flex items-center justify-center gap-2">
+            <span>📞</span>
+            <span>+971 4 210 51 05 (24/7 Ops)</span>
+          </a>
+          <button
+            (click)="service.toggleBookingModal(true); mobileMenuOpen = false"
+            class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b50102] text-white font-bold text-sm text-center shadow-md shadow-red-600/25 cursor-pointer">
+            {{ isRtl() ? 'طلب حجز / تسعيرة' : 'Request Booking' }}
+          </button>
+        </div>
       </div>
     </header>
   `

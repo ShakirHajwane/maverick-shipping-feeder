@@ -193,35 +193,35 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
 
   portClocks: PortClock[] = [
     {
-      city: 'Dubai Jebel Ali',
+      city: 'Dubai Hub HQ',
       country: 'UAE',
       timeZone: 'Asia/Dubai',
       flag: '🇦🇪',
-      status: 'Fairway Clear • 24/7',
+      status: 'Fairway Clear • 24/7 Ops',
       statusClass: 'bg-emerald-400 animate-pulse'
     },
     {
-      city: 'Singapore Keppel',
-      country: 'Singapore',
-      timeZone: 'Asia/Singapore',
-      flag: '🇸🇬',
-      status: 'Strait Shuttles Active',
+      city: 'Sohar (OICT)',
+      country: 'Oman',
+      timeZone: 'Asia/Muscat',
+      flag: '🇴🇲',
+      status: 'Berth Window Active',
       statusClass: 'bg-emerald-400 animate-pulse'
     },
     {
-      city: 'Mumbai JNPT',
+      city: 'Nhava Sheva / Mundra',
       country: 'India',
       timeZone: 'Asia/Kolkata',
       flag: '🇮🇳',
-      status: 'Spring Tide Window',
+      status: 'High Tide Feeder Window',
       statusClass: 'bg-sky-400'
     },
     {
-      city: 'Rotterdam ECT',
-      country: 'Netherlands',
-      timeZone: 'Europe/Amsterdam',
-      flag: '🇳🇱',
-      status: 'Feeder Hub Open',
+      city: 'Karachi (SAPT)',
+      country: 'Pakistan',
+      timeZone: 'Asia/Karachi',
+      flag: '🇵🇰',
+      status: 'Deep Draft Clear',
       statusClass: 'bg-emerald-400 animate-pulse'
     }
   ];

@@ -10,6 +10,7 @@ import { MaritimeService } from '../../services/maritime.service';
     <!-- Top Utility Bar -->
     <div class="bg-slate-100 border-b border-slate-200 text-xs text-slate-600 py-1.5 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
       <div class="w-full max-w-[1920px] mx-auto flex flex-wrap items-center justify-between gap-3">
+        <!-- Left: Operations Status -->
         <div class="flex items-center gap-4">
           <span class="hidden sm:flex items-center gap-1.5 text-slate-500">
             <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,6 +23,33 @@ import { MaritimeService } from '../../services/maritime.service';
             <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
             <span class="whitespace-nowrap text-[11px] sm:text-xs">{{ isRtl() ? 'مركز العمليات 24/7' : '24/7 Operations Desk' }}</span>
           </span>
+        </div>
+
+        <!-- Center: Concept Toggle Switch (Idea 1: Full Experience vs Idea 2: Simple Sohar-Karachi Route) -->
+        <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 shadow-xs">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1 hidden md:inline">{{ isRtl() ? 'النمط:' : 'Mode:' }}</span>
+          <button
+            type="button"
+            (click)="service.setActiveConcept('standard')"
+            [class]="service.activeConcept() === 'standard' 
+              ? 'bg-[#02194b] text-white font-bold shadow-xs' 
+              : 'text-slate-600 hover:text-slate-900'"
+            class="px-2.5 py-1 rounded-lg text-[11px] flex items-center gap-1.5 transition-all cursor-pointer font-medium"
+            [title]="isRtl() ? 'التجربة البحرية الكاملة مع مسار السفينة التفاعلي' : 'Full Experience with Ship Journey'">
+            <span>🌐</span>
+            <span>{{ isRtl() ? 'الكاملة' : 'Full View' }}</span>
+          </button>
+          <button
+            type="button"
+            (click)="service.setActiveConcept('simple')"
+            [class]="service.activeConcept() === 'simple' 
+              ? 'bg-gradient-to-r from-[#dd0103] to-[#b30002] text-white font-bold shadow-xs shadow-red-600/30' 
+              : 'text-slate-600 hover:text-slate-900'"
+            class="px-2.5 py-1 rounded-lg text-[11px] flex items-center gap-1.5 transition-all cursor-pointer font-medium"
+            [title]="isRtl() ? 'مسار مبسط: صحار - موندرا - نهافا شيفا - كراتشي - صحار' : 'Simple Route: Sohar - Mundra - Nhava Sheva - Karachi - Sohar'">
+            <span>⚡</span>
+            <span>{{ isRtl() ? 'مسار صحار - كراتشي' : 'Sohar–Karachi Loop' }}</span>
+          </button>
         </div>
 
         <div class="flex items-center gap-4">
@@ -97,6 +125,25 @@ import { MaritimeService } from '../../services/maritime.service';
 
       <!-- Mobile Dropdown Menu -->
       <div *ngIf="mobileMenuOpen" class="lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 shadow-lg">
+        <!-- Mobile Mode Switcher -->
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+          <div class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">{{ isRtl() ? 'اختيار النمط' : 'Concept Mode' }}</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              (click)="service.setActiveConcept('standard'); mobileMenuOpen = false"
+              [class]="service.activeConcept() === 'standard' ? 'bg-[#02194b] text-white font-bold shadow-xs' : 'bg-white text-slate-700'"
+              class="py-2 px-2 rounded-lg text-xs font-semibold text-center border border-slate-200">
+              🌐 {{ isRtl() ? 'الكاملة' : 'Full View' }}
+            </button>
+            <button
+              (click)="service.setActiveConcept('simple'); mobileMenuOpen = false"
+              [class]="service.activeConcept() === 'simple' ? 'bg-[#dd0103] text-white font-bold shadow-xs' : 'bg-white text-slate-700'"
+              class="py-2 px-2 rounded-lg text-xs font-semibold text-center border border-slate-200">
+              ⚡ {{ isRtl() ? 'مسار صحار' : 'Sohar–Karachi' }}
+            </button>
+          </div>
+        </div>
+
         <a (click)="mobileMenuOpen = false" href="#services-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'الخدمات والخطوط' : 'Services & Routes' }}</a>
         <a (click)="mobileMenuOpen = false" href="#interactive-map-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'خريطة الخطوط' : 'Trade Route Map' }}</a>
         <a (click)="mobileMenuOpen = false" href="#fleet-section" class="block text-[#02194b] hover:text-[#dd0103] py-1 font-semibold">{{ isRtl() ? 'الأسطول البحري' : 'Fleet (Vessels)' }}</a>

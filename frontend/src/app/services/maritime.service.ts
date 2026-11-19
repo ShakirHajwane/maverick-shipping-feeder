@@ -10,6 +10,58 @@ import {
   MaritimeStats
 } from '../models/maritime.models';
 
+export const SOHAR_KARACHI_SERVICE: FeederService = {
+  id: 999,
+  code: 'SMNK',
+  name: 'Sohar - Mundra - Nhava Sheva - Karachi Express Loop',
+  description: 'Direct dedicated feeder service linking Sohar Gateway with primary container terminals at Mundra, Nhava Sheva, and Karachi.',
+  transit_days: 11,
+  frequency: 'Weekly Fixed Day',
+  port_rotation_json: '',
+  port_rotation: [
+    {
+      port_name: 'Sohar',
+      unlocode: 'OMSOH',
+      lat: 24.498,
+      lng: 56.628,
+      day_of_week: 'Day 1 (Mon)',
+      terminal: 'Oman International Container Terminal (OICT)'
+    },
+    {
+      port_name: 'Mundra',
+      unlocode: 'INMUN',
+      lat: 22.842,
+      lng: 69.712,
+      day_of_week: 'Day 4 (Thu)',
+      terminal: 'Adani Mundra Container Terminal (MICT)'
+    },
+    {
+      port_name: 'Nhava Sheva (JNPT)',
+      unlocode: 'INNSA',
+      lat: 18.950,
+      lng: 72.951,
+      day_of_week: 'Day 6 (Sat)',
+      terminal: 'Gateway Terminals India (GTI / BMCT)'
+    },
+    {
+      port_name: 'Karachi',
+      unlocode: 'PKKHI',
+      lat: 24.805,
+      lng: 66.975,
+      day_of_week: 'Day 8 (Mon)',
+      terminal: 'South Asia Pakistan Terminals (SAPT)'
+    },
+    {
+      port_name: 'Sohar',
+      unlocode: 'OMSOH',
+      lat: 24.498,
+      lng: 56.628,
+      day_of_week: 'Day 11 (Thu)',
+      terminal: 'Oman International Container Terminal (OICT)'
+    }
+  ]
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,13 +71,18 @@ export class MaritimeService {
 
   // Angular Signals for reactive state
   stats = signal<MaritimeStats | null>(null);
-  services = signal<FeederService[]>([]);
+  services = signal<FeederService[]>([SOHAR_KARACHI_SERVICE]);
   vessels = signal<Vessel[]>([]);
   schedules = signal<VoyageSchedule[]>([]);
   agents = signal<RegionalAgent[]>([]);
 
+  // Concept / Prototype Mode:
+  // 'simple' (Idea 2: Simple Sohar-Karachi Route, No Ship Journey, Clean Graphics)
+  // 'standard' (Idea 1: Full Experience with 4-Waypoint Scroll Ship Journey)
+  activeConcept = signal<'standard' | 'simple'>('simple');
+
   // Active UI Selections
-  selectedService = signal<FeederService | null>(null);
+  selectedService = signal<FeederService | null>(SOHAR_KARACHI_SERVICE);
   selectedVessel = signal<Vessel | null>(null);
   focusedMapLocation = signal<{ lat: number; lng: number; zoom?: number; title?: string; popupHtml?: string } | null>(null);
 
@@ -47,6 +104,17 @@ export class MaritimeService {
     this.isWaterMotionPaused.update(v => !v);
   }
 
+  setActiveConcept(concept: 'standard' | 'simple') {
+    this.activeConcept.set(concept);
+    if (concept === 'simple') {
+      this.selectedService.set(SOHAR_KARACHI_SERVICE);
+    } else {
+      const list = this.services();
+      const standardService = list.find(s => s.code !== 'SMNK') || list[0] || SOHAR_KARACHI_SERVICE;
+      this.selectedService.set(standardService);
+    }
+  }
+
   // Computed state
   serviceCodes = computed(() => this.services().map(s => s.code));
   availableFlags = computed(() => {
@@ -65,9 +133,14 @@ export class MaritimeService {
     if (code) params = params.set('code', code);
     return this.http.get<FeederService[]>(`${this.apiUrl}/services`, { params }).pipe(
       tap(data => {
-        this.services.set(data);
-        if (data.length > 0 && !this.selectedService()) {
-          this.selectedService.set(data[0]);
+        const hasSMNK = data.some(s => s.code === 'SMNK');
+        const merged = hasSMNK ? data : [SOHAR_KARACHI_SERVICE, ...data];
+        this.services.set(merged);
+        if (this.activeConcept() === 'simple') {
+          this.selectedService.set(SOHAR_KARACHI_SERVICE);
+        } else if (!this.selectedService() && merged.length > 0) {
+          const flagship = merged.find(s => s.code !== 'SMNK') || merged[0];
+          this.selectedService.set(flagship);
         }
       })
     );

@@ -10,6 +10,20 @@ def seed_database(db: Session):
     # 1. Feeder Services
     services_data = [
         {
+            "code": "SMNK",
+            "name": "Sohar - Mundra - Nhava Sheva - Karachi Express Loop",
+            "description": "Direct weekly feeder loop connecting Oman gateway Sohar with Mundra, Nhava Sheva, and Karachi.",
+            "transit_days": 11,
+            "frequency": "Weekly Fixed Day",
+            "port_rotation_json": json.dumps([
+                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Monday", "terminal": "OICT Terminal C"},
+                {"port_name": "Mundra", "unlocode": "INMUN", "lat": 22.842, "lng": 69.712, "day_of_week": "Thursday", "terminal": "MICT Mundra"},
+                {"port_name": "Nhava Sheva (JNPT)", "unlocode": "INNSA", "lat": 18.950, "lng": 72.951, "day_of_week": "Saturday", "terminal": "GTI / BMCT"},
+                {"port_name": "Karachi", "unlocode": "PKKHI", "lat": 24.805, "lng": 66.975, "day_of_week": "Monday", "terminal": "SAPT / KICT"},
+                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Thursday", "terminal": "OICT Terminal C"}
+            ])
+        },
+        {
             "code": "JSA",
             "name": "Jebel Ali - Red Sea Express",
             "description": "High-frequency feeder corridor linking Arabian Gulf hub Jebel Ali directly with key Red Sea ports.",

@@ -192,6 +192,18 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
         this.renderVesselMarkers();
       }
     });
+
+    // React to concept mode changes (simple vs standard)
+    effect(() => {
+      const concept = this.service.activeConcept();
+      if (concept === 'simple') {
+        this.showVessels = false;
+        if (this.map) {
+          this.vesselMarkers.forEach(m => this.map?.removeLayer(m));
+          this.vesselMarkers = [];
+        }
+      }
+    });
   }
 
   ngOnInit() {}
@@ -256,10 +268,35 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
     const ports = service.port_rotation || [];
     if (ports.length === 0) return;
 
-    const latLngs: [number, number][] = ports.map(p => [p.lat, p.lng]);
-    // Close the loop back to the initial hub
-    if (ports.length > 1) {
-      latLngs.push([ports[0].lat, ports[0].lng]);
+    // Realistic sea fairway waypoints for Sohar - Mundra - Nhava Sheva - Karachi - Sohar
+    let latLngs: [number, number][] = [];
+    if (service.code === 'SMNK') {
+      latLngs = [
+        [24.498, 56.628], // 1. Sohar Port (Oman)
+        [24.25, 58.50],   // Gulf of Oman passage
+        [23.50, 62.00],   // Central Arabian Sea fairway
+        [22.50, 68.60],   // Approach to Gulf of Kutch
+        [22.842, 69.712], // 2. Mundra Port (India)
+        [22.30, 68.80],   // Rounding Dwarka headland
+        [21.20, 69.50],   // Off Porbandar
+        [20.40, 71.00],   // Off Diu Cape
+        [19.20, 72.60],   // Approach to Mumbai
+        [18.950, 72.951], // 3. Nhava Sheva (JNPT Mumbai)
+        [19.10, 72.50],   // Mumbai fairway departure
+        [21.00, 70.00],   // Arabian Sea NW lane
+        [22.80, 68.20],   // Off Indus Delta
+        [24.40, 67.00],   // Approach to Karachi Fairway
+        [24.805, 66.975], // 4. Karachi Port (Pakistan)
+        [24.50, 64.00],   // Northern Arabian Sea west lane
+        [24.40, 60.50],   // Off Gwadar offshore
+        [24.40, 57.50],   // Gulf of Oman entry
+        [24.498, 56.628]  // 5. Sohar Port (Full Loop Closed)
+      ];
+    } else {
+      latLngs = ports.map(p => [p.lat, p.lng]);
+      if (ports.length > 1) {
+        latLngs.push([ports[0].lat, ports[0].lng]);
+      }
     }
 
     // Draw glowing feeder polyline
@@ -272,23 +309,27 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
       lineJoin: 'round'
     }).addTo(this.map);
 
-    // Create custom port markers
-    ports.forEach((p, idx) => {
-      const isHub = p.unlocode === 'AEJEA';
+    // Create custom port markers (distinct by unlocode to avoid overlapping badges at Sohar)
+    const distinctPorts = ports.filter((p, idx, arr) => 
+      idx === arr.findIndex(t => t.unlocode === p.unlocode)
+    );
+
+    distinctPorts.forEach((p, idx) => {
+      const isHub = p.unlocode === 'OMSOH' || p.unlocode === 'AEJEA';
       const iconHtml = `
         <div style="
-          width: ${isHub ? '28px' : '22px'};
-          height: ${isHub ? '28px' : '22px'};
-          background: ${isHub ? '#F59E0B' : '#112240'};
-          border: 2px solid ${isHub ? '#FFFFFF' : '#DD0103'};
+          width: ${isHub ? '30px' : '24px'};
+          height: ${isHub ? '30px' : '24px'};
+          background: ${isHub ? '#DD0103' : '#02194B'};
+          border: 2px solid #FFFFFF;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: ${isHub ? '#0A192F' : '#FFFFFF'};
+          color: #FFFFFF;
           font-weight: 800;
-          font-size: ${isHub ? '12px' : '10px'};
-          box-shadow: 0 0 10px rgba(221, 1, 3, 0.5);
+          font-size: ${isHub ? '13px' : '11px'};
+          box-shadow: 0 0 12px rgba(221, 1, 3, 0.6);
         ">
           ${idx + 1}
         </div>
@@ -297,16 +338,19 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
       const customIcon = L.divIcon({
         html: iconHtml,
         className: 'port-marker-icon',
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
       });
 
       const popupHtml = `
-        <div style="font-family: inherit; padding: 4px;">
-          <div style="font-weight: 800; font-size: 13px; color: #DD0103;">${p.port_name}</div>
-          <div style="font-size: 11px; color: #64748B; margin-bottom: 4px;">UN/LOCODE: <b style="color: #0F172A;">${p.unlocode}</b></div>
-          <div style="font-size: 12px; color: #1E293B;">Terminal: ${p.terminal || 'Container Quay'}</div>
-          ${p.day_of_week ? `<div style="font-size: 11px; color: #DD0103; margin-top: 2px; font-weight: 600;">Call: ${p.day_of_week}</div>` : ''}
+        <div style="font-family: inherit; padding: 6px; min-width: 170px;">
+          <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+            <span style="background: #DD0103; color: white; font-size: 10px; font-weight: bold; padding: 1px 5px; border-radius: 4px;">STOP ${idx + 1}</span>
+            <span style="font-size: 11px; color: #64748B; font-weight: 600;">${p.unlocode}</span>
+          </div>
+          <div style="font-weight: 800; font-size: 14px; color: #02194B;">${p.port_name}</div>
+          <div style="font-size: 11px; color: #475569; margin-top: 2px;">${p.terminal || 'Container Terminal'}</div>
+          ${p.day_of_week ? `<div style="font-size: 11px; color: #DD0103; margin-top: 4px; font-weight: 700;">Fixed Call: ${p.day_of_week}</div>` : ''}
         </div>
       `;
 
@@ -320,7 +364,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
     // Fit map bounds to show route
     if (latLngs.length > 0) {
       this.map.fitBounds(L.latLngBounds(latLngs), {
-        padding: [40, 40],
+        padding: [45, 45],
         maxZoom: 7
       });
     }

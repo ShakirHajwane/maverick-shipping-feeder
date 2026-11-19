@@ -23,14 +23,14 @@ async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
     db = next(get_db())
     try:
-        seed_database(db)
+        seed_database(db, force=True)
     finally:
         db.close()
     yield
-
+ 
 app = FastAPI(
     title="Maritime Feeder & Container Shipping API",
-    description="Production-grade API for Global Feeders, X-Press Feeders, and DP World maritime operations demo.",
+    description="Production-grade API for Maverick Shipping operations.",
     version="1.0.0",
     lifespan=lifespan
 )
@@ -49,12 +49,12 @@ api_router = APIRouter()
 @api_router.get("/stats", response_model=StatsResponse)
 def get_stats():
     return StatsResponse(
-        port_calls="15.5K",
-        teus_per_year="2.5M",
-        vessels_count=66,
-        ports_served=88,
-        countries=54,
-        feeder_services=32
+        port_calls="1.2K",
+        teus_per_year="96K",
+        vessels_count=1,
+        ports_served=4,
+        countries=3,
+        feeder_services=1
     )
 
 @api_router.get("/services", response_model=List[FeederServiceResponse])

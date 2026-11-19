@@ -28,7 +28,7 @@ import { RegionalAgent } from '../../models/maritime.models';
           </div>
 
           <!-- View Mode Switcher & Offices Count -->
-          <div class="flex flex-wrap items-center gap-3">
+          <div *ngIf="filteredAgents().length > 1" class="flex flex-wrap items-center gap-3">
             <div class="inline-flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
               <button
                 (click)="setViewMode('carousel')"
@@ -64,10 +64,18 @@ import { RegionalAgent } from '../../models/maritime.models';
               {{ isRtl() ? 'المكاتب:' : 'Offices:' }} <span class="text-[#dd0103] font-bold">{{ filteredAgents().length }}</span> / {{ service.agents().length }}
             </div>
           </div>
+
+          <!-- Single Office Pill Badge -->
+          <div *ngIf="filteredAgents().length === 1" class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold font-mono">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>{{ isRtl() ? 'المقر الرئيسي للعمليات' : 'Corporate Operations HQ' }}</span>
+            </span>
+          </div>
         </div>
 
-        <!-- Country Filter Pills Bar -->
-        <div class="flex flex-wrap items-center gap-2 mb-6">
+        <!-- Country Filter Pills Bar (Shown only when multiple offices exist) -->
+        <div *ngIf="service.agents().length > 1" class="flex flex-wrap items-center gap-2 mb-6">
           <button
             *ngFor="let country of countries"
             (click)="filterCountry(country.val)"
@@ -80,9 +88,123 @@ import { RegionalAgent } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             VIEW 1: CAROUSEL SLIDER (DEFAULT • ZERO SCROLL CLUTTER)
+             CORPORATE OPERATIONS HQ SHOWCASE (EXACTLY 1 OFFICE EXISTS)
              ========================================================= -->
-        <div *ngIf="viewMode() === 'carousel'" class="relative space-y-4">
+        <div *ngIf="filteredAgents().length === 1" class="max-w-5xl mx-auto">
+          <div class="bg-white border-2 border-slate-200 hover:border-[#dd0103]/60 rounded-3xl overflow-hidden shadow-xl transition-all p-6 sm:p-8">
+            <div class="flex flex-wrap items-start justify-between gap-4 pb-6 border-b border-slate-100">
+              <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-bold font-mono uppercase mb-2">
+                  <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+                  <span>{{ isRtl() ? 'المقر الرئيسي لعمليات الشحن والتحكم' : 'GLOBAL CORPORATE HEADQUARTERS & FLEET CONTROL' }}</span>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-black text-[#02194b]">
+                  {{ filteredAgents()[0].office_name }}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                  {{ filteredAgents()[0].city }}, {{ filteredAgents()[0].country }} 🇦🇪 • JAFZA One Maritime Center
+                </p>
+              </div>
+
+              <!-- Live Operations Radar Status -->
+              <div class="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 shadow-xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{{ isRtl() ? 'مركز العمليات نشط ٢٤/٧' : '24/7 Operations Duty Active' }}</span>
+              </div>
+            </div>
+
+            <!-- Address and Key Telemetry Details -->
+            <div class="my-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Location & Address Card -->
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ isRtl() ? 'العنوان الفعلي والموقع' : 'OFFICE ADDRESS & LOCATION' }}
+                </div>
+                <div class="text-sm font-bold text-[#02194b] flex items-start gap-2">
+                  <span class="text-[#dd0103] text-base">📍</span>
+                  <span>{{ filteredAgents()[0].address }}</span>
+                </div>
+                <div class="text-xs text-slate-500 pt-1">
+                  Primary Maritime Gateway: Jebel Ali Port & Free Zone (AEJEA)
+                </div>
+              </div>
+
+              <!-- Contact & Communications Card -->
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ isRtl() ? 'قنوات الاتصال المباشرة' : 'DIRECT COMMERCIAL & OPS CHANNELS' }}
+                </div>
+                <div class="flex items-center gap-2 text-xs">
+                  <span class="text-[#dd0103] font-bold">📞 {{ isRtl() ? 'الهاتف:' : 'Phone:' }}</span>
+                  <a [href]="'tel:' + filteredAgents()[0].phone" class="font-mono font-bold text-[#02194b] hover:text-[#dd0103] transition-colors">
+                    {{ filteredAgents()[0].phone }}
+                  </a>
+                </div>
+                <div class="flex items-center gap-2 text-xs">
+                  <span class="text-[#dd0103] font-bold">✉️ {{ isRtl() ? 'البريد:' : 'Email:' }}</span>
+                  <a [href]="'mailto:' + filteredAgents()[0].email" class="font-mono text-slate-700 hover:text-[#dd0103] transition-colors">
+                    {{ filteredAgents()[0].email }}
+                  </a>
+                </div>
+                <div class="text-[11px] text-emerald-700 font-medium">
+                  ✓ {{ isRtl() ? 'فريق مخصص لعمليات التغذية ومناولة الحاويات' : 'Dedicated container slot booking and liner agency desk' }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Marine Conditions & Fairway Telemetry -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-50 via-sky-50/40 to-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🌊</span>
+                <div>
+                  <div class="text-xs font-bold text-[#02194b]">Jebel Ali / Dubai Approach Fairway</div>
+                  <div class="text-[11px] text-slate-500">Fairway Clear • 24/7 Deep-Water Access</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4 text-xs font-mono">
+                <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+                  <span class="text-slate-400 text-[10px] uppercase block">Tide</span>
+                  <span class="font-bold text-sky-700">HIGH TIDE +2.1m</span>
+                </div>
+                <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+                  <span class="text-slate-400 text-[10px] uppercase block">Flow</span>
+                  <span class="font-bold text-emerald-600">▲ Rising</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons Footer -->
+            <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+              <span class="text-xs text-slate-500">
+                🏢 {{ isRtl() ? 'المكتب المركزي لإدارة الرحلات والوكالات الملاحية' : 'Corporate Operations Headquarters coordinates all vessel operations and customer inquiries.' }}
+              </span>
+
+              <div class="flex items-center gap-3">
+                <a
+                  [href]="'mailto:' + filteredAgents()[0].email"
+                  class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-1.5">
+                  <span>✉️</span>
+                  <span>{{ isRtl() ? 'مراسلة العمليات' : 'Email Ops Desk' }}</span>
+                </a>
+                <button
+                  type="button"
+                  (click)="locateAgent(filteredAgents()[0])"
+                  class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  </svg>
+                  <span>{{ isRtl() ? 'عرض على الخريطة' : 'Locate on Map' }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             VIEW 1: CAROUSEL SLIDER (WHEN MULTIPLE OFFICES EXIST)
+             ========================================================= -->
+        <div *ngIf="filteredAgents().length > 1 && viewMode() === 'carousel'" class="relative space-y-4">
           <!-- Slider Navigation Header -->
           <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2">
@@ -137,9 +259,9 @@ import { RegionalAgent } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             VIEW 2: PAGINATED COMPACT GRID (6 PER PAGE • CLEAN HEIGHT)
+             VIEW 2: PAGINATED COMPACT GRID (WHEN MULTIPLE OFFICES EXIST)
              ========================================================= -->
-        <div *ngIf="viewMode() === 'grid'" class="space-y-6">
+        <div *ngIf="filteredAgents().length > 1 && viewMode() === 'grid'" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
               *ngFor="let agent of pagedAgents()"
@@ -189,9 +311,9 @@ import { RegionalAgent } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             VIEW 3: HIGH-DENSITY DIRECTORY LIST VIEW
+             VIEW 3: HIGH-DENSITY DIRECTORY LIST VIEW (WHEN MULTIPLE OFFICES EXIST)
              ========================================================= -->
-        <div *ngIf="viewMode() === 'list'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngIf="filteredAgents().length > 1 && viewMode() === 'list'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div
             *ngFor="let agent of filteredAgents()"
             class="bg-white border border-slate-200 hover:border-[#dd0103] rounded-2xl p-4 shadow-sm hover:shadow-md transition-all flex items-center justify-between gap-4 group">

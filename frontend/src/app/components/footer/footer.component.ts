@@ -123,12 +123,12 @@ interface PortClock {
           <div class="space-y-3">
             <h4 class="text-xs font-bold uppercase tracking-wider text-white">{{ isRtl() ? 'الخطوط الملاحية' : 'Feeder Corridors' }}</h4>
             <ul class="space-y-2 text-xs">
+              <li><a href="#interactive-map-section" class="text-[#dd0103] font-bold hover:text-white transition-colors">SMNK (Sohar - Mundra - Nhava Sheva - Karachi)</a></li>
               <li><a href="#interactive-map-section" class="hover:text-white transition-colors">JSA (Jebel Ali - Red Sea)</a></li>
               <li><a href="#interactive-map-section" class="hover:text-white transition-colors">GALEX (Gulf Asia Express)</a></li>
               <li><a href="#interactive-map-section" class="hover:text-white transition-colors">AES (Emirates Suez Feeder)</a></li>
               <li><a href="#interactive-map-section" class="hover:text-white transition-colors">CCG (Central Coast & Gulf)</a></li>
               <li><a href="#interactive-map-section" class="hover:text-white transition-colors">IMS (India ME Shuttle)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-white transition-colors">UAE-COASTAL (Emirates Feeder)</a></li>
             </ul>
           </div>
 

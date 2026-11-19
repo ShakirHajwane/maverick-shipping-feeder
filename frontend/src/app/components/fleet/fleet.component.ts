@@ -29,7 +29,7 @@ import { Vessel } from '../../models/maritime.models';
           </div>
 
           <!-- View Switcher & Vessel Count -->
-          <div class="flex flex-wrap items-center gap-3">
+          <div *ngIf="filteredVessels().length > 1" class="flex flex-wrap items-center gap-3">
             <!-- Layout View Selector -->
             <div class="inline-flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
               <button
@@ -66,10 +66,18 @@ import { Vessel } from '../../models/maritime.models';
               {{ isRtl() ? 'إجمالي السفن:' : 'Vessels:' }} <span class="text-[#dd0103] font-bold">{{ filteredVessels().length }}</span> / {{ service.vessels().length }}
             </div>
           </div>
+
+          <!-- Single Vessel Dedicated Pill Indicator -->
+          <div *ngIf="filteredVessels().length === 1" class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold font-mono">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>{{ isRtl() ? 'سفينة رئيسية مخصصة' : '1 Dedicated Flagship Feeder' }}</span>
+            </span>
+          </div>
         </div>
 
-        <!-- Filter Bar -->
-        <div class="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 sm:p-5 mb-6 space-y-4 shadow-md">
+        <!-- Filter Bar (Shown only when multiple vessels exist) -->
+        <div *ngIf="service.vessels().length > 1" class="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 sm:p-5 mb-6 space-y-4 shadow-md">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Search Input -->
             <div class="space-y-1">
@@ -101,11 +109,11 @@ import { Vessel } from '../../models/maritime.models';
                 (change)="applyFilters()"
                 class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#dd0103] shadow-sm cursor-pointer">
                 <option value="all">{{ isRtl() ? 'جميع الأعلام' : 'All Flags' }}</option>
+                <option value="UAE">UAE</option>
                 <option value="Liberia">Liberia</option>
                 <option value="Singapore">Singapore</option>
                 <option value="Panama">Panama</option>
                 <option value="Cyprus">Cyprus</option>
-                <option value="UAE">UAE</option>
                 <option value="Malta">Malta</option>
               </select>
             </div>
@@ -146,9 +154,134 @@ import { Vessel } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             VIEW 1: CAROUSEL SLIDER (DEFAULT • ZERO SCROLL CLUTTER)
+             FLAGSHIP FEEDER VESSEL SHOWCASE (EXACTLY 1 VESSEL IN FLEET)
              ========================================================= -->
-        <div *ngIf="viewMode() === 'carousel'" class="relative space-y-4">
+        <div *ngIf="filteredVessels().length === 1" class="max-w-5xl mx-auto">
+          <div class="bg-white border-2 border-slate-200 hover:border-[#dd0103]/60 rounded-3xl overflow-hidden shadow-xl transition-all p-6 sm:p-8">
+            <div class="flex flex-wrap items-start justify-between gap-4 pb-6 border-b border-slate-100">
+              <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-bold font-mono uppercase mb-2">
+                  <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+                  <span>{{ isRtl() ? 'السفينة الرئيسية للأسطول' : 'FLAGSHIP FEEDER VESSEL' }} • {{ filteredVessels()[0].service_code }}</span>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-black text-[#02194b]">
+                  {{ filteredVessels()[0].name }}
+                </h3>
+                <p class="text-xs sm:text-sm font-mono text-slate-500 mt-1">
+                  IMO: {{ filteredVessels()[0].imo }} | Call Sign: {{ filteredVessels()[0].call_sign }} | Flag: {{ filteredVessels()[0].flag }} 🇦🇪 | Built: {{ filteredVessels()[0].built_year }} | Registry: {{ filteredVessels()[0].port_of_registry }}
+                </p>
+              </div>
+
+              <!-- Live Telemetry Pill -->
+              <div class="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 shadow-xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{{ filteredVessels()[0].current_status }}</span>
+              </div>
+            </div>
+
+            <!-- Vessel Graphic Schematic Representation with Interactive Buoyancy & Waterline -->
+            <div class="my-6 h-28 sm:h-36 rounded-2xl bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-100 border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden group/schematic">
+              <!-- Dynamic Summer Draft Waterline Badge -->
+              <div class="absolute top-2 right-3 z-10 bg-slate-900/90 backdrop-blur-xs text-sky-300 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold flex items-center gap-1.5 border border-sky-400/30 shadow-xs">
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+                <span>DRAFT: {{ filteredVessels()[0].summer_draft }}m WATERLINE</span>
+              </div>
+
+              <!-- Floating Vessel SVG -->
+              <div class="w-full max-w-lg relative z-5 animate-ship-float">
+                <svg class="w-full h-20 text-slate-500 hover:text-red-500/90 transition-colors" viewBox="0 0 300 80" fill="none">
+                  <rect x="50" y="25" width="22" height="15" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="74" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.5" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="98" y="15" width="22" height="25" rx="1" fill="#DD0103" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="122" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.4" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="146" y="15" width="22" height="25" rx="1" fill="currentColor" fill-opacity="0.6" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="170" y="25" width="22" height="15" rx="1" fill="#02194B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                  <polygon points="210,40 215,10 235,10 238,40" fill="currentColor" fill-opacity="0.8"/>
+                  <rect x="220" y="14" width="10" height="4" fill="#0F172A"/>
+                  <path d="M20,42 L250,42 L240,65 L55,65 Z" fill="currentColor" fill-opacity="0.85"/>
+                  <line x1="15" y1="65" x2="285" y2="65" stroke="#DD0103" stroke-width="2" stroke-dasharray="4,4"/>
+                </svg>
+              </div>
+
+              <!-- Animated Layered Water Waves along the Vessel Keel -->
+              <div class="absolute bottom-0 inset-x-0 h-8 overflow-hidden pointer-events-none opacity-80">
+                <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-slow text-sky-400/50" viewBox="0 0 600 30" preserveAspectRatio="none">
+                  <path d="M0,15 C75,5 150,25 225,15 C300,5 375,25 450,15 C525,5 600,25 600,30 L0,30 Z" fill="currentColor"></path>
+                </svg>
+                <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-fast text-sky-500/70" viewBox="0 0 600 30" preserveAspectRatio="none">
+                  <path d="M0,20 C80,28 160,10 240,20 C320,28 400,10 480,20 C560,28 600,15 600,30 L0,30 Z" fill="currentColor"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 8-Point Core Specs Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Nominal Capacity</span>
+                <span class="font-black text-[#dd0103] font-mono text-base mt-0.5 block">{{ filteredVessels()[0].nominal_cap_teu | number }} TEU</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Effective Capacity</span>
+                <span class="font-bold text-slate-900 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].effective_cap_teu | number }} TEU</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Reefer Plugs</span>
+                <span class="font-bold text-emerald-700 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].reefer_plugs }} Plugs</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Deadweight (DWT)</span>
+                <span class="font-bold text-slate-900 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].dwt | number }} MT</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Gross Tonnage</span>
+                <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].grt | number }} GT</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Length Overall</span>
+                <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].loa }} m</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Summer Draft</span>
+                <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].summer_draft }} m</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <span class="block text-[10px] uppercase font-bold text-slate-500">Bow Thruster</span>
+                <span class="font-bold text-emerald-600 text-sm mt-0.5 block">Equipped ✓</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons Footer -->
+            <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+              <span class="text-xs text-slate-500">
+                🚢 {{ isRtl() ? 'السفينة في الخدمة النشطة حالياً على مسار صحار - كراتشي' : 'Vessel currently on active rotation on the Sohar - Mundra - Nhava Sheva - Karachi Express loop.' }}
+              </span>
+
+              <div class="flex items-center gap-3">
+                <button
+                  type="button"
+                  (click)="service.openVesselModal(filteredVessels()[0])"
+                  class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-2">
+                  <span>{{ isRtl() ? 'المواصفات الفنية (١٦ نقطة)' : 'View 16-Pt Specs' }}</span>
+                  <span>→</span>
+                </button>
+                <button
+                  type="button"
+                  (click)="trackVessel(filteredVessels()[0])"
+                  class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  </svg>
+                  <span>{{ isRtl() ? 'تتبع على الخريطة' : 'Track on Map' }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             VIEW 1: CAROUSEL SLIDER (WHEN MULTIPLE VESSELS EXIST)
+             ========================================================= -->
+        <div *ngIf="filteredVessels().length > 1 && viewMode() === 'carousel'" class="relative space-y-4">
           <!-- Slider Navigation Header -->
           <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2">
@@ -204,9 +337,9 @@ import { Vessel } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             VIEW 2: PAGINATED COMPACT GRID (6 PER PAGE • CLEAN HEIGHT)
+             VIEW 2: PAGINATED COMPACT GRID (WHEN MULTIPLE VESSELS EXIST)
              ========================================================= -->
-        <div *ngIf="viewMode() === 'grid'" class="space-y-6">
+        <div *ngIf="filteredVessels().length > 1 && viewMode() === 'grid'" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div
               *ngFor="let vessel of pagedVessels()"
@@ -256,9 +389,9 @@ import { Vessel } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             VIEW 3: HIGH-DENSITY MANIFEST TABLE (DESKTOP / TABLET)
+             VIEW 3: HIGH-DENSITY MANIFEST TABLE (WHEN MULTIPLE VESSELS EXIST)
              ========================================================= -->
-        <div *ngIf="viewMode() === 'table'" class="overflow-x-auto bg-white border border-slate-200 rounded-2xl shadow-sm">
+        <div *ngIf="filteredVessels().length > 1 && viewMode() === 'table'" class="overflow-x-auto bg-white border border-slate-200 rounded-2xl shadow-sm">
           <table class="w-full text-left text-xs text-slate-700">
             <thead class="bg-slate-50 border-b border-slate-200 text-[11px] font-mono uppercase text-slate-500">
               <tr>

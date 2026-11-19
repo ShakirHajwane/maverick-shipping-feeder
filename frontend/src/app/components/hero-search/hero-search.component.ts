@@ -203,8 +203,8 @@ interface TelemetryNode {
                   </svg>
                   <span class="text-[9.5px] font-mono font-bold uppercase tracking-wider text-slate-500">FLEET</span>
                 </div>
-                <div class="text-lg sm:text-xl font-black text-[#02194b]">66</div>
-                <div class="text-[9.5px] font-medium text-slate-600 truncate">{{ isRtl() ? 'سفينة تغذية نشطة' : 'Feeder Vessels' }}</div>
+                <div class="text-lg sm:text-xl font-black text-[#02194b]">{{ service.stats()?.vessels_count ?? service.vessels().length ?? 1 }}</div>
+                <div class="text-[9.5px] font-medium text-slate-600 truncate">{{ isRtl() ? 'سفينة رئيسية' : 'Dedicated Vessel' }}</div>
               </div>
 
               <div class="bg-white/90 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-slate-200/90 shadow-xs">
@@ -223,8 +223,8 @@ interface TelemetryNode {
                   </svg>
                   <span class="text-[9.5px] font-mono font-bold uppercase tracking-wider text-slate-500">LINES</span>
                 </div>
-                <div class="text-lg sm:text-xl font-black text-[#02194b]">32</div>
-                <div class="text-[9.5px] font-medium text-slate-600 truncate">{{ isRtl() ? 'خطوط مباشرة منتظمة' : 'Direct Corridors' }}</div>
+                <div class="text-lg sm:text-xl font-black text-[#02194b]">{{ service.stats()?.feeder_services ?? service.services().length ?? 1 }}</div>
+                <div class="text-[9.5px] font-medium text-slate-600 truncate">{{ isRtl() ? 'خط مكوك مخصص' : 'Express Corridor' }}</div>
               </div>
             </div>
 

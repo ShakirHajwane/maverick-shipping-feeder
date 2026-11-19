@@ -87,9 +87,9 @@ class RegionalAgentResponse(RegionalAgentBase):
         from_attributes = True
 
 class StatsResponse(BaseModel):
-    port_calls: str = "15.5K"
-    teus_per_year: str = "2.5M"
-    vessels_count: int = 66
-    ports_served: int = 88
-    countries: int = 54
-    feeder_services: int = 32
+    port_calls: str = "1.2K"
+    teus_per_year: str = "96K"
+    vessels_count: int = 1
+    ports_served: int = 4
+    countries: int = 3
+    feeder_services: int = 1

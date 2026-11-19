@@ -62,6 +62,52 @@ export const SOHAR_KARACHI_SERVICE: FeederService = {
   ]
 };
 
+export const MAVERICK_SOHAR_VESSEL: Vessel = {
+  id: 1,
+  name: 'MAVERICK SOHAR',
+  imo: '9418298',
+  call_sign: 'A6MAV',
+  flag: 'UAE',
+  built_year: 2021,
+  port_of_registry: 'Dubai',
+  nominal_cap_teu: 1850,
+  effective_cap_teu: 1520,
+  reefer_plugs: 260,
+  gear: false,
+  bow_thruster: true,
+  grt: 16800.0,
+  nrt: 7950.0,
+  dwt: 22400.0,
+  loa: 172.0,
+  breadth: 27.4,
+  summer_draft: 8.5,
+  current_lat: 23.820,
+  current_lng: 61.450,
+  current_status: 'Underway using Engine - 15.4 kn (En Route to Mundra)',
+  service_code: 'SMNK'
+};
+
+export const MAVERICK_HQ_OFFICE: RegionalAgent = {
+  id: 1,
+  country: 'UAE',
+  city: 'Dubai',
+  office_name: 'Maverick Shipping Hub HQ',
+  address: 'Level 14, Tower 3, JAFZA One, Jebel Ali Free Zone, Dubai, UAE',
+  phone: '+971 4 210 51 05',
+  email: 'commercial.uae@maverickshipping.com',
+  lat: 24.996,
+  lng: 55.086
+};
+
+export const MAVERICK_DEFAULT_STATS: MaritimeStats = {
+  port_calls: '1.2K',
+  teus_per_year: '96K',
+  vessels_count: 1,
+  ports_served: 4,
+  countries: 3,
+  feeder_services: 1
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -70,11 +116,11 @@ export class MaritimeService {
   private apiUrl = environment.apiUrl;
 
   // Angular Signals for reactive state
-  stats = signal<MaritimeStats | null>(null);
+  stats = signal<MaritimeStats | null>(MAVERICK_DEFAULT_STATS);
   services = signal<FeederService[]>([SOHAR_KARACHI_SERVICE]);
-  vessels = signal<Vessel[]>([]);
+  vessels = signal<Vessel[]>([MAVERICK_SOHAR_VESSEL]);
   schedules = signal<VoyageSchedule[]>([]);
-  agents = signal<RegionalAgent[]>([]);
+  agents = signal<RegionalAgent[]>([MAVERICK_HQ_OFFICE]);
 
   // Concept / Prototype Mode:
   // 'simple' (Idea 2: Simple Sohar-Karachi Route, No Ship Journey, Clean Graphics)
@@ -92,8 +138,8 @@ export class MaritimeService {
   isLoadingVessels = signal<boolean>(false);
   isLoadingSchedules = signal<boolean>(false);
 
-  // Global Ocean Water Atmosphere State
-  waterTheme = signal<'azure' | 'deep' | 'slate'>('azure');
+  // Global Ocean Water Atmosphere State: Calm State ('slate') as default
+  waterTheme = signal<'azure' | 'deep' | 'slate'>('slate');
   isWaterMotionPaused = signal<boolean>(false);
 
   setWaterTheme(theme: 'azure' | 'deep' | 'slate') {
@@ -124,7 +170,10 @@ export class MaritimeService {
 
   loadStats(): Observable<MaritimeStats> {
     return this.http.get<MaritimeStats>(`${this.apiUrl}/stats`).pipe(
-      tap(data => this.stats.set(data))
+      tap({
+        next: data => this.stats.set(data || MAVERICK_DEFAULT_STATS),
+        error: () => this.stats.set(MAVERICK_DEFAULT_STATS)
+      })
     );
   }
 
@@ -155,10 +204,13 @@ export class MaritimeService {
     return this.http.get<Vessel[]>(`${this.apiUrl}/vessels`, { params }).pipe(
       tap({
         next: (data) => {
-          this.vessels.set(data);
+          this.vessels.set(data && data.length > 0 ? data : [MAVERICK_SOHAR_VESSEL]);
           this.isLoadingVessels.set(false);
         },
-        error: () => this.isLoadingVessels.set(false)
+        error: () => {
+          this.vessels.set([MAVERICK_SOHAR_VESSEL]);
+          this.isLoadingVessels.set(false);
+        }
       })
     );
   }
@@ -199,7 +251,14 @@ export class MaritimeService {
     let params = new HttpParams();
     if (country && country !== 'all') params = params.set('country', country);
     return this.http.get<RegionalAgent[]>(`${this.apiUrl}/agents`, { params }).pipe(
-      tap(data => this.agents.set(data))
+      tap({
+        next: (data) => {
+          this.agents.set(data && data.length > 0 ? data : [MAVERICK_HQ_OFFICE]);
+        },
+        error: () => {
+          this.agents.set([MAVERICK_HQ_OFFICE]);
+        }
+      })
     );
   }
 

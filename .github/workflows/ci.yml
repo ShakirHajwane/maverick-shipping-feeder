@@ -37,7 +37,7 @@ jobs:
       - name: Seed SQLite Database
         run: |
           cd backend
-          python -c "from app.database import SessionLocal; from app.seed import seed_database; db = SessionLocal(); seed_database(db, force=True)"
+          python -c "from app.database import Base, engine, SessionLocal; from app.seed import seed_database; Base.metadata.create_all(bind=engine); db = SessionLocal(); seed_database(db, force=True)"
 
       - name: Run Backend Pytest Suite
         run: |

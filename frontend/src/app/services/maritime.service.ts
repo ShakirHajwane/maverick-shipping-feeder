@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   FeederService,
@@ -170,9 +170,10 @@ export class MaritimeService {
 
   loadStats(): Observable<MaritimeStats> {
     return this.http.get<MaritimeStats>(`${this.apiUrl}/stats`).pipe(
-      tap({
-        next: data => this.stats.set(data || MAVERICK_DEFAULT_STATS),
-        error: () => this.stats.set(MAVERICK_DEFAULT_STATS)
+      tap(data => this.stats.set(data || MAVERICK_DEFAULT_STATS)),
+      catchError(() => {
+        this.stats.set(MAVERICK_DEFAULT_STATS);
+        return of(MAVERICK_DEFAULT_STATS);
       })
     );
   }
@@ -191,6 +192,11 @@ export class MaritimeService {
           const flagship = merged.find(s => s.code !== 'SMNK') || merged[0];
           this.selectedService.set(flagship);
         }
+      }),
+      catchError(() => {
+        this.services.set([SOHAR_KARACHI_SERVICE]);
+        this.selectedService.set(SOHAR_KARACHI_SERVICE);
+        return of([SOHAR_KARACHI_SERVICE]);
       })
     );
   }
@@ -202,22 +208,25 @@ export class MaritimeService {
     if (flag && flag.trim() && flag !== 'all') params = params.set('flag', flag.trim());
 
     return this.http.get<Vessel[]>(`${this.apiUrl}/vessels`, { params }).pipe(
-      tap({
-        next: (data) => {
-          this.vessels.set(data && data.length > 0 ? data : [MAVERICK_SOHAR_VESSEL]);
-          this.isLoadingVessels.set(false);
-        },
-        error: () => {
-          this.vessels.set([MAVERICK_SOHAR_VESSEL]);
-          this.isLoadingVessels.set(false);
-        }
+      tap(data => {
+        this.vessels.set(data && data.length > 0 ? data : [MAVERICK_SOHAR_VESSEL]);
+        this.isLoadingVessels.set(false);
+      }),
+      catchError(() => {
+        this.vessels.set([MAVERICK_SOHAR_VESSEL]);
+        this.isLoadingVessels.set(false);
+        return of([MAVERICK_SOHAR_VESSEL]);
       })
     );
   }
 
   loadVesselById(id: number): Observable<Vessel> {
     return this.http.get<Vessel>(`${this.apiUrl}/vessels/${id}`).pipe(
-      tap(data => this.selectedVessel.set(data))
+      tap(data => this.selectedVessel.set(data)),
+      catchError(() => {
+        this.selectedVessel.set(MAVERICK_SOHAR_VESSEL);
+        return of(MAVERICK_SOHAR_VESSEL);
+      })
     );
   }
 
@@ -237,12 +246,13 @@ export class MaritimeService {
     if (filters.voyage_no) params = params.set('voyage_no', filters.voyage_no);
 
     return this.http.get<VoyageSchedule[]>(`${this.apiUrl}/schedules`, { params }).pipe(
-      tap({
-        next: (data) => {
-          this.schedules.set(data);
-          this.isLoadingSchedules.set(false);
-        },
-        error: () => this.isLoadingSchedules.set(false)
+      tap(data => {
+        this.schedules.set(data);
+        this.isLoadingSchedules.set(false);
+      }),
+      catchError(() => {
+        this.isLoadingSchedules.set(false);
+        return of([]);
       })
     );
   }
@@ -251,13 +261,12 @@ export class MaritimeService {
     let params = new HttpParams();
     if (country && country !== 'all') params = params.set('country', country);
     return this.http.get<RegionalAgent[]>(`${this.apiUrl}/agents`, { params }).pipe(
-      tap({
-        next: (data) => {
-          this.agents.set(data && data.length > 0 ? data : [MAVERICK_HQ_OFFICE]);
-        },
-        error: () => {
-          this.agents.set([MAVERICK_HQ_OFFICE]);
-        }
+      tap(data => {
+        this.agents.set(data && data.length > 0 ? data : [MAVERICK_HQ_OFFICE]);
+      }),
+      catchError(() => {
+        this.agents.set([MAVERICK_HQ_OFFICE]);
+        return of([MAVERICK_HQ_OFFICE]);
       })
     );
   }

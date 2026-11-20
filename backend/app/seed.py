@@ -1,8 +1,12 @@
 import json
 from sqlalchemy.orm import Session
+from app.database import Base, engine
 from app.models import Vessel, FeederService, VoyageSchedule, RegionalAgent
 
 def seed_database(db: Session, force: bool = False):
+    # Ensure all tables exist before querying or seeding
+    Base.metadata.create_all(bind=engine)
+
     # Check if already correctly seeded with 1 vessel and 1 office
     if not force:
         vessel_count = db.query(Vessel).count()

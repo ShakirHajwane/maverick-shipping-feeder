@@ -103,6 +103,7 @@ interface TelemetryNode {
             preload="auto"
             poster="images/hero-vessel-loop-poster.jpg"
             class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+            <source src="videos/hero-vessel-loop.webm" type="video/webm">
             <source src="videos/hero-vessel-loop.mp4" type="video/mp4">
             <!-- Fallback animated GIF if video autoplay is restricted -->
             <img
@@ -165,34 +166,6 @@ interface TelemetryNode {
                   ? 'شريككم الموثوق في خدمات التغذية والشحن الإقليمي. توفر شركة مافريك للملاحة خدمات نقل حاويات موثوقة وعالية الكفاءة تربط موانئ الخليج العربي وباكستان والهند.'
                   : 'Your trusted partner in regional feeder shipping. Maverick Shipping LLC connects key regional ports across the Arabian Gulf, Pakistan, and India with dependable, efficient, and commercially competitive container feeder solutions.' }}
               </p>
-
-              <!-- Aesthetic Strategic Value Badges (Client Highlights) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 max-w-2xl">
-                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
-                  <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
-                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'ربط موثوق بين الموانئ الإقليمية' : 'Reliable Regional Feeder Connectivity' }}</span>
-                </div>
-                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
-                  <span class="w-5 h-5 rounded-md bg-red-500/20 text-red-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
-                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'تغطية استراتيجية للأسواق الرئيسية' : 'Strategic Port & Trade Coverage' }}</span>
-                </div>
-                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
-                  <span class="w-5 h-5 rounded-md bg-sky-500/20 text-sky-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
-                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'حركة بضائع وحلول ميناء إلى ميناء' : 'Efficient Port-to-Port Cargo Movement' }}</span>
-                </div>
-                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
-                  <span class="w-5 h-5 rounded-md bg-amber-500/20 text-amber-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
-                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'خدمات شحن تركز على العملاء' : 'Customer-Focused Shipping Services' }}</span>
-                </div>
-                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
-                  <span class="w-5 h-5 rounded-md bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
-                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'دعم تشغيلي وتجاري مخصص 24/7' : 'Dedicated Operational & Commercial Desk' }}</span>
-                </div>
-                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
-                  <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
-                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'التزام تام بالموثوقية والتميز' : 'Schedule Reliability & Service Excellence' }}</span>
-                </div>
-              </div>
 
               <!-- Dual Pill Buttons (Maverick Red + Glass Translucent) -->
               <div class="flex flex-wrap items-center gap-3.5 pt-1">
@@ -337,8 +310,10 @@ interface TelemetryNode {
               </div>
 
               <!-- Ship icon in circle -->
-              <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner">
-                <span class="text-sm">🚢</span>
+              <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner text-amber-400">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 21c-1.39 0-2.78-.47-4-1.32-2.44 1.71-5.56 1.71-8 0C6.78 20.53 5.39 21 4 21H2v2h2c1.38 0 2.74-.35 4-.99 2.53 1.28 5.47 1.28 8 0 1.26.64 2.62.99 4 .99h2v-2h-2zM3.95 19H4c1.6 0 3.02-.88 4-2 .98 1.12 2.4 2 4 2s3.02-.88 4-2c.98 1.12 2.4 2 4 2h.05l1.89-6.68c.08-.26.06-.54-.06-.78s-.34-.42-.6-.47L20 11V6c0-1.1-.9-2-2-2h-3V1h-2v3h-2V1H9v3H6c-1.1 0-2 .9-2 2v5l-1.28.27c-.26.05-.48.23-.6.47s-.14.52-.06.78L3.95 19zM6 6h12v5.47l-6-1.27-6 1.27V6z" />
+                </svg>
               </div>
 
               <div class="text-right">
@@ -769,7 +744,10 @@ interface TelemetryNode {
                 <a
                   href="tel:+97142105105"
                   class="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold flex items-center justify-center gap-2 border border-white/15 transition-all">
-                  <span>📞 +971 4 210 51 05 (HQ Desk)</span>
+                  <svg class="w-3.5 h-3.5 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>+971 4 210 51 05 (HQ Desk)</span>
                 </a>
               </div>
             </div>

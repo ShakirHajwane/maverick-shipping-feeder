@@ -509,9 +509,11 @@ interface SampledPoint {
           <!-- Waypoint Marker on Left -->
           <div class="lg:col-span-5 space-y-6">
             <div class="inline-flex items-center gap-3">
-              <div class="relative w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/30 flex items-center justify-center shadow-md shadow-red-600/10">
+              <div class="relative w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/30 flex items-center justify-center shadow-md shadow-red-600/10 text-[#dd0103]">
                 <span class="absolute inset-0 rounded-2xl border-2 border-[#dd0103] animate-sonar-ping"></span>
-                <span class="text-xl">🌊</span>
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm1-13h-2v4H7v2h4v4h2v-4h4v-2h-4V7z" />
+                </svg>
               </div>
               <div>
                 <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#dd0103]">Waypoint 01 • Nautical Mile 42</span>

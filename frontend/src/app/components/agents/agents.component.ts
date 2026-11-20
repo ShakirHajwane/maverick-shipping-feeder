@@ -121,7 +121,10 @@ import { RegionalAgent } from '../../models/maritime.models';
                   {{ isRtl() ? 'العنوان الفعلي والموقع' : 'OFFICE ADDRESS & LOCATION' }}
                 </div>
                 <div class="text-sm font-bold text-[#02194b] flex items-start gap-2">
-                  <span class="text-[#dd0103] text-base">📍</span>
+                  <svg class="w-4 h-4 text-[#dd0103] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
                   <span>{{ filteredAgents()[0].address }}</span>
                 </div>
                 <div class="text-xs text-slate-500 pt-1">
@@ -135,19 +138,26 @@ import { RegionalAgent } from '../../models/maritime.models';
                   {{ isRtl() ? 'قنوات الاتصال المباشرة' : 'DIRECT COMMERCIAL & OPS CHANNELS' }}
                 </div>
                 <div class="flex items-center gap-2 text-xs">
-                  <span class="text-[#dd0103] font-bold">📞 {{ isRtl() ? 'الهاتف:' : 'Phone:' }}</span>
+                  <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span class="text-[#02194b] font-bold">{{ isRtl() ? 'الهاتف:' : 'Phone:' }}</span>
                   <a [href]="'tel:' + filteredAgents()[0].phone" class="font-mono font-bold text-[#02194b] hover:text-[#dd0103] transition-colors">
                     {{ filteredAgents()[0].phone }}
                   </a>
                 </div>
                 <div class="flex items-center gap-2 text-xs">
-                  <span class="text-[#dd0103] font-bold">✉️ {{ isRtl() ? 'البريد:' : 'Email:' }}</span>
+                  <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span class="text-[#02194b] font-bold">{{ isRtl() ? 'البريد:' : 'Email:' }}</span>
                   <a [href]="'mailto:' + filteredAgents()[0].email" class="font-mono text-slate-700 hover:text-[#dd0103] transition-colors">
                     {{ filteredAgents()[0].email }}
                   </a>
                 </div>
-                <div class="text-[11px] text-emerald-700 font-medium">
-                  ✓ {{ isRtl() ? 'فريق مخصص لعمليات التغذية ومناولة الحاويات' : 'Dedicated container slot booking and liner agency desk' }}
+                <div class="text-[11px] text-emerald-700 font-medium flex items-center gap-1.5 pt-0.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>{{ isRtl() ? 'فريق مخصص لعمليات التغذية ومناولة الحاويات' : 'Dedicated container slot booking and liner agency desk' }}</span>
                 </div>
               </div>
             </div>
@@ -155,7 +165,11 @@ import { RegionalAgent } from '../../models/maritime.models';
             <!-- Marine Conditions & Fairway Telemetry -->
             <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-50 via-sky-50/40 to-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-4">
               <div class="flex items-center gap-3">
-                <span class="text-2xl">🌊</span>
+                <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
                 <div>
                   <div class="text-xs font-bold text-[#02194b]">Jebel Ali / Dubai Approach Fairway</div>
                   <div class="text-[11px] text-slate-500">Fairway Clear • 24/7 Deep-Water Access</div>
@@ -177,7 +191,7 @@ import { RegionalAgent } from '../../models/maritime.models';
             <!-- Action Buttons Footer -->
             <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
               <span class="text-xs text-slate-500">
-                🏢 {{ isRtl() ? 'المكتب المركزي لإدارة الرحلات والوكالات الملاحية' : 'Corporate Operations Headquarters coordinates all vessel operations and customer inquiries.' }}
+                {{ isRtl() ? 'المكتب المركزي لإدارة الرحلات والوكالات الملاحية' : 'Corporate Operations Headquarters coordinates all vessel operations and customer inquiries.' }}
               </span>
 
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">

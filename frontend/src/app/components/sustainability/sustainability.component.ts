@@ -484,23 +484,29 @@ import { MaritimeService } from '../../services/maritime.service';
 
               <!-- Who Welcomes Chips -->
               <div class="flex flex-wrap items-center gap-2 pt-1">
-                <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-200">
-                  ✓ International Shipping Lines
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                  International Shipping Lines
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-200">
-                  ✓ Freight Forwarders
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                  Freight Forwarders
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-200">
-                  ✓ NVOCC Operators
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                  NVOCC Operators
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-200">
-                  ✓ Importers & Exporters
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                  Importers &amp; Exporters
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-200">
-                  ✓ Logistics Companies
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                  Logistics Companies
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-200">
-                  ✓ Port & Terminal Operators
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                  Port &amp; Terminal Operators
                 </span>
               </div>
             </div>

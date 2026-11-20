@@ -88,25 +88,38 @@ interface TelemetryNode {
       (touchstart)="onTouchStart()"
       (touchend)="onTouchEnd()"
       (touchcancel)="onTouchEnd()"
-      class="w-full bg-slate-950 px-3 sm:px-6 lg:px-10 pt-3 pb-8 sm:pb-12 transition-colors duration-500 select-none">
+      class="w-full bg-slate-50 border-b border-slate-200/80 px-3 sm:px-6 lg:px-10 pt-4 pb-12 sm:pb-16 transition-colors duration-500 select-none">
       
       <!-- Rounded Viewport Application Frame (Signature GFS Maritime Framing) -->
-      <div class="relative w-full max-w-[1720px] mx-auto rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden border border-white/10 shadow-2xl bg-slate-950 min-h-[660px] sm:min-h-[720px] lg:min-h-[820px] flex flex-col justify-between">
+      <div class="relative w-full max-w-[1720px] mx-auto rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden border border-slate-800 shadow-2xl bg-slate-950 min-h-[660px] sm:min-h-[720px] lg:min-h-[820px] flex flex-col justify-between">
         
-        <!-- Photographic Vessel Backdrop Image -->
-        <div
-          class="absolute inset-0 w-full h-full bg-cover bg-[position:68%_center] sm:bg-[center_right_15%] transition-transform duration-700 pointer-events-none"
-          style="background-image: url('images/hero-vessel-gfs-style.jpg');">
+        <!-- High-Definition Looping Video / GIF Vessel Backdrop -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            poster="images/hero-vessel-loop-poster.jpg"
+            class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+            <source src="videos/hero-vessel-loop.mp4" type="video/mp4">
+            <!-- Fallback animated GIF if video autoplay is restricted -->
+            <img
+              src="images/hero-vessel-loop.gif"
+              alt="Cargo ship sailing across open ocean"
+              class="w-full h-full object-cover object-center" />
+          </video>
         </div>
 
         <!-- Atmospheric Vignettes & Ocean Sunlight Shimmer Gradient -->
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/50 to-slate-950/90 sm:bg-gradient-to-r sm:from-slate-950/95 sm:via-slate-950/60 sm:to-transparent pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/30 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/45 to-slate-950/85 sm:bg-gradient-to-r sm:from-slate-950/90 sm:via-slate-950/50 sm:to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/40 pointer-events-none"></div>
 
         <!-- Interactive Canvas Overlay (Sonar shockwaves & hydrodynamics) -->
         <canvas
           #heroCanvas
-          class="absolute inset-0 w-full h-full pointer-events-none z-10 opacity-35">
+          class="absolute inset-0 w-full h-full pointer-events-none z-10 opacity-30">
         </canvas>
 
         <!-- Top Status Bar Inside Frame -->
@@ -181,12 +194,12 @@ interface TelemetryNode {
                 </div>
               </div>
 
-              <!-- Dual Pill Buttons (Golden Amber + Glass Translucent) -->
+              <!-- Dual Pill Buttons (Maverick Red + Glass Translucent) -->
               <div class="flex flex-wrap items-center gap-3.5 pt-1">
-                <!-- Golden Amber Pill: Get a Quote -->
+                <!-- Maverick Red Pill: Get a Quote -->
                 <button
                   (click)="service.toggleBookingModal(true)"
-                  class="px-7 sm:px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs sm:text-sm tracking-wide shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer">
+                  class="px-7 sm:px-8 py-3.5 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-xl shadow-red-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer">
                   {{ isRtl() ? 'طلب تسعيرة' : 'Get a Quote' }}
                 </button>
 
@@ -371,18 +384,18 @@ interface TelemetryNode {
       <!-- =========================================================
            MARITIME OPERATIONS CONSOLE (INTEGRATED 3-TAB SUITE BELOW HERO)
            ========================================================= -->
-      <div id="tracking-engine" class="max-w-6xl mx-auto mt-8 sm:mt-10">
-        <div class="bg-slate-900/95 backdrop-blur-xl border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+      <div id="tracking-engine" class="max-w-4xl mx-auto mt-8 sm:mt-12">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/80 border border-slate-200 overflow-hidden">
           
           <!-- Console Top Status Bar -->
-          <div class="px-5 py-3 bg-slate-950 border-b border-white/10 text-white flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="px-5 sm:px-6 py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="font-mono font-bold tracking-wider text-[11px] text-amber-400">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="font-mono font-bold tracking-wider text-[11px] text-[#02194b]">
                 {{ isRtl() ? 'منظومة الخدمات والعمليات البحرية' : 'MARITIME OPERATIONS CONSOLE' }}
               </span>
             </div>
-            <div class="flex items-center gap-3 text-[10px] font-mono text-slate-400">
+            <div class="flex items-center gap-3 text-[10.5px] font-mono text-slate-500">
               <span class="flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 {{ isRtl() ? 'بيانات حية ومباشرة' : 'LIVE RADAR AIS FEED' }}
@@ -391,15 +404,15 @@ interface TelemetryNode {
           </div>
 
           <!-- 3-Tab Header Strip -->
-          <div class="grid grid-cols-3 border-b border-white/10 bg-slate-950/70 text-center text-xs sm:text-sm font-semibold">
+          <div class="grid grid-cols-3 border-b border-slate-200 bg-slate-50/70 text-center text-xs sm:text-sm font-semibold">
             <!-- Tab 1: Find Service -->
             <button
               id="tab-btn-service"
               (click)="activeTab.set('service')"
               [class]="activeTab() === 'service' 
-                ? 'bg-slate-800 text-amber-400 border-b-2 border-amber-400 font-bold py-3.5 px-3 flex items-center justify-center gap-2 transition-all cursor-pointer'
-                : 'text-slate-400 hover:text-white py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-slate-800/40 transition-all cursor-pointer'">
-              <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
+              <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
               </svg>
               <span>{{ isRtl() ? 'الخدمات' : 'Services' }}</span>
@@ -410,9 +423,9 @@ interface TelemetryNode {
               id="tab-btn-schedule"
               (click)="activeTab.set('schedule')"
               [class]="activeTab() === 'schedule' 
-                ? 'bg-slate-800 text-amber-400 border-b-2 border-amber-400 font-bold py-3.5 px-3 flex items-center justify-center gap-2 transition-all cursor-pointer'
-                : 'text-slate-400 hover:text-white py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-slate-800/40 transition-all cursor-pointer'">
-              <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
+              <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span>{{ isRtl() ? 'الرحلات' : 'Schedules' }}</span>
@@ -423,9 +436,9 @@ interface TelemetryNode {
               id="tab-btn-tracking"
               (click)="activeTab.set('tracking')"
               [class]="activeTab() === 'tracking' 
-                ? 'bg-slate-800 text-amber-400 border-b-2 border-amber-400 font-bold py-3.5 px-3 flex items-center justify-center gap-2 transition-all cursor-pointer'
-                : 'text-slate-400 hover:text-white py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-slate-800/40 transition-all cursor-pointer'">
-              <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
+              <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -434,24 +447,24 @@ interface TelemetryNode {
           </div>
 
           <!-- Console Tab Content Body -->
-          <div class="p-5 sm:p-6 text-white">
+          <div class="p-5 sm:p-7 text-slate-900">
             
             <!-- TAB 1: FIND A SERVICE -->
             <div *ngIf="activeTab() === 'service'" class="space-y-4">
               <div class="space-y-1.5">
-                <label class="block text-xs uppercase font-bold text-slate-300 tracking-wider">
+                <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
                   {{ isRtl() ? 'اختر خط الخدمة الملاحية' : 'Select Feeder Service Code' }}
                 </label>
                 <div class="relative">
                   <select
                     [ngModel]="selectedServiceCode()"
                     (ngModelChange)="onServiceCodeChange($event)"
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-amber-400 appearance-none cursor-pointer text-xs sm:text-sm">
-                    <option *ngFor="let s of service.services()" [value]="s.code" class="bg-slate-900 text-white">
+                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#df0003]/20 focus:border-[#df0003] appearance-none cursor-pointer text-xs sm:text-sm">
+                    <option *ngFor="let s of service.services()" [value]="s.code" class="bg-white text-slate-900">
                       {{ s.code }} — {{ s.name }} ({{ s.frequency }})
                     </option>
                   </select>
-                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -460,40 +473,40 @@ interface TelemetryNode {
               </div>
 
               <!-- Active Service Preview Card -->
-              <div *ngIf="currentService() as cs" class="p-4 sm:p-5 rounded-xl bg-slate-950/60 border border-white/10 space-y-3">
+              <div *ngIf="currentService() as cs" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                   <div class="flex items-center gap-2.5">
-                    <span class="text-lg sm:text-xl font-black text-amber-400">{{ cs.code }}</span>
-                    <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold">
+                    <span class="text-lg sm:text-xl font-black text-[#02194b]">{{ cs.code }}</span>
+                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
                       {{ cs.frequency }}
                     </span>
-                    <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-bold">
+                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-bold">
                       {{ cs.transit_days }} {{ isRtl() ? 'يوم' : 'Days' }}
                     </span>
                   </div>
                 </div>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">{{ cs.description }}</p>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">{{ cs.description }}</p>
 
                 <!-- Port Call Sequence Timeline -->
-                <div class="space-y-1.5 pt-2 border-t border-white/10">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div class="space-y-1.5 pt-2 border-t border-slate-200">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                     {{ isRtl() ? 'دوران الموانئ:' : 'Port Rotation Sequence:' }}
                   </span>
                   <div class="flex flex-wrap items-center gap-2 pt-1">
                     <ng-container *ngFor="let port of cs.port_rotation; let i = index; let last = last">
-                      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-xs">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                        <span class="font-bold text-white">{{ port.port_name }}</span>
-                        <span class="text-[10px] text-slate-400 font-mono">({{ port.unlocode }})</span>
+                      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs shadow-xs">
+                        <span class="w-2 h-2 rounded-full bg-[#df0003]"></span>
+                        <span class="font-bold text-[#02194b]">{{ port.port_name }}</span>
+                        <span class="text-[10px] text-slate-500 font-mono">({{ port.unlocode }})</span>
                       </div>
-                      <span *ngIf="!last" class="text-amber-400/70 text-xs font-bold">→</span>
+                      <span *ngIf="!last" class="text-slate-400 text-xs font-bold">→</span>
                     </ng-container>
                   </div>
                 </div>
 
                 <button
                   (click)="jumpToInteractiveRoute()"
-                  class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/20 cursor-pointer mt-2">
+                  class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/20 cursor-pointer mt-2">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                   </svg>
@@ -506,42 +519,42 @@ interface TelemetryNode {
             <div *ngIf="activeTab() === 'schedule'" class="space-y-4">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
                 <div class="space-y-1">
-                  <label class="block text-[11px] uppercase font-bold text-slate-300 tracking-wider">
+                  <label class="block text-[11px] uppercase font-bold text-slate-700 tracking-wider">
                     {{ isRtl() ? 'ميناء الشحن (POL)' : 'Port of Loading (POL)' }}
                   </label>
                   <select
                     [ngModel]="schedulePol()"
                     (ngModelChange)="onPolChange($event)"
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-semibold focus:outline-none focus:border-amber-400 cursor-pointer text-xs">
-                    <option value="" class="bg-slate-900 text-white">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
-                    <option value="Sohar" class="bg-slate-900 text-white">Sohar, Oman (OMSOH)</option>
-                    <option value="Nhava Sheva" class="bg-slate-900 text-white">Nhava Sheva, India (INNSA)</option>
-                    <option value="Mundra" class="bg-slate-900 text-white">Mundra, India (INMUN)</option>
-                    <option value="Karachi" class="bg-slate-900 text-white">Karachi, Pakistan (PKKHI)</option>
+                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
+                    <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
+                    <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
+                    <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
+                    <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
+                    <option value="Karachi" class="bg-white text-slate-900">Karachi, Pakistan (PKKHI)</option>
                   </select>
                 </div>
 
                 <div class="space-y-1">
-                  <label class="block text-[11px] uppercase font-bold text-slate-300 tracking-wider">
+                  <label class="block text-[11px] uppercase font-bold text-slate-700 tracking-wider">
                     {{ isRtl() ? 'ميناء التفريغ (POD)' : 'Port of Discharge (POD)' }}
                   </label>
                   <select
                     [ngModel]="schedulePod()"
                     (ngModelChange)="onPodChange($event)"
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-semibold focus:outline-none focus:border-amber-400 cursor-pointer text-xs">
-                    <option value="" class="bg-slate-900 text-white">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
-                    <option value="Nhava Sheva" class="bg-slate-900 text-white">Nhava Sheva, India (INNSA)</option>
-                    <option value="Mundra" class="bg-slate-900 text-white">Mundra, India (INMUN)</option>
-                    <option value="Karachi" class="bg-slate-900 text-white">Karachi, Pakistan (PKKHI)</option>
-                    <option value="Sohar" class="bg-slate-900 text-white">Sohar, Oman (OMSOH)</option>
+                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
+                    <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
+                    <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
+                    <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
+                    <option value="Karachi" class="bg-white text-slate-900">Karachi, Pakistan (PKKHI)</option>
+                    <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
                   </select>
                 </div>
               </div>
 
               <!-- Schedules Result Table -->
-              <div class="overflow-x-auto rounded-xl border border-white/10 bg-slate-950/80 max-h-60 shadow-inner">
-                <table class="w-full text-left text-xs text-slate-300">
-                  <thead class="bg-slate-900 text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-white/10 sticky top-0">
+              <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white max-h-64 shadow-xs">
+                <table class="w-full text-left text-xs text-slate-700">
+                  <thead class="bg-slate-50 text-slate-700 uppercase text-[9.5px] tracking-wider border-b border-slate-200 sticky top-0">
                     <tr>
                       <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'السفينة' : 'Vessel' }}</th>
                       <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الرحلة' : 'Voyage' }}</th>
@@ -553,21 +566,21 @@ interface TelemetryNode {
                       <th class="py-2.5 px-3.5 font-bold text-right">{{ isRtl() ? 'إجراء' : 'Action' }}</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-white/5 font-mono text-[11px]">
-                    <tr *ngFor="let s of filteredSchedules()" class="hover:bg-slate-900/60 transition-colors">
-                      <td class="py-2.5 px-3.5 font-bold text-white truncate max-w-[120px]">
+                  <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
+                    <tr *ngFor="let s of filteredSchedules()" class="hover:bg-slate-50/80 transition-colors">
+                      <td class="py-2.5 px-3.5 font-bold text-[#02194b] truncate max-w-[120px]">
                         {{ s.vessel_name }}
                       </td>
-                      <td class="py-2.5 px-3.5 font-bold text-amber-400">{{ s.voyage_no }}</td>
-                      <td class="py-2.5 px-3.5 text-slate-200">{{ s.pol }}</td>
-                      <td class="py-2.5 px-3.5 text-slate-200">{{ s.pod }}</td>
-                      <td class="py-2.5 px-3.5 text-slate-400">{{ s.etd | date:'shortDate' }}</td>
-                      <td class="py-2.5 px-3.5 text-amber-400 font-bold">{{ s.eta | date:'shortDate' }}</td>
+                      <td class="py-2.5 px-3.5 font-bold text-[#df0003]">{{ s.voyage_no }}</td>
+                      <td class="py-2.5 px-3.5 text-slate-700">{{ s.pol }}</td>
+                      <td class="py-2.5 px-3.5 text-slate-700">{{ s.pod }}</td>
+                      <td class="py-2.5 px-3.5 text-slate-500">{{ s.etd | date:'shortDate' }}</td>
+                      <td class="py-2.5 px-3.5 text-[#02194b] font-bold">{{ s.eta | date:'shortDate' }}</td>
                       <td class="py-2.5 px-3.5">
                         <span [ngClass]="{
-                          'bg-emerald-950/80 text-emerald-400 border-emerald-800': s.status === 'On Schedule',
-                          'bg-amber-950/80 text-amber-400 border-amber-800': s.status === 'In Transit',
-                          'bg-sky-950/80 text-sky-400 border-sky-800': s.status === 'At Berth'
+                          'bg-emerald-50 text-emerald-700 border-emerald-200': s.status === 'On Schedule',
+                          'bg-blue-50 text-blue-700 border-blue-200': s.status === 'In Transit',
+                          'bg-amber-50 text-amber-700 border-amber-200': s.status === 'At Berth'
                         }" class="px-2 py-0.5 rounded-full text-[9px] font-bold border">
                           {{ s.status }}
                         </span>
@@ -575,13 +588,13 @@ interface TelemetryNode {
                       <td class="py-2.5 px-3.5 text-right font-sans">
                         <button
                           (click)="trackVesselFromSchedule(s)"
-                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-slate-200 text-[10px] font-bold border border-slate-700 transition-all cursor-pointer">
+                          class="px-2.5 py-1 rounded bg-[#02194b] hover:bg-[#df0003] text-white text-[10px] font-bold transition-all cursor-pointer">
                           {{ isRtl() ? 'تتبع' : 'Track' }}
                         </button>
                       </td>
                     </tr>
                     <tr *ngIf="filteredSchedules().length === 0">
-                      <td colspan="8" class="py-5 text-center text-slate-400 font-sans">
+                      <td colspan="8" class="py-5 text-center text-slate-500 font-sans">
                         {{ isRtl() ? 'لا توجد رحلات مطابقة للمعايير المحددة.' : 'No voyage schedules found for the selected port pair.' }}
                       </td>
                     </tr>
@@ -598,7 +611,7 @@ interface TelemetryNode {
                   [ngModel]="vesselSearchQuery()"
                   (ngModelChange)="onVesselSearchChange($event)"
                   placeholder="Search MAVERICK SOHAR, IMO 9418298..."
-                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-amber-400 placeholder-slate-500 text-xs sm:text-sm" />
+                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] placeholder-slate-400 text-xs sm:text-sm" />
                 <div class="absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 pointer-events-none">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -608,27 +621,27 @@ interface TelemetryNode {
 
               <!-- Quick Vessel Select -->
               <div class="flex flex-wrap items-center gap-2">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
                 <button
                   *ngFor="let name of ['MAVERICK SOHAR']"
                   (click)="quickSelectVessel(name)"
-                  class="px-3 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-xs font-mono text-amber-300 font-bold border border-slate-700 hover:border-amber-400 transition-colors cursor-pointer">
+                  class="px-3 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-xs font-mono text-[#02194b] font-bold border border-slate-200 hover:border-[#df0003] transition-colors cursor-pointer">
                   🚢 {{ name }}
                 </button>
               </div>
 
               <!-- Live Tracked Vessel Card -->
-              <div *ngIf="matchedVessel() as mv" class="p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-white/10 space-y-4 shadow-xl">
+              <div *ngIf="matchedVessel() as mv" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <div class="flex items-center gap-2.5">
-                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <h3 class="text-base sm:text-lg font-black text-white">{{ mv.name }}</h3>
-                      <span class="text-[10px] px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold">
+                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <h3 class="text-base sm:text-lg font-black text-[#02194b]">{{ mv.name }}</h3>
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
                         {{ mv.flag }}
                       </span>
                     </div>
-                    <p class="text-xs font-mono text-slate-400 mt-1">
+                    <p class="text-xs font-mono text-slate-500 mt-1">
                       IMO {{ mv.imo }} • Call Sign: {{ mv.call_sign }} • Corridor: {{ mv.service_code }}
                     </p>
                   </div>
@@ -636,7 +649,7 @@ interface TelemetryNode {
                   <div class="flex items-center gap-2.5">
                     <button
                       (click)="focusOnMatchedVessel()"
-                      class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer">
+                      class="px-3 py-1.5 rounded-lg bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer">
                       <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
@@ -644,31 +657,31 @@ interface TelemetryNode {
                     </button>
                     <button
                       (click)="service.openVesselModal(mv)"
-                      class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 transition-all cursor-pointer">
+                      class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs border border-slate-300 transition-all cursor-pointer">
                       {{ isRtl() ? 'المواصفات' : '16-Pt Specs' }}
                     </button>
                   </div>
                 </div>
 
                 <!-- Live Status Metrics Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-white/10">
-                  <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-400">AIS Status</span>
-                    <p class="text-xs font-bold text-emerald-400 truncate mt-0.5">{{ mv.current_status }}</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-slate-200">
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                    <span class="text-[9.5px] uppercase font-bold text-slate-500">AIS Status</span>
+                    <p class="text-xs font-bold text-emerald-700 truncate mt-0.5">{{ mv.current_status }}</p>
                   </div>
-                  <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-400">Coordinates</span>
-                    <p class="text-xs font-mono font-bold text-amber-400 mt-0.5">
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                    <span class="text-[9.5px] uppercase font-bold text-slate-500">Coordinates</span>
+                    <p class="text-xs font-mono font-bold text-[#02194b] mt-0.5">
                       {{ mv.current_lat.toFixed(2) }}°N, {{ mv.current_lng.toFixed(2) }}°E
                     </p>
                   </div>
-                  <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-400">Nominal TEU</span>
-                    <p class="text-xs font-bold text-white mt-0.5">{{ mv.nominal_cap_teu }} TEU</p>
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                    <span class="text-[9.5px] uppercase font-bold text-slate-500">Nominal TEU</span>
+                    <p class="text-xs font-bold text-[#02194b] mt-0.5">{{ mv.nominal_cap_teu }} TEU</p>
                   </div>
-                  <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-400">Summer Draft</span>
-                    <p class="text-xs font-bold text-amber-400 mt-0.5">{{ mv.summer_draft }} m</p>
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                    <span class="text-[9.5px] uppercase font-bold text-slate-500">Summer Draft</span>
+                    <p class="text-xs font-bold text-[#df0003] mt-0.5">{{ mv.summer_draft }} m</p>
                   </div>
                 </div>
               </div>

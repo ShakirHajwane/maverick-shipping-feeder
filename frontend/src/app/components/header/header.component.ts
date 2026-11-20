@@ -87,10 +87,10 @@ import { MaritimeService } from '../../services/maritime.service';
 
         <!-- Right Action Button & Mobile Menu Toggle (Right) -->
         <div class="flex-shrink-0 flex items-center gap-3">
-          <!-- Reference-style Golden Amber Pill CTA Button -->
+          <!-- Corporate Maverick Red Pill CTA Button -->
           <button
             (click)="service.toggleBookingModal(true)"
-            class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs xl:text-sm shadow-lg shadow-amber-500/25 transition-all hover:scale-105 cursor-pointer whitespace-nowrap">
+            class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs xl:text-sm shadow-lg shadow-red-500/25 transition-all hover:scale-105 cursor-pointer whitespace-nowrap">
             <span>{{ isRtl() ? 'طلب تسعيرة' : 'Get a Quote' }}</span>
           </button>
 
@@ -155,7 +155,7 @@ import { MaritimeService } from '../../services/maritime.service';
           </a>
           <button
             (click)="service.toggleBookingModal(true); mobileMenuOpen = false"
-            class="w-full py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-sm text-center shadow-lg shadow-amber-500/20 cursor-pointer">
+            class="w-full py-2.5 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-sm text-center shadow-lg shadow-red-500/20 cursor-pointer">
             {{ isRtl() ? 'طلب تسعيرة' : 'Get a Quote' }}
           </button>
         </div>

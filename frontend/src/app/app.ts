@@ -78,7 +78,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
         return 'linear-gradient(180deg, #e0f2fe 0%, #bae6fd 12%, #7dd3fc 28%, #38bdf8 48%, #0ea5e9 68%, #0284c7 85%, #0369a1 95%, #02194b 100%)';
       case 'slate':
       default:
-        return 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 15%, #e2e8f0 35%, #cbd5e1 60%, #94a3b8 85%, #475569 100%)';
+        return 'linear-gradient(180deg, #ffffff 0%, #f8fafc 25%, #ffffff 55%, #f8fafc 80%, #ffffff 100%)';
     }
   }
 
@@ -90,7 +90,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
         return 'rgba(186, 230, 253, 0.7)';
       case 'slate':
       default:
-        return 'rgba(241, 245, 249, 0.75)';
+        return 'rgba(241, 245, 249, 0.85)';
     }
   }
 
@@ -102,7 +102,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
         return '#7dd3fc';
       case 'slate':
       default:
-        return '#e2e8f0';
+        return '#f1f5f9';
     }
   }
 

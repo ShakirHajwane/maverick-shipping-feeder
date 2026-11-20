@@ -166,31 +166,31 @@ interface TelemetryNode {
                   : 'Your trusted partner in regional feeder shipping. Maverick Shipping LLC connects key regional ports across the Arabian Gulf, Pakistan, and India with dependable, efficient, and commercially competitive container feeder solutions.' }}
               </p>
 
-              <!-- Homepage Strategic Priorities (Client Bullet Points) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 max-w-xl text-xs sm:text-[13px] text-slate-200">
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
-                  <span class="drop-shadow-sm">{{ isRtl() ? 'ربط موثوق بين الموانئ الإقليمية' : 'Reliable regional container feeder connectivity' }}</span>
+              <!-- Aesthetic Strategic Value Badges (Client Highlights) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 max-w-2xl">
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
+                  <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
+                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'ربط موثوق بين الموانئ الإقليمية' : 'Reliable Regional Feeder Connectivity' }}</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
-                  <span class="drop-shadow-sm">{{ isRtl() ? 'تغطية استراتيجية للموانئ والأسواق الرئيسية' : 'Strategic port coverage across key trade markets' }}</span>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
+                  <span class="w-5 h-5 rounded-md bg-red-500/20 text-red-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
+                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'تغطية استراتيجية للأسواق الرئيسية' : 'Strategic Port & Trade Coverage' }}</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
-                  <span class="drop-shadow-sm">{{ isRtl() ? 'حركة بضائع وحلول ميناء إلى ميناء فعالة' : 'Efficient cargo movement & port solutions' }}</span>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
+                  <span class="w-5 h-5 rounded-md bg-sky-500/20 text-sky-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
+                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'حركة بضائع وحلول ميناء إلى ميناء' : 'Efficient Port-to-Port Cargo Movement' }}</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
-                  <span class="drop-shadow-sm">{{ isRtl() ? 'خدمات شحن تركز على متطلبات العملاء' : 'Customer-focused shipping services' }}</span>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
+                  <span class="w-5 h-5 rounded-md bg-amber-500/20 text-amber-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
+                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'خدمات شحن تركز على العملاء' : 'Customer-Focused Shipping Services' }}</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
-                  <span class="drop-shadow-sm">{{ isRtl() ? 'دعم تشغيلي وتجاري مخصص ومباشر' : 'Dedicated operational & commercial support' }}</span>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
+                  <span class="w-5 h-5 rounded-md bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
+                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'دعم تشغيلي وتجاري مخصص 24/7' : 'Dedicated Operational & Commercial Desk' }}</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
-                  <span class="drop-shadow-sm">{{ isRtl() ? 'التزام تام بالموثوقية والتميز بالخدمة' : 'Commitment to schedule reliability & excellence' }}</span>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-950/60 hover:bg-slate-900/80 backdrop-blur-md border border-white/15 text-slate-100 text-xs transition-all shadow-sm group">
+                  <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[11px] font-bold shrink-0">✓</span>
+                  <span class="font-medium text-[12px] group-hover:text-white transition-colors">{{ isRtl() ? 'التزام تام بالموثوقية والتميز' : 'Schedule Reliability & Service Excellence' }}</span>
                 </div>
               </div>
 
@@ -382,311 +382,400 @@ interface TelemetryNode {
       </div>
 
       <!-- =========================================================
-           MARITIME OPERATIONS CONSOLE (INTEGRATED 3-TAB SUITE BELOW HERO)
+           MARITIME OPERATIONS CONSOLE & LIVE DESK (BALANCED 2-COLUMN COMMAND CENTER)
            ========================================================= -->
-      <div id="tracking-engine" class="max-w-4xl mx-auto mt-8 sm:mt-12">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/80 border border-slate-200 overflow-hidden">
+      <div id="tracking-engine" class="max-w-7xl mx-auto mt-10 sm:mt-14">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          <!-- Console Top Status Bar -->
-          <div class="px-5 sm:px-6 py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span class="font-mono font-bold tracking-wider text-[11px] text-[#02194b]">
-                {{ isRtl() ? 'منظومة الخدمات والعمليات البحرية' : 'MARITIME OPERATIONS CONSOLE' }}
-              </span>
-            </div>
-            <div class="flex items-center gap-3 text-[10.5px] font-mono text-slate-500">
-              <span class="flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                {{ isRtl() ? 'بيانات حية ومباشرة' : 'LIVE RADAR AIS FEED' }}
-              </span>
-            </div>
-          </div>
-
-          <!-- 3-Tab Header Strip -->
-          <div class="grid grid-cols-3 border-b border-slate-200 bg-slate-50/70 text-center text-xs sm:text-sm font-semibold">
-            <!-- Tab 1: Find Service -->
-            <button
-              id="tab-btn-service"
-              (click)="activeTab.set('service')"
-              [class]="activeTab() === 'service' 
-                ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
-                : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
-              <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-              </svg>
-              <span>{{ isRtl() ? 'الخدمات' : 'Services' }}</span>
-            </button>
-
-            <!-- Tab 2: Find Schedule -->
-            <button
-              id="tab-btn-schedule"
-              (click)="activeTab.set('schedule')"
-              [class]="activeTab() === 'schedule' 
-                ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
-                : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
-              <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span>{{ isRtl() ? 'الرحلات' : 'Schedules' }}</span>
-            </button>
-
-            <!-- Tab 3: Vessel Tracking -->
-            <button
-              id="tab-btn-tracking"
-              (click)="activeTab.set('tracking')"
-              [class]="activeTab() === 'tracking' 
-                ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
-                : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
-              <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span>{{ isRtl() ? 'تتبع AIS' : 'Vessel AIS' }}</span>
-            </button>
-          </div>
-
-          <!-- Console Tab Content Body -->
-          <div class="p-5 sm:p-7 text-slate-900">
+          <!-- Column 1: 3-Tab Maritime Operations Console (8 cols) -->
+          <div class="lg:col-span-8 flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/80 border border-slate-200 overflow-hidden">
             
-            <!-- TAB 1: FIND A SERVICE -->
-            <div *ngIf="activeTab() === 'service'" class="space-y-4">
-              <div class="space-y-1.5">
-                <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
-                  {{ isRtl() ? 'اختر خط الخدمة الملاحية' : 'Select Feeder Service Code' }}
-                </label>
-                <div class="relative">
-                  <select
-                    [ngModel]="selectedServiceCode()"
-                    (ngModelChange)="onServiceCodeChange($event)"
-                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#df0003]/20 focus:border-[#df0003] appearance-none cursor-pointer text-xs sm:text-sm">
-                    <option *ngFor="let s of service.services()" [value]="s.code" class="bg-white text-slate-900">
-                      {{ s.code }} — {{ s.name }} ({{ s.frequency }})
-                    </option>
-                  </select>
-                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+            <!-- Console Top Status Bar -->
+            <div class="px-5 sm:px-6 py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="font-mono font-bold tracking-wider text-[11px] text-[#02194b]">
+                  {{ isRtl() ? 'منظومة الخدمات والعمليات البحرية' : 'MARITIME OPERATIONS CONSOLE' }}
+                </span>
+              </div>
+              <div class="flex items-center gap-3 text-[10.5px] font-mono text-slate-500">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  {{ isRtl() ? 'بيانات حية ومباشرة' : 'LIVE RADAR AIS FEED' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 3-Tab Header Strip -->
+            <div class="grid grid-cols-3 border-b border-slate-200 bg-slate-50/70 text-center text-xs sm:text-sm font-semibold">
+              <!-- Tab 1: Find Service -->
+              <button
+                id="tab-btn-service"
+                (click)="activeTab.set('service')"
+                [class]="activeTab() === 'service' 
+                  ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                  : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
+                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                <span>{{ isRtl() ? 'الخدمات' : 'Services' }}</span>
+              </button>
+
+              <!-- Tab 2: Find Schedule -->
+              <button
+                id="tab-btn-schedule"
+                (click)="activeTab.set('schedule')"
+                [class]="activeTab() === 'schedule' 
+                  ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                  : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
+                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>{{ isRtl() ? 'الرحلات' : 'Schedules' }}</span>
+              </button>
+
+              <!-- Tab 3: Vessel Tracking -->
+              <button
+                id="tab-btn-tracking"
+                (click)="activeTab.set('tracking')"
+                [class]="activeTab() === 'tracking' 
+                  ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                  : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
+                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>{{ isRtl() ? 'تتبع AIS' : 'Vessel AIS' }}</span>
+              </button>
+            </div>
+
+            <!-- Console Tab Content Body -->
+            <div class="p-5 sm:p-7 text-slate-900 flex-1 flex flex-col justify-between">
+              
+              <!-- TAB 1: FIND A SERVICE -->
+              <div *ngIf="activeTab() === 'service'" class="space-y-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs uppercase font-bold text-slate-700 tracking-wider">
+                    {{ isRtl() ? 'اختر خط الخدمة الملاحية' : 'Select Feeder Service Code' }}
+                  </label>
+                  <div class="relative">
+                    <select
+                      [ngModel]="selectedServiceCode()"
+                      (ngModelChange)="onServiceCodeChange($event)"
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#df0003]/20 focus:border-[#df0003] appearance-none cursor-pointer text-xs sm:text-sm">
+                      <option *ngFor="let s of service.services()" [value]="s.code" class="bg-white text-slate-900">
+                        {{ s.code }} — {{ s.name }} ({{ s.frequency }})
+                      </option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Active Service Preview Card -->
+                <div *ngIf="currentService() as cs" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5">
+                      <span class="text-lg sm:text-xl font-black text-[#02194b]">{{ cs.code }}</span>
+                      <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
+                        {{ cs.frequency }}
+                      </span>
+                      <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-bold">
+                        {{ cs.transit_days }} {{ isRtl() ? 'يوم' : 'Days' }}
+                      </span>
+                    </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">{{ cs.description }}</p>
+
+                  <!-- Port Call Sequence Timeline -->
+                  <div class="space-y-1.5 pt-2 border-t border-slate-200">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                      {{ isRtl() ? 'دوران الموانئ:' : 'Port Rotation Sequence:' }}
+                    </span>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                      <ng-container *ngFor="let port of cs.port_rotation; let i = index; let last = last">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs shadow-xs">
+                          <span class="w-2 h-2 rounded-full bg-[#df0003]"></span>
+                          <span class="font-bold text-[#02194b]">{{ port.port_name }}</span>
+                          <span class="text-[10px] text-slate-500 font-mono">({{ port.unlocode }})</span>
+                        </div>
+                        <span *ngIf="!last" class="text-slate-400 text-xs font-bold">→</span>
+                      </ng-container>
+                    </div>
+                  </div>
+
+                  <button
+                    (click)="jumpToInteractiveRoute()"
+                    class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/20 cursor-pointer mt-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                    <span>{{ isRtl() ? 'عرض المسار على الخريطة الملاحية' : 'View Navigational Route on Map' }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- TAB 2: FIND SCHEDULE -->
+              <div *ngIf="activeTab() === 'schedule'" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+                  <div class="space-y-1">
+                    <label class="block text-[11px] uppercase font-bold text-slate-700 tracking-wider">
+                      {{ isRtl() ? 'ميناء الشحن (POL)' : 'Port of Loading (POL)' }}
+                    </label>
+                    <select
+                      [ngModel]="schedulePol()"
+                      (ngModelChange)="onPolChange($event)"
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
+                      <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
+                      <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
+                      <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
+                      <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
+                      <option value="Karachi" class="bg-white text-slate-900">Karachi, Pakistan (PKKHI)</option>
+                    </select>
+                  </div>
+
+                  <div class="space-y-1">
+                    <label class="block text-[11px] uppercase font-bold text-slate-700 tracking-wider">
+                      {{ isRtl() ? 'ميناء التفريغ (POD)' : 'Port of Discharge (POD)' }}
+                    </label>
+                    <select
+                      [ngModel]="schedulePod()"
+                      (ngModelChange)="onPodChange($event)"
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
+                      <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
+                      <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
+                      <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
+                      <option value="Karachi" class="bg-white text-slate-900">Karachi, Pakistan (PKKHI)</option>
+                      <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Schedules Result Table -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white max-h-64 shadow-xs">
+                  <table class="w-full text-left text-xs text-slate-700">
+                    <thead class="bg-slate-50 text-slate-700 uppercase text-[9.5px] tracking-wider border-b border-slate-200 sticky top-0">
+                      <tr>
+                        <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'السفينة' : 'Vessel' }}</th>
+                        <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الرحلة' : 'Voyage' }}</th>
+                        <th class="py-2.5 px-3.5 font-bold">POL</th>
+                        <th class="py-2.5 px-3.5 font-bold">POD</th>
+                        <th class="py-2.5 px-3.5 font-bold">ETD</th>
+                        <th class="py-2.5 px-3.5 font-bold">ETA</th>
+                        <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الحالة' : 'Status' }}</th>
+                        <th class="py-2.5 px-3.5 font-bold text-right">{{ isRtl() ? 'إجراء' : 'Action' }}</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
+                      <tr *ngFor="let s of filteredSchedules()" class="hover:bg-slate-50/80 transition-colors">
+                        <td class="py-2.5 px-3.5 font-bold text-[#02194b] truncate max-w-[120px]">
+                          {{ s.vessel_name }}
+                        </td>
+                        <td class="py-2.5 px-3.5 font-bold text-[#df0003]">{{ s.voyage_no }}</td>
+                        <td class="py-2.5 px-3.5 text-slate-700">{{ s.pol }}</td>
+                        <td class="py-2.5 px-3.5 text-slate-700">{{ s.pod }}</td>
+                        <td class="py-2.5 px-3.5 text-slate-500">{{ s.etd | date:'shortDate' }}</td>
+                        <td class="py-2.5 px-3.5 text-[#02194b] font-bold">{{ s.eta | date:'shortDate' }}</td>
+                        <td class="py-2.5 px-3.5">
+                          <span [ngClass]="{
+                            'bg-emerald-50 text-emerald-700 border-emerald-200': s.status === 'On Schedule',
+                            'bg-blue-50 text-blue-700 border-blue-200': s.status === 'In Transit',
+                            'bg-amber-50 text-amber-700 border-amber-200': s.status === 'At Berth'
+                          }" class="px-2 py-0.5 rounded-full text-[9px] font-bold border">
+                            {{ s.status }}
+                          </span>
+                        </td>
+                        <td class="py-2.5 px-3.5 text-right font-sans">
+                          <button
+                            (click)="trackVesselFromSchedule(s)"
+                            class="px-2.5 py-1 rounded bg-[#02194b] hover:bg-[#df0003] text-white text-[10px] font-bold transition-all cursor-pointer">
+                            {{ isRtl() ? 'تتبع' : 'Track' }}
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="filteredSchedules().length === 0">
+                        <td colspan="8" class="py-5 text-center text-slate-500 font-sans">
+                          {{ isRtl() ? 'لا توجد رحلات مطابقة للمعايير المحددة.' : 'No voyage schedules found for the selected port pair.' }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- TAB 3: VESSEL TRACKING -->
+              <div *ngIf="activeTab() === 'tracking'" class="space-y-4">
+                <div class="relative">
+                  <input
+                    type="text"
+                    [ngModel]="vesselSearchQuery()"
+                    (ngModelChange)="onVesselSearchChange($event)"
+                    placeholder="Search MAVERICK SOHAR, IMO 9418298..."
+                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] placeholder-slate-400 text-xs sm:text-sm" />
+                  <div class="absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 pointer-events-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
                 </div>
-              </div>
 
-              <!-- Active Service Preview Card -->
-              <div *ngIf="currentService() as cs" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="flex items-center gap-2.5">
-                    <span class="text-lg sm:text-xl font-black text-[#02194b]">{{ cs.code }}</span>
-                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
-                      {{ cs.frequency }}
-                    </span>
-                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-bold">
-                      {{ cs.transit_days }} {{ isRtl() ? 'يوم' : 'Days' }}
-                    </span>
-                  </div>
-                </div>
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">{{ cs.description }}</p>
-
-                <!-- Port Call Sequence Timeline -->
-                <div class="space-y-1.5 pt-2 border-t border-slate-200">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                    {{ isRtl() ? 'دوران الموانئ:' : 'Port Rotation Sequence:' }}
-                  </span>
-                  <div class="flex flex-wrap items-center gap-2 pt-1">
-                    <ng-container *ngFor="let port of cs.port_rotation; let i = index; let last = last">
-                      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs shadow-xs">
-                        <span class="w-2 h-2 rounded-full bg-[#df0003]"></span>
-                        <span class="font-bold text-[#02194b]">{{ port.port_name }}</span>
-                        <span class="text-[10px] text-slate-500 font-mono">({{ port.unlocode }})</span>
-                      </div>
-                      <span *ngIf="!last" class="text-slate-400 text-xs font-bold">→</span>
-                    </ng-container>
-                  </div>
+                <!-- Quick Vessel Select -->
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
+                  <button
+                    *ngFor="let name of ['MAVERICK SOHAR']"
+                    (click)="quickSelectVessel(name)"
+                    class="px-3 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-xs font-mono text-[#02194b] font-bold border border-slate-200 hover:border-[#df0003] transition-colors cursor-pointer">
+                    🚢 {{ name }}
+                  </button>
                 </div>
 
-                <button
-                  (click)="jumpToInteractiveRoute()"
-                  class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/20 cursor-pointer mt-2">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                  </svg>
-                  <span>{{ isRtl() ? 'عرض المسار على الخريطة الملاحية' : 'View Navigational Route on Map' }}</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- TAB 2: FIND SCHEDULE -->
-            <div *ngIf="activeTab() === 'schedule'" class="space-y-4">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
-                <div class="space-y-1">
-                  <label class="block text-[11px] uppercase font-bold text-slate-700 tracking-wider">
-                    {{ isRtl() ? 'ميناء الشحن (POL)' : 'Port of Loading (POL)' }}
-                  </label>
-                  <select
-                    [ngModel]="schedulePol()"
-                    (ngModelChange)="onPolChange($event)"
-                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
-                    <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
-                    <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
-                    <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
-                    <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
-                    <option value="Karachi" class="bg-white text-slate-900">Karachi, Pakistan (PKKHI)</option>
-                  </select>
-                </div>
-
-                <div class="space-y-1">
-                  <label class="block text-[11px] uppercase font-bold text-slate-700 tracking-wider">
-                    {{ isRtl() ? 'ميناء التفريغ (POD)' : 'Port of Discharge (POD)' }}
-                  </label>
-                  <select
-                    [ngModel]="schedulePod()"
-                    (ngModelChange)="onPodChange($event)"
-                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
-                    <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
-                    <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
-                    <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
-                    <option value="Karachi" class="bg-white text-slate-900">Karachi, Pakistan (PKKHI)</option>
-                    <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Schedules Result Table -->
-              <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white max-h-64 shadow-xs">
-                <table class="w-full text-left text-xs text-slate-700">
-                  <thead class="bg-slate-50 text-slate-700 uppercase text-[9.5px] tracking-wider border-b border-slate-200 sticky top-0">
-                    <tr>
-                      <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'السفينة' : 'Vessel' }}</th>
-                      <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الرحلة' : 'Voyage' }}</th>
-                      <th class="py-2.5 px-3.5 font-bold">POL</th>
-                      <th class="py-2.5 px-3.5 font-bold">POD</th>
-                      <th class="py-2.5 px-3.5 font-bold">ETD</th>
-                      <th class="py-2.5 px-3.5 font-bold">ETA</th>
-                      <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الحالة' : 'Status' }}</th>
-                      <th class="py-2.5 px-3.5 font-bold text-right">{{ isRtl() ? 'إجراء' : 'Action' }}</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
-                    <tr *ngFor="let s of filteredSchedules()" class="hover:bg-slate-50/80 transition-colors">
-                      <td class="py-2.5 px-3.5 font-bold text-[#02194b] truncate max-w-[120px]">
-                        {{ s.vessel_name }}
-                      </td>
-                      <td class="py-2.5 px-3.5 font-bold text-[#df0003]">{{ s.voyage_no }}</td>
-                      <td class="py-2.5 px-3.5 text-slate-700">{{ s.pol }}</td>
-                      <td class="py-2.5 px-3.5 text-slate-700">{{ s.pod }}</td>
-                      <td class="py-2.5 px-3.5 text-slate-500">{{ s.etd | date:'shortDate' }}</td>
-                      <td class="py-2.5 px-3.5 text-[#02194b] font-bold">{{ s.eta | date:'shortDate' }}</td>
-                      <td class="py-2.5 px-3.5">
-                        <span [ngClass]="{
-                          'bg-emerald-50 text-emerald-700 border-emerald-200': s.status === 'On Schedule',
-                          'bg-blue-50 text-blue-700 border-blue-200': s.status === 'In Transit',
-                          'bg-amber-50 text-amber-700 border-amber-200': s.status === 'At Berth'
-                        }" class="px-2 py-0.5 rounded-full text-[9px] font-bold border">
-                          {{ s.status }}
+                <!-- Live Tracked Vessel Card -->
+                <div *ngIf="matchedVessel() as mv" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
+                  <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <div class="flex items-center gap-2.5">
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <h3 class="text-base sm:text-lg font-black text-[#02194b]">{{ mv.name }}</h3>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
+                          {{ mv.flag }}
                         </span>
-                      </td>
-                      <td class="py-2.5 px-3.5 text-right font-sans">
-                        <button
-                          (click)="trackVesselFromSchedule(s)"
-                          class="px-2.5 py-1 rounded bg-[#02194b] hover:bg-[#df0003] text-white text-[10px] font-bold transition-all cursor-pointer">
-                          {{ isRtl() ? 'تتبع' : 'Track' }}
-                        </button>
-                      </td>
-                    </tr>
-                    <tr *ngIf="filteredSchedules().length === 0">
-                      <td colspan="8" class="py-5 text-center text-slate-500 font-sans">
-                        {{ isRtl() ? 'لا توجد رحلات مطابقة للمعايير المحددة.' : 'No voyage schedules found for the selected port pair.' }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- TAB 3: VESSEL TRACKING -->
-            <div *ngIf="activeTab() === 'tracking'" class="space-y-4">
-              <div class="relative">
-                <input
-                  type="text"
-                  [ngModel]="vesselSearchQuery()"
-                  (ngModelChange)="onVesselSearchChange($event)"
-                  placeholder="Search MAVERICK SOHAR, IMO 9418298..."
-                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] placeholder-slate-400 text-xs sm:text-sm" />
-                <div class="absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 pointer-events-none">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Quick Vessel Select -->
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
-                <button
-                  *ngFor="let name of ['MAVERICK SOHAR']"
-                  (click)="quickSelectVessel(name)"
-                  class="px-3 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-xs font-mono text-[#02194b] font-bold border border-slate-200 hover:border-[#df0003] transition-colors cursor-pointer">
-                  🚢 {{ name }}
-                </button>
-              </div>
-
-              <!-- Live Tracked Vessel Card -->
-              <div *ngIf="matchedVessel() as mv" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div class="flex items-center gap-2.5">
-                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <h3 class="text-base sm:text-lg font-black text-[#02194b]">{{ mv.name }}</h3>
-                      <span class="text-[10px] px-2 py-0.5 rounded bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
-                        {{ mv.flag }}
-                      </span>
+                      </div>
+                      <p class="text-xs font-mono text-slate-500 mt-1">
+                        IMO {{ mv.imo }} • Call Sign: {{ mv.call_sign }} • Corridor: {{ mv.service_code }}
+                      </p>
                     </div>
-                    <p class="text-xs font-mono text-slate-500 mt-1">
-                      IMO {{ mv.imo }} • Call Sign: {{ mv.call_sign }} • Corridor: {{ mv.service_code }}
-                    </p>
+
+                    <div class="flex items-center gap-2.5">
+                      <button
+                        (click)="focusOnMatchedVessel()"
+                        class="px-3 py-1.5 rounded-lg bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>{{ isRtl() ? 'الخريطة الحية' : 'Live Map' }}</span>
+                      </button>
+                      <button
+                        (click)="service.openVesselModal(mv)"
+                        class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs border border-slate-300 transition-all cursor-pointer">
+                        {{ isRtl() ? 'المواصفات' : '16-Pt Specs' }}
+                      </button>
+                    </div>
                   </div>
 
-                  <div class="flex items-center gap-2.5">
-                    <button
-                      (click)="focusOnMatchedVessel()"
-                      class="px-3 py-1.5 rounded-lg bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer">
-                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span>{{ isRtl() ? 'الخريطة الحية' : 'Live Map' }}</span>
-                    </button>
-                    <button
-                      (click)="service.openVesselModal(mv)"
-                      class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs border border-slate-300 transition-all cursor-pointer">
-                      {{ isRtl() ? 'المواصفات' : '16-Pt Specs' }}
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Live Status Metrics Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-slate-200">
-                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-500">AIS Status</span>
-                    <p class="text-xs font-bold text-emerald-700 truncate mt-0.5">{{ mv.current_status }}</p>
-                  </div>
-                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-500">Coordinates</span>
-                    <p class="text-xs font-mono font-bold text-[#02194b] mt-0.5">
-                      {{ mv.current_lat.toFixed(2) }}°N, {{ mv.current_lng.toFixed(2) }}°E
-                    </p>
-                  </div>
-                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-500">Nominal TEU</span>
-                    <p class="text-xs font-bold text-[#02194b] mt-0.5">{{ mv.nominal_cap_teu }} TEU</p>
-                  </div>
-                  <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                    <span class="text-[9.5px] uppercase font-bold text-slate-500">Summer Draft</span>
-                    <p class="text-xs font-bold text-[#df0003] mt-0.5">{{ mv.summer_draft }} m</p>
+                  <!-- Live Status Metrics Grid -->
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-slate-200">
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                      <span class="text-[9.5px] uppercase font-bold text-slate-500">AIS Status</span>
+                      <p class="text-xs font-bold text-emerald-700 truncate mt-0.5">{{ mv.current_status }}</p>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                      <span class="text-[9.5px] uppercase font-bold text-slate-500">Coordinates</span>
+                      <p class="text-xs font-mono font-bold text-[#02194b] mt-0.5">
+                        {{ mv.current_lat.toFixed(2) }}°N, {{ mv.current_lng.toFixed(2) }}°E
+                      </p>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                      <span class="text-[9.5px] uppercase font-bold text-slate-500">Nominal TEU</span>
+                      <p class="text-xs font-bold text-[#02194b] mt-0.5">{{ mv.nominal_cap_teu }} TEU</p>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+                      <span class="text-[9.5px] uppercase font-bold text-slate-500">Summer Draft</span>
+                      <p class="text-xs font-bold text-[#df0003] mt-0.5">{{ mv.summer_draft }} m</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- Column 2: Live Maritime Command & Booking Dispatch Hub (4 cols) -->
+          <div class="lg:col-span-4 flex flex-col justify-between space-y-6">
+            
+            <!-- Live Flagship Status & Transit Telemetry -->
+            <div class="bg-white rounded-2xl sm:rounded-3xl p-6 shadow-xl shadow-slate-200/80 border border-slate-200 space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                  <span class="text-[11px] font-mono font-bold text-[#02194b] uppercase tracking-wider">
+                    FLAGSHIP TELEMETRY
+                  </span>
+                </div>
+                <span class="text-[10px] font-mono text-[#df0003] bg-red-50 border border-red-200 px-2 py-0.5 rounded font-bold">
+                  ACTIVE LEG
+                </span>
+              </div>
+
+              <!-- Vessel Name & Service Identity -->
+              <div>
+                <h4 class="text-base font-black text-[#02194b]">MAVERICK SOHAR</h4>
+                <p class="text-[11px] font-mono text-slate-500 mt-0.5">Flag: UAE 🇦🇪 • IMO 9418298 • SMNK Loop</p>
+              </div>
+
+              <!-- Transit Progress Bar -->
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold">
+                  <span class="text-[#02194b]">Sohar (OMSOH)</span>
+                  <span class="text-[#df0003]">Nhava Sheva (INNSA)</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-gradient-to-r from-[#df0003] to-[#02194b] h-1.5 rounded-full w-[65%]"></div>
+                </div>
+                <div class="flex items-center justify-between text-[10.5px] font-mono text-slate-500">
+                  <span>Speed: <b class="text-emerald-700">15.4 kn</b></span>
+                  <span>ETA: <b class="text-[#02194b]">Nov 22, 14:00 GST</b></span>
+                </div>
+              </div>
+
+              <!-- Action Link -->
+              <button
+                (click)="jumpToInteractiveRoute()"
+                class="w-full py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-bold text-[#02194b] hover:text-[#df0003] flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                <span>{{ isRtl() ? 'عرض مسار الرحلة الحية' : 'View Vessel Position on Live Map' }}</span>
+              </button>
+            </div>
+
+            <!-- 24/7 Operations Desk & Quick Booking Inquiries -->
+            <div class="bg-gradient-to-br from-[#02194b] via-[#042468] to-[#02194b] rounded-2xl sm:rounded-3xl p-6 shadow-xl border border-slate-700 text-white space-y-3.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-amber-400">
+                  {{ isRtl() ? 'مكتب الحجوزات والعمليات' : '24/7 OPERATIONS DESK' }}
+                </span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              </div>
+
+              <div>
+                <h4 class="text-base font-black text-white">
+                  {{ isRtl() ? 'احجز مساحة لحاوياتك اليوم' : 'Commercial Feeder Inquiries' }}
+                </h4>
+                <p class="text-xs text-slate-300 mt-1 leading-snug">
+                  <span *ngIf="isRtl()">فريق العمليات متاح على مدار الساعة لتأكيد الحجوزات والرد على استفسارات الأسعار خلال ساعتين.</span>
+                  <span *ngIf="!isRtl()">Direct access to regional booking desks. Fast quote turnaround within 2 hours for standard &amp; high-cube container bookings.</span>
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-white/10 flex flex-col gap-2">
+                <button
+                  (click)="service.toggleBookingModal(true)"
+                  class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-lg shadow-red-500/25 transition-all hover:scale-[1.02] cursor-pointer text-center">
+                  {{ isRtl() ? 'طلب تسعيرة أو حجز فوري' : 'Request Instant Container Quote' }}
+                </button>
+                <a
+                  href="tel:+97142105105"
+                  class="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold flex items-center justify-center gap-2 border border-white/15 transition-all">
+                  <span>📞 +971 4 210 51 05 (HQ Desk)</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </section>

@@ -154,127 +154,208 @@ import { Vessel } from '../../models/maritime.models';
         </div>
 
         <!-- =========================================================
-             FLAGSHIP FEEDER VESSEL SHOWCASE (EXACTLY 1 VESSEL IN FLEET)
+             FLAGSHIP FEEDER VESSEL SHOWCASE (FULL-WIDTH 2-COLUMN BALANCED LAYOUT)
              ========================================================= -->
-        <div *ngIf="filteredVessels().length === 1" class="max-w-5xl mx-auto">
-          <div class="bg-white border-2 border-slate-200 hover:border-[#dd0103]/60 rounded-3xl overflow-hidden shadow-xl transition-all p-6 sm:p-8">
-            <div class="flex flex-wrap items-start justify-between gap-4 pb-6 border-b border-slate-100">
+        <div *ngIf="filteredVessels().length === 1" class="w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            <!-- Column 1: Flagship Feeder Vessel Core Card (8 cols) -->
+            <div class="lg:col-span-8 bg-white border-2 border-slate-200 hover:border-[#dd0103]/60 rounded-3xl overflow-hidden shadow-xl transition-all p-6 sm:p-8 flex flex-col justify-between">
               <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-bold font-mono uppercase mb-2">
-                  <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
-                  <span>{{ isRtl() ? 'السفينة الرئيسية للأسطول' : 'FLAGSHIP FEEDER VESSEL' }} • {{ filteredVessels()[0].service_code }}</span>
+                <div class="flex flex-wrap items-start justify-between gap-4 pb-6 border-b border-slate-100">
+                  <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-bold font-mono uppercase mb-2">
+                      <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
+                      <span>{{ isRtl() ? 'السفينة الرئيسية للأسطول' : 'FLAGSHIP FEEDER VESSEL' }} • {{ filteredVessels()[0].service_code }}</span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-[#02194b]">
+                      {{ filteredVessels()[0].name }}
+                    </h3>
+                    <p class="text-xs sm:text-sm font-mono text-slate-500 mt-1">
+                      IMO: {{ filteredVessels()[0].imo }} | Call Sign: {{ filteredVessels()[0].call_sign }} | Flag: {{ filteredVessels()[0].flag }} 🇦🇪 | Built: {{ filteredVessels()[0].built_year }} | Registry: {{ filteredVessels()[0].port_of_registry }}
+                    </p>
+                  </div>
+
+                  <!-- Live Telemetry Pill -->
+                  <div class="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 shadow-xs">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>{{ filteredVessels()[0].current_status }}</span>
+                  </div>
                 </div>
-                <h3 class="text-2xl sm:text-3xl font-black text-[#02194b]">
-                  {{ filteredVessels()[0].name }}
-                </h3>
-                <p class="text-xs sm:text-sm font-mono text-slate-500 mt-1">
-                  IMO: {{ filteredVessels()[0].imo }} | Call Sign: {{ filteredVessels()[0].call_sign }} | Flag: {{ filteredVessels()[0].flag }} 🇦🇪 | Built: {{ filteredVessels()[0].built_year }} | Registry: {{ filteredVessels()[0].port_of_registry }}
-                </p>
+
+                <!-- Vessel Graphic Schematic Representation with Interactive Buoyancy & Waterline -->
+                <div class="my-6 h-28 sm:h-36 rounded-2xl bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-100 border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden group/schematic">
+                  <!-- Dynamic Summer Draft Waterline Badge -->
+                  <div class="absolute top-2 right-3 z-10 bg-slate-900/90 backdrop-blur-xs text-sky-300 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold flex items-center gap-1.5 border border-sky-400/30 shadow-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+                    <span>DRAFT: {{ filteredVessels()[0].summer_draft }}m WATERLINE</span>
+                  </div>
+
+                  <!-- Floating Vessel SVG -->
+                  <div class="w-full max-w-lg relative z-5 animate-ship-float">
+                    <svg class="w-full h-20 text-slate-500 hover:text-red-500/90 transition-colors" viewBox="0 0 300 80" fill="none">
+                      <rect x="50" y="25" width="22" height="15" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.2"/>
+                      <rect x="74" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.5" stroke="currentColor" stroke-width="1.2"/>
+                      <rect x="98" y="15" width="22" height="25" rx="1" fill="#DD0103" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                      <rect x="122" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.4" stroke="currentColor" stroke-width="1.2"/>
+                      <rect x="146" y="15" width="22" height="25" rx="1" fill="currentColor" fill-opacity="0.6" stroke="currentColor" stroke-width="1.2"/>
+                      <rect x="170" y="25" width="22" height="15" rx="1" fill="#02194B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
+                      <polygon points="210,40 215,10 235,10 238,40" fill="currentColor" fill-opacity="0.8"/>
+                      <rect x="220" y="14" width="10" height="4" fill="#0F172A"/>
+                      <path d="M20,42 L250,42 L240,65 L55,65 Z" fill="currentColor" fill-opacity="0.85"/>
+                      <line x1="15" y1="65" x2="285" y2="65" stroke="#DD0103" stroke-width="2" stroke-dasharray="4,4"/>
+                    </svg>
+                  </div>
+
+                  <!-- Animated Layered Water Waves along the Vessel Keel -->
+                  <div class="absolute bottom-0 inset-x-0 h-8 overflow-hidden pointer-events-none opacity-80">
+                    <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-slow text-sky-400/50" viewBox="0 0 600 30" preserveAspectRatio="none">
+                      <path d="M0,15 C75,5 150,25 225,15 C300,5 375,25 450,15 C525,5 600,25 600,30 L0,30 Z" fill="currentColor"></path>
+                    </svg>
+                    <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-fast text-sky-500/70" viewBox="0 0 600 30" preserveAspectRatio="none">
+                      <path d="M0,20 C80,28 160,10 240,20 C320,28 400,10 480,20 C560,28 600,15 600,30 L0,30 Z" fill="currentColor"></path>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- 8-Point Core Specs Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Nominal Capacity</span>
+                    <span class="font-black text-[#dd0103] font-mono text-base mt-0.5 block">{{ filteredVessels()[0].nominal_cap_teu | number }} TEU</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Effective Capacity</span>
+                    <span class="font-bold text-slate-900 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].effective_cap_teu | number }} TEU</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Reefer Plugs</span>
+                    <span class="font-bold text-emerald-700 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].reefer_plugs }} Plugs</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Deadweight (DWT)</span>
+                    <span class="font-bold text-slate-900 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].dwt | number }} MT</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Gross Tonnage</span>
+                    <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].grt | number }} GT</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Length Overall</span>
+                    <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].loa }} m</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Summer Draft</span>
+                    <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].summer_draft }} m</span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Bow Thruster</span>
+                    <span class="font-bold text-emerald-600 text-sm mt-0.5 block">Equipped ✓</span>
+                  </div>
+                </div>
               </div>
 
-              <!-- Live Telemetry Pill -->
-              <div class="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 shadow-xs">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>{{ filteredVessels()[0].current_status }}</span>
+              <!-- Action Buttons Footer -->
+              <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+                <span class="text-xs text-slate-500">
+                  🚢 {{ isRtl() ? 'السفينة في الخدمة النشطة حالياً على مسار صحار - ناڤا شيفا - موندرا - كراتشي - صحار' : 'Vessel currently on active rotation on the Sohar - Nhava Sheva - Mundra - Karachi - Sohar Express loop.' }}
+                </span>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    (click)="service.openVesselModal(filteredVessels()[0])"
+                    class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-2">
+                    <span>{{ isRtl() ? 'المواصفات الفنية (١٦ نقطة)' : 'View 16-Pt Specs' }}</span>
+                    <span>→</span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="trackVessel(filteredVessels()[0])"
+                    class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    </svg>
+                    <span>{{ isRtl() ? 'تتبع على الخريطة' : 'Track on Map' }}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <!-- Vessel Graphic Schematic Representation with Interactive Buoyancy & Waterline -->
-            <div class="my-6 h-28 sm:h-36 rounded-2xl bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-100 border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden group/schematic">
-              <!-- Dynamic Summer Draft Waterline Badge -->
-              <div class="absolute top-2 right-3 z-10 bg-slate-900/90 backdrop-blur-xs text-sky-300 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold flex items-center gap-1.5 border border-sky-400/30 shadow-xs">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                <span>DRAFT: {{ filteredVessels()[0].summer_draft }}m WATERLINE</span>
+            <!-- Column 2: Feeder Operational Profile & Space Availability (4 cols) -->
+            <div class="lg:col-span-4 flex flex-col justify-between space-y-6">
+              
+              <!-- Feeder Suitability Profile Card -->
+              <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#02194b]">
+                    REGIONAL FEEDER ADVANTAGES
+                  </span>
+                  <span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 font-bold">
+                    Optimized
+                  </span>
+                </div>
+
+                <div class="space-y-3">
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-bold text-xs flex items-center justify-center shrink-0">
+                      ⚓
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-[#02194b]">Shallow-Draft Port Access</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">7.8m draft optimized for rapid river, canal, and secondary container berth calls without tide delay.</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-7 h-7 rounded-lg bg-sky-50 text-sky-600 font-bold text-xs flex items-center justify-center shrink-0">
+                      ⚡
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-[#02194b]">High-Torque Bow Thruster</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Autonomous docking agility minimizing tugboat dependencies and ensuring priority berth turnaround.</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 font-bold text-xs flex items-center justify-center shrink-0">
+                      ❄️
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-[#02194b]">150 Reefer Sockets</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Dedicated power points for refrigerated and cold-chain cargo across Gulf-Subcontinent trade routes.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <!-- Floating Vessel SVG -->
-              <div class="w-full max-w-lg relative z-5 animate-ship-float">
-                <svg class="w-full h-20 text-slate-500 hover:text-red-500/90 transition-colors" viewBox="0 0 300 80" fill="none">
-                  <rect x="50" y="25" width="22" height="15" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="74" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.5" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="98" y="15" width="22" height="25" rx="1" fill="#DD0103" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="122" y="20" width="22" height="20" rx="1" fill="currentColor" fill-opacity="0.4" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="146" y="15" width="22" height="25" rx="1" fill="currentColor" fill-opacity="0.6" stroke="currentColor" stroke-width="1.2"/>
-                  <rect x="170" y="25" width="22" height="15" rx="1" fill="#02194B" fill-opacity="0.7" stroke="currentColor" stroke-width="1.2"/>
-                  <polygon points="210,40 215,10 235,10 238,40" fill="currentColor" fill-opacity="0.8"/>
-                  <rect x="220" y="14" width="10" height="4" fill="#0F172A"/>
-                  <path d="M20,42 L250,42 L240,65 L55,65 Z" fill="currentColor" fill-opacity="0.85"/>
-                  <line x1="15" y1="65" x2="285" y2="65" stroke="#DD0103" stroke-width="2" stroke-dasharray="4,4"/>
-                </svg>
+              <!-- Next Departure & Slot Booking Card -->
+              <div class="bg-gradient-to-br from-[#02194b] via-[#042468] to-[#02194b] rounded-3xl p-6 shadow-xl border border-slate-700 text-white space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-amber-400">
+                    NEXT SCHEDULED SAILING
+                  </span>
+                  <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
+                    Accepting Space
+                  </span>
+                </div>
+
+                <div>
+                  <div class="text-base font-black text-white">Sohar ➔ Nhava Sheva (Voy 0104E)</div>
+                  <div class="text-xs text-slate-300 font-mono mt-0.5">Rotation: Sohar • Nhava Sheva • Mundra • Karachi • Sohar</div>
+                </div>
+
+                <div class="pt-2 border-t border-white/10">
+                  <button
+                    (click)="service.toggleBookingModal(true)"
+                    class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-lg shadow-red-500/25 transition-all hover:scale-[1.02] cursor-pointer text-center">
+                    {{ isRtl() ? 'حجز مساحة على السفينة' : 'Reserve Container Slot' }}
+                  </button>
+                </div>
               </div>
 
-              <!-- Animated Layered Water Waves along the Vessel Keel -->
-              <div class="absolute bottom-0 inset-x-0 h-8 overflow-hidden pointer-events-none opacity-80">
-                <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-slow text-sky-400/50" viewBox="0 0 600 30" preserveAspectRatio="none">
-                  <path d="M0,15 C75,5 150,25 225,15 C300,5 375,25 450,15 C525,5 600,25 600,30 L0,30 Z" fill="currentColor"></path>
-                </svg>
-                <svg class="absolute bottom-0 block w-[200%] h-full animate-wave-fast text-sky-500/70" viewBox="0 0 600 30" preserveAspectRatio="none">
-                  <path d="M0,20 C80,28 160,10 240,20 C320,28 400,10 480,20 C560,28 600,15 600,30 L0,30 Z" fill="currentColor"></path>
-                </svg>
-              </div>
             </div>
 
-            <!-- 8-Point Core Specs Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Nominal Capacity</span>
-                <span class="font-black text-[#dd0103] font-mono text-base mt-0.5 block">{{ filteredVessels()[0].nominal_cap_teu | number }} TEU</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Effective Capacity</span>
-                <span class="font-bold text-slate-900 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].effective_cap_teu | number }} TEU</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Reefer Plugs</span>
-                <span class="font-bold text-emerald-700 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].reefer_plugs }} Plugs</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Deadweight (DWT)</span>
-                <span class="font-bold text-slate-900 font-mono text-base mt-0.5 block">{{ filteredVessels()[0].dwt | number }} MT</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Gross Tonnage</span>
-                <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].grt | number }} GT</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Length Overall</span>
-                <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].loa }} m</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Summer Draft</span>
-                <span class="font-bold text-slate-700 font-mono text-sm mt-0.5 block">{{ filteredVessels()[0].summer_draft }} m</span>
-              </div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Bow Thruster</span>
-                <span class="font-bold text-emerald-600 text-sm mt-0.5 block">Equipped ✓</span>
-              </div>
-            </div>
-
-            <!-- Action Buttons Footer -->
-            <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-              <span class="text-xs text-slate-500">
-                🚢 {{ isRtl() ? 'السفينة في الخدمة النشطة حالياً على مسار صحار - ناڤا شيفا - موندرا - كراتشي - صحار' : 'Vessel currently on active rotation on the Sohar - Nhava Sheva - Mundra - Karachi - Sohar Express loop.' }}
-              </span>
-
-              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
-                <button
-                  type="button"
-                  (click)="service.openVesselModal(filteredVessels()[0])"
-                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-2">
-                  <span>{{ isRtl() ? 'المواصفات الفنية (١٦ نقطة)' : 'View 16-Pt Specs' }}</span>
-                  <span>→</span>
-                </button>
-                <button
-                  type="button"
-                  (click)="trackVessel(filteredVessels()[0])"
-                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  </svg>
-                  <span>{{ isRtl() ? 'تتبع على الخريطة' : 'Track on Map' }}</span>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 

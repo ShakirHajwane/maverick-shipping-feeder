@@ -253,7 +253,7 @@ import { Vessel } from '../../models/maritime.models';
             <!-- Action Buttons Footer -->
             <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
               <span class="text-xs text-slate-500">
-                🚢 {{ isRtl() ? 'السفينة في الخدمة النشطة حالياً على مسار صحار - كراتشي' : 'Vessel currently on active rotation on the Sohar - Mundra - Nhava Sheva - Karachi Express loop.' }}
+                🚢 {{ isRtl() ? 'السفينة في الخدمة النشطة حالياً على مسار صحار - ناڤا شيفا - موندرا - كراتشي - صحار' : 'Vessel currently on active rotation on the Sohar - Nhava Sheva - Mundra - Karachi - Sohar Express loop.' }}
               </span>
 
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">

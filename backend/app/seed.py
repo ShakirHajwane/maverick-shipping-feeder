@@ -21,20 +21,20 @@ def seed_database(db: Session, force: bool = False):
     db.query(RegionalAgent).delete()
     db.commit()
 
-    # 1. Feeder Services (Primary: SMNK Sohar - Mundra - Nhava Sheva - Karachi Loop)
+    # 1. Feeder Services (Primary: SMNK Sohar - Nhava Sheva - Mundra - Karachi Loop)
     services_data = [
         {
             "code": "SMNK",
-            "name": "Sohar - Mundra - Nhava Sheva - Karachi Express Loop",
-            "description": "Direct weekly feeder loop connecting Oman gateway Sohar with Mundra, Nhava Sheva, and Karachi with dedicated fast turnaround.",
+            "name": "Sohar - Nhava Sheva - Mundra - Karachi Dedicated Feeder Loop",
+            "description": "Dedicated regional container feeder service linking Sohar Gateway with Nhava Sheva, Mundra, and Karachi, connecting key trade markets across the Arabian Gulf, India, and Pakistan.",
             "transit_days": 11,
             "frequency": "Weekly Fixed Day",
             "port_rotation_json": json.dumps([
-                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Monday", "terminal": "Oman International Container Terminal (OICT)"},
-                {"port_name": "Mundra", "unlocode": "INMUN", "lat": 22.842, "lng": 69.712, "day_of_week": "Thursday", "terminal": "Adani Mundra Container Terminal (MICT)"},
-                {"port_name": "Nhava Sheva (JNPT)", "unlocode": "INNSA", "lat": 18.950, "lng": 72.951, "day_of_week": "Saturday", "terminal": "Gateway Terminals India (GTI / BMCT)"},
-                {"port_name": "Karachi", "unlocode": "PKKHI", "lat": 24.805, "lng": 66.975, "day_of_week": "Monday", "terminal": "South Asia Pakistan Terminals (SAPT)"},
-                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Thursday", "terminal": "Oman International Container Terminal (OICT)"}
+                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Monday", "terminal": "Oman International Container Terminal (OICT) – Strategic gateway to the Arabian Gulf"},
+                {"port_name": "Nhava Sheva (JNPT)", "unlocode": "INNSA", "lat": 18.950, "lng": 72.951, "day_of_week": "Thursday", "terminal": "Gateway Terminals India (GTI / BMCT) – Major container gateway for India's western coast"},
+                {"port_name": "Mundra", "unlocode": "INMUN", "lat": 22.842, "lng": 69.712, "day_of_week": "Saturday", "terminal": "Adani Mundra Container Terminal (MICT) – Important commercial and container hub"},
+                {"port_name": "Karachi", "unlocode": "PKKHI", "lat": 24.805, "lng": 66.975, "day_of_week": "Monday", "terminal": "South Asia Pakistan Terminals (SAPT) – Key gateway for Pakistan's international trade"},
+                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Thursday", "terminal": "Oman International Container Terminal (OICT) – Return Gateway"}
             ])
         }
     ]
@@ -63,9 +63,9 @@ def seed_database(db: Session, force: bool = False):
             "loa": 172.0,
             "breadth": 27.4,
             "summer_draft": 8.5,
-            "current_lat": 23.820,
-            "current_lng": 61.450,
-            "current_status": "Underway using Engine - 15.4 kn (En Route to Mundra)",
+            "current_lat": 22.420,
+            "current_lng": 64.850,
+            "current_status": "Underway using Engine - 15.4 kn (En Route to Nhava Sheva)",
             "service_code": "SMNK"
         }
     ]
@@ -74,14 +74,14 @@ def seed_database(db: Session, force: bool = False):
         db.add(Vessel(**v))
     db.commit()
 
-    # 3. Voyage Schedules (Weekly Port Calls for MAVERICK SOHAR on SMNK)
+    # 3. Voyage Schedules (Weekly Port Calls for MAVERICK SOHAR on SMNK: Sohar -> Nhava Sheva -> Mundra -> Karachi -> Sohar)
     schedules_data = [
         {
             "vessel_name": "MAVERICK SOHAR",
             "voyage_no": "SMNK-001E",
             "service_code": "SMNK",
             "pol": "Sohar (OMSOH)",
-            "pod": "Mundra (INMUN)",
+            "pod": "Nhava Sheva (INNSA)",
             "etd": "2026-11-23T06:00:00Z",
             "eta": "2026-11-26T14:00:00Z",
             "cutoff_date": "2026-11-22T18:00:00Z",
@@ -91,8 +91,8 @@ def seed_database(db: Session, force: bool = False):
             "vessel_name": "MAVERICK SOHAR",
             "voyage_no": "SMNK-001E",
             "service_code": "SMNK",
-            "pol": "Mundra (INMUN)",
-            "pod": "Nhava Sheva (INNSA)",
+            "pol": "Nhava Sheva (INNSA)",
+            "pod": "Mundra (INMUN)",
             "etd": "2026-11-27T02:00:00Z",
             "eta": "2026-11-28T18:00:00Z",
             "cutoff_date": "2026-11-26T16:00:00Z",
@@ -102,7 +102,7 @@ def seed_database(db: Session, force: bool = False):
             "vessel_name": "MAVERICK SOHAR",
             "voyage_no": "SMNK-001W",
             "service_code": "SMNK",
-            "pol": "Nhava Sheva (INNSA)",
+            "pol": "Mundra (INMUN)",
             "pod": "Karachi (PKKHI)",
             "etd": "2026-11-29T10:00:00Z",
             "eta": "2026-12-01T08:00:00Z",

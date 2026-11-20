@@ -1,601 +1,367 @@
-import { Component, ElementRef, ViewChild, inject, signal, computed, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaritimeService } from '../../services/maritime.service';
-
-type EcoMode = 'cold-ironing' | 'air-lubrication' | 'bio-fuel';
-
-interface EcoParticle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  alpha: number;
-  life: number;
-}
 
 @Component({
   selector: 'app-sustainability',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="sustainability-section" class="py-16 relative bg-transparent border-b border-white/20 overflow-hidden">
-      <!-- Animated Eco-Bioluminescent Ocean Wave Ribbon -->
-      <div class="absolute top-0 inset-x-0 h-10 pointer-events-none opacity-30 overflow-hidden">
-        <svg class="block w-[200%] h-full animate-wave-slow text-emerald-400" viewBox="0 0 1200 40" preserveAspectRatio="none">
-          <path d="M0,15 C200,30 400,0 600,18 C800,35 1000,5 1200,20 L1200,0 L0,0 Z" fill="currentColor"></path>
-        </svg>
-      </div>
+    <section id="services-section" class="py-16 sm:py-20 relative bg-slate-900/60 backdrop-blur-md border-b border-white/10 text-white overflow-hidden">
+      <!-- Ambient Nautical Grid Background Glow -->
+      <div class="absolute inset-0 bg-radial-gradient from-slate-900/40 via-slate-950 to-slate-950 pointer-events-none"></div>
 
-      <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 space-y-16">
         
         <!-- =========================================================
-             INNOVATIVE GREEN PROPULSION & MICRO-BUBBLE FLUID DYNAMICS TANK
-             Interactive Graphic Canvas: Cold Ironing, Air Lubrication & Biofuel
+             1. ABOUT MAVERICK SHIPPING LLC & OUR PRIORITIES
              ========================================================= -->
-        <div class="mb-12 rounded-2xl sm:rounded-3xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden relative text-white" style="content-visibility: auto; contain-intrinsic-size: auto none auto 380px;">
-          <!-- Header Bar with Live Indicator & Mode Switcher -->
-          <div class="p-4 sm:p-5 border-b border-slate-800/80 bg-slate-900/90 flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-inner">
-                <span class="text-xl">🌱</span>
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
-                    ECO-PROPULSION & FLUID DYNAMICS SIMULATOR
-                  </span>
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span class="text-[10px] font-mono text-emerald-400 font-bold">DECARBONIZATION LAB LIVE</span>
-                </div>
-                <h3 class="text-sm sm:text-base font-black text-white mt-0.5">
-                  {{ isRtl() ? 'مختبر ديناميكا التدفق والوقود الحيوي والكهرباء الشاطئية' : 'Next-Gen Green Feeder Fluid Dynamic & Clean Fuel Chamber' }}
-                </h3>
-              </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <!-- Left Column: Corporate Profile (7 cols) -->
+          <div class="lg:col-span-7 space-y-5">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-bold font-mono uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span>{{ isRtl() ? 'عن مافريك للشحن البحري' : 'ABOUT MAVERICK SHIPPING LLC' }}</span>
             </div>
 
-            <!-- Eco Technology Mode Switcher -->
-            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <button
-                type="button"
-                (click)="setEcoMode('cold-ironing')"
-                [class]="ecoMode() === 'cold-ironing' ? 'bg-sky-600 text-white font-bold shadow-md shadow-sky-900/30' : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80'"
-                class="px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer border border-slate-700/60 flex items-center gap-1">
-                <span>⚡</span>
-                <span>Cold Ironing (0 Port Emission)</span>
-              </button>
-              <button
-                type="button"
-                (click)="setEcoMode('air-lubrication')"
-                [class]="ecoMode() === 'air-lubrication' ? 'bg-emerald-600 text-white font-bold shadow-md shadow-emerald-900/30' : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80'"
-                class="px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer border border-slate-700/60 flex items-center gap-1">
-                <span>🫧</span>
-                <span>Air Bubble Carpet (-12% Drag)</span>
-              </button>
-              <button
-                type="button"
-                (click)="setEcoMode('bio-fuel')"
-                [class]="ecoMode() === 'bio-fuel' ? 'bg-[#dd0103] text-white font-bold shadow-md shadow-red-900/30' : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80'"
-                class="px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer border border-slate-700/60 flex items-center gap-1">
-                <span>🍃</span>
-                <span>B24 Biofuel (-22% Carbon)</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Dynamic Eco Simulation Canvas -->
-          <div class="relative w-full h-[270px] sm:h-[310px] bg-gradient-to-b from-[#02131b] via-[#031d27] to-[#010e14] overflow-hidden">
-            <canvas #ecoCanvas class="w-full h-full block cursor-pointer"></canvas>
-
-            <!-- Mode Description Badge -->
-            <div class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur-md border border-slate-700/70 rounded-xl px-3 py-2 text-xs font-mono max-w-sm pointer-events-none">
-              <div class="text-[10px] text-emerald-400 uppercase tracking-wider font-bold">
-                {{ activeEcoData().title }}
-              </div>
-              <div class="text-white text-xs mt-0.5 leading-tight">
-                {{ activeEcoData().desc }}
-              </div>
-            </div>
-
-            <!-- Bottom Live Telemetry HUD -->
-            <div class="absolute bottom-2 inset-x-2 sm:inset-x-4 bg-slate-950/85 backdrop-blur-md border border-slate-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-              <div class="flex items-center gap-4">
-                <div>
-                  <span class="text-slate-400 text-[10px] uppercase">CII RATING:</span>
-                  <span class="ml-1.5 text-emerald-400 font-bold">GRADE A (EXEMPLARY)</span>
-                </div>
-                <div>
-                  <span class="text-slate-400 text-[10px] uppercase">CO2 REDUCTION:</span>
-                  <span class="ml-1.5 text-sky-400 font-bold">{{ activeEcoData().reduction }}</span>
-                </div>
-                <div class="hidden sm:block">
-                  <span class="text-slate-400 text-[10px] uppercase">AUX ENGINE:</span>
-                  <span class="ml-1.5 text-amber-400 font-bold">{{ activeEcoData().auxStatus }}</span>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-3">
-                <div class="text-[10px] text-slate-400">
-                  PROPULSION EFFICIENCY: <span class="text-emerald-400 font-bold">{{ activeEcoData().efficiency }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <!-- Text Content -->
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold tracking-wide uppercase mb-3 shadow-sm">
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span>{{ isRtl() ? 'الاستدامة والحياد الكربوني 2050' : 'GREEN FEEDER INITIATIVE' }}</span>
-            </div>
-
-            <h2 class="text-3xl sm:text-4xl font-black text-[#02194b] leading-tight">
-              {{ isRtl() 
-                ? 'قيادة التحول الأخضر في النقل البحري الإقليمي' 
-                : 'Pioneering Decarbonized Feeder Shipping' }}
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              {{ isRtl() ? 'شريكك الموثوق في النقل الملاحي والخطوط المغذية' : 'Your Trusted Partner in Regional Feeder Shipping' }}
             </h2>
 
-            <p class="text-sm sm:text-base text-slate-600 mt-4 leading-relaxed">
-              {{ isRtl()
-                ? 'ملتزمون بخفض البصمة الكربونية لكل ميل بحري لحاوية، من خلال تبني وقود الميثانول الحيوي، وتوصيل السفن بالكهرباء الشاطئية في ميناء جبل علي، ومسارات الإبحار الذكية.'
-                : 'Aligned with IMO 2030 and 2050 decarbonization mandates, our next-generation feeder fleet integrates alternative fuel flexibility, shore-power cold ironing at Jebel Ali, and hydrodynamic hull retrofits to minimize emissions per TEU-mile.' }}
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              {{ isRtl() 
+                ? 'مافريك للشحن ش.ذ.م.م هي شركة شحن إقليمية صاعدة تأسست برؤية واضحة لتقديم خدمات تغذية حاويات موثوقة وعالية الكفاءة وتنافسية تجارياً. ينصب تركيزنا على تعزيز الربط البحري بين الموانئ الإقليمية الرئيسية، ودعم خطوط الشحن العالمية، وتزويد العملاء بحلول نقل مرنة ومبتكرة للبضائع.'
+                : 'Maverick Shipping LLC is an emerging regional shipping company established with a vision to provide dependable, efficient, and commercially competitive container feeder services. Our focus is to strengthen maritime connectivity between major regional ports, support international shipping lines, and provide customers with flexible cargo transportation solutions.' }}
             </p>
 
-            <!-- 3 Key Pillars -->
-            <div class="mt-8 space-y-4">
-              <div class="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 class="text-xs font-bold text-[#02194b] uppercase tracking-wider">
-                    {{ isRtl() ? 'الكهرباء الشاطئية في الموانئ (Cold Ironing)' : 'Cold Ironing & Shore Power Ready' }}
-                  </h4>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    {{ isRtl() ? 'إيقاف مولدات الديزل أثناء الرسو في موانئ جبل علي والسخنة واستخدام الكهرباء المتجددة.' : 'Zero-emission port stays by plugging directly into clean shore power at DP World Jebel Ali & Sokhna quays.' }}
-                  </p>
-                </div>
+            <!-- Corporate Positioning Highlight Box -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-3">
+              <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
+                <span>🚢</span>
+                <span>{{ isRtl() ? 'شبكة خطوط التغذية الإقليمية' : 'REGIONAL FEEDER SERVICE NETWORK' }}</span>
               </div>
-
-              <div class="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-red-50 text-[#dd0103] flex items-center justify-center shrink-0 border border-red-100">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 class="text-xs font-bold text-[#02194b] uppercase tracking-wider">
-                    {{ isRtl() ? 'جاهزية وقود الميثانول الأخضر والبيوديزل' : 'Bio-Methanol & B24 Biofuel Prepared' }}
-                  </h4>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    {{ isRtl() ? 'تجارب تشغيلية مستمرة لخليط B24 لتخفيض انبعاثات ثاني أكسيد الكربون بنسبة 20%.' : 'Fleet bunkering trials utilizing ISCC-certified B24 biofuel blends with up to 20% GHG reduction.' }}
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-red-50 text-[#dd0103] flex items-center justify-center shrink-0 border border-red-100">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 class="text-xs font-bold text-[#02194b] uppercase tracking-wider">
-                    {{ isRtl() ? 'توجيه المسارات بالذكاء الاصطناعي والطقس' : 'AI Weather & Trim Optimization' }}
-                  </h4>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    {{ isRtl() ? 'خوارزميات تحسين السرعة واستهلاك الوقود حسب التيارات البحرية والرياح في المحيط الهندي.' : 'Digital twins and hydrodynamic trim monitoring shaving 7-12% off propulsion fuel demands.' }}
-                  </p>
-                </div>
-              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-snug">
+                {{ isRtl()
+                  ? 'خدمة مكوكية مخصصة تربط الموانئ الإقليمية الرئيسية عبر الخليج العربي وباكستان والهند عبر مسار الدوران الأولي: صحار ← نهافا شيفا ← موندرا ← كراتشي ← صحار.'
+                  : 'Dedicated feeder shipping service connecting key regional ports across the Arabian Gulf, Pakistan, and India with initial service rotation: Sohar → Nhava Sheva → Mundra → Karachi → Sohar.' }}
+              </p>
             </div>
           </div>
 
-          <!-- Infographic Card -->
-          <div class="relative bg-white rounded-2xl border border-slate-200 p-8 shadow-xl overflow-hidden">
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-[#dd0103]/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
-              <span class="text-xs font-mono text-[#dd0103] uppercase font-bold">IMO CII RATING COMPLIANCE</span>
-              <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">Rating: A / B Certified</span>
+          <!-- Right Column: Our 6 Priorities (5 cols) -->
+          <div class="lg:col-span-5 bg-slate-950/70 border border-white/10 rounded-3xl p-6 sm:p-7 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-amber-400">
+                {{ isRtl() ? 'أولوياتنا التشغيلية والتجارية' : 'OUR PRIORITIES' }}
+              </span>
+              <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
+                6 Core Pillars
+              </span>
             </div>
 
-            <!-- Visual Bar Metrics -->
-            <div class="space-y-6">
-              <div>
-                <div class="flex justify-between text-xs font-semibold mb-1.5">
-                  <span class="text-slate-700">Fleet Shore-Power Compatibility</span>
-                  <span class="text-[#dd0103] font-mono font-bold">85%</span>
-                </div>
-                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-[#dd0103] to-[#ef2325] rounded-full" style="width: 85%"></div>
+            <div class="space-y-3">
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-white/5 hover:border-amber-400/40 transition-colors">
+                <span class="text-amber-400 font-mono text-xs font-bold pt-0.5">01</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-white">{{ isRtl() ? 'التميز التشغيلي' : 'Operational Excellence' }}</h4>
+                  <p class="text-[11px] text-slate-400 mt-0.5">{{ isRtl() ? 'أعلى معايير الإبحار وإدارة الأسطول والمناولة السريعة.' : 'Highest maritime standards across voyage planning and rapid cargo turnaround.' }}</p>
                 </div>
               </div>
 
-              <div>
-                <div class="flex justify-between text-xs font-semibold mb-1.5">
-                  <span class="text-slate-700">Carbon Intensity Indicator (CII) Reduction</span>
-                  <span class="text-emerald-700 font-mono font-bold">-22.4%</span>
-                </div>
-                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div class="h-full bg-emerald-500 rounded-full" style="width: 72%"></div>
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-white/5 hover:border-amber-400/40 transition-colors">
+                <span class="text-amber-400 font-mono text-xs font-bold pt-0.5">02</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-white">{{ isRtl() ? 'عمليات سفن موثوقة' : 'Reliable Vessel Operations' }}</h4>
+                  <p class="text-[11px] text-slate-400 mt-0.5">{{ isRtl() ? 'دقة متناهية في مواعيد الإبحار وجداول الرسو.' : 'Rigorous adherence to fixed-day sailing schedules and berth windows.' }}</p>
                 </div>
               </div>
 
-              <div>
-                <div class="flex justify-between text-xs font-semibold mb-1.5">
-                  <span class="text-slate-700">Biofuel Blend Readiness</span>
-                  <span class="text-[#dd0103] font-mono font-bold">100%</span>
-                </div>
-                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div class="h-full bg-[#dd0103] rounded-full" style="width: 100%"></div>
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-white/5 hover:border-amber-400/40 transition-colors">
+                <span class="text-amber-400 font-mono text-xs font-bold pt-0.5">03</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-white">{{ isRtl() ? 'شراكات قوية مع الموانئ والوكلاء' : 'Strong Port & Agency Partnerships' }}</h4>
+                  <p class="text-[11px] text-slate-400 mt-0.5">{{ isRtl() ? 'تعاون وثيق مع مشغلي المحطات لضمان الأولوية التشغيلية.' : 'Seamless terminal collaboration at Sohar, Nhava Sheva, Mundra, and Karachi.' }}</p>
                 </div>
               </div>
 
-              <!-- Hydrodynamic Hull Wave Resistance Metric -->
-              <div>
-                <div class="flex justify-between text-xs font-semibold mb-1.5">
-                  <span class="text-slate-700">Bulbous Bow Wave Resistance Reduction</span>
-                  <span class="text-sky-600 font-mono font-bold">-14.2%</span>
-                </div>
-                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-sky-400 to-emerald-500 rounded-full" style="width: 78%"></div>
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-white/5 hover:border-amber-400/40 transition-colors">
+                <span class="text-amber-400 font-mono text-xs font-bold pt-0.5">04</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-white">{{ isRtl() ? 'تواصل شفاف مع العملاء' : 'Transparent Customer Communication' }}</h4>
+                  <p class="text-[11px] text-slate-400 mt-0.5">{{ isRtl() ? 'متابعة لحظية وتحديثات استباقية لمواقع الحاويات.' : 'Real-time cargo status reporting and proactive customer coordination.' }}</p>
                 </div>
               </div>
-            </div>
 
-            <!-- Quote badge -->
-            <div class="mt-8 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 italic">
-              "Feeder shipping is the indispensable artery linking world trade hubs with regional economies. Our responsibility is delivering speed and sustainability simultaneously."
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-white/5 hover:border-amber-400/40 transition-colors">
+                <span class="text-amber-400 font-mono text-xs font-bold pt-0.5">05</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-white">{{ isRtl() ? 'علاقات طويلة الأمد مع الشركاء' : 'Long-Term Relationships with Shipping Partners' }}</h4>
+                  <p class="text-[11px] text-slate-400 mt-0.5">{{ isRtl() ? 'بناء شراكات مستدامة تدعم مصالح خطوط الشحن والوكلاء.' : 'Enduring commercial trust with mainline carriers, NVOCCs, and forwarders.' }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-white/5 hover:border-amber-400/40 transition-colors">
+                <span class="text-amber-400 font-mono text-xs font-bold pt-0.5">06</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-white">{{ isRtl() ? 'نمو تجاري مستدام' : 'Sustainable Business Growth' }}</h4>
+                  <p class="text-[11px] text-slate-400 mt-0.5">{{ isRtl() ? 'تطوير مستمر لشبكة النقل البحري وكفاءة استهلاك الطاقة.' : 'Eco-conscious fleet operations ensuring responsible long-term value.' }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- =========================================================
+             2. WHY CHOOSE MAVERICK SHIPPING? (6 KEY DIFFERENTIATORS)
+             ========================================================= -->
+        <div class="space-y-8">
+          <div class="text-center max-w-3xl mx-auto space-y-3">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono uppercase font-bold tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>{{ isRtl() ? 'المزايا التنافسية' : 'COMPETITIVE ADVANTAGE' }}</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
+              {{ isRtl() ? 'لماذا تختار مافريك للشحن البحري؟' : 'Why Choose Maverick Shipping?' }}
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300">
+              {{ isRtl()
+                ? 'نقدم مزيجاً متكاملاً من التغطية الجغرافية الاستراتيجية والموثوقية العالية والمرونة التجارية لدعم تدفق بضائعك.'
+                : 'A strategic combination of regional geographic coverage, schedule reliability, and dedicated customer commitment.' }}
+            </p>
+          </div>
+
+          <!-- 6 Grid Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Card 1 -->
+            <div class="p-6 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-amber-400/50 transition-all shadow-xl group">
+              <div class="w-10 h-10 rounded-xl bg-amber-400/10 text-amber-400 border border-amber-400/20 flex items-center justify-center font-bold text-base mb-4 group-hover:scale-110 transition-transform">
+                🌐
+              </div>
+              <h4 class="text-base font-black text-white group-hover:text-amber-400 transition-colors">
+                {{ isRtl() ? 'الربط الاستراتيجي' : 'Strategic Connectivity' }}
+              </h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                {{ isRtl() 
+                  ? 'ربط مباشر وسلس بين أهم وجهات ومراكز التجارة الإقليمية عبر عُمان والهند وباكستان.' 
+                  : 'Connecting important regional trade destinations across Sohar, Nhava Sheva, Mundra, and Karachi.' }}
+              </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="p-6 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-emerald-400/50 transition-all shadow-xl group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold text-base mb-4 group-hover:scale-110 transition-transform">
+                ⚓
+              </div>
+              <h4 class="text-base font-black text-white group-hover:text-emerald-400 transition-colors">
+                {{ isRtl() ? 'الموثوقية ودقة المواعيد' : 'Reliability' }}
+              </h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                {{ isRtl()
+                  ? 'تركيز مطلق على تقديم خدمة متسقة وموثوقة بنسبة دقة مواعيد تصل إلى 99.4%.'
+                  : 'Focus on consistent and dependable service delivery with fixed-day weekly sailing commitments.' }}
+              </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="p-6 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-sky-400/50 transition-all shadow-xl group">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center font-bold text-base mb-4 group-hover:scale-110 transition-transform">
+                🤝
+              </div>
+              <h4 class="text-base font-black text-white group-hover:text-sky-400 transition-colors">
+                {{ isRtl() ? 'الالتزام تجاه العميل' : 'Customer Commitment' }}
+              </h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                {{ isRtl()
+                  ? 'تواصل سريع ودعم مخصص لتلبية كافة متطلبات خطوط الشحن والوكلاء بكفاءة.'
+                  : 'Responsive communication, agile booking desks, and personalized customer support 24/7.' }}
+              </p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="p-6 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-amber-400/50 transition-all shadow-xl group">
+              <div class="w-10 h-10 rounded-xl bg-amber-400/10 text-amber-400 border border-amber-400/20 flex items-center justify-center font-bold text-base mb-4 group-hover:scale-110 transition-transform">
+                ⚡
+              </div>
+              <h4 class="text-base font-black text-white group-hover:text-amber-400 transition-colors">
+                {{ isRtl() ? 'الكفاءة التشغيلية' : 'Operational Efficiency' }}
+              </h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                {{ isRtl()
+                  ? 'تحسين مستمر لعمليات الرسو في الموانئ وحركة الحاويات لتسريع زمن الترانزيت.'
+                  : 'Focused on optimizing port calls, berthing turnaround, and rapid port-to-port container movement.' }}
+              </p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="p-6 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-emerald-400/50 transition-all shadow-xl group">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold text-base mb-4 group-hover:scale-110 transition-transform">
+                🧭
+              </div>
+              <h4 class="text-base font-black text-white group-hover:text-emerald-400 transition-colors">
+                {{ isRtl() ? 'الخبرة الإقليمية المتعمقة' : 'Regional Expertise' }}
+              </h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                {{ isRtl()
+                  ? 'فهم عميق لأسواق الشحن في الخليج العربي وشبه القارة الهندية ومتطلبات الموانئ.'
+                  : 'Deep commercial and operational understanding of Arabian Gulf, Indian, and Pakistani shipping markets.' }}
+              </p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="p-6 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-sky-400/50 transition-all shadow-xl group">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center font-bold text-base mb-4 group-hover:scale-110 transition-transform">
+                🔗
+              </div>
+              <h4 class="text-base font-black text-white group-hover:text-sky-400 transition-colors">
+                {{ isRtl() ? 'منهجية الشراكة الاستراتيجية' : 'Partnership Approach' }}
+              </h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                {{ isRtl()
+                  ? 'بناء علاقات متينة ومثمرة مع خطوط الشحن العالمية ووكلاء الشحن ومزودي الخدمات اللوجستية.'
+                  : 'Building strong relationships with shipping lines, freight forwarders, and logistics providers.' }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             3. PORTS COVERED SHOWCASE (4 STRATEGIC REGIONAL GATEWAYS)
+             ========================================================= -->
+        <div class="space-y-6">
+          <div class="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-amber-400">
+                {{ isRtl() ? 'تغطية الموانئ' : 'STRATEGIC PORT COVERAGE' }}
+              </span>
+              <h3 class="text-xl sm:text-2xl font-black text-white mt-1">
+                {{ isRtl() ? 'الموانئ المشمولة في مسار الخدمة' : 'Ports Covered Across Key Trade Markets' }}
+              </h3>
+            </div>
+            <div class="text-xs font-mono text-slate-400">
+              Corridor: <span class="text-amber-400 font-bold">Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-5 rounded-2xl bg-slate-950/80 border border-white/10 hover:border-amber-400/40 transition-all">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span class="font-bold text-white text-base">Sohar, Oman</span>
+                <span class="px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 text-[10px]">OMSOH</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                {{ isRtl() ? 'البوابة الاستراتيجية إلى الخليج العربي.' : 'Strategic gateway to the Arabian Gulf.' }}
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-950/80 border border-white/10 hover:border-amber-400/40 transition-all">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span class="font-bold text-white text-base">Nhava Sheva, India</span>
+                <span class="px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 text-[10px]">INNSA</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                <span *ngIf="!isRtl()">Major container gateway for India&apos;s western coast.</span>
+                <span *ngIf="isRtl()">بوابة الحاويات الرئيسية للساحل الغربي للهند.</span>
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-950/80 border border-white/10 hover:border-amber-400/40 transition-all">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span class="font-bold text-white text-base">Mundra, India</span>
+                <span class="px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 text-[10px]">INMUN</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                {{ isRtl() ? 'مركز تجاري وبحري هام للحاويات.' : 'Important commercial and container hub.' }}
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-950/80 border border-white/10 hover:border-amber-400/40 transition-all">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span class="font-bold text-white text-base">Karachi, Pakistan</span>
+                <span class="px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 text-[10px]">PKKHI</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                <span *ngIf="!isRtl()">Key gateway for Pakistan&apos;s international trade.</span>
+                <span *ngIf="isRtl()">البوابة الرئيسية للتجارة الدولية لباكستان.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             4. TRADE & COMMERCIAL ENQUIRIES ("LET'S MOVE YOUR CARGO TOGETHER")
+             ========================================================= -->
+        <div class="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-amber-500/30 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-8 space-y-4">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-mono font-bold uppercase">
+                <span>📦</span>
+                <span>{{ isRtl() ? 'الاستفسارات التجارية والشحن' : 'TRADE & COMMERCIAL ENQUIRIES' }}</span>
+              </div>
+
+              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
+                {{ isRtl() ? 'لننقل بضائعكم معاً' : "Let's Move Your Cargo Together." }}
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl font-normal">
+                {{ isRtl()
+                  ? 'ترحب مافريك للشحن بالاستفسارات من خطوط الشحن العالمية، ووكلاء الشحن، ومشغلي NVOCC، والمستوردين والمصدرين، وشركات الخدمات اللوجستية، ومشغلي الموانئ والمحطات.'
+                  : 'Maverick Shipping LLC welcomes enquiries from international shipping lines, freight forwarders, NVOCC operators, importers and exporters, logistics companies, and port & terminal operators.' }}
+              </p>
+
+              <!-- Who Welcomes Chips -->
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] font-semibold text-slate-300">
+                  ✓ International Shipping Lines
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] font-semibold text-slate-300">
+                  ✓ Freight Forwarders
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] font-semibold text-slate-300">
+                  ✓ NVOCC Operators
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] font-semibold text-slate-300">
+                  ✓ Importers & Exporters
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] font-semibold text-slate-300">
+                  ✓ Logistics Companies
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] font-semibold text-slate-300">
+                  ✓ Port & Terminal Operators
+                </span>
+              </div>
+            </div>
+
+            <!-- Action Column (4 cols) -->
+            <div class="lg:col-span-4 flex flex-col items-start lg:items-end justify-center gap-3">
+              <button
+                (click)="service.toggleBookingModal(true)"
+                class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs sm:text-sm tracking-wide shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap">
+                {{ isRtl() ? 'طلب تسعيرة أو حجز' : 'Request Commercial Booking' }}
+              </button>
+
+              <a
+                href="tel:+97142105105"
+                class="w-full sm:w-auto px-6 py-3 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
+                <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>+971 4 210 51 05</span>
+              </a>
+
+              <span class="text-[10px] font-mono text-slate-400 text-right">
+                {{ isRtl() ? 'تواصل معنا لجداول الرحلات واستفسارات الإبحار وحجز الحاويات' : 'Contact us for vessel schedules, sailing enquiries & partnerships' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   `
 })
-export class SustainabilityComponent implements AfterViewInit, OnDestroy {
+export class SustainabilityComponent {
   service = inject(MaritimeService);
-  ngZone = inject(NgZone);
   isRtl = this.service.isRtl;
-
-  @ViewChild('ecoCanvas') ecoCanvasRef!: ElementRef<HTMLCanvasElement>;
-
-  ecoMode = signal<EcoMode>('air-lubrication');
-  private ecoAnimId: number | null = null;
-  private ecoObserver?: IntersectionObserver;
-  private isEcoVisible = false;
-  private bubbles: EcoParticle[] = [];
-  private plasmaPulses: Array<{ progress: number; speed: number }> = [];
-
-  activeEcoData = computed(() => {
-    switch (this.ecoMode()) {
-      case 'cold-ironing':
-        return {
-          title: 'SHORE POWER COLD IRONING AT BERTH',
-          desc: 'High-voltage electric umbilical delivers clean renewable grid power directly from Jebel Ali quay, turning off auxiliary diesel engines completely.',
-          reduction: '-100% At Berth',
-          auxStatus: 'OFFLINE (0 RPM / 0 dB)',
-          efficiency: '99.4% Grid Efficiency'
-        };
-      case 'air-lubrication':
-        return {
-          title: 'SUB-HULL AIR LUBRICATION MICRO-BUBBLE CARPET',
-          desc: 'High-efficiency compressors inject an unbroken layer of micro-bubbles under the flat bottom keel, drastically minimizing skin friction drag.',
-          reduction: '-12.4% Fuel & GHG',
-          auxStatus: 'Compressor Active (Eco-Mode)',
-          efficiency: '+14.6% Hydrodynamic Flow'
-        };
-      case 'bio-fuel':
-        return {
-          title: 'ISCC-CERTIFIED B24 BIOFUEL & GREEN METHANOL',
-          desc: 'Drop-in maritime bio-bunkering blended with used cooking oil fatty acid methyl esters (FAME), cutting lifetime carbon intensity without engine retrofits.',
-          reduction: '-22.4% Full Voyage',
-          auxStatus: 'Dual-Fuel Injection On',
-          efficiency: '98.8% Thermal Efficiency'
-        };
-    }
-  });
-
-  setEcoMode(mode: EcoMode) {
-    this.ecoMode.set(mode);
-  }
-
-  ngAfterViewInit() {
-    this.initEcoCanvas();
-  }
-
-  ngOnDestroy() {
-    if (this.ecoAnimId) {
-      cancelAnimationFrame(this.ecoAnimId);
-      this.ecoAnimId = null;
-    }
-    if (this.ecoObserver) {
-      this.ecoObserver.disconnect();
-    }
-  }
-
-  private initEcoCanvas() {
-    const canvas = this.ecoCanvasRef?.nativeElement;
-    if (!canvas) return;
-
-    this.plasmaPulses = [
-      { progress: 0.1, speed: 0.02 },
-      { progress: 0.4, speed: 0.022 },
-      { progress: 0.7, speed: 0.019 }
-    ];
-
-    this.ecoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.isEcoVisible = true;
-          this.startEcoLoop();
-        } else {
-          this.isEcoVisible = false;
-          if (this.ecoAnimId) {
-            cancelAnimationFrame(this.ecoAnimId);
-            this.ecoAnimId = null;
-          }
-        }
-      });
-    }, { rootMargin: '100px' });
-
-    this.ecoObserver.observe(canvas);
-  }
-
-  private startEcoLoop() {
-    if (this.ecoAnimId) return;
-
-    this.ngZone.runOutsideAngular(() => {
-      const render = () => {
-        if (!this.isEcoVisible) return;
-        this.drawEcoFrame();
-        this.ecoAnimId = requestAnimationFrame(render);
-      };
-      this.ecoAnimId = requestAnimationFrame(render);
-    });
-  }
-
-  private drawEcoFrame() {
-    const canvas = this.ecoCanvasRef?.nativeElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    if (canvas.width !== rect.width * dpr || canvas.height !== rect.height * dpr) {
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-    }
-
-    ctx.save();
-    ctx.scale(dpr, dpr);
-    const w = rect.width;
-    const h = rect.height;
-
-    // Dark emerald maritime water gradient
-    const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-    bgGrad.addColorStop(0, '#02131b');
-    bgGrad.addColorStop(0.5, '#032026');
-    bgGrad.addColorStop(1, '#010c11');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, w, h);
-
-    const mode = this.ecoMode();
-    const now = performance.now() * 0.002;
-
-    // Vessel Position and Geometry
-    const shipW = Math.min(260, w * 0.45);
-    const shipH = shipW * 0.26;
-    const shipX = w * 0.52;
-    const waterlineY = h * 0.52;
-    const keelY = waterlineY + shipH * 0.45;
-    const bowX = shipX + shipW * 0.5;
-    const sternX = shipX - shipW * 0.5;
-
-    // 1. Draw Water Surface Wave
-    ctx.beginPath();
-    ctx.moveTo(0, h);
-    for (let x = 0; x <= w; x += 10) {
-      const wy = waterlineY + Math.sin(x * 0.015 + now * 1.5) * 5 + Math.cos(x * 0.03 - now) * 3;
-      ctx.lineTo(x, wy);
-    }
-    ctx.lineTo(w, h);
-    ctx.closePath();
-    const waterGrad = ctx.createLinearGradient(0, waterlineY - 5, 0, h);
-    waterGrad.addColorStop(0, mode === 'bio-fuel' ? 'rgba(16, 185, 129, 0.35)' : 'rgba(14, 165, 233, 0.3)');
-    waterGrad.addColorStop(1, 'rgba(2, 44, 34, 0.8)');
-    ctx.fillStyle = waterGrad;
-    ctx.fill();
-
-    // 2. Draw Vessel Hull Profile
-    // Main topsides
-    ctx.beginPath();
-    ctx.moveTo(sternX, waterlineY - shipH * 0.3);
-    ctx.lineTo(bowX - 12, waterlineY - shipH * 0.3);
-    ctx.lineTo(bowX, waterlineY + 8);
-    ctx.lineTo(bowX - 12, keelY);
-    ctx.lineTo(sternX + 12, keelY);
-    ctx.lineTo(sternX, waterlineY - shipH * 0.3);
-    ctx.closePath();
-    ctx.fillStyle = '#02194b';
-    ctx.fill();
-    ctx.strokeStyle = '#059669';
-    ctx.lineWidth = 1.6;
-    ctx.stroke();
-
-    // Emerald Antifouling Keel Layer
-    ctx.beginPath();
-    ctx.moveTo(sternX + 8, keelY - 12);
-    ctx.lineTo(bowX - 10, keelY - 12);
-    ctx.lineTo(bowX - 12, keelY);
-    ctx.lineTo(sternX + 12, keelY);
-    ctx.closePath();
-    ctx.fillStyle = '#047857';
-    ctx.fill();
-
-    // Container Bays on Deck
-    const containerW = 20;
-    const containerH = 12;
-    const bayStart = sternX + 38;
-    const bayEnd = bowX - 25;
-    const deckY = waterlineY - shipH * 0.3;
-    const ecoColors = ['#10b981', '#059669', '#0284c7', '#34d399', '#dd0103'];
-
-    let col = 0;
-    for (let bx = bayStart; bx < bayEnd; bx += containerW + 3) {
-      ctx.fillStyle = ecoColors[col % ecoColors.length];
-      ctx.fillRect(bx, deckY - containerH, containerW, containerH);
-      ctx.fillRect(bx, deckY - containerH * 2, containerW, containerH);
-      if (col % 2 === 0) {
-        ctx.fillRect(bx, deckY - containerH * 3, containerW, containerH);
-      }
-      col++;
-    }
-
-    // Bridge Tower & Funnel
-    const bridgeX = sternX + 12;
-    const bridgeY = deckY - containerH * 3.2;
-    ctx.fillStyle = '#f8fafc';
-    ctx.fillRect(bridgeX, bridgeY, 24, containerH * 3.2);
-    ctx.fillStyle = '#02194b';
-    ctx.fillRect(bridgeX - 8, deckY - containerH * 2.2, 8, containerH * 2.2);
-
-    // MODE SPECIFIC GRAPHIC ENGINES:
-    if (mode === 'cold-ironing') {
-      // 3A. Quay Wall & High Voltage Substation (Port Berth Mode)
-      const quayX = Math.max(30, shipX - shipW * 0.75);
-      const quayW = 80;
-
-      // Concrete Pier
-      ctx.fillStyle = '#334155';
-      ctx.fillRect(quayX - quayW, waterlineY - 25, quayW, h - waterlineY + 25);
-      ctx.fillStyle = '#e2e8f0';
-      ctx.fillRect(quayX - 8, waterlineY - 32, 10, 10); // Mooring bollard
-
-      // High Voltage Substation Box
-      ctx.fillStyle = '#065f46';
-      ctx.fillRect(quayX - quayW + 15, waterlineY - 60, 40, 35);
-      ctx.fillStyle = '#10b981';
-      ctx.font = '8px monospace';
-      ctx.fillText('11kV SHORE', quayX - quayW + 16, waterlineY - 45);
-
-      // High-Voltage Umbilical Cable (Cat-enary curve to ship)
-      const cableStart = { x: quayX - 10, y: waterlineY - 40 };
-      const cableEnd = { x: sternX + 25, y: deckY };
-      const ctrlPoint = { x: (cableStart.x + cableEnd.x) / 2, y: waterlineY + 15 };
-
-      ctx.beginPath();
-      ctx.moveTo(cableStart.x, cableStart.y);
-      ctx.quadraticCurveTo(ctrlPoint.x, ctrlPoint.y, cableEnd.x, cableEnd.y);
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 3.5;
-      ctx.stroke();
-
-      // Animated Electrical Plasma Pulses along Cable
-      for (const pulse of this.plasmaPulses) {
-        pulse.progress += pulse.speed;
-        if (pulse.progress > 1) pulse.progress = 0;
-
-        const t = pulse.progress;
-        const px = (1 - t) * (1 - t) * cableStart.x + 2 * (1 - t) * t * ctrlPoint.x + t * t * cableEnd.x;
-        const py = (1 - t) * (1 - t) * cableStart.y + 2 * (1 - t) * t * ctrlPoint.y + t * t * cableEnd.y;
-
-        ctx.beginPath();
-        ctx.arc(px, py, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#34d399';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(px, py, 8, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(52, 211, 153, 0.6)';
-        ctx.stroke();
-      }
-
-      // Funnel with Zero-Emission Status (Green Zero Badge)
-      ctx.fillStyle = '#10b981';
-      ctx.beginPath();
-      ctx.arc(bridgeX - 4, deckY - containerH * 2.6, 9, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 9px monospace';
-      ctx.fillText('0g', bridgeX - 9, deckY - containerH * 2.6 + 3);
-
-    } else if (mode === 'air-lubrication') {
-      // 3B. Sub-Hull Micro-Bubble Carpet (Active Flow)
-      if (this.bubbles.length < 90) {
-        for (let i = 0; i < 4; i++) {
-          this.bubbles.push({
-            x: bowX - 25 - Math.random() * 20,
-            y: keelY + Math.random() * 4,
-            vx: -Math.random() * 3.5 - 2,
-            vy: -Math.random() * 0.4 - 0.1,
-            radius: Math.random() * 2.2 + 0.8,
-            alpha: 0.9,
-            life: 1.0
-          });
-        }
-      }
-
-      for (let i = this.bubbles.length - 1; i >= 0; i--) {
-        const b = this.bubbles[i];
-        b.x += b.vx;
-        b.y += b.vy;
-        b.life -= 0.015;
-        b.alpha = b.life * 0.85;
-
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(52, 211, 153, ${b.alpha})`;
-        ctx.fill();
-
-        if (b.life <= 0 || b.x < sternX - 40) {
-          this.bubbles.splice(i, 1);
-        }
-      }
-
-      // Air Lubrication Keel Injector Nozzles (Luminescent points)
-      for (let k = sternX + 25; k < bowX - 15; k += 28) {
-        ctx.beginPath();
-        ctx.arc(k, keelY, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#6ee7b7';
-        ctx.fill();
-      }
-
-    } else if (mode === 'bio-fuel') {
-      // 3C. Biofuel Clean Catalytic Combustion Chamber
-      const engineX = bridgeX + 2;
-      const engineY = deckY + 6;
-
-      // Engine block glowing emerald
-      const enginePulse = Math.sin(now * 8) * 0.3 + 0.7;
-      ctx.fillStyle = `rgba(16, 185, 129, ${enginePulse * 0.6})`;
-      ctx.fillRect(engineX - 6, engineY - 4, 18, 14);
-      ctx.strokeStyle = '#34d399';
-      ctx.strokeRect(engineX - 6, engineY - 4, 18, 14);
-
-      // Clean Water Vapor Plume from Funnel (No Soot / 0 Particulates)
-      for (let s = 0; s < 6; s++) {
-        const plumeY = deckY - containerH * 2.5 - s * 10 - (now * 20 % 10);
-        const plumeX = bridgeX - 4 + Math.sin(s + now) * 6 - s * 4;
-        const radius = 6 + s * 3;
-        ctx.beginPath();
-        ctx.arc(plumeX, plumeY, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.35 - s * 0.05})`;
-        ctx.fill();
-      }
-
-      // Propeller Churn Wash with Bio-Bioluminescence
-      ctx.beginPath();
-      ctx.arc(sternX - 4, keelY - 4, 8 + Math.sin(now * 12) * 3, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(52, 211, 153, 0.45)';
-      ctx.fill();
-    }
-
-    ctx.restore();
-  }
 }

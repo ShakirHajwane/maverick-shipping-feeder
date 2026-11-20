@@ -23,8 +23,8 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             </h2>
             <p class="text-sm text-slate-600 mt-1 max-w-2xl">
               {{ isRtl() 
-                ? 'استكشف مسار صحار - موندرا - نهافا شيفا - كراتشي - صحار، وتتبع موقع السفينة الحية عبر الخليج وبحر العرب.' 
-                : 'Explore our dedicated SMNK Express Loop connecting Sohar, Mundra, Nhava Sheva, and Karachi with real-time AIS vessel telemetry across the Arabian Sea.' }}
+                ? 'استكشف مسار صحار - نهافا شيفا - موندرا - كراتشي - صحار، وتتبع موقع السفينة الحية عبر الخليج وبحر العرب.' 
+                : 'Explore our dedicated regional feeder service connecting Sohar, Nhava Sheva, Mundra, and Karachi with real-time AIS vessel telemetry across the Arabian Sea.' }}
             </p>
           </div>
 
@@ -268,28 +268,29 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
     const ports = service.port_rotation || [];
     if (ports.length === 0) return;
 
-    // Realistic sea fairway waypoints for Sohar - Mundra - Nhava Sheva - Karachi - Sohar
+    // Realistic sea fairway waypoints for Sohar → Nhava Sheva → Mundra → Karachi → Sohar
     let latLngs: [number, number][] = [];
     if (service.code === 'SMNK') {
       latLngs = [
-        [24.498, 56.628], // 1. Sohar Port (Oman)
-        [24.25, 58.50],   // Gulf of Oman passage
-        [23.50, 62.00],   // Central Arabian Sea fairway
-        [22.50, 68.60],   // Approach to Gulf of Kutch
-        [22.842, 69.712], // 2. Mundra Port (India)
-        [22.30, 68.80],   // Rounding Dwarka headland
-        [21.20, 69.50],   // Off Porbandar
+        [24.498, 56.628], // 1. Sohar Port (Oman – Strategic gateway to Arabian Gulf)
+        [24.00, 59.00],   // Gulf of Oman passage outbound
+        [22.00, 64.00],   // Arabian Sea direct SE fairway toward Mumbai
+        [20.50, 68.50],   // Open deep-water transit
+        [19.20, 72.50],   // Approach to Mumbai Fairway
+        [18.950, 72.951], // 2. Nhava Sheva (JNPT Mumbai – Major container gateway)
+        [19.20, 72.50],   // Departure heading north
         [20.40, 71.00],   // Off Diu Cape
-        [19.20, 72.60],   // Approach to Mumbai
-        [18.950, 72.951], // 3. Nhava Sheva (JNPT Mumbai)
-        [19.10, 72.50],   // Mumbai fairway departure
-        [21.00, 70.00],   // Arabian Sea NW lane
-        [22.80, 68.20],   // Off Indus Delta
-        [24.40, 67.00],   // Approach to Karachi Fairway
-        [24.805, 66.975], // 4. Karachi Port (Pakistan)
+        [21.20, 69.50],   // Off Porbandar
+        [22.30, 68.80],   // Rounding Dwarka headland
+        [22.50, 68.60],   // Entrance to Gulf of Kutch
+        [22.842, 69.712], // 3. Mundra Port (India – Commercial & container hub)
+        [22.50, 68.60],   // Departure Gulf of Kutch
+        [23.20, 68.00],   // Rounding Kori Creek offshore
+        [24.00, 67.20],   // Off Indus Delta NW channel
+        [24.805, 66.975], // 4. Karachi Port (Pakistan – Key international gateway)
         [24.50, 64.00],   // Northern Arabian Sea west lane
         [24.40, 60.50],   // Off Gwadar offshore
-        [24.40, 57.50],   // Gulf of Oman entry
+        [24.40, 57.50],   // Gulf of Oman entrance
         [24.498, 56.628]  // 5. Sohar Port (Full Loop Closed)
       ];
     } else {

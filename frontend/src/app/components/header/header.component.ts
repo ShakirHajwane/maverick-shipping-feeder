@@ -29,7 +29,7 @@ import { MaritimeService } from '../../services/maritime.service';
         <div class="hidden md:flex items-center gap-2 px-3 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-300 shadow-inner">
           <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
           <span class="font-bold text-amber-400">SMNK EXPRESS LOOP:</span>
-          <span class="text-slate-400">Sohar • Mundra • Nhava Sheva • Karachi</span>
+          <span class="text-slate-400">Sohar • Nhava Sheva • Mundra • Karachi • Sohar</span>
         </div>
 
         <div class="flex items-center gap-4">
@@ -115,7 +115,7 @@ import { MaritimeService } from '../../services/maritime.service';
             <span class="text-[10px] font-bold uppercase text-amber-400 tracking-wider">SMNK Express Loop</span>
             <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">Weekly Fixed Day</span>
           </div>
-          <div class="text-xs font-bold text-white">Sohar • Mundra • Nhava Sheva • Karachi</div>
+          <div class="text-xs font-bold text-white">Sohar • Nhava Sheva • Mundra • Karachi • Sohar</div>
         </div>
 
         <nav class="space-y-1 pt-1 text-sm font-semibold text-slate-200">

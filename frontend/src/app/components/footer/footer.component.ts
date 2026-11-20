@@ -119,16 +119,19 @@ interface PortClock {
             </div>
           </div>
 
-          <!-- Column 2: Feeder Corridors -->
+          <!-- Column 2: Feeder Corridors & Port Rotation -->
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-white">{{ isRtl() ? 'الخطوط الملاحية' : 'Feeder Corridors' }}</h4>
-            <ul class="space-y-2 text-xs">
-              <li><a href="#interactive-map-section" class="text-[#dd0103] font-bold hover:text-white transition-colors">SMNK (Sohar - Mundra - Nhava Sheva - Karachi)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-white transition-colors">JSA (Jebel Ali - Red Sea)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-white transition-colors">GALEX (Gulf Asia Express)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-white transition-colors">AES (Emirates Suez Feeder)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-white transition-colors">CCG (Central Coast & Gulf)</a></li>
-              <li><a href="#interactive-map-section" class="hover:text-white transition-colors">IMS (India ME Shuttle)</a></li>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-white">{{ isRtl() ? 'الخدمة الملاحية والدوران' : 'Service Rotation' }}</h4>
+            <ul class="space-y-1.5 text-xs">
+              <li><a href="#interactive-map-section" class="text-amber-400 font-bold hover:text-white transition-colors flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>SMNK Dedicated Feeder Loop</span>
+              </a></li>
+              <li class="text-slate-400">• Sohar, Oman (Arabian Gulf Gateway)</li>
+              <li class="text-slate-400">• Nhava Sheva, India (West Coast Gateway)</li>
+              <li class="text-slate-400">• Mundra, India (Commercial Hub)</li>
+              <li class="text-slate-400">• Karachi, Pakistan (International Trade)</li>
+              <li class="text-slate-400">• Sohar, Oman (Express Rotation)</li>
             </ul>
           </div>
 

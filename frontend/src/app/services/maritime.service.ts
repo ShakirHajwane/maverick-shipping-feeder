@@ -13,8 +13,8 @@ import {
 export const SOHAR_KARACHI_SERVICE: FeederService = {
   id: 999,
   code: 'SMNK',
-  name: 'Sohar - Mundra - Nhava Sheva - Karachi Express Loop',
-  description: 'Direct dedicated feeder service linking Sohar Gateway with primary container terminals at Mundra, Nhava Sheva, and Karachi.',
+  name: 'Sohar - Nhava Sheva - Mundra - Karachi Dedicated Feeder Loop',
+  description: 'Dedicated regional container feeder service linking Sohar Gateway with Nhava Sheva, Mundra, and Karachi, connecting key trade markets across the Arabian Gulf, India, and Pakistan.',
   transit_days: 11,
   frequency: 'Weekly Fixed Day',
   port_rotation_json: '',
@@ -25,23 +25,23 @@ export const SOHAR_KARACHI_SERVICE: FeederService = {
       lat: 24.498,
       lng: 56.628,
       day_of_week: 'Day 1 (Mon)',
-      terminal: 'Oman International Container Terminal (OICT)'
-    },
-    {
-      port_name: 'Mundra',
-      unlocode: 'INMUN',
-      lat: 22.842,
-      lng: 69.712,
-      day_of_week: 'Day 4 (Thu)',
-      terminal: 'Adani Mundra Container Terminal (MICT)'
+      terminal: 'Oman International Container Terminal (OICT) – Strategic gateway to the Arabian Gulf'
     },
     {
       port_name: 'Nhava Sheva (JNPT)',
       unlocode: 'INNSA',
       lat: 18.950,
       lng: 72.951,
+      day_of_week: 'Day 4 (Thu)',
+      terminal: 'Gateway Terminals India (GTI / BMCT) – Major container gateway for India\'s western coast'
+    },
+    {
+      port_name: 'Mundra',
+      unlocode: 'INMUN',
+      lat: 22.842,
+      lng: 69.712,
       day_of_week: 'Day 6 (Sat)',
-      terminal: 'Gateway Terminals India (GTI / BMCT)'
+      terminal: 'Adani Mundra Container Terminal (MICT) – Important commercial and container hub'
     },
     {
       port_name: 'Karachi',
@@ -49,7 +49,7 @@ export const SOHAR_KARACHI_SERVICE: FeederService = {
       lat: 24.805,
       lng: 66.975,
       day_of_week: 'Day 8 (Mon)',
-      terminal: 'South Asia Pakistan Terminals (SAPT)'
+      terminal: 'South Asia Pakistan Terminals (SAPT) – Key gateway for Pakistan\'s international trade'
     },
     {
       port_name: 'Sohar',
@@ -57,7 +57,7 @@ export const SOHAR_KARACHI_SERVICE: FeederService = {
       lat: 24.498,
       lng: 56.628,
       day_of_week: 'Day 11 (Thu)',
-      terminal: 'Oman International Container Terminal (OICT)'
+      terminal: 'Oman International Container Terminal (OICT) – Return Gateway'
     }
   ]
 };
@@ -81,9 +81,9 @@ export const MAVERICK_SOHAR_VESSEL: Vessel = {
   loa: 172.0,
   breadth: 27.4,
   summer_draft: 8.5,
-  current_lat: 23.820,
-  current_lng: 61.450,
-  current_status: 'Underway using Engine - 15.4 kn (En Route to Mundra)',
+  current_lat: 22.420,
+  current_lng: 64.850,
+  current_status: 'Underway using Engine - 15.4 kn (En Route to Nhava Sheva)',
   service_code: 'SMNK'
 };
 

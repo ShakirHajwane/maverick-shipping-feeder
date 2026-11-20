@@ -95,12 +95,12 @@ interface TelemetryNode {
         
         <!-- Photographic Vessel Backdrop Image -->
         <div
-          class="absolute inset-0 w-full h-full bg-cover bg-center sm:bg-[center_right_12%] lg:bg-[center_right_18%] transition-transform duration-700 pointer-events-none"
+          class="absolute inset-0 w-full h-full bg-cover bg-[position:68%_center] sm:bg-[center_right_15%] transition-transform duration-700 pointer-events-none"
           style="background-image: url('images/hero-vessel-gfs-style.jpg');">
         </div>
 
         <!-- Atmospheric Vignettes & Ocean Sunlight Shimmer Gradient -->
-        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/65 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/50 to-slate-950/90 sm:bg-gradient-to-r sm:from-slate-950/95 sm:via-slate-950/60 sm:to-transparent pointer-events-none"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/30 pointer-events-none"></div>
 
         <!-- Interactive Canvas Overlay (Sonar shockwaves & hydrodynamics) -->
@@ -115,10 +115,10 @@ interface TelemetryNode {
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/75 backdrop-blur-md border border-white/15 text-xs text-white shadow-lg">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span class="tracking-wide uppercase font-mono text-[10.5px] font-bold text-amber-400">
-              {{ isRtl() ? 'خط مكوك مخصص' : 'EXPRESS FEEDER SERVICE' }}
+              {{ isRtl() ? 'خدمة تغذية مخصصة' : 'DEDICATED FEEDER SERVICE' }}
             </span>
             <span class="text-slate-400">•</span>
-            <span class="font-mono text-[10.5px] text-slate-200">SMNK LOOP: SOHAR ⇄ KARACHI</span>
+            <span class="font-mono text-[10.5px] text-slate-200">SOHAR ➔ NHAVA SHEVA ➔ MUNDRA ➔ KARACHI</span>
           </div>
 
           <!-- DGPS & Vessel Status Pill -->
@@ -137,24 +137,52 @@ interface TelemetryNode {
         <div class="relative z-20 flex-1 px-5 sm:px-8 lg:px-12 py-8 sm:py-12 flex flex-col justify-center">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
             
-            <!-- Left Column: Kinetic Typography, Subtitle & Dual CTA Pill Buttons (6 Cols) -->
-            <div class="lg:col-span-6 xl:col-span-6 space-y-5 sm:space-y-6">
+            <!-- Left Column: Kinetic Typography, Subtitle, Bullet Points & Dual CTA Pill Buttons (6 Cols) -->
+            <div class="lg:col-span-6 xl:col-span-7 space-y-4 sm:space-y-5">
               
               <!-- Kinetic Headline Matching Reference -->
-              <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.08] drop-shadow-xl">
-                <span>{{ isRtl() ? 'حلول الشحن' : 'Global Feeder' }}</span><br>
-                <span class="text-white">{{ isRtl() ? 'المتطورة والذكية' : 'Solutions' }}</span>
+              <h1 class="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.08] drop-shadow-xl">
+                <span>{{ isRtl() ? 'حلول التغذية' : 'Global Feeder &' }}</span><br>
+                <span class="text-white">{{ isRtl() ? 'والشحن العالمية' : 'Freight Solutions' }}</span>
               </h1>
 
               <!-- Subtitle Description -->
               <p class="text-sm sm:text-base lg:text-lg text-slate-200/95 leading-relaxed max-w-xl font-normal drop-shadow">
                 {{ isRtl()
-                  ? 'حلول الشحن السريع والموثوق وبتكلفة تنافسية لربط الموانئ المحورية في الخليج العربي وشبه القارة الهندية بأعلى دقة ملاحية.'
-                  : 'Global Feeder Solutions is a trusted provider of fast, reliable, and cost-effective container transportation services across international markets.' }}
+                  ? 'شريككم الموثوق في خدمات التغذية والشحن الإقليمي. توفر شركة مافريك للملاحة خدمات نقل حاويات موثوقة وعالية الكفاءة تربط موانئ الخليج العربي وباكستان والهند.'
+                  : 'Your trusted partner in regional feeder shipping. Maverick Shipping LLC connects key regional ports across the Arabian Gulf, Pakistan, and India with dependable, efficient, and commercially competitive container feeder solutions.' }}
               </p>
 
+              <!-- Homepage Strategic Priorities (Client Bullet Points) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 max-w-xl text-xs sm:text-[13px] text-slate-200">
+                <div class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                  <span class="drop-shadow-sm">{{ isRtl() ? 'ربط موثوق بين الموانئ الإقليمية' : 'Reliable regional container feeder connectivity' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                  <span class="drop-shadow-sm">{{ isRtl() ? 'تغطية استراتيجية للموانئ والأسواق الرئيسية' : 'Strategic port coverage across key trade markets' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                  <span class="drop-shadow-sm">{{ isRtl() ? 'حركة بضائع وحلول ميناء إلى ميناء فعالة' : 'Efficient cargo movement & port solutions' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                  <span class="drop-shadow-sm">{{ isRtl() ? 'خدمات شحن تركز على متطلبات العملاء' : 'Customer-focused shipping services' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                  <span class="drop-shadow-sm">{{ isRtl() ? 'دعم تشغيلي وتجاري مخصص ومباشر' : 'Dedicated operational & commercial support' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                  <span class="drop-shadow-sm">{{ isRtl() ? 'التزام تام بالموثوقية والتميز بالخدمة' : 'Commitment to schedule reliability & excellence' }}</span>
+                </div>
+              </div>
+
               <!-- Dual Pill Buttons (Golden Amber + Glass Translucent) -->
-              <div class="flex flex-wrap items-center gap-4 pt-2">
+              <div class="flex flex-wrap items-center gap-3.5 pt-1">
                 <!-- Golden Amber Pill: Get a Quote -->
                 <button
                   (click)="service.toggleBookingModal(true)"
@@ -171,8 +199,26 @@ interface TelemetryNode {
                 </button>
               </div>
 
+              <!-- Mobile Compact Trust Pill (Avoids taking space on mobile) -->
+              <div class="lg:hidden flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/15 text-white max-w-md shadow-lg">
+                <div class="flex items-center gap-2">
+                  <div class="flex -space-x-1.5 overflow-hidden">
+                    <img class="inline-block h-6 w-6 rounded-full ring-1 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar 1" />
+                    <img class="inline-block h-6 w-6 rounded-full ring-1 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Avatar 2" />
+                  </div>
+                  <div class="flex items-baseline gap-1 text-xs font-bold">
+                    <span class="text-white">4.8</span>
+                    <span class="text-amber-400">★</span>
+                    <span class="text-[11px] text-slate-300 font-normal ml-1">• 99.4% On-Time</span>
+                  </div>
+                </div>
+                <button (click)="service.toggleBookingModal(true)" class="text-[11px] font-bold text-amber-400 hover:text-amber-300 underline underline-offset-2 cursor-pointer">
+                  {{ isRtl() ? 'تقييم العملاء' : 'Client Reviews' }}
+                </button>
+              </div>
+
               <!-- Quick Key Metrics Strip -->
-              <div class="grid grid-cols-3 gap-3 pt-3 max-w-md">
+              <div class="grid grid-cols-3 gap-3 pt-2 max-w-md">
                 <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
                   <div class="text-[10px] font-mono text-slate-400 uppercase font-bold">VESSELS</div>
                   <div class="text-lg sm:text-xl font-black text-white">1</div>
@@ -191,33 +237,33 @@ interface TelemetryNode {
               </div>
             </div>
 
-            <!-- Right Column: Floating Card 1 (White Glass Review Card Floating Over Ocean Deck) -->
-            <div class="lg:col-span-6 xl:col-span-6 flex flex-col items-end justify-center relative min-h-[220px] lg:min-h-[320px]">
+            <!-- Right Column: Floating Card 1 (Desktop Only - Avoids Mobile Crowding) -->
+            <div class="hidden lg:flex lg:col-span-6 xl:col-span-5 flex-col items-end justify-center relative min-h-[220px] lg:min-h-[300px]">
               
               <!-- Floating Card 1: Review Card (White Glassmorphic) -->
-              <div class="w-full sm:w-80 lg:w-84 bg-white/95 backdrop-blur-xl border border-white/60 rounded-2xl p-5 shadow-2xl text-slate-900 hover:-translate-y-1 transition-transform duration-300 z-30">
+              <div class="w-72 xl:w-80 bg-white/95 backdrop-blur-xl border border-white/60 rounded-2xl p-4 xl:p-5 shadow-2xl text-slate-900 hover:-translate-y-1 transition-transform duration-300 z-30">
                 <div class="flex items-center justify-between gap-3 mb-2.5">
                   <!-- Avatars -->
                   <div class="flex -space-x-2 overflow-hidden">
-                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar 1" />
-                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Avatar 2" />
-                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Avatar 3" />
+                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar 1" />
+                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Avatar 2" />
+                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Avatar 3" />
                   </div>
-                  <button (click)="service.toggleBookingModal(true)" class="text-xs font-bold text-slate-600 hover:text-slate-950 underline underline-offset-2 cursor-pointer">
+                  <button (click)="service.toggleBookingModal(true)" class="text-[11px] font-bold text-slate-600 hover:text-slate-950 underline underline-offset-2 cursor-pointer">
                     {{ isRtl() ? 'تقييم العملاء' : 'Leave a Review' }}
                   </button>
                 </div>
                 <p class="text-xs text-slate-600 leading-snug font-medium mb-3">
                   {{ isRtl()
-                    ? 'موثوق من قبل الشركات من جميع الأحجام. اكتشف سبب اعتماد شركائنا على خدمات الشحن لدينا.'
-                    : 'Trusted by businesses of all sizes. See why businesses trust our unloading services.' }}
+                    ? 'موثوق من قبل الشركات وخطوط الملاحة الإقليمية لنقل الحاويات بكفاءة وجداول ثابتة.'
+                    : 'Trusted by regional shipping lines and forwarders for dependable container feeder services.' }}
                 </p>
                 <div class="flex items-center justify-between pt-2 border-t border-slate-100">
                   <div class="flex items-baseline gap-1.5">
-                    <span class="text-3xl font-black text-slate-950">4.8</span>
-                    <span class="text-amber-400 text-xl">★</span>
+                    <span class="text-2xl font-black text-slate-950">4.8</span>
+                    <span class="text-amber-400 text-lg">★</span>
                   </div>
-                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10.5px] font-bold text-emerald-700">
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10.5px] font-bold text-emerald-700">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span>99.4% On-Time</span>
                   </div>
@@ -262,7 +308,7 @@ interface TelemetryNode {
                 <div class="w-full h-1 bg-amber-600/30 rounded my-0.5"></div>
                 <div class="flex justify-between items-center text-[6px] font-mono text-amber-950 font-bold">
                   <span>OM SOH</span>
-                  <span>IN MUN</span>
+                  <span>IN NSA</span>
                 </div>
               </div>
             </div>
@@ -283,8 +329,8 @@ interface TelemetryNode {
               </div>
 
               <div class="text-right">
-                <div class="text-base sm:text-lg font-black tracking-wide text-white">IN MUN</div>
-                <div class="text-[10px] font-mono text-slate-400">Mundra, India</div>
+                <div class="text-base sm:text-lg font-black tracking-wide text-white">IN NSA</div>
+                <div class="text-[10px] font-mono text-slate-400">Nhava Sheva, India</div>
               </div>
             </div>
 
@@ -296,7 +342,7 @@ interface TelemetryNode {
               <div class="flex items-center justify-between text-[10px] font-mono text-slate-300 mt-2">
                 <div>
                   <span class="text-slate-500 uppercase">ATD</span><br>
-                  <span class="font-bold text-white">May 3 • 22:57</span>
+                  <span class="font-bold text-white">Nov 20 • 06:30</span>
                 </div>
                 <div class="text-center">
                   <span class="inline-flex items-center gap-1 text-emerald-400 font-bold">
@@ -306,7 +352,7 @@ interface TelemetryNode {
                 </div>
                 <div class="text-right">
                   <span class="text-slate-500 uppercase">ETA</span><br>
-                  <span class="font-bold text-amber-400">09:00 • May 5</span>
+                  <span class="font-bold text-amber-400">Nov 22 • 14:00</span>
                 </div>
               </div>
             </div>
@@ -469,8 +515,8 @@ interface TelemetryNode {
                     class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-semibold focus:outline-none focus:border-amber-400 cursor-pointer text-xs">
                     <option value="" class="bg-slate-900 text-white">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
                     <option value="Sohar" class="bg-slate-900 text-white">Sohar, Oman (OMSOH)</option>
-                    <option value="Mundra" class="bg-slate-900 text-white">Mundra, India (INMUN)</option>
                     <option value="Nhava Sheva" class="bg-slate-900 text-white">Nhava Sheva, India (INNSA)</option>
+                    <option value="Mundra" class="bg-slate-900 text-white">Mundra, India (INMUN)</option>
                     <option value="Karachi" class="bg-slate-900 text-white">Karachi, Pakistan (PKKHI)</option>
                   </select>
                 </div>
@@ -484,8 +530,8 @@ interface TelemetryNode {
                     (ngModelChange)="onPodChange($event)"
                     class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-semibold focus:outline-none focus:border-amber-400 cursor-pointer text-xs">
                     <option value="" class="bg-slate-900 text-white">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
-                    <option value="Mundra" class="bg-slate-900 text-white">Mundra, India (INMUN)</option>
                     <option value="Nhava Sheva" class="bg-slate-900 text-white">Nhava Sheva, India (INNSA)</option>
+                    <option value="Mundra" class="bg-slate-900 text-white">Mundra, India (INMUN)</option>
                     <option value="Karachi" class="bg-slate-900 text-white">Karachi, Pakistan (PKKHI)</option>
                     <option value="Sohar" class="bg-slate-900 text-white">Sohar, Oman (OMSOH)</option>
                   </select>

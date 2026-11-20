@@ -49,8 +49,8 @@ def test_get_services():
     assert len(service["port_rotation"]) == 5
     port_names = [p["port_name"] for p in service["port_rotation"]]
     assert port_names[0] == "Sohar"
-    assert port_names[1] == "Mundra"
-    assert "Nhava Sheva" in port_names[2]
+    assert "Nhava Sheva" in port_names[1]
+    assert port_names[2] == "Mundra"
     assert port_names[3] == "Karachi"
     assert port_names[4] == "Sohar"
 

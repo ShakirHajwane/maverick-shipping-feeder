@@ -103,7 +103,6 @@ interface TelemetryNode {
             preload="auto"
             poster="images/hero-vessel-loop-poster.jpg"
             class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
-            <source src="videos/hero-vessel-loop.webm" type="video/webm">
             <source src="videos/hero-vessel-loop.mp4" type="video/mp4">
             <!-- Fallback animated GIF if video autoplay is restricted -->
             <img

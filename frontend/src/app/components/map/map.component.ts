@@ -16,36 +16,27 @@ import { FeederService, Vessel } from '../../models/maritime.models';
           <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-semibold tracking-wide uppercase mb-2">
               <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-pulse"></span>
-              <span>{{ isRtl() ? 'خريطة الخطوط الملاحية والأسطول' : 'Interactive Maritime Geonavigator' }}</span>
+              <span>{{ isRtl() ? 'خريطة المسارات الملاحية الإقليمية' : 'Interactive Maritime Geonavigator' }}</span>
             </div>
             <h2 class="text-2xl sm:text-4xl font-black text-[#02194b]">
-              {{ isRtl() ? 'مسارات الخطوط وتمركز الأسطول البحري' : 'Trade Routes & Live Vessel Fleet' }}
+              {{ isRtl() ? 'مسارات الخدمة والموانئ الإقليمية' : 'Regional Feeder Network & Maritime Corridor' }}
             </h2>
             <p class="text-sm text-slate-600 mt-1 max-w-2xl">
               {{ isRtl() 
-                ? 'استكشف مسار صحار - نهافا شيفا - موندرا - كراتشي - صحار، وتتبع موقع السفينة الحية عبر الخليج وبحر العرب.' 
-                : 'Explore our dedicated regional feeder service connecting Sohar, Nhava Sheva, Mundra, and Karachi with real-time AIS vessel telemetry across the Arabian Sea.' }}
+                ? 'استكشف مسار الدوران الأولي لخدمة التغذية: صحار ← نهافا شيفا ← موندرا ← كراتشي ← صحار عبر الخليج العربي وبحر العرب.' 
+                : 'Explore our dedicated regional feeder service connecting Sohar, Nhava Sheva, Mundra, and Karachi across the Arabian Gulf and Indian Subcontinent.' }}
             </p>
           </div>
 
-          <!-- Controls: Fleet Toggle -->
+          <!-- Controls: Map Actions -->
           <div class="flex items-center gap-3">
             <button
-              (click)="toggleVesselLayer()"
-              [class]="showVessels 
-                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100 shadow-sm' 
-                : 'bg-white text-slate-600 border-slate-300 hover:text-slate-900 shadow-sm'"
-              class="px-3.5 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer">
-              <span [class]="showVessels ? 'bg-emerald-500' : 'bg-slate-400'" class="w-2 h-2 rounded-full"></span>
-              <span>{{ isRtl() ? 'إظهار الأسطول الحي (AIS)' : 'Live Fleet AIS Layer' }}</span>
-            </button>
-            <button
               (click)="resetMapView()"
-              class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
-              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              class="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
+              <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
-              <span>{{ isRtl() ? 'إعادة ضبط الخريطة' : 'Reset View' }}</span>
+              <span>{{ isRtl() ? 'إعادة ضبط الخريطة' : 'Reset Corridor View' }}</span>
             </button>
           </div>
         </div>

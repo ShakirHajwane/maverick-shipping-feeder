@@ -2,69 +2,24 @@
   <!-- Top Navigation Bar & Utility Header -->
   <app-header />
 
-  <!-- Main Corporate Content Flow -->
-  <main class="flex-1 w-full max-w-full overflow-x-hidden">
-    <!-- Hero Section with 3-Tab Action Engine (Intact with all animations) -->
+  <!-- Main Corporate Content Flow (Unified Clean White & Light Theme) -->
+  <main class="flex-1 w-full max-w-full overflow-x-hidden bg-white">
+    <!-- Hero Section with Looping Crossing Vessel Video & 3-Tab Action Console -->
     <app-hero-search />
 
-    <!-- Interactive Leaflet Trade Route & Live Vessel Map -->
+    <!-- Corporate Core Showcase: Highlights, About Us, Explore Services, Ports Covered, Why Choose Us, Enquiries CTA, Memberships -->
+    <app-sustainability />
+
+    <!-- Interactive Leaflet Trade Corridor & Regional Route Geonavigator -->
     <app-map />
 
-    <!-- =========================================================
-         CONTINUOUS LIVING OCEAN WATER BACKGROUND & GRAPHIC ANIMATION
-         Spans from Trade Routes & Live Vessel Fleet down to the Footer
-         ========================================================= -->
-    <div
-      #lowerOceanContainer
-      class="relative w-full overflow-hidden transition-[background] duration-700"
-      [style.background]="oceanLowerBgStyle()">
+    <!-- Regional Offices & Dedicated Agents Directory -->
+    <app-agents />
 
-      <!-- Top Wave Crest Transition from Map Section into Ocean Waters -->
-      <div class="relative w-full overflow-hidden leading-none z-10 -mb-1 select-none pointer-events-none">
-        <svg class="block w-[200%] h-12 sm:h-16 animate-wave-slow opacity-80" viewBox="0 0 1200 60" preserveAspectRatio="none">
-          <path d="M0,25 C150,50 350,10 500,35 C650,60 850,15 1000,40 C1150,65 1200,30 1200,30 L1200,60 L0,60 Z" [attr.fill]="waveFillColor1()"></path>
-        </svg>
-        <svg class="block w-[200%] h-8 sm:h-12 -mt-8 sm:-mt-12 animate-wave-fast opacity-90" viewBox="0 0 1200 50" preserveAspectRatio="none">
-          <path d="M0,15 C200,40 400,5 600,24 C800,45 1000,8 1200,26 L1200,50 L0,50 Z" [attr.fill]="waveFillColor2()"></path>
-        </svg>
-      </div>
-
-      <!-- Living Dynamic Water & Currents Canvas (Streamlines, shimmer particles, ambient wave crests) -->
-      <canvas
-        #lowerOceanCanvas
-        class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40">
-      </canvas>
-
-      <!-- Ambient Intermediate Deep-Water Wave Ribbons -->
-      <div class="absolute top-[28%] inset-x-0 h-16 pointer-events-none opacity-20 overflow-hidden z-0">
-        <svg class="block w-[200%] h-full animate-wave-slow text-sky-400" viewBox="0 0 1200 60" preserveAspectRatio="none">
-          <path d="M0,20 C300,45 600,5 900,35 C1050,15 1200,25 1200,25 L1200,60 L0,60 Z" fill="currentColor"></path>
-        </svg>
-      </div>
-      <div class="absolute top-[62%] inset-x-0 h-16 pointer-events-none opacity-25 overflow-hidden z-0">
-        <svg class="block w-[200%] h-full animate-wave-fast text-cyan-400" viewBox="0 0 1200 60" preserveAspectRatio="none">
-          <path d="M0,25 C250,5 500,40 750,15 C1000,35 1200,10 1200,10 L1200,60 L0,60 Z" fill="currentColor"></path>
-        </svg>
-      </div>
-
-      <!-- Child Components on elevated relative layer -->
-      <div class="relative z-10 w-full">
-        <!-- Fleet Directory & 16-Spec Technical Modal -->
-        <app-fleet />
-
-        <!-- Sustainability & Green Feeder Highlight -->
-        <app-sustainability />
-
-        <!-- Regional Offices & Port Agents Directory -->
-        <app-agents />
-
-        <!-- Corporate Footer -->
-        <app-footer />
-      </div>
-    </div>
+    <!-- Corporate Footer -->
+    <app-footer />
   </main>
 
-  <!-- Global Modals -->
-  <app-vessel-modal />
+  <!-- Global Commercial Booking Modal -->
   <app-booking-modal />
 </div>

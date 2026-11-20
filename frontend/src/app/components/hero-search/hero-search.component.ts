@@ -175,12 +175,12 @@ interface TelemetryNode {
                   {{ isRtl() ? 'طلب تسعيرة' : 'Get a Quote' }}
                 </button>
 
-                <!-- Glass Translucent Pill: Track Shipment -->
+                <!-- Glass Translucent Pill: Sailing Schedules -->
                 <button
-                  (click)="scrollToEngine('tracking')"
+                  (click)="scrollToEngine('schedule')"
                   class="px-7 sm:px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm border border-white/25 hover:border-white/50 shadow-lg shadow-black/20 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>{{ isRtl() ? 'تتبع الشحنة' : 'Track Shipment' }}</span>
+                  <span>{{ isRtl() ? 'جدول الرحلات' : 'Sailing Schedules' }}</span>
                 </button>
               </div>
 
@@ -205,9 +205,9 @@ interface TelemetryNode {
               <!-- Quick Key Metrics Strip -->
               <div class="grid grid-cols-3 gap-3 pt-2 max-w-md">
                 <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
-                  <div class="text-[10px] font-mono text-slate-400 uppercase font-bold">VESSELS</div>
-                  <div class="text-lg sm:text-xl font-black text-white">1</div>
-                  <div class="text-[9.5px] text-slate-300 truncate">Flagship Feeder</div>
+                  <div class="text-[10px] font-mono text-slate-400 uppercase font-bold">NETWORK</div>
+                  <div class="text-lg sm:text-xl font-black text-white">4 Ports</div>
+                  <div class="text-[9.5px] text-slate-300 truncate">Dedicated Loop</div>
                 </div>
                 <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
                   <div class="text-[10px] font-mono text-emerald-400 uppercase font-bold">RELIABILITY</div>
@@ -217,7 +217,7 @@ interface TelemetryNode {
                 <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
                   <div class="text-[10px] font-mono text-amber-400 uppercase font-bold">FREQUENCY</div>
                   <div class="text-lg sm:text-xl font-black text-amber-400">Fixed Day</div>
-                  <div class="text-[9.5px] text-slate-300 truncate">Weekly Rotation</div>
+                  <div class="text-[9.5px] text-slate-300 truncate">11-Day Cycle</div>
                 </div>
               </div>
             </div>
@@ -344,10 +344,10 @@ interface TelemetryNode {
               </div>
             </div>
 
-            <!-- Footer: Vessel identity -->
+            <!-- Footer: Corridor service identity -->
             <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-400">
-              <span>VESSEL: <b class="text-white">MAVERICK SOHAR</b></span>
-              <span class="text-amber-400 font-bold">SMNK EXPRESS</span>
+              <span>SERVICE: <b class="text-white">SMNK FEEDER LOOP</b></span>
+              <span class="text-amber-400 font-bold">WEEKLY FIXED DAY</span>
             </div>
           </div>
 
@@ -408,18 +408,17 @@ interface TelemetryNode {
                 <span>{{ isRtl() ? 'الرحلات' : 'Schedules' }}</span>
               </button>
 
-              <!-- Tab 3: Vessel Tracking -->
+              <!-- Tab 3: Quick Quote & Commercial Booking -->
               <button
-                id="tab-btn-tracking"
-                (click)="activeTab.set('tracking')"
-                [class]="activeTab() === 'tracking' 
+                id="tab-btn-quote"
+                (click)="activeTab.set('quote')"
+                [class]="activeTab() === 'quote' 
                   ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
                   : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
                 <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <span>{{ isRtl() ? 'تتبع AIS' : 'Vessel AIS' }}</span>
+                <span>{{ isRtl() ? 'طلب تسعيرة' : 'Quick Quote Desk' }}</span>
               </button>
             </div>
 
@@ -533,7 +532,7 @@ interface TelemetryNode {
                   <table class="w-full text-left text-xs text-slate-700">
                     <thead class="bg-slate-50 text-slate-700 uppercase text-[9.5px] tracking-wider border-b border-slate-200 sticky top-0">
                       <tr>
-                        <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'السفينة' : 'Vessel' }}</th>
+                        <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الخدمة' : 'Service Loop' }}</th>
                         <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الرحلة' : 'Voyage' }}</th>
                         <th class="py-2.5 px-3.5 font-bold">POL</th>
                         <th class="py-2.5 px-3.5 font-bold">POD</th>
@@ -546,7 +545,7 @@ interface TelemetryNode {
                     <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
                       <tr *ngFor="let s of filteredSchedules()" class="hover:bg-slate-50/80 transition-colors">
                         <td class="py-2.5 px-3.5 font-bold text-[#02194b] truncate max-w-[120px]">
-                          {{ s.vessel_name }}
+                          SMNK Loop
                         </td>
                         <td class="py-2.5 px-3.5 font-bold text-[#df0003]">{{ s.voyage_no }}</td>
                         <td class="py-2.5 px-3.5 text-slate-700">{{ s.pol }}</td>
@@ -564,9 +563,9 @@ interface TelemetryNode {
                         </td>
                         <td class="py-2.5 px-3.5 text-right font-sans">
                           <button
-                            (click)="trackVesselFromSchedule(s)"
-                            class="px-2.5 py-1 rounded bg-[#02194b] hover:bg-[#df0003] text-white text-[10px] font-bold transition-all cursor-pointer">
-                            {{ isRtl() ? 'تتبع' : 'Track' }}
+                            (click)="service.toggleBookingModal(true)"
+                            class="px-2.5 py-1 rounded bg-[#df0003] hover:bg-[#b80002] text-white text-[10px] font-bold transition-all cursor-pointer shadow-xs">
+                            {{ isRtl() ? 'حجز مساحة' : 'Book Slot' }}
                           </button>
                         </td>
                       </tr>
@@ -580,86 +579,63 @@ interface TelemetryNode {
                 </div>
               </div>
 
-              <!-- TAB 3: VESSEL TRACKING -->
-              <div *ngIf="activeTab() === 'tracking'" class="space-y-4">
-                <div class="relative">
-                  <input
-                    type="text"
-                    [ngModel]="vesselSearchQuery()"
-                    (ngModelChange)="onVesselSearchChange($event)"
-                    placeholder="Search MAVERICK SOHAR, IMO 9418298..."
-                    class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] placeholder-slate-400 text-xs sm:text-sm" />
-                  <div class="absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 pointer-events-none">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
-                </div>
-
-                <!-- Quick Vessel Select -->
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ isRtl() ? 'سفن سريعة:' : 'Quick Select:' }}</span>
-                  <button
-                    *ngFor="let name of ['MAVERICK SOHAR']"
-                    (click)="quickSelectVessel(name)"
-                    class="px-3 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-xs font-mono text-[#02194b] font-bold border border-slate-200 hover:border-[#df0003] transition-colors cursor-pointer">
-                    🚢 {{ name }}
-                  </button>
-                </div>
-
-                <!-- Live Tracked Vessel Card -->
-                <div *ngIf="matchedVessel() as mv" class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
-                  <div class="flex flex-wrap items-center justify-between gap-3">
+              <!-- TAB 3: QUICK QUOTE & BOOKING DESK -->
+              <div *ngIf="activeTab() === 'quote'" class="space-y-4">
+                <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
+                  <div class="flex items-center justify-between pb-2 border-b border-slate-200">
                     <div>
-                      <div class="flex items-center gap-2.5">
-                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <h3 class="text-base sm:text-lg font-black text-[#02194b]">{{ mv.name }}</h3>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
-                          {{ mv.flag }}
-                        </span>
-                      </div>
-                      <p class="text-xs font-mono text-slate-500 mt-1">
-                        IMO {{ mv.imo }} • Call Sign: {{ mv.call_sign }} • Corridor: {{ mv.service_code }}
+                      <h4 class="text-sm font-black text-[#02194b]">
+                        {{ isRtl() ? 'طلب تسعيرة أو حجز مساحات الحاويات' : 'Regional Feeder Slot & Rate Enquiry' }}
+                      </h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">
+                        {{ isRtl() ? 'خدمة مخصصة لخطوط الشحن، وكلاء الشحن، ومشغلي NVOCC' : 'Dedicated to shipping lines, freight forwarders, and NVOCC operators' }}
                       </p>
                     </div>
+                    <span class="text-[10.5px] font-mono font-bold text-[#df0003] bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full">
+                      2-Hour Quote SLA
+                    </span>
+                  </div>
 
-                    <div class="flex items-center gap-2.5">
-                      <button
-                        (click)="focusOnMatchedVessel()"
-                        class="px-3 py-1.5 rounded-lg bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span>{{ isRtl() ? 'الخريطة الحية' : 'Live Map' }}</span>
-                      </button>
-                      <button
-                        (click)="service.openVesselModal(mv)"
-                        class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs border border-slate-300 transition-all cursor-pointer">
-                        {{ isRtl() ? 'المواصفات' : '16-Pt Specs' }}
-                      </button>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div>
+                      <label class="block text-[10.5px] uppercase font-bold text-slate-600 mb-1">POL (Loading)</label>
+                      <select class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003]">
+                        <option>Sohar, Oman (OMSOH)</option>
+                        <option>Nhava Sheva, India (INNSA)</option>
+                        <option>Mundra, India (INMUN)</option>
+                        <option>Karachi, Pakistan (PKKHI)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-[10.5px] uppercase font-bold text-slate-600 mb-1">POD (Discharge)</label>
+                      <select class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003]">
+                        <option>Nhava Sheva, India (INNSA)</option>
+                        <option>Mundra, India (INMUN)</option>
+                        <option>Karachi, Pakistan (PKKHI)</option>
+                        <option>Sohar, Oman (OMSOH)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-[10.5px] uppercase font-bold text-slate-600 mb-1">Equipment Type</label>
+                      <select class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003]">
+                        <option>20' Standard Dry</option>
+                        <option>40' High Cube Dry</option>
+                        <option>40' High Cube Reefer</option>
+                        <option>SOC / COC Feeder Slot</option>
+                      </select>
                     </div>
                   </div>
 
-                  <!-- Live Status Metrics Grid -->
-                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-slate-200">
-                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                      <span class="text-[9.5px] uppercase font-bold text-slate-500">AIS Status</span>
-                      <p class="text-xs font-bold text-emerald-700 truncate mt-0.5">{{ mv.current_status }}</p>
-                    </div>
-                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                      <span class="text-[9.5px] uppercase font-bold text-slate-500">Coordinates</span>
-                      <p class="text-xs font-mono font-bold text-[#02194b] mt-0.5">
-                        {{ mv.current_lat.toFixed(2) }}°N, {{ mv.current_lng.toFixed(2) }}°E
-                      </p>
-                    </div>
-                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                      <span class="text-[9.5px] uppercase font-bold text-slate-500">Nominal TEU</span>
-                      <p class="text-xs font-bold text-[#02194b] mt-0.5">{{ mv.nominal_cap_teu }} TEU</p>
-                    </div>
-                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
-                      <span class="text-[9.5px] uppercase font-bold text-slate-500">Summer Draft</span>
-                      <p class="text-xs font-bold text-[#df0003] mt-0.5">{{ mv.summer_draft }} m</p>
-                    </div>
+                  <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200">
+                    <span class="text-xs text-slate-600 flex items-center gap-1.5 font-medium">
+                      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span>{{ isRtl() ? 'المكتب التجاري جاهز للرد الفوري' : 'HQ Commercial Desk Ready' }}</span>
+                    </span>
+                    <button
+                      (click)="service.toggleBookingModal(true)"
+                      class="px-5 py-2.5 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs shadow-md transition-all cursor-pointer">
+                      {{ isRtl() ? 'إرسال طلب الحجز والتسعيرة' : 'Open Booking Desk Form →' }}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -669,24 +645,24 @@ interface TelemetryNode {
           <!-- Column 2: Live Maritime Command & Booking Dispatch Hub (4 cols) -->
           <div class="lg:col-span-4 flex flex-col justify-between space-y-6">
             
-            <!-- Live Flagship Status & Transit Telemetry -->
+            <!-- Live Regional Corridor Status Card -->
             <div class="bg-white rounded-2xl sm:rounded-3xl p-6 shadow-xl shadow-slate-200/80 border border-slate-200 space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
                   <span class="text-[11px] font-mono font-bold text-[#02194b] uppercase tracking-wider">
-                    FLAGSHIP TELEMETRY
+                    REGIONAL CORRIDOR STATUS
                   </span>
                 </div>
                 <span class="text-[10px] font-mono text-[#df0003] bg-red-50 border border-red-200 px-2 py-0.5 rounded font-bold">
-                  ACTIVE LEG
+                  ACTIVE ROTATION
                 </span>
               </div>
 
-              <!-- Vessel Name & Service Identity -->
+              <!-- Service Identity -->
               <div>
-                <h4 class="text-base font-black text-[#02194b]">MAVERICK SOHAR</h4>
-                <p class="text-[11px] font-mono text-slate-500 mt-0.5">Flag: UAE 🇦🇪 • IMO 9418298 • SMNK Loop</p>
+                <h4 class="text-base font-black text-[#02194b]">SMNK Dedicated Feeder Loop</h4>
+                <p class="text-[11px] font-mono text-slate-500 mt-0.5">Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi</p>
               </div>
 
               <!-- Transit Progress Bar -->
@@ -699,8 +675,8 @@ interface TelemetryNode {
                   <div class="bg-gradient-to-r from-[#df0003] to-[#02194b] h-1.5 rounded-full w-[65%]"></div>
                 </div>
                 <div class="flex items-center justify-between text-[10.5px] font-mono text-slate-500">
-                  <span>Speed: <b class="text-emerald-700">15.4 kn</b></span>
-                  <span>ETA: <b class="text-[#02194b]">Nov 22, 14:00 GST</b></span>
+                  <span>Frequency: <b class="text-emerald-700">Weekly Fixed Day</b></span>
+                  <span>Transit: <b class="text-[#02194b]">11-Day Cycle</b></span>
                 </div>
               </div>
 
@@ -711,7 +687,7 @@ interface TelemetryNode {
                 <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                 </svg>
-                <span>{{ isRtl() ? 'عرض مسار الرحلة الحية' : 'View Vessel Position on Live Map' }}</span>
+                <span>{{ isRtl() ? 'عرض مسار الرحلة على الخريطة' : 'View Navigational Route on Live Map' }}</span>
               </button>
             </div>
 
@@ -817,7 +793,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   // 3-Tab Action Engine Signals
-  activeTab = signal<'service' | 'schedule' | 'tracking'>('service');
+  activeTab = signal<'service' | 'schedule' | 'tracking' | 'quote'>('service');
   selectedServiceCode = signal<string>('JSA');
   schedulePol = signal<string>('');
   schedulePod = signal<string>('');
@@ -886,8 +862,8 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
     },
     {
       id: 't-2',
-      name: 'TARGET: MAVERICK SOHAR (AIS 9418298)',
-      code: 'MAV-SOHAR',
+      name: 'CORRIDOR: SMNK FEEDER LOOP',
+      code: 'SMNK-LOOP',
       u: 0.72,
       v: 0.34,
       sounding: '28.2m',
@@ -1991,7 +1967,7 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  scrollToEngine(tab: 'service' | 'schedule' | 'tracking' = 'tracking') {
+  scrollToEngine(tab: 'service' | 'schedule' | 'tracking' | 'quote' = 'quote') {
     this.activeTab.set(tab);
     const engineEl = document.getElementById('tracking-engine');
     if (engineEl) {

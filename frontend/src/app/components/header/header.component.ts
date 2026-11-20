@@ -70,18 +70,13 @@ import { MaritimeService } from '../../services/maritime.service';
         </div>
 
         <!-- Desktop Navigation Links (Center, clean corporate styling) -->
-        <nav class="hidden lg:flex flex-1 items-center justify-center gap-6 xl:gap-8 text-xs xl:text-sm font-semibold text-slate-700">
+        <nav class="hidden lg:flex flex-1 items-center justify-center gap-5 xl:gap-7 text-xs xl:text-sm font-semibold text-slate-700">
           <a href="#" class="text-[#02194b] font-bold transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'الرئيسية' : 'Home' }}</a>
-          <a href="#services-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap flex items-center gap-1">
-            <span>{{ isRtl() ? 'الخدمات' : 'Services' }}</span>
-            <span class="text-[10px] text-slate-400">▾</span>
-          </a>
-          <a href="#tracking-engine" class="hover:text-[#df0003] transition-colors py-1.5 px-1 flex items-center gap-1.5 whitespace-nowrap">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>{{ isRtl() ? 'تتبع الشحنة' : 'Track Your Shipment' }}</span>
-          </a>
+          <a href="#about-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'عن مافريك' : 'About Us' }}</a>
+          <a href="#services-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'الخدمات' : 'Services' }}</a>
+          <a href="#ports-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'الموانئ' : 'Ports Covered' }}</a>
+          <a href="#why-us-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'لماذا تختارنا' : 'Why Choose Us' }}</a>
           <a href="#interactive-map-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'خريطة المسار' : 'Trade Route' }}</a>
-          <a href="#fleet-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'الأسطول' : 'Fleet' }}</a>
           <a href="#agents-section" class="hover:text-[#df0003] transition-colors py-1.5 px-1 whitespace-nowrap">{{ isRtl() ? 'اتصل بنا' : 'Contact' }}</a>
         </nav>
 
@@ -123,23 +118,24 @@ import { MaritimeService } from '../../services/maritime.service';
             <span>{{ isRtl() ? 'الرئيسية' : 'Home' }}</span>
             <span class="text-slate-400 text-xs">→</span>
           </a>
+          <a (click)="mobileMenuOpen = false" href="#about-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
+            <span>{{ isRtl() ? 'عن مافريك' : 'About Us' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
           <a (click)="mobileMenuOpen = false" href="#services-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
             <span>{{ isRtl() ? 'الخدمات' : 'Services' }}</span>
             <span class="text-slate-400 text-xs">→</span>
           </a>
-          <a (click)="mobileMenuOpen = false" href="#tracking-engine" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
-            <span class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>{{ isRtl() ? 'تتبع الشحنة' : 'Track Your Shipment' }}</span>
-            </span>
+          <a (click)="mobileMenuOpen = false" href="#ports-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
+            <span>{{ isRtl() ? 'الموانئ' : 'Ports Covered' }}</span>
+            <span class="text-slate-400 text-xs">→</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" href="#why-us-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
+            <span>{{ isRtl() ? 'لماذا تختارنا' : 'Why Choose Us' }}</span>
             <span class="text-slate-400 text-xs">→</span>
           </a>
           <a (click)="mobileMenuOpen = false" href="#interactive-map-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
             <span>{{ isRtl() ? 'خريطة المسار' : 'Trade Route' }}</span>
-            <span class="text-slate-400 text-xs">→</span>
-          </a>
-          <a (click)="mobileMenuOpen = false" href="#fleet-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">
-            <span>{{ isRtl() ? 'الأسطول' : 'Fleet' }}</span>
             <span class="text-slate-400 text-xs">→</span>
           </a>
           <a (click)="mobileMenuOpen = false" href="#agents-section" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#df0003] transition-colors">

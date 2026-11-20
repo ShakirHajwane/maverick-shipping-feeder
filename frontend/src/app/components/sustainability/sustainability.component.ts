@@ -7,536 +7,888 @@ import { MaritimeService } from '../../services/maritime.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="services-section" class="py-16 sm:py-24 relative bg-white border-t border-slate-200/80 text-slate-900 overflow-hidden">
-      <!-- Subtle ambient pattern -->
-      <div class="absolute inset-0 bg-gradient-to-b from-slate-50/50 via-white to-slate-50/40 pointer-events-none"></div>
-
-      <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 space-y-16 sm:space-y-24">
-        
-        <!-- =========================================================
-             1. ABOUT MAVERICK SHIPPING LLC & OUR PRIORITIES
-             ========================================================= -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <!-- Left Column: Corporate Profile (7 cols) -->
-          <div class="lg:col-span-7 space-y-5">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200/70 text-[#df0003] text-xs font-bold font-mono uppercase tracking-wider">
-              <span class="w-2 h-2 rounded-full bg-[#df0003] animate-pulse"></span>
-              <span>{{ isRtl() ? 'عن مافريك للشحن البحري' : 'ABOUT MAVERICK SHIPPING LLC' }}</span>
+    <div class="w-full bg-white text-slate-900">
+      
+      <!-- =========================================================
+           TOP 3 CORE HIGHLIGHTS STRIP (MATCHING DEMO SITE TOP 3 BOXES)
+           Clean, elevated corporate feature cards below hero
+           ========================================================= -->
+      <section class="relative z-20 -mt-6 sm:-mt-8 max-w-7xl mx-auto px-4 sm:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <!-- Card 1: Dedicated Feeder Connectivity -->
+          <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-xl shadow-slate-200/70 border border-slate-200/90 hover:-translate-y-1 hover:border-[#df0003]/40 transition-all duration-300 group flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center p-3 group-hover:scale-105 transition-transform">
+                  <img src="images/demo/icon-cargo-1.svg" alt="Ocean Feeder Carrier" class="w-full h-full object-contain" />
+                </div>
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#df0003] bg-red-50 px-2.5 py-1 rounded-full border border-red-200/60">
+                  Weekly Fixed Day
+                </span>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-black text-[#02194b] tracking-tight group-hover:text-[#df0003] transition-colors">
+                  {{ isRtl() ? 'خدمة تغذية الحاويات الإقليمية' : 'Regional Feeder Connectivity' }}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                  {{ isRtl()
+                    ? 'ربط مجدول ومنتظم يربط موانئ الخليج العربي الرئيسية وباكستان والهند بجداول إبحار دقيقة وموثوقة.'
+                    : 'Dedicated scheduled container feeder service connecting key regional ports across the Arabian Gulf, Pakistan, and India.' }}
+                </p>
+              </div>
             </div>
-
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#02194b] tracking-tight leading-tight">
-              <span>{{ isRtl() ? 'شريكك الموثوق في النقل الملاحي' : 'Your Trusted Partner in' }}</span><br>
-              <span class="text-[#df0003]">{{ isRtl() ? 'والخطوط المغذية الإقليمية' : 'Regional Feeder Shipping' }}</span>
-            </h2>
-
-            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              {{ isRtl() 
-                ? 'مافريك للشحن ش.ذ.م.م هي شركة شحن إقليمية صاعدة تأسست برؤية واضحة لتقديم خدمات تغذية حاويات موثوقة وعالية الكفاءة وتنافسية تجارياً. ينصب تركيزنا على تعزيز الربط البحري بين الموانئ الإقليمية الرئيسية، ودعم خطوط الشحن العالمية، وتزويد العملاء بحلول نقل مرنة ومبتكرة للبضائع.'
-                : 'Maverick Shipping LLC is an emerging regional shipping company established with a vision to provide dependable, efficient, and commercially competitive container feeder services. Our focus is to strengthen maritime connectivity between major regional ports, support international shipping lines, and provide customers with flexible cargo transportation solutions.' }}
-            </p>
-
-            <!-- Corporate Positioning Highlight Box -->
-            <div class="p-5 sm:p-6 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-3">
-              <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#02194b] font-mono">
-                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span>{{ isRtl() ? 'شبكة خطوط التغذية الإقليمية' : 'REGIONAL FEEDER SERVICE NETWORK' }}</span>
-              </div>
-              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {{ isRtl()
-                  ? 'خدمة مكوكية مخصصة تربط الموانئ الإقليمية الرئيسية عبر الخليج العربي وباكستان والهند عبر مسار الدوران الأولي: صحار ← نهافا شيفا ← موندرا ← كراتشي ← صحار.'
-                  : 'Dedicated feeder shipping service connecting key regional ports across the Arabian Gulf, Pakistan, and India with initial service rotation: Sohar → Nhava Sheva → Mundra → Karachi → Sohar.' }}
-              </p>
-              
-              <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
-                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Sohar</span>
-                <span class="text-[#df0003] font-bold">→</span>
-                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Nhava Sheva</span>
-                <span class="text-[#df0003] font-bold">→</span>
-                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Mundra</span>
-                <span class="text-[#df0003] font-bold">→</span>
-                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Karachi</span>
-                <span class="text-[#df0003] font-bold">→</span>
-                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Sohar</span>
-              </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="font-mono text-slate-500 font-semibold">Corridor Rotation</span>
+              <span class="font-bold text-[#02194b]">11-Day Loop</span>
             </div>
           </div>
 
-          <!-- Right Column: Our 6 Priorities (5 cols) -->
-          <div class="lg:col-span-5 bg-slate-50/90 border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-lg shadow-slate-100 space-y-4">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
-              <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#02194b]">
-                {{ isRtl() ? 'أولوياتنا التشغيلية والتجارية' : 'OUR PRIORITIES' }}
-              </span>
-              <span class="text-[10px] font-mono text-[#df0003] bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200 font-bold">
-                6 Core Pillars
-              </span>
-            </div>
-
-            <div class="space-y-2.5">
-              <!-- Pillar 1 -->
-              <div class="flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-[#df0003]/40 transition-colors">
-                <span class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">01</span>
-                <div>
-                  <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'التميز التشغيلي' : 'Operational Excellence' }}</h4>
-                  <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'أعلى معايير الإبحار وإدارة الأسطول والمناولة السريعة.' : 'Highest maritime standards across voyage planning and rapid cargo turnaround.' }}</p>
+          <!-- Card 2: Liner Slot Solutions -->
+          <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-xl shadow-slate-200/70 border border-slate-200/90 hover:-translate-y-1 hover:border-[#df0003]/40 transition-all duration-300 group flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center p-3 group-hover:scale-105 transition-transform">
+                  <img src="images/demo/icon-cargo-2.svg" alt="Liner Slot Solutions" class="w-full h-full object-contain" />
                 </div>
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200/60">
+                  Flexible Capacity
+                </span>
               </div>
-
-              <!-- Pillar 2 -->
-              <div class="flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-[#df0003]/40 transition-colors">
-                <span class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">02</span>
-                <div>
-                  <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'عمليات سفن موثوقة' : 'Reliable Vessel Operations' }}</h4>
-                  <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'دقة متناهية في مواعيد الإبحار وجداول الرسو.' : 'Rigorous adherence to fixed-day sailing schedules and berth windows.' }}</p>
-                </div>
-              </div>
-
-              <!-- Pillar 3 -->
-              <div class="flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-[#df0003]/40 transition-colors">
-                <span class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">03</span>
-                <div>
-                  <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'شراكات قوية مع الموانئ والوكلاء' : 'Strong Port & Agency Partnerships' }}</h4>
-                  <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'تعاون وثيق مع مشغلي المحطات لضمان الأولوية التشغيلية.' : 'Seamless terminal collaboration at Sohar, Nhava Sheva, Mundra, and Karachi.' }}</p>
-                </div>
-              </div>
-
-              <!-- Pillar 4 -->
-              <div class="flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-[#df0003]/40 transition-colors">
-                <span class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">04</span>
-                <div>
-                  <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'تواصل شفاف مع العملاء' : 'Transparent Customer Communication' }}</h4>
-                  <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'متابعة لحظية وتحديثات استباقية لمواقع الحاويات.' : 'Real-time cargo status reporting and proactive customer coordination.' }}</p>
-                </div>
-              </div>
-
-              <!-- Pillar 5 -->
-              <div class="flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-[#df0003]/40 transition-colors">
-                <span class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">05</span>
-                <div>
-                  <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'علاقات طويلة الأمد مع الشركاء' : 'Long-Term Relationships with Shipping Partners' }}</h4>
-                  <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'بناء شراكات مستدامة تدعم مصالح خطوط الشحن والوكلاء.' : 'Enduring commercial trust with mainline carriers, NVOCCs, and forwarders.' }}</p>
-                </div>
-              </div>
-
-              <!-- Pillar 6 -->
-              <div class="flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-[#df0003]/40 transition-colors">
-                <span class="w-7 h-7 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">06</span>
-                <div>
-                  <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'نمو تجاري مستدام' : 'Sustainable Business Growth' }}</h4>
-                  <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'تطوير مستمر لشبكة النقل البحري وكفاءة استهلاك الطاقة.' : 'Eco-conscious fleet operations ensuring responsible long-term value.' }}</p>
-                </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-black text-[#02194b] tracking-tight group-hover:text-[#df0003] transition-colors">
+                  {{ isRtl() ? 'حلول المساحات والخطوط الملاحية' : 'Liner Slot & Cargo Solutions' }}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                  {{ isRtl()
+                    ? 'اتفاقيات مساحات مرنة وحلول نقل فعالة تدعم خطوط الشحن العالمية ومشغلي NVOCC ووكلاء الشحن.'
+                    : 'Dependable slot agreements and feeder transportation for mainline carriers, NVOCCs, and freight forwarders.' }}
+                </p>
               </div>
             </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="font-mono text-slate-500 font-semibold">Berthing Priority</span>
+              <span class="font-bold text-emerald-700">Guaranteed Windows</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Strategic Port Coverage -->
+          <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-xl shadow-slate-200/70 border border-slate-200/90 hover:-translate-y-1 hover:border-[#df0003]/40 transition-all duration-300 group flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center p-3 group-hover:scale-105 transition-transform">
+                  <img src="images/demo/icon-cargo-3.svg" alt="Strategic Ports" class="w-full h-full object-contain" />
+                </div>
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">
+                  4 Core Gateways
+                </span>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-black text-[#02194b] tracking-tight group-hover:text-[#df0003] transition-colors">
+                  {{ isRtl() ? 'تغطية الموانئ الاستراتيجية' : 'Strategic Port Coverage' }}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                  {{ isRtl()
+                    ? 'اتصال مباشر بموانئ صحار ونهافا شيفا وموندرا وكراتشي، مع تسريع إجراءات المناولة والتخليص.'
+                    : 'Direct port calls at Sohar (Oman), Nhava Sheva & Mundra (India), and Karachi (Pakistan) with rapid turnaround.' }}
+                </p>
+              </div>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="font-mono text-slate-500 font-semibold">Network Reach</span>
+              <span class="font-bold text-[#df0003]">Gulf &amp; Subcontinent</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+           1. ABOUT MAVERICK SHIPPING LLC (MATCHING DEMO "TRUSTED & RELIABLE PARTNER")
+           Two-column layout with authentic overlapping photography
+           ========================================================= -->
+      <section id="about-section" class="py-20 sm:py-28 relative overflow-hidden bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            <!-- Left Column: Overlapping Photos & Experience Badge (5 cols) -->
+            <div class="lg:col-span-5 relative">
+              <div class="relative mx-auto max-w-md lg:max-w-none">
+                <!-- Main Primary Photo -->
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 aspect-4/3 sm:aspect-5/4">
+                  <img 
+                    src="images/demo/transportation-img-1.jpg" 
+                    alt="Maverick Shipping Container Transport" 
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- Overlapping Secondary Photo (Bottom Right) -->
+                <div class="absolute -bottom-8 -right-4 sm:-right-8 w-1/2 rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 hidden sm:block">
+                  <img 
+                    src="images/demo/transportation-img-2.jpg" 
+                    alt="Maritime Logistics Operations" 
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                </div>
+
+                <!-- Floating Corporate Trust Badge -->
+                <div class="absolute -top-6 -left-4 sm:-left-6 bg-[#02194b] text-white p-4 sm:p-5 rounded-2xl shadow-2xl border border-white/20 z-20 max-w-[220px]">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#df0003] animate-pulse"></span>
+                    <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold">REGIONAL CARRIER</span>
+                  </div>
+                  <div class="text-xs sm:text-sm font-black leading-snug">
+                    Dedicated Feeder Shipping Service
+                  </div>
+                  <div class="text-[10px] text-slate-300 mt-1 font-mono">
+                    99.4% On-Time Reliability
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Corporate Narrative, Rotation Box & 6 Priorities (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              
+              <!-- Eyebrow Pill -->
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200/80 text-[#df0003] text-xs font-bold font-mono uppercase tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-[#df0003] animate-pulse"></span>
+                <span>{{ isRtl() ? 'عن مافريك للشحن البحري' : 'ABOUT MAVERICK SHIPPING LLC' }}</span>
+              </div>
+
+              <!-- Main Heading -->
+              <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#02194b] tracking-tight leading-[1.15]">
+                <span>{{ isRtl() ? 'شريكك الموثوق في النقل الملاحي' : 'Your Trusted Partner in' }}</span><br>
+                <span class="text-[#df0003]">{{ isRtl() ? 'والخطوط المغذية الإقليمية' : 'Regional Feeder Shipping' }}</span>
+              </h2>
+
+              <!-- Lead Description (Exact Client Text) -->
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                {{ isRtl() 
+                  ? 'مافريك للشحن ش.ذ.م.م هي شركة شحن إقليمية صاعدة تأسست برؤية واضحة لتقديم خدمات تغذية حاويات موثوقة وعالية الكفاءة وتنافسية تجارياً. ينصب تركيزنا على تعزيز الربط البحري بين الموانئ الإقليمية الرئيسية، ودعم خطوط الشحن العالمية، وتزويد العملاء بحلول نقل مرنة ومبتكرة للبضائع.'
+                  : 'Maverick Shipping LLC is an emerging regional shipping company established with a vision to provide dependable, efficient and commercially competitive container feeder services. Our focus is to strengthen maritime connectivity between major regional ports, support international shipping lines and provide customers with flexible cargo transportation solutions.' }}
+              </p>
+
+              <!-- Rotation Highlights Box -->
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-[#02194b] font-mono flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span>{{ isRtl() ? 'مسار الدوران الأولي' : 'INITIAL SERVICE ROTATION' }}</span>
+                  </span>
+                  <span class="text-[10.5px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    Weekly Rotation
+                  </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                  <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Sohar (Oman)</span>
+                  <span class="text-[#df0003] font-bold">→</span>
+                  <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Nhava Sheva (India)</span>
+                  <span class="text-[#df0003] font-bold">→</span>
+                  <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Mundra (India)</span>
+                  <span class="text-[#df0003] font-bold">→</span>
+                  <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Karachi (Pakistan)</span>
+                  <span class="text-[#df0003] font-bold">→</span>
+                  <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-bold text-[#02194b] shadow-xs">Sohar</span>
+                </div>
+              </div>
+
+              <!-- Priorities Grid (Client's 6 Bullet Points) -->
+              <div class="space-y-3 pt-2">
+                <div class="text-xs font-mono font-bold uppercase tracking-wider text-[#02194b] pb-1 border-b border-slate-200">
+                  {{ isRtl() ? 'أولوياتنا التشغيلية والتجارية' : 'OUR PRIORITIES & COMMITMENTS' }}
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  
+                  <!-- Priority 1 -->
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+                    <span class="w-6 h-6 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">01</span>
+                    <div>
+                      <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'التميز التشغيلي' : 'Operational Excellence' }}</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'أعلى معايير إدارة الرحلات والمناولة السريعة للبضائع.' : 'Highest maritime standards across voyage execution and rapid turnaround.' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Priority 2 -->
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+                    <span class="w-6 h-6 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">02</span>
+                    <div>
+                      <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'عمليات سفن موثوقة' : 'Reliable Vessel Operations' }}</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'دقة متناهية في مواعيد الإبحار وجداول الرسو الثابتة.' : 'Rigorous adherence to fixed-day sailing schedules and berth windows.' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Priority 3 -->
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+                    <span class="w-6 h-6 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">03</span>
+                    <div>
+                      <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'شراكات قوية مع الموانئ والوكلاء' : 'Strong Port & Agency Partnerships' }}</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'تعاون وثيق مع مشغلي المحطات لضمان الأولوية التشغيلية.' : 'Deep operational coordination with terminal operators across Oman, India, and Pakistan.' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Priority 4 -->
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+                    <span class="w-6 h-6 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">04</span>
+                    <div>
+                      <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'تواصل شفاف مع العملاء' : 'Transparent Customer Communication' }}</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'متابعة لحظية وتحديثات استباقية لمواقع الحاويات.' : 'Real-time cargo status reporting and proactive customer coordination.' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Priority 5 -->
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+                    <span class="w-6 h-6 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">05</span>
+                    <div>
+                      <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'علاقات طويلة الأمد مع الشركاء' : 'Long-Term Relationships with Shipping Partners' }}</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'بناء شراكات مستدامة تدعم مصالح خطوط الشحن والوكلاء.' : 'Enduring commercial trust with mainline carriers, NVOCCs, and forwarders.' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Priority 6 -->
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+                    <span class="w-6 h-6 rounded-lg bg-red-50 text-[#df0003] font-mono text-xs font-black flex items-center justify-center shrink-0">06</span>
+                    <div>
+                      <h4 class="text-xs sm:text-sm font-bold text-[#02194b]">{{ isRtl() ? 'نمو تجاري مستدام' : 'Sustainable Business Growth' }}</h4>
+                      <p class="text-[11px] text-slate-500 mt-0.5">{{ isRtl() ? 'تطوير مستمر لشبكة النقل البحري وكفاءة استهلاك الطاقة.' : 'Forward-looking operational efficiency and responsible regional expansion.' }}</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Action Row -->
+              <div class="pt-4 flex flex-wrap items-center gap-4">
+                <button
+                  (click)="service.toggleBookingModal(true)"
+                  class="px-7 py-3.5 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-lg shadow-red-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer">
+                  {{ isRtl() ? 'طلب تسعيرة تجارية' : 'Request Commercial Booking' }}
+                </button>
+                <a
+                  href="tel:+97142105105"
+                  class="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#02194b] hover:text-[#df0003] transition-colors py-2 px-3">
+                  <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>+971 4 210 51 05 (HQ Desk)</span>
+                </a>
+              </div>
+
+            </div>
+
           </div>
         </div>
+      </section>
 
-        <!-- =========================================================
-             2. WHY CHOOSE MAVERICK SHIPPING? (PICTURE CARDS MATCHING DEMO SITE)
-             ========================================================= -->
-        <div class="space-y-10">
+      <!-- =========================================================
+           2. EXPLORE OUR SERVICES (MATCHING DEMO "EXPLORE SERVICES")
+           3-Column photo cards with authentic demo photography
+           ========================================================= -->
+      <section id="services-section" class="py-20 sm:py-28 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+          
+          <!-- Section Heading -->
+          <div class="text-center max-w-3xl mx-auto space-y-3">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#df0003] text-xs font-mono uppercase font-bold tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-[#df0003] animate-pulse"></span>
+              <span>{{ isRtl() ? 'الخدمات الملاحية الأساسية' : 'CORE REGIONAL SOLUTIONS' }}</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#02194b] tracking-tight">
+              <span>{{ isRtl() ? 'استكشف' : 'Explore Our' }}</span> <span class="text-[#df0003]">{{ isRtl() ? 'خدماتنا الملاحية' : 'Feeder & Freight Services' }}</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              {{ isRtl()
+                ? 'حلول تغذية حاويات موثوقة وعالية الكفاءة ومصممة خصيصاً لربط موانئ الخليج العربي وشبه القارة الهندية.'
+                : 'Delivering dependable, efficient, and customer-focused container transportation across the Arabian Gulf, Pakistan, and India.' }}
+            </p>
+          </div>
+
+          <!-- 3 Service Cards Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Service Card 1: Regional Container Feeder Services -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-56 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/service-1.jpg" 
+                    alt="Regional Container Feeder Services" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <!-- Tag Badge -->
+                  <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono font-bold text-[#02194b] border border-slate-200 shadow-sm">
+                    FEEDER CARRIER
+                  </div>
+                </div>
+
+                <div class="p-6 sm:p-7 space-y-3">
+                  <div class="text-[11px] font-mono font-bold text-[#df0003]">
+                    Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi
+                  </div>
+                  <h3 class="text-lg sm:text-xl font-black text-[#02194b] group-hover:text-[#df0003] transition-colors leading-tight">
+                    {{ isRtl() ? 'خدمات تغذية الحاويات الإقليمية' : 'Regional Container Feeder Services' }}
+                  </h3>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'خدمة مجدولة ومنتظمة تربط الموانئ الإقليمية الرئيسية بدقة مواعيد عالية، وتوفر سرعة فائقة في نقل الحاويات بين الموانئ.'
+                      : 'Dedicated scheduled feeder connectivity linking major regional trade markets with schedule reliability, high-efficiency cargo movement, and seamless port-to-port connections.' }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-6 sm:p-7 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-slate-500">Weekly Fixed Day</span>
+                <button
+                  (click)="service.toggleBookingModal(true)"
+                  class="inline-flex items-center gap-1.5 text-xs font-bold text-[#df0003] group-hover:translate-x-1 transition-transform cursor-pointer">
+                  <span>{{ isRtl() ? 'طلب حجز مساحة' : 'Request Booking' }}</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Service Card 2: Liner Slot Solutions -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-56 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/service-2.jpg" 
+                    alt="Liner Slot Solutions" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <!-- Tag Badge -->
+                  <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono font-bold text-[#02194b] border border-slate-200 shadow-sm">
+                    LINER SOLUTIONS
+                  </div>
+                </div>
+
+                <div class="p-6 sm:p-7 space-y-3">
+                  <div class="text-[11px] font-mono font-bold text-blue-700">
+                    Mainline Carriers &amp; NVOCC Operators
+                  </div>
+                  <h3 class="text-lg sm:text-xl font-black text-[#02194b] group-hover:text-[#df0003] transition-colors leading-tight">
+                    {{ isRtl() ? 'حلول المساحات وحركة البضائع بين الموانئ' : 'Liner Slot & Port-to-Port Solutions' }}
+                  </h3>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'توفير مساحات موثوقة وسعة نقل مرنة لخطوط الشحن العالمية ووكلات الشحن، مع التزام تام بنوافذ الرسو السريع في المحطات.'
+                      : 'Flexible slot agreements and dependable feeder transportation for mainline carriers, freight forwarders, and NVOCCs with priority berthing and quick turnaround.' }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-6 sm:p-7 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-slate-500">Berth Priority</span>
+                <button
+                  (click)="service.toggleBookingModal(true)"
+                  class="inline-flex items-center gap-1.5 text-xs font-bold text-[#df0003] group-hover:translate-x-1 transition-transform cursor-pointer">
+                  <span>{{ isRtl() ? 'طلب سعة مساحة' : 'Book Capacity' }}</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Service Card 3: Agency Support & Commercial Desk -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-56 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/service-3.jpg" 
+                    alt="Agency Support & Commercial Partnerships" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <!-- Tag Badge -->
+                  <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono font-bold text-[#02194b] border border-slate-200 shadow-sm">
+                    COMMERCIAL ALLIANCE
+                  </div>
+                </div>
+
+                <div class="p-6 sm:p-7 space-y-3">
+                  <div class="text-[11px] font-mono font-bold text-emerald-700">
+                    24/7 Operations Desk Support
+                  </div>
+                  <h3 class="text-lg sm:text-xl font-black text-[#02194b] group-hover:text-[#df0003] transition-colors leading-tight">
+                    {{ isRtl() ? 'الدعم التجاري والشراكات مع الوكلاء' : 'Agency Partnerships & Dedicated Support' }}
+                  </h3>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'فريق دعم تجاري وتشغيلي مخصص يقدم استجابة فورية، وتواصلاً شفافاً، ومتابعة دقيقة للشحنات، وبناء علاقات استراتيجية متينة.'
+                      : 'Dedicated operational and commercial support desks offering 24/7 responsiveness, transparent cargo coordination, and long-term maritime alliances.' }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-6 sm:p-7 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-slate-500">24/7 Desk SLA</span>
+                <button
+                  (click)="service.toggleBookingModal(true)"
+                  class="inline-flex items-center gap-1.5 text-xs font-bold text-[#df0003] group-hover:translate-x-1 transition-transform cursor-pointer">
+                  <span>{{ isRtl() ? 'تواصل مع المكتب' : 'Contact Desk' }}</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           3. STRATEGIC PORT COVERAGE (MATCHING DEMO "EXPLORE RECENT PROJECTS")
+           4 Port cards with authentic photography & UN/LOCODE badges
+           ========================================================= -->
+      <section id="ports-section" class="py-20 sm:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+          
+          <!-- Section Header -->
+          <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-5">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#df0003] text-xs font-mono uppercase font-bold tracking-wider mb-2">
+                <span class="w-2 h-2 rounded-full bg-[#df0003]"></span>
+                <span>{{ isRtl() ? 'تغطية الموانئ الإقليمية' : 'STRATEGIC PORT COVERAGE' }}</span>
+              </div>
+              <h2 class="text-2xl sm:text-4xl font-black text-[#02194b] tracking-tight">
+                {{ isRtl() ? 'الموانئ المشمولة في مسار الخدمة' : 'Ports Covered Across Key Trade Markets' }}
+              </h2>
+            </div>
+            <div class="text-xs font-mono text-slate-600 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl">
+              Corridor: <span class="text-[#02194b] font-bold">Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi</span>
+            </div>
+          </div>
+
+          <!-- 4 Port Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Port 1: Sohar -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/cargo-shipment-bg-img-1.jpg" 
+                    alt="Sohar Port Oman" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute top-3.5 right-3.5 px-2.5 py-0.5 rounded-full bg-[#02194b]/90 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
+                    OMSOH
+                  </div>
+                  <div class="absolute bottom-3 left-4 text-white">
+                    <div class="text-lg font-black leading-tight">Sohar, Oman</div>
+                    <div class="text-[11px] text-amber-300 font-mono">Gateway to Arabian Gulf</div>
+                  </div>
+                </div>
+                <div class="p-5 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'البوابة الاستراتيجية إلى الخليج العربي مع أرصفة مياه عميقة ومعدلات مناولة سريعة للحاويات.'
+                      : 'Strategic gateway to the Arabian Gulf with deep-water container berths and high-speed cargo throughput.' }}
+                  </p>
+                </div>
+              </div>
+              <div class="p-5 pt-0 border-t border-slate-100 mt-2 text-[10.5px] font-mono font-bold text-[#df0003] uppercase">
+                Oman Int'l Container Terminal (OICT)
+              </div>
+            </div>
+
+            <!-- Port 2: Nhava Sheva -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/cargo-shipment-bg-img-2.jpg" 
+                    alt="Nhava Sheva Port India" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute top-3.5 right-3.5 px-2.5 py-0.5 rounded-full bg-[#02194b]/90 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
+                    INNSA
+                  </div>
+                  <div class="absolute bottom-3 left-4 text-white">
+                    <div class="text-lg font-black leading-tight">Nhava Sheva, India</div>
+                    <div class="text-[11px] text-amber-300 font-mono">JNPT Gateway</div>
+                  </div>
+                </div>
+                <div class="p-5 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'بوابة الحاويات الرئيسية للساحل الغربي للهند وتربط المناطق الصناعية الحيوية بشبكات الشحن الإقليمية.'
+                      : "Major container gateway for India's western coast, connecting industrial hinterlands with regional feeder corridors." }}
+                  </p>
+                </div>
+              </div>
+              <div class="p-5 pt-0 border-t border-slate-100 mt-2 text-[10.5px] font-mono font-bold text-[#df0003] uppercase">
+                Gateway Terminals India (GTI / BMCT)
+              </div>
+            </div>
+
+            <!-- Port 3: Mundra -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/cargo-shipment-bg-img-3.jpg" 
+                    alt="Mundra Port India" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute top-3.5 right-3.5 px-2.5 py-0.5 rounded-full bg-[#02194b]/90 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
+                    INMUN
+                  </div>
+                  <div class="absolute bottom-3 left-4 text-white">
+                    <div class="text-lg font-black leading-tight">Mundra, India</div>
+                    <div class="text-[11px] text-amber-300 font-mono">Commercial Container Hub</div>
+                  </div>
+                </div>
+                <div class="p-5 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'مركز تجاري وبحري هام للحاويات مع ربط سككي مباشر ومعدلات دوران سريعة للحاويات.'
+                      : 'Important commercial and container hub offering rapid turnaround speeds and direct rail-to-vessel intermodal links.' }}
+                  </p>
+                </div>
+              </div>
+              <div class="p-5 pt-0 border-t border-slate-100 mt-2 text-[10.5px] font-mono font-bold text-[#df0003] uppercase">
+                Adani Mundra Container Terminal (MICT)
+              </div>
+            </div>
+
+            <!-- Port 4: Karachi -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/project-3.jpg" 
+                    alt="Karachi Port Pakistan" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute top-3.5 right-3.5 px-2.5 py-0.5 rounded-full bg-[#02194b]/90 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
+                    PKKHI
+                  </div>
+                  <div class="absolute bottom-3 left-4 text-white">
+                    <div class="text-lg font-black leading-tight">Karachi, Pakistan</div>
+                    <div class="text-[11px] text-amber-300 font-mono">International Trade Gateway</div>
+                  </div>
+                </div>
+                <div class="p-5 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'البوابة الرئيسية للتجارة الدولية لباكستان مع كفاءة جمركية عالية وجداول رحلات ثابتة.'
+                      : "Key gateway for Pakistan's international trade, ensuring smooth customs clearances and reliable scheduled rotations." }}
+                  </p>
+                </div>
+              </div>
+              <div class="p-5 pt-0 border-t border-slate-100 mt-2 text-[10.5px] font-mono font-bold text-[#df0003] uppercase">
+                South Asia Pakistan Terminals (SAPT)
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           4. WHY CHOOSE MAVERICK SHIPPING? (MATCHING DEMO "WHY CHOOSE US")
+           6 Value Pillars in 2x3 Grid with real photography & clean cards
+           ========================================================= -->
+      <section id="why-us-section" class="py-20 sm:py-28 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+          
+          <!-- Section Heading -->
           <div class="text-center max-w-3xl mx-auto space-y-3">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#df0003] text-xs font-mono uppercase font-bold tracking-wider">
               <span class="w-2 h-2 rounded-full bg-[#df0003] animate-pulse"></span>
               <span>{{ isRtl() ? 'المزايا التنافسية' : 'COMPETITIVE ADVANTAGE' }}</span>
             </div>
-            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#02194b] tracking-tight">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#02194b] tracking-tight">
               <span>{{ isRtl() ? 'لماذا تختار' : 'Why Choose' }}</span> <span class="text-[#df0003]">Maverick Shipping</span>?
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto">
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed">
               {{ isRtl()
-                ? 'نقدم مزيجاً متكاملاً من التغطية الجغرافية الاستراتيجية والموثوقية العالية والمرونة التجارية لدعم تدفق بضائعك.'
+                ? 'نقدم مزيجاً متكاملاً من التغطية الجغرافية الاستراتيجية والموثوقية العالية والالتزام التجاري لدعم حركة بضائعك.'
                 : 'A strategic combination of regional geographic coverage, schedule reliability, and dedicated customer commitment.' }}
             </p>
           </div>
 
-          <!-- 6 Grid Cards with Authentic Photography & Floating Title Badges -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <!-- 6 Grid Cards with Photography & Clean Badges -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <!-- Card 1: Strategic Connectivity -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/service-1.jpg" 
-                  alt="Strategic Connectivity - Feeder Ship in Transit" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
-                <!-- Floating Title Badge -->
-                <div class="absolute -bottom-4 left-4 right-4 sm:left-5 sm:right-5 bg-white rounded-xl sm:rounded-2xl px-4 py-3 shadow-lg border border-slate-100 flex items-center justify-between gap-3 z-10">
-                  <h4 class="text-sm sm:text-base font-extrabold text-[#02194b] tracking-tight">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/service-1.jpg" 
+                    alt="Strategic Connectivity" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 left-4 text-white font-extrabold text-base">
                     {{ isRtl() ? 'الربط الاستراتيجي' : 'Strategic Connectivity' }}
-                  </h4>
-                  <span class="w-7 h-7 rounded-full bg-red-50 text-[#df0003] group-hover:bg-[#df0003] group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors shrink-0">→</span>
+                  </div>
+                </div>
+                <div class="p-6 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl() 
+                      ? 'ربط مباشر وسلس بين أهم وجهات ومراكز التجارة الإقليمية عبر صحار ونهافا شيفا وموندرا وكراتشي.' 
+                      : 'Connecting important regional trade destinations across Sohar, Nhava Sheva, Mundra, and Karachi.' }}
+                  </p>
                 </div>
               </div>
-              <div class="p-5 sm:p-6 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3">
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl() 
-                    ? 'ربط مباشر وسلس بين أهم وجهات ومراكز التجارة الإقليمية عبر عُمان والهند وباكستان.' 
-                    : 'Connecting important regional trade destinations across Sohar, Nhava Sheva, Mundra, and Karachi.' }}
-                </p>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Corridor Network</span>
-                  <span class="font-bold text-[#df0003]">4 Primary Hubs</span>
-                </div>
+              <div class="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500">Regional Gateway</span>
+                <span class="font-bold text-[#df0003]">4 Primary Hubs</span>
               </div>
             </div>
 
             <!-- Card 2: Reliability -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/service-2.jpg" 
-                  alt="Reliability - Port Quay Container Cranes" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
-                <!-- Floating Title Badge -->
-                <div class="absolute -bottom-4 left-4 right-4 sm:left-5 sm:right-5 bg-white rounded-xl sm:rounded-2xl px-4 py-3 shadow-lg border border-slate-100 flex items-center justify-between gap-3 z-10">
-                  <h4 class="text-sm sm:text-base font-extrabold text-[#02194b] tracking-tight">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/service-2.jpg" 
+                    alt="Reliability" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 left-4 text-white font-extrabold text-base">
                     {{ isRtl() ? 'الموثوقية ودقة المواعيد' : 'Reliability' }}
-                  </h4>
-                  <span class="w-7 h-7 rounded-full bg-red-50 text-[#df0003] group-hover:bg-[#df0003] group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors shrink-0">→</span>
+                  </div>
+                </div>
+                <div class="p-6 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'تركيز مطلق على تقديم خدمة متسقة وموثوقة بجداول إبحار أسبوعية ثابتة لضمان استقرار سلاسل الإمداد.'
+                      : 'Focus on consistent and dependable service delivery with fixed-day weekly sailing commitments.' }}
+                  </p>
                 </div>
               </div>
-              <div class="p-5 sm:p-6 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3">
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl()
-                    ? 'تركيز مطلق على تقديم خدمة متسقة وموثوقة بنسبة دقة مواعيد تصل إلى 99.4%.'
-                    : 'Focus on consistent and dependable service delivery with fixed-day weekly sailing commitments.' }}
-                </p>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Schedule Accuracy</span>
-                  <span class="font-bold text-emerald-600">99.4% On-Time</span>
-                </div>
+              <div class="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500">Service Regularity</span>
+                <span class="font-bold text-emerald-700">Fixed-Day Weekly</span>
               </div>
             </div>
 
             <!-- Card 3: Customer Commitment -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/transportation-img-2.jpg" 
-                  alt="Customer Commitment - Maritime Operations Team" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
-                <!-- Floating Title Badge -->
-                <div class="absolute -bottom-4 left-4 right-4 sm:left-5 sm:right-5 bg-white rounded-xl sm:rounded-2xl px-4 py-3 shadow-lg border border-slate-100 flex items-center justify-between gap-3 z-10">
-                  <h4 class="text-sm sm:text-base font-extrabold text-[#02194b] tracking-tight">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/transportation-img-2.jpg" 
+                    alt="Customer Commitment" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 left-4 text-white font-extrabold text-base">
                     {{ isRtl() ? 'الالتزام تجاه العميل' : 'Customer Commitment' }}
-                  </h4>
-                  <span class="w-7 h-7 rounded-full bg-red-50 text-[#df0003] group-hover:bg-[#df0003] group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors shrink-0">→</span>
+                  </div>
+                </div>
+                <div class="p-6 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'تواصل سريع ودعم مخصص لتلبية كافة متطلبات خطوط الشحن والوكلاء بكفاءة على مدار الساعة.'
+                      : 'Responsive communication, agile booking desks, and personalized customer support 24/7.' }}
+                  </p>
                 </div>
               </div>
-              <div class="p-5 sm:p-6 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3">
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl()
-                    ? 'تواصل سريع ودعم مخصص لتلبية كافة متطلبات خطوط الشحن والوكلاء بكفاءة.'
-                    : 'Responsive communication, agile booking desks, and personalized customer support 24/7.' }}
-                </p>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Desk Support</span>
-                  <span class="font-bold text-[#df0003]">24/7 Live Desk</span>
-                </div>
+              <div class="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500">Support Desk</span>
+                <span class="font-bold text-[#df0003]">24/7 Live Desk</span>
               </div>
             </div>
 
             <!-- Card 4: Operational Efficiency -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/service-3.jpg" 
-                  alt="Operational Efficiency - Modern Container Handling" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
-                <!-- Floating Title Badge -->
-                <div class="absolute -bottom-4 left-4 right-4 sm:left-5 sm:right-5 bg-white rounded-xl sm:rounded-2xl px-4 py-3 shadow-lg border border-slate-100 flex items-center justify-between gap-3 z-10">
-                  <h4 class="text-sm sm:text-base font-extrabold text-[#02194b] tracking-tight">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/service-3.jpg" 
+                    alt="Operational Efficiency" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 left-4 text-white font-extrabold text-base">
                     {{ isRtl() ? 'الكفاءة التشغيلية' : 'Operational Efficiency' }}
-                  </h4>
-                  <span class="w-7 h-7 rounded-full bg-red-50 text-[#df0003] group-hover:bg-[#df0003] group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors shrink-0">→</span>
+                  </div>
+                </div>
+                <div class="p-6 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'تحسين مستمر لعمليات الرسو في الموانئ وحركة الحاويات لتسريع زمن الترانزيت وتخفيض التكاليف.'
+                      : 'Focused on optimizing port calls, berthing turnaround, and rapid port-to-port container movement.' }}
+                  </p>
                 </div>
               </div>
-              <div class="p-5 sm:p-6 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3">
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl()
-                    ? 'تحسين مستمر لعمليات الرسو في الموانئ وحركة الحاويات لتسريع زمن الترانزيت.'
-                    : 'Focused on optimizing port calls, berthing turnaround, and rapid port-to-port container movement.' }}
-                </p>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Berth Window</span>
-                  <span class="font-bold text-[#02194b]">Priority Access</span>
-                </div>
+              <div class="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500">Port Operations</span>
+                <span class="font-bold text-[#02194b]">Optimized Berthing</span>
               </div>
             </div>
 
             <!-- Card 5: Regional Expertise -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/project-1.jpg" 
-                  alt="Regional Expertise - Cargo Vessel at Deep Sea Berth" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
-                <!-- Floating Title Badge -->
-                <div class="absolute -bottom-4 left-4 right-4 sm:left-5 sm:right-5 bg-white rounded-xl sm:rounded-2xl px-4 py-3 shadow-lg border border-slate-100 flex items-center justify-between gap-3 z-10">
-                  <h4 class="text-sm sm:text-base font-extrabold text-[#02194b] tracking-tight">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/project-1.jpg" 
+                    alt="Regional Expertise" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 left-4 text-white font-extrabold text-base">
                     {{ isRtl() ? 'الخبرة الإقليمية المتعمقة' : 'Regional Expertise' }}
-                  </h4>
-                  <span class="w-7 h-7 rounded-full bg-red-50 text-[#df0003] group-hover:bg-[#df0003] group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors shrink-0">→</span>
+                  </div>
+                </div>
+                <div class="p-6 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'فهم عميق لأسواق الشحن في الخليج العربي وشبه القارة الهندية ومتطلبات الموانئ واللوائح البحرية.'
+                      : 'Deep commercial and operational understanding of Arabian Gulf, Indian, and Pakistani shipping markets.' }}
+                  </p>
                 </div>
               </div>
-              <div class="p-5 sm:p-6 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3">
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl()
-                    ? 'فهم عميق لأسواق الشحن في الخليج العربي وشبه القارة الهندية ومتطلبات الموانئ.'
-                    : 'Deep commercial and operational understanding of Arabian Gulf, Indian, and Pakistani shipping markets.' }}
-                </p>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Domain Reach</span>
-                  <span class="font-bold text-[#df0003]">Gulf & Subcontinent</span>
-                </div>
+              <div class="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500">Domain Coverage</span>
+                <span class="font-bold text-[#df0003]">Gulf &amp; Pakistan/India</span>
               </div>
             </div>
 
             <!-- Card 6: Partnership Approach -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/project-2.jpg" 
-                  alt="Partnership Approach - Container Terminal Infrastructure" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
-                <!-- Floating Title Badge -->
-                <div class="absolute -bottom-4 left-4 right-4 sm:left-5 sm:right-5 bg-white rounded-xl sm:rounded-2xl px-4 py-3 shadow-lg border border-slate-100 flex items-center justify-between gap-3 z-10">
-                  <h4 class="text-sm sm:text-base font-extrabold text-[#02194b] tracking-tight">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between">
+              <div>
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <img 
+                    src="images/demo/project-2.jpg" 
+                    alt="Partnership Approach" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 left-4 text-white font-extrabold text-base">
                     {{ isRtl() ? 'منهجية الشراكة الاستراتيجية' : 'Partnership Approach' }}
-                  </h4>
-                  <span class="w-7 h-7 rounded-full bg-red-50 text-[#df0003] group-hover:bg-[#df0003] group-hover:text-white flex items-center justify-center text-xs font-bold transition-colors shrink-0">→</span>
+                  </div>
+                </div>
+                <div class="p-6 space-y-2">
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {{ isRtl()
+                      ? 'بناء علاقات متينة ومثمرة مع خطوط الشحن العالمية ووكلاء الشحن ومزودي الخدمات اللوجستية.'
+                      : 'Building strong relationships with shipping lines, freight forwarders, and logistics providers.' }}
+                  </p>
                 </div>
               </div>
-              <div class="p-5 sm:p-6 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3">
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <div class="p-6 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500">Commercial Trust</span>
+                <span class="font-bold text-emerald-700">Long-Term Alliances</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           5. TRADE & COMMERCIAL ENQUIRIES ("LET'S MOVE YOUR CARGO TOGETHER")
+           High-impact corporate navy banner with customer badges & CTA
+           ========================================================= -->
+      <section id="enquiries-section" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+          <div class="p-8 sm:p-12 lg:p-14 rounded-3xl bg-gradient-to-r from-[#02194b] via-[#042468] to-[#02194b] border border-slate-800 shadow-2xl relative overflow-hidden text-white">
+            <!-- Background Glow -->
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#df0003]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              
+              <!-- Left Column: Enquiries Text & Badges (8 cols) -->
+              <div class="lg:col-span-8 space-y-5">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-mono font-bold uppercase">
+                  <span class="w-2 h-2 rounded-full bg-[#df0003] animate-pulse"></span>
+                  <span>{{ isRtl() ? 'الاستفسارات التجارية والشحن' : 'TRADE & COMMERCIAL ENQUIRIES' }}</span>
+                </div>
+
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+                  {{ isRtl() ? 'لننقل بضائعكم معاً.' : "Let's Move Your Cargo Together." }}
+                </h2>
+
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl font-normal">
                   {{ isRtl()
-                    ? 'بناء علاقات متينة ومثمرة مع خطوط الشحن العالمية ووكلاء الشحن ومزودي الخدمات اللوجستية.'
-                    : 'Building strong relationships with shipping lines, freight forwarders, and logistics providers.' }}
+                    ? 'ترحب مافريك للشحن بالاستفسارات من خطوط الشحن العالمية، ووكلاء الشحن، ومشغلي NVOCC، والمستوردين والمصدرين، وشركات الخدمات اللوجستية، ومشغلي الموانئ والمحطات.'
+                    : 'Maverick Shipping LLC welcomes enquiries from international shipping lines, freight forwarders, NVOCC operators, importers and exporters, logistics companies, and port & terminal operators.' }}
                 </p>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Alliance Trust</span>
-                  <span class="font-bold text-emerald-600">Carrier Trust</span>
+
+                <!-- Customer Category Chips -->
+                <div class="flex flex-wrap items-center gap-2 pt-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-slate-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                    International Shipping Lines
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-slate-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                    Freight Forwarders
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-slate-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                    NVOCC Operators
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-slate-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                    Importers &amp; Exporters
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-slate-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                    Logistics Companies
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-slate-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
+                    Port &amp; Terminal Operators
+                  </span>
                 </div>
               </div>
-            </div>
 
-          </div>
-        </div>
+              <!-- Right Column: Buttons & Phone (4 cols) -->
+              <div class="lg:col-span-4 flex flex-col items-start lg:items-end justify-center gap-3.5">
+                <button
+                  (click)="service.toggleBookingModal(true)"
+                  class="w-full sm:w-auto px-8 py-4 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-xl shadow-red-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap">
+                  {{ isRtl() ? 'طلب تسعيرة أو حجز فوري' : 'Request Commercial Booking' }}
+                </button>
 
-        <!-- =========================================================
-             3. PORTS COVERED SHOWCASE (4 STRATEGIC REGIONAL GATEWAYS WITH REAL PHOTOS)
-             ========================================================= -->
-        <div class="space-y-8">
-          <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-4">
-            <div>
-              <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#df0003]">
-                {{ isRtl() ? 'تغطية الموانئ' : 'STRATEGIC PORT COVERAGE' }}
-              </span>
-              <h3 class="text-xl sm:text-3xl font-black text-[#02194b] mt-1">
-                {{ isRtl() ? 'الموانئ المشمولة في مسار الخدمة' : 'Ports Covered Across Key Trade Markets' }}
-              </h3>
-            </div>
-            <div class="text-xs font-mono text-slate-500">
-              Corridor: <span class="text-[#02194b] font-bold">Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi</span>
-            </div>
-          </div>
+                <a
+                  href="tel:+97142105105"
+                  class="w-full sm:w-auto px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
+                  <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>+971 4 210 51 05 (Operations Desk)</span>
+                </a>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <!-- Port 1: Sohar -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-44 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/cargo-shipment-bg-img-1.jpg" 
-                  alt="Sohar Port Oman" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent pointer-events-none"></div>
-                <div class="absolute top-3 right-3 px-2 py-0.5 rounded bg-[#02194b]/85 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
-                  OMSOH
-                </div>
-                <div class="absolute bottom-2.5 left-3 text-white">
-                  <div class="text-base font-black leading-tight">Sohar, Oman</div>
-                  <div class="text-[10px] text-slate-300 font-mono">Arabian Gulf Hub</div>
-                </div>
-              </div>
-              <div class="p-4 flex-1 flex flex-col justify-between">
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl() ? 'البوابة الاستراتيجية إلى الخليج العربي مع بنية تحتية متطورة لمناولة الحاويات.' : 'Strategic gateway to the Arabian Gulf with deep-water container berths and high-speed cargo throughput.' }}
-                </p>
-                <div class="mt-3 pt-2 border-t border-slate-100 text-[10px] font-mono font-bold text-[#df0003] uppercase">
-                  Service Origin / Destination
-                </div>
-              </div>
-            </div>
-
-            <!-- Port 2: Nhava Sheva -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-44 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/cargo-shipment-bg-img-2.jpg" 
-                  alt="Nhava Sheva Port India" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent pointer-events-none"></div>
-                <div class="absolute top-3 right-3 px-2 py-0.5 rounded bg-[#02194b]/85 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
-                  INNSA
-                </div>
-                <div class="absolute bottom-2.5 left-3 text-white">
-                  <div class="text-base font-black leading-tight">Nhava Sheva, India</div>
-                  <div class="text-[10px] text-slate-300 font-mono">JNPT Gateway</div>
-                </div>
-              </div>
-              <div class="p-4 flex-1 flex flex-col justify-between">
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
-                  <span *ngIf="!isRtl()">Major container gateway for India&apos;s western coast, connecting industrial hinterlands with premier regional feeder corridors.</span>
-                  <span *ngIf="isRtl()">بوابة الحاويات الرئيسية للساحل الغربي للهند وتربط المناطق الصناعية الحيوية.</span>
-                </p>
-                <div class="mt-3 pt-2 border-t border-slate-100 text-[10px] font-mono font-bold text-[#df0003] uppercase">
-                  India West Coast Call
-                </div>
-              </div>
-            </div>
-
-            <!-- Port 3: Mundra -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-44 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/cargo-shipment-bg-img-3.jpg" 
-                  alt="Mundra Port India" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent pointer-events-none"></div>
-                <div class="absolute top-3 right-3 px-2 py-0.5 rounded bg-[#02194b]/85 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
-                  INMUN
-                </div>
-                <div class="absolute bottom-2.5 left-3 text-white">
-                  <div class="text-base font-black leading-tight">Mundra, India</div>
-                  <div class="text-[10px] text-slate-300 font-mono">Commercial Hub</div>
-                </div>
-              </div>
-              <div class="p-4 flex-1 flex flex-col justify-between">
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
-                  {{ isRtl() ? 'مركز تجاري وبحري هام للحاويات مع ربط سككي مباشر ومعدلات دوران عالية.' : 'Important commercial and container hub offering rapid turnaround speeds and direct rail-to-vessel intermodal links.' }}
-                </p>
-                <div class="mt-3 pt-2 border-t border-slate-100 text-[10px] font-mono font-bold text-[#df0003] uppercase">
-                  Direct Intermodal Link
-                </div>
-              </div>
-            </div>
-
-            <!-- Port 4: Karachi -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-              <div class="relative h-44 w-full overflow-hidden bg-slate-100">
-                <img 
-                  src="images/demo/project-3.jpg" 
-                  alt="Karachi Port Pakistan" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent pointer-events-none"></div>
-                <div class="absolute top-3 right-3 px-2 py-0.5 rounded bg-[#02194b]/85 backdrop-blur-md text-white border border-white/20 text-[10px] font-mono font-bold">
-                  PKKHI
-                </div>
-                <div class="absolute bottom-2.5 left-3 text-white">
-                  <div class="text-base font-black leading-tight">Karachi, Pakistan</div>
-                  <div class="text-[10px] text-slate-300 font-mono">International Trade</div>
-                </div>
-              </div>
-              <div class="p-4 flex-1 flex flex-col justify-between">
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
-                  <span *ngIf="!isRtl()">Key gateway for Pakistan&apos;s international trade, ensuring smooth customs clearances and reliable scheduled rotations.</span>
-                  <span *ngIf="isRtl()">البوابة الرئيسية للتجارة الدولية لباكستان مع كفاءة جمركية عالية وجداول ثابتة.</span>
-                </p>
-                <div class="mt-3 pt-2 border-t border-slate-100 text-[10px] font-mono font-bold text-[#df0003] uppercase">
-                  Pakistan Gateway Call
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- =========================================================
-             4. TRADE & COMMERCIAL ENQUIRIES ("LET'S MOVE YOUR CARGO TOGETHER")
-             ========================================================= -->
-        <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#02194b] via-[#032363] to-[#02194b] border border-slate-700 shadow-2xl relative overflow-hidden text-white">
-          <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#df0003]/15 rounded-full blur-3xl pointer-events-none"></div>
-
-          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div class="lg:col-span-8 space-y-4">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-mono font-bold uppercase">
-                <span class="w-2 h-2 rounded-full bg-[#df0003] animate-pulse"></span>
-                <span>{{ isRtl() ? 'الاستفسارات التجارية والشحن' : 'TRADE & COMMERCIAL ENQUIRIES' }}</span>
-              </div>
-
-              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-                {{ isRtl() ? 'لننقل بضائعكم معاً' : "Let's Move Your Cargo Together." }}
-              </h3>
-
-              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl font-normal">
-                {{ isRtl()
-                  ? 'ترحب مافريك للشحن بالاستفسارات من خطوط الشحن العالمية، ووكلاء الشحن، ومشغلي NVOCC، والمستوردين والمصدرين، وشركات الخدمات اللوجستية، ومشغلي الموانئ والمحطات.'
-                  : 'Maverick Shipping LLC welcomes enquiries from international shipping lines, freight forwarders, NVOCC operators, importers and exporters, logistics companies, and port & terminal operators.' }}
-              </p>
-
-              <!-- Who Welcomes Chips -->
-              <div class="flex flex-wrap items-center gap-2 pt-1">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
-                  International Shipping Lines
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
-                  Freight Forwarders
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
-                  NVOCC Operators
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
-                  Importers &amp; Exporters
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
-                  Logistics Companies
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-[11.5px] font-semibold text-slate-100">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#df0003]"></span>
-                  Port &amp; Terminal Operators
+                <span class="text-[11px] font-mono text-slate-400 text-left lg:text-right">
+                  {{ isRtl() ? 'تواصل معنا لجداول الرحلات واستفسارات الإبحار وحجز الحاويات' : 'Contact us for vessel schedules, sailing enquiries & container bookings' }}
                 </span>
               </div>
-            </div>
 
-            <!-- Action Column (4 cols) -->
-            <div class="lg:col-span-4 flex flex-col items-start lg:items-end justify-center gap-3">
-              <button
-                (click)="service.toggleBookingModal(true)"
-                class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-xl shadow-red-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap">
-                {{ isRtl() ? 'طلب تسعيرة أو حجز' : 'Request Commercial Booking' }}
-              </button>
-
-              <a
-                href="tel:+97142105105"
-                class="w-full sm:w-auto px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
-                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <span>+971 4 210 51 05</span>
-              </a>
-
-              <span class="text-[10.5px] font-mono text-slate-400 text-left lg:text-right">
-                {{ isRtl() ? 'تواصل معنا لجداول الرحلات واستفسارات الإبحار وحجز الحاويات' : 'Contact us for vessel schedules, sailing enquiries & container bookings' }}
-              </span>
             </div>
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
+      <!-- =========================================================
+           6. MEMBERSHIPS & INDUSTRY LOGOS (MATCHING DEMO "MEMBERSHIPS SHIPPING")
+           Clean corporate partner & carrier alliance ticker
+           ========================================================= -->
+      <section class="py-12 sm:py-16 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-8">
+          
+          <div class="text-center space-y-1">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#df0003]">
+              {{ isRtl() ? 'العضويات والشراكات الملاحية' : 'MEMBERSHIPS & MARITIME STANDARDS' }}
+            </span>
+            <h3 class="text-lg sm:text-xl font-black text-[#02194b]">
+              {{ isRtl() ? 'شركاء ومواثيق الشحن والخدمات اللوجستية' : 'Industry Standards & Shipping Logistics Alliances' }}
+            </h3>
+          </div>
+
+          <!-- Logo Ticker Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center justify-items-center">
+            <div *ngFor="let i of [1, 2, 3, 4, 5, 6]" class="p-3 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all duration-300 hover:scale-105 flex items-center justify-center">
+              <img [src]="'images/demo/logos/logo' + i + '.png'" [alt]="'Maritime Partner ' + i" class="h-10 sm:h-12 w-auto object-contain" />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
   `
 })
 export class SustainabilityComponent {

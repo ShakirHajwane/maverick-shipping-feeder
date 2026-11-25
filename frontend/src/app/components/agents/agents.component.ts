@@ -8,22 +8,22 @@ import { RegionalAgent } from '../../models/maritime.models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="agents-section" class="py-16 bg-transparent border-b border-white/20">
+    <section id="agents-section" class="py-16 sm:py-24 bg-slate-50 border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-8">
         <!-- Section Header -->
-        <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-semibold tracking-wide uppercase mb-2">
               <span class="w-2 h-2 rounded-full bg-[#dd0103]"></span>
-              <span>{{ isRtl() ? 'المكاتب الإقليمية والوكلاء' : 'GLOBAL COMMERCIAL PRESENCE' }}</span>
+              <span>{{ isRtl() ? 'المكاتب الإقليمية والوكلاء' : 'REGIONAL COMMERCIAL PRESENCE' }}</span>
             </div>
             <h2 class="text-2xl sm:text-4xl font-black text-[#02194b]">
-              {{ isRtl() ? 'شبكة الوكلاء والمكاتب الإقليمية' : 'Regional Offices & Dedicated Agents' }}
+              {{ isRtl() ? 'المقر الرئيسي ومكتب العمليات' : 'Regional Offices & Dedicated Agents' }}
             </h2>
             <p class="text-sm text-slate-600 mt-1 max-w-2xl">
               {{ isRtl()
-                ? 'فريق عمل متمرس في موانئ دبي وأبوظبي وجدة ومومباي وسنغافورة وشنغهاي لخدمة جميع احتياجات الشحن والمناولة.'
-                : 'Local expertise across primary shipping corridors with dedicated operations desks, documentation teams, and 24/7 port agency support.' }}
+                ? 'فريق عمل متمرس لتنسيق خدمات التغذية وحجز الحاويات في صحار ونهافا شيفا وموندرا وكراتشي.'
+                : 'Local expertise across the Arabian Gulf, India, and Pakistan corridor with dedicated commercial booking and port agency coordination.' }}
             </p>
           </div>
 
@@ -96,13 +96,13 @@ import { RegionalAgent } from '../../models/maritime.models';
               <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[#dd0103] text-xs font-bold font-mono uppercase mb-2">
                   <span class="w-2 h-2 rounded-full bg-[#dd0103] animate-ping"></span>
-                  <span>{{ isRtl() ? 'المقر الرئيسي لعمليات الشحن والتحكم' : 'GLOBAL CORPORATE HEADQUARTERS & FLEET CONTROL' }}</span>
+                  <span>{{ isRtl() ? 'المقر الرئيسي لعمليات التغذية والشحن' : 'CORPORATE HEADQUARTERS & CORRIDOR OPERATIONS DESK' }}</span>
                 </div>
                 <h3 class="text-2xl sm:text-3xl font-black text-[#02194b]">
                   {{ filteredAgents()[0].office_name }}
                 </h3>
                 <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                  {{ filteredAgents()[0].city }}, {{ filteredAgents()[0].country }} 🇦🇪 • JAFZA One Maritime Center
+                  {{ filteredAgents()[0].city }}, {{ filteredAgents()[0].country }} • JAFZA One Maritime Center
                 </p>
               </div>
 
@@ -128,7 +128,7 @@ import { RegionalAgent } from '../../models/maritime.models';
                   <span>{{ filteredAgents()[0].address }}</span>
                 </div>
                 <div class="text-xs text-slate-500 pt-1">
-                  Primary Maritime Gateway: Jebel Ali Port & Free Zone (AEJEA)
+                  {{ isRtl() ? 'التنسيق الإقليمي: صحار ⇄ نهافا شيفا ⇄ موندرا ⇄ كراتشي' : 'Corridor Coordination: Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi' }}
                 </div>
               </div>
 
@@ -142,7 +142,7 @@ import { RegionalAgent } from '../../models/maritime.models';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   <span class="text-[#02194b] font-bold">{{ isRtl() ? 'الهاتف:' : 'Phone:' }}</span>
-                  <a [href]="'tel:' + filteredAgents()[0].phone" class="font-mono font-bold text-[#02194b] hover:text-[#dd0103] transition-colors">
+                  <a [href]="'tel:' + filteredAgents()[0].phone" dir="ltr" class="font-mono font-bold text-[#02194b] hover:text-[#dd0103] transition-colors">
                     {{ filteredAgents()[0].phone }}
                   </a>
                 </div>
@@ -162,28 +162,28 @@ import { RegionalAgent } from '../../models/maritime.models';
               </div>
             </div>
 
-            <!-- Marine Conditions & Fairway Telemetry -->
-            <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-50 via-sky-50/40 to-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+            <!-- Marine Conditions & Corridor Status -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-4">
               <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+                <div class="w-9 h-9 rounded-xl bg-red-50 border border-red-100 text-[#dd0103] flex items-center justify-center font-bold">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-[#02194b]">Jebel Ali / Dubai Approach Fairway</div>
-                  <div class="text-[11px] text-slate-500">Fairway Clear • 24/7 Deep-Water Access</div>
+                  <div class="text-xs font-bold text-[#02194b]">{{ isRtl() ? 'دائرة عمليات الممر الملاحي' : 'SMNK Regional Feeder Operations' }}</div>
+                  <div class="text-[11px] text-slate-500">{{ isRtl() ? 'تنسيق مباشر مع محطات الموانئ والوكلاء' : 'Direct port agency coordination across Gulf & Subcontinent hubs' }}</div>
                 </div>
               </div>
 
-              <div class="flex items-center gap-4 text-xs font-mono">
+              <div class="flex items-center gap-3 text-xs font-mono">
                 <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
-                  <span class="text-slate-400 text-[10px] uppercase block">Tide</span>
-                  <span class="font-bold text-sky-700">HIGH TIDE +2.1m</span>
+                  <span class="text-slate-400 text-[10px] uppercase block">Corridor</span>
+                  <span class="font-bold text-[#02194b]">SMNK EXPRESS</span>
                 </div>
                 <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
-                  <span class="text-slate-400 text-[10px] uppercase block">Flow</span>
-                  <span class="font-bold text-emerald-600">▲ Rising</span>
+                  <span class="text-slate-400 text-[10px] uppercase block">Response</span>
+                  <span class="font-bold text-emerald-600">24/7 Active</span>
                 </div>
               </div>
             </div>
@@ -191,20 +191,22 @@ import { RegionalAgent } from '../../models/maritime.models';
             <!-- Action Buttons Footer -->
             <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
               <span class="text-xs text-slate-500">
-                {{ isRtl() ? 'المكتب المركزي لإدارة الرحلات والوكالات الملاحية' : 'Corporate Operations Headquarters coordinates all vessel operations and customer inquiries.' }}
+                {{ isRtl() ? 'المكتب المركزي لإدارة الرحلات والوكالات الملاحية' : 'Corporate Headquarters coordinates regional sailings, slot bookings, and customer inquiries.' }}
               </span>
 
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
                 <a
                   [href]="'mailto:' + filteredAgents()[0].email"
-                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-1.5">
-                  <span>✉️</span>
+                  class="w-full sm:w-auto justify-center px-5 py-2.5 rounded-full bg-[#02194b] hover:bg-[#011238] text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
                   <span>{{ isRtl() ? 'مراسلة العمليات' : 'Email Ops Desk' }}</span>
                 </a>
                 <button
                   type="button"
                   (click)="locateAgent(filteredAgents()[0])"
-                  class="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#dd0103] to-[#b30002] hover:from-[#f00103] hover:to-[#dd0103] text-white font-bold text-xs shadow-md shadow-red-900/30 transition-all cursor-pointer flex items-center gap-2">
+                  class="w-full sm:w-auto justify-center px-5 py-2.5 rounded-full bg-[#dd0103] hover:bg-[#b50102] text-white font-bold text-xs shadow-md shadow-red-600/25 transition-all cursor-pointer flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
@@ -427,7 +429,7 @@ import { RegionalAgent } from '../../models/maritime.models';
               <svg class="w-3.5 h-3.5 text-[#dd0103] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              <a [href]="'tel:' + agent.phone" class="text-slate-700 hover:text-[#dd0103] font-mono transition-colors font-medium">
+              <a [href]="'tel:' + agent.phone" dir="ltr" class="text-slate-700 hover:text-[#dd0103] font-mono transition-colors font-medium">
                 {{ agent.phone }}
               </a>
             </div>
@@ -475,11 +477,9 @@ export class AgentsDirectoryComponent {
   countries = [
     { label: 'All Countries', val: 'all' },
     { label: 'UAE', val: 'UAE' },
-    { label: 'Saudi Arabia', val: 'Saudi Arabia' },
+    { label: 'Oman', val: 'Oman' },
     { label: 'India', val: 'India' },
-    { label: 'Singapore', val: 'Singapore' },
-    { label: 'Egypt', val: 'Egypt' },
-    { label: 'China', val: 'China' }
+    { label: 'Pakistan', val: 'Pakistan' }
   ];
 
   filteredAgents = signal<RegionalAgent[]>([]);

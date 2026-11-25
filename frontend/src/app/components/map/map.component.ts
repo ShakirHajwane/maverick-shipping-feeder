@@ -9,7 +9,7 @@ import { FeederService, Vessel } from '../../models/maritime.models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="interactive-map-section" class="py-16 bg-slate-50 border-b border-slate-200">
+    <section id="interactive-map-section" class="py-16 sm:py-24 bg-white border-y border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-8">
         <!-- Section Header -->
         <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
@@ -31,8 +31,9 @@ import { FeederService, Vessel } from '../../models/maritime.models';
           <!-- Controls: Map Actions -->
           <div class="flex items-center gap-3">
             <button
+              type="button"
               (click)="resetMapView()"
-              class="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
+              class="px-4 py-2 rounded-full bg-white hover:bg-slate-50 text-[#02194b] border border-slate-300 hover:border-[#dd0103] shadow-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
               <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
@@ -43,55 +44,57 @@ import { FeederService, Vessel } from '../../models/maritime.models';
 
         <!-- Feeder Service Selector Pills -->
         <div class="flex flex-wrap items-center gap-2 mb-6">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1">{{ isRtl() ? 'الخدمة النشطة:' : 'Feeder Route:' }}</span>
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider me-1">{{ isRtl() ? 'الخدمة النشطة:' : 'Feeder Route:' }}</span>
           <button
+            type="button"
             *ngFor="let s of service.services()"
             (click)="selectService(s)"
             [class]="activeService()?.code === s.code 
-              ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-[#02194b] font-bold border-amber-300 shadow-md shadow-amber-500/20' 
-              : 'bg-white hover:bg-slate-50 text-slate-700 font-medium border-slate-300 hover:border-[#dd0103]'"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-mono border transition-all cursor-pointer">
-            {{ s.code }} <span class="font-sans text-[11px] opacity-80">({{ s.transit_days }}d)</span>
+              ? 'bg-[#dd0103] text-white font-bold border-[#dd0103] shadow-md shadow-red-600/20' 
+              : 'bg-white hover:bg-slate-50 text-[#02194b] font-semibold border-slate-300 hover:border-[#dd0103]'"
+            class="px-3.5 py-1.5 rounded-full text-xs font-mono border transition-all cursor-pointer">
+            {{ s.code }} <span class="font-sans text-[11px] opacity-85">({{ s.transit_days }}d)</span>
           </button>
         </div>
 
         <!-- Map & Route Rotation Details Split -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Leaflet Map Container (2 Cols) -->
-          <div class="lg:col-span-2 relative rounded-2xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100">
+          <div class="lg:col-span-2 relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100">
             <div #mapContainer class="w-full h-[360px] sm:h-[460px] lg:h-[520px] z-10"></div>
 
             <!-- Map Floating Badge Overlay -->
-            <div class="absolute bottom-4 left-4 z-20 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 text-xs space-y-1 shadow-md">
+            <div class="absolute bottom-4 start-4 z-20 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 text-xs space-y-1 shadow-md">
               <div class="flex items-center gap-2 text-[#dd0103] font-bold">
                 <span class="w-2 h-2 rounded-full bg-[#dd0103]"></span>
-                <span>CartoDB Voyager • OpenStreetMap Layer</span>
+                <span>OpenStreetMap Maritime Layer</span>
               </div>
-              <div class="text-[11px] text-slate-600">Active Service: <span class="text-slate-900 font-mono font-semibold">{{ activeService()?.code }}</span></div>
+              <div class="text-[11px] text-slate-600">Active Service: <span class="text-[#02194b] font-mono font-semibold">{{ activeService()?.code }}</span></div>
             </div>
           </div>
 
           <!-- Active Rotation & Hubs Timeline (1 Col) -->
-          <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg flex flex-col justify-between">
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-lg flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <span class="text-[10px] uppercase font-bold tracking-wider text-[#dd0103]">Selected Corridor</span>
+                  <span class="text-[10px] uppercase font-bold tracking-wider text-[#dd0103]">{{ isRtl() ? 'المسار المختار' : 'Selected Corridor' }}</span>
                   <h3 class="text-lg font-black text-[#02194b]">{{ activeService()?.name }}</h3>
                 </div>
-                <span class="text-xs px-2.5 py-1 rounded-md bg-red-50 border border-red-200 font-mono text-[#dd0103] font-bold">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-red-50 border border-red-200 font-mono text-[#dd0103] font-bold shrink-0">
                   {{ activeService()?.code }}
                 </span>
               </div>
 
               <!-- Ports Sequence Stepper -->
-              <div class="space-y-4 max-h-[360px] overflow-y-auto pr-1">
+              <div class="space-y-4 max-h-[360px] overflow-y-auto pe-1">
                 <div *ngFor="let port of activeService()?.port_rotation; let i = index; let last = last" class="relative flex items-start gap-3">
                   <!-- Stepper Dot & Line -->
                   <div class="flex flex-col items-center">
                     <button
+                      type="button"
                       (click)="focusPort(port.lat, port.lng, port.port_name)"
-                      class="w-6 h-6 rounded-full bg-slate-50 border-2 border-[#dd0103] text-[#dd0103] hover:bg-amber-400 hover:text-[#02194b] text-xs font-bold flex items-center justify-center transition-all cursor-pointer shadow-sm">
+                      class="w-6 h-6 rounded-full bg-slate-50 border-2 border-[#dd0103] text-[#dd0103] hover:bg-[#dd0103] hover:text-white text-xs font-bold flex items-center justify-center transition-all cursor-pointer shadow-sm">
                       {{ i + 1 }}
                     </button>
                     <div *ngIf="!last" class="w-0.5 h-10 bg-gradient-to-b from-[#dd0103] to-slate-200 my-1"></div>
@@ -101,8 +104,9 @@ import { FeederService, Vessel } from '../../models/maritime.models';
                   <div class="flex-1 pb-2">
                     <div class="flex items-center justify-between">
                       <button
+                        type="button"
                         (click)="focusPort(port.lat, port.lng, port.port_name)"
-                        class="text-xs font-bold text-slate-900 hover:text-[#dd0103] text-left transition-colors cursor-pointer">
+                        class="text-xs font-bold text-[#02194b] hover:text-[#dd0103] text-start transition-colors cursor-pointer">
                         {{ port.port_name }}
                       </button>
                       <span class="text-[10px] font-mono text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded">
@@ -123,11 +127,11 @@ import { FeederService, Vessel } from '../../models/maritime.models';
             <!-- Rotation Metrics Footer -->
             <div class="pt-4 border-t border-slate-100 mt-6 grid grid-cols-2 gap-3 text-center">
               <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span class="text-[10px] text-slate-500 uppercase font-semibold">Round Transit</span>
-                <p class="text-sm font-bold text-slate-900 font-mono">{{ activeService()?.transit_days }} Days</p>
+                <span class="text-[10px] text-slate-500 uppercase font-semibold">{{ isRtl() ? 'مدة الدورة' : 'Round Transit' }}</span>
+                <p class="text-sm font-bold text-[#02194b] font-mono">{{ activeService()?.transit_days }} Days</p>
               </div>
               <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span class="text-[10px] text-slate-500 uppercase font-semibold">Frequency</span>
+                <span class="text-[10px] text-slate-500 uppercase font-semibold">{{ isRtl() ? 'التواتر' : 'Frequency' }}</span>
                 <p class="text-sm font-bold text-[#dd0103] font-mono">{{ activeService()?.frequency }}</p>
               </div>
             </div>
@@ -149,7 +153,7 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
   private portMarkers: L.Marker[] = [];
   private vesselMarkers: L.Marker[] = [];
 
-  showVessels = true;
+  showVessels = false;
 
   constructor() {
     // React to selected service changes
@@ -172,26 +176,6 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
             .setLatLng([loc.lat, loc.lng])
             .setContent(loc.popupHtml)
             .openOn(this.map);
-        }
-      }
-    });
-
-    // React to vessels changes
-    effect(() => {
-      const vessels = this.service.vessels();
-      if (this.map && this.showVessels && vessels.length > 0) {
-        this.renderVesselMarkers();
-      }
-    });
-
-    // React to concept mode changes (simple vs standard)
-    effect(() => {
-      const concept = this.service.activeConcept();
-      if (concept === 'simple') {
-        this.showVessels = false;
-        if (this.map) {
-          this.vesselMarkers.forEach(m => this.map?.removeLayer(m));
-          this.vesselMarkers = [];
         }
       }
     });

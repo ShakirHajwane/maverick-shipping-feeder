@@ -88,10 +88,10 @@ interface TelemetryNode {
       (touchstart)="onTouchStart()"
       (touchend)="onTouchEnd()"
       (touchcancel)="onTouchEnd()"
-      class="w-full bg-slate-50 border-b border-slate-200/80 px-3 sm:px-6 lg:px-10 pt-4 pb-12 sm:pb-16 transition-colors duration-500 select-none">
+      class="w-full bg-slate-50 border-b border-slate-200 px-3 sm:px-6 lg:px-10 pt-3 pb-10 sm:pb-14 transition-colors duration-500">
       
-      <!-- Rounded Viewport Application Frame (Signature GFS Maritime Framing) -->
-      <div class="relative w-full max-w-[1720px] mx-auto rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden border border-slate-800 shadow-2xl bg-slate-950 min-h-[660px] sm:min-h-[720px] lg:min-h-[820px] flex flex-col justify-between">
+      <!-- Rounded Viewport Application Frame (Fits cleanly above fold on 1440x900) -->
+      <div class="relative w-full max-w-[1720px] mx-auto rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden border border-slate-800 shadow-2xl bg-slate-950 min-h-[580px] sm:min-h-[630px] lg:min-h-[660px] xl:min-h-[700px] flex flex-col justify-between">
         
         <!-- High-Definition Looping Video / GIF Vessel Backdrop -->
         <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -123,38 +123,38 @@ interface TelemetryNode {
         </canvas>
 
         <!-- Top Status Bar Inside Frame -->
-        <div class="relative z-20 px-5 sm:px-8 lg:px-12 pt-6 sm:pt-8 flex flex-wrap items-center justify-between gap-4">
+        <div class="relative z-20 px-5 sm:px-8 lg:px-12 pt-4 sm:pt-5 flex flex-wrap items-center justify-between gap-4">
           <!-- Nautical Brand / Route Badge -->
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/75 backdrop-blur-md border border-white/15 text-xs text-white shadow-lg">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span class="tracking-wide uppercase font-mono text-[10.5px] font-bold text-amber-400">
+            <span class="tracking-wide uppercase font-mono text-[10.5px] font-bold text-[#ef2325]">
               {{ isRtl() ? 'خدمة تغذية مخصصة' : 'DEDICATED FEEDER SERVICE' }}
             </span>
             <span class="text-slate-400">•</span>
             <span class="font-mono text-[10.5px] text-slate-200">SOHAR ➔ NHAVA SHEVA ➔ MUNDRA ➔ KARACHI</span>
           </div>
 
-          <!-- DGPS & Vessel Status Pill -->
+          <!-- Corridor Status Pill -->
           <div class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/75 backdrop-blur-md border border-white/15 text-[11px] font-mono text-slate-300 shadow-lg">
-            <span class="text-emerald-400 font-bold">DGPS LOCK</span>
+            <span class="text-emerald-400 font-bold">SMNK CORRIDOR</span>
             <span class="text-slate-500">•</span>
-            <span class="text-white font-bold">LAT 23°49' N</span>
+            <span class="text-white font-bold">WEEKLY FIXED DAY</span>
             <span class="text-slate-500">•</span>
-            <span class="text-white font-bold">LON 061°27' E</span>
+            <span class="text-white font-bold">11-DAY CYCLE</span>
             <span class="text-slate-500">•</span>
-            <span class="text-amber-400 font-bold">15.4 KNOTS</span>
+            <span class="text-[#ef2325] font-bold">4 GATEWAY PORTS</span>
           </div>
         </div>
 
-        <!-- Midground Hero Content: Typography (Left) & Signature Floating Review Card (Right) -->
-        <div class="relative z-20 flex-1 px-5 sm:px-8 lg:px-12 py-8 sm:py-12 flex flex-col justify-center">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
+        <!-- Midground Hero Content -->
+        <div class="relative z-20 flex-1 px-5 sm:px-8 lg:px-12 py-4 sm:py-5 flex flex-col justify-center">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center w-full">
             
-            <!-- Left Column: Kinetic Typography, Subtitle, Bullet Points & Dual CTA Pill Buttons (6 Cols) -->
-            <div class="lg:col-span-6 xl:col-span-7 space-y-4 sm:space-y-5">
+            <!-- Left Column: Kinetic Typography, Subtitle & Dual CTA Pill Buttons -->
+            <div class="lg:col-span-6 xl:col-span-7 space-y-3 sm:space-y-4">
               
               <!-- Kinetic Headline Matching Reference -->
-              <h1 class="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.08] drop-shadow-xl">
+              <h1 class="text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-[1.08] drop-shadow-xl">
                 <span>{{ isRtl() ? 'حلول التغذية' : 'Global Feeder &' }}</span><br>
                 <span class="text-white">{{ isRtl() ? 'والشحن العالمية' : 'Freight Solutions' }}</span>
               </h1>
@@ -170,87 +170,83 @@ interface TelemetryNode {
               <div class="flex flex-wrap items-center gap-3.5 pt-1">
                 <!-- Maverick Red Pill: Get a Quote -->
                 <button
+                  type="button"
                   (click)="service.toggleBookingModal(true)"
-                  class="px-7 sm:px-8 py-3.5 rounded-full bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-xl shadow-red-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer">
+                  class="px-7 sm:px-8 py-3.5 rounded-full bg-[#dd0103] hover:bg-[#b50102] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-xl shadow-red-600/30 hover:scale-[1.03] active:scale-95 transition-all cursor-pointer">
                   {{ isRtl() ? 'طلب تسعيرة' : 'Get a Quote' }}
                 </button>
 
                 <!-- Glass Translucent Pill: Sailing Schedules -->
                 <button
+                  type="button"
                   (click)="scrollToEngine('schedule')"
-                  class="px-7 sm:px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm border border-white/25 hover:border-white/50 shadow-lg shadow-black/20 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2">
+                  class="px-7 sm:px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm border border-white/25 hover:border-white/50 shadow-lg shadow-black/20 hover:scale-[1.03] active:scale-95 transition-all cursor-pointer flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                   <span>{{ isRtl() ? 'جدول الرحلات' : 'Sailing Schedules' }}</span>
                 </button>
               </div>
 
-              <!-- Mobile Compact Trust Pill (Avoids taking space on mobile) -->
-              <div class="lg:hidden flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/15 text-white max-w-md shadow-lg">
-                <div class="flex items-center gap-2">
-                  <div class="flex -space-x-1.5 overflow-hidden">
-                    <img class="inline-block h-6 w-6 rounded-full ring-1 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar 1" />
-                    <img class="inline-block h-6 w-6 rounded-full ring-1 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Avatar 2" />
-                  </div>
-                  <div class="flex items-baseline gap-1 text-xs font-bold">
-                    <span class="text-white">4.8</span>
-                    <span class="text-amber-400">★</span>
-                    <span class="text-[11px] text-slate-300 font-normal ml-1">• 99.4% On-Time</span>
+              <!-- Mobile Compact Trust Pill -->
+              <div class="lg:hidden flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/15 text-white max-w-md shadow-lg">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <div class="flex items-baseline gap-1.5 text-xs font-bold">
+                    <span class="text-white">99.4%</span>
+                    <span class="text-[11px] text-slate-300 font-normal">{{ isRtl() ? 'دقة المواعيد' : 'Schedule Reliability' }}</span>
                   </div>
                 </div>
-                <button (click)="service.toggleBookingModal(true)" class="text-[11px] font-bold text-amber-400 hover:text-amber-300 underline underline-offset-2 cursor-pointer">
-                  {{ isRtl() ? 'تقييم العملاء' : 'Client Reviews' }}
+                <button type="button" (click)="scrollToEngine('quote')" class="text-[11px] font-bold text-white hover:text-[#ef2325] underline underline-offset-2 cursor-pointer">
+                  {{ isRtl() ? 'طلب تسعيرة' : 'Slot Enquiry' }}
                 </button>
               </div>
 
               <!-- Quick Key Metrics Strip -->
-              <div class="grid grid-cols-3 gap-3 pt-2 max-w-md">
-                <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
-                  <div class="text-[10px] font-mono text-slate-400 uppercase font-bold">NETWORK</div>
-                  <div class="text-lg sm:text-xl font-black text-white">4 Ports</div>
-                  <div class="text-[9.5px] text-slate-300 truncate">Dedicated Loop</div>
+              <div class="grid grid-cols-3 gap-2.5 sm:gap-3 pt-2 max-w-md">
+                <div class="bg-slate-950/70 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg">
+                  <div class="text-[9.5px] sm:text-[10px] font-mono text-slate-400 uppercase font-bold">{{ isRtl() ? 'الشبكة' : 'NETWORK' }}</div>
+                  <div class="text-base sm:text-xl font-black text-white">{{ isRtl() ? '4 موانئ' : '4 Ports' }}</div>
+                  <div class="text-[9.5px] text-slate-300 truncate">{{ isRtl() ? 'مسار SMNK' : 'SMNK Loop' }}</div>
                 </div>
-                <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
-                  <div class="text-[10px] font-mono text-emerald-400 uppercase font-bold">RELIABILITY</div>
-                  <div class="text-lg sm:text-xl font-black text-emerald-400">99.4%</div>
-                  <div class="text-[9.5px] text-slate-300 truncate">On-Time Sailing</div>
+                <div class="bg-slate-950/70 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg">
+                  <div class="text-[9.5px] sm:text-[10px] font-mono text-emerald-400 uppercase font-bold">{{ isRtl() ? 'الموثوقية' : 'RELIABILITY' }}</div>
+                  <div class="text-base sm:text-xl font-black text-emerald-400">99.4%</div>
+                  <div class="text-[9.5px] text-slate-300 truncate">{{ isRtl() ? 'التزام المواعيد' : 'On-Time Sailing' }}</div>
                 </div>
-                <div class="bg-slate-950/60 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-lg">
-                  <div class="text-[10px] font-mono text-amber-400 uppercase font-bold">FREQUENCY</div>
-                  <div class="text-lg sm:text-xl font-black text-amber-400">Fixed Day</div>
-                  <div class="text-[9.5px] text-slate-300 truncate">11-Day Cycle</div>
+                <div class="bg-slate-950/70 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-white/15 shadow-lg">
+                  <div class="text-[9.5px] sm:text-[10px] font-mono text-red-400 uppercase font-bold">{{ isRtl() ? 'التواتر' : 'FREQUENCY' }}</div>
+                  <div class="text-base sm:text-xl font-black text-white">{{ isRtl() ? 'أسبوعي' : 'Weekly' }}</div>
+                  <div class="text-[9.5px] text-slate-300 truncate">{{ isRtl() ? 'دورة 11 يوماً' : '11-Day Cycle' }}</div>
                 </div>
               </div>
             </div>
 
-            <!-- Right Column: Floating Card 1 (Desktop Only - Avoids Mobile Crowding) -->
-            <div class="hidden lg:flex lg:col-span-6 xl:col-span-5 flex-col items-end justify-center relative min-h-[220px] lg:min-h-[300px]">
+            <!-- Right Column: Floating Corporate Trust Card (Desktop Only) -->
+            <div class="hidden lg:flex lg:col-span-6 xl:col-span-5 flex-col items-end justify-center relative min-h-[160px] lg:min-h-[190px]">
               
-              <!-- Floating Card 1: Review Card (White Glassmorphic) -->
-              <div class="w-72 xl:w-80 bg-white/95 backdrop-blur-xl border border-white/60 rounded-2xl p-4 xl:p-5 shadow-2xl text-slate-900 hover:-translate-y-1 transition-transform duration-300 z-30">
+              <!-- Floating Card 1: Regional Carrier Performance (White Glassmorphic) -->
+              <div class="w-72 xl:w-80 bg-white/95 backdrop-blur-xl border border-white/70 rounded-2xl p-4 xl:p-5 shadow-2xl text-[#02194b] hover:-translate-y-1 transition-transform duration-300 z-30">
                 <div class="flex items-center justify-between gap-3 mb-2.5">
-                  <!-- Avatars -->
-                  <div class="flex -space-x-2 overflow-hidden">
-                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar 1" />
-                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Avatar 2" />
-                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Avatar 3" />
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 border border-red-200/70 text-[10px] font-mono font-bold text-[#dd0103] uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#dd0103] animate-pulse"></span>
+                    <span>{{ isRtl() ? 'خدمة SMNK' : 'SMNK SERVICE DESK' }}</span>
                   </div>
-                  <button (click)="service.toggleBookingModal(true)" class="text-[11px] font-bold text-slate-600 hover:text-slate-950 underline underline-offset-2 cursor-pointer">
-                    {{ isRtl() ? 'تقييم العملاء' : 'Leave a Review' }}
+                  <button type="button" (click)="scrollToEngine('quote')" class="text-[11px] font-bold text-[#02194b] hover:text-[#dd0103] underline underline-offset-2 cursor-pointer">
+                    {{ isRtl() ? 'طلب تسعيرة' : 'Slot Enquiry' }}
                   </button>
                 </div>
                 <p class="text-xs text-slate-600 leading-snug font-medium mb-3">
                   {{ isRtl()
-                    ? 'موثوق من قبل الشركات وخطوط الملاحة الإقليمية لنقل الحاويات بكفاءة وجداول ثابتة.'
-                    : 'Trusted by regional shipping lines and forwarders for dependable container feeder services.' }}
+                    ? 'موثوق من قبل خطوط الشحن العالمية ووكلاء الشحن لنقل الحاويات بكفاءة وجداول ثابتة.'
+                    : 'Serving international shipping lines, NVOCCs, and forwarders across Sohar, Nhava Sheva, Mundra, and Karachi.' }}
                 </p>
-                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-                  <div class="flex items-baseline gap-1.5">
-                    <span class="text-2xl font-black text-slate-950">4.8</span>
-                    <span class="text-amber-400 text-lg">★</span>
+                <div class="flex items-center justify-between pt-2.5 border-t border-slate-100">
+                  <div>
+                    <div class="text-[10px] font-mono uppercase text-slate-500 font-bold">{{ isRtl() ? 'التزام المواعيد' : 'Reliability' }}</div>
+                    <div class="text-xl font-black text-[#02194b]">99.4%</div>
                   </div>
-                  <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10.5px] font-bold text-emerald-700">
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10.5px] font-bold text-emerald-700">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>99.4% On-Time</span>
+                    <span>{{ isRtl() ? 'إبحار أسبوعي ثابت' : 'Weekly Fixed Day' }}</span>
                   </div>
                 </div>
               </div>
@@ -260,38 +256,41 @@ interface TelemetryNode {
         </div>
 
         <!-- Bottom Area of Frame: Floating Card 2 (Left) & Floating Card 3 (Right) -->
-        <div class="relative z-20 px-5 sm:px-8 lg:px-12 pb-6 sm:pb-8 flex flex-col md:flex-row items-stretch md:items-end justify-between gap-4">
+        <div class="relative z-20 px-5 sm:px-8 lg:px-12 pb-4 sm:pb-5 flex flex-col md:flex-row items-stretch md:items-end justify-between gap-4">
           
-          <!-- Floating Card 2 (Bottom-Left): Unloading & 3D Container -->
-          <div class="w-full sm:w-80 lg:w-88 bg-slate-950/85 backdrop-blur-xl border border-white/15 rounded-2xl p-4 sm:p-5 shadow-2xl text-white relative overflow-hidden group hover:border-amber-400/40 transition-all duration-300">
-            <div class="relative z-10 pr-24">
-              <span class="text-[10px] font-mono font-bold tracking-widest text-amber-400 uppercase">UNLOADING</span>
+          <!-- Floating Card 2 (Bottom-Left): Container Slot Booking & 3D Container -->
+          <div class="w-full sm:w-80 lg:w-88 bg-slate-950/85 backdrop-blur-xl border border-white/15 rounded-2xl p-4 shadow-2xl text-white relative overflow-hidden group hover:border-[#dd0103]/50 transition-all duration-300">
+            <div class="relative z-10 pr-24 rtl:pr-0 rtl:pl-24">
+              <span class="text-[10px] font-mono font-bold tracking-widest text-[#ef2325] uppercase">
+                {{ isRtl() ? 'تخصيص المساحات' : 'SLOT ALLOCATION' }}
+              </span>
               <h3 class="text-sm sm:text-base font-black text-white mt-1 leading-snug">
-                Book Container<br>Unloading Today
+                {{ isRtl() ? 'احجز مساحات الحاويات اليوم' : 'Book Container Feeder Slots' }}
               </h3>
               <button
+                type="button"
                 (click)="service.toggleBookingModal(true)"
-                class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 mt-3 group-hover:translate-x-1 transition-transform cursor-pointer">
+                class="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-[#ef2325] mt-3 group-hover:translate-x-1 transition-all cursor-pointer">
                 <span>{{ isRtl() ? 'احجز الآن' : 'Book Now' }}</span>
-                <span>→</span>
+                <span class="rtl:rotate-180">→</span>
               </button>
             </div>
 
-            <!-- Suspended 3D Yellow Container with Crane Rigging Lines -->
-            <div class="absolute right-1 -bottom-1 w-28 h-28 pointer-events-none transform -rotate-12 group-hover:scale-105 transition-transform duration-300">
+            <!-- Suspended 3D Container with Crane Rigging Lines -->
+            <div class="absolute right-1 rtl:right-auto rtl:left-1 -bottom-1 w-28 h-28 pointer-events-none transform -rotate-12 group-hover:scale-105 transition-transform duration-300">
               <svg class="absolute inset-0 w-full h-full text-slate-400 opacity-60" viewBox="0 0 100 100">
                 <line x1="50" y1="0" x2="20" y2="45" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2,2" />
                 <line x1="50" y1="0" x2="80" y2="45" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2,2" />
                 <line x1="50" y1="0" x2="50" y2="45" stroke="currentColor" stroke-width="1.5" />
               </svg>
-              <!-- Container Body -->
-              <div class="absolute bottom-2 right-1 w-20 h-13 bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-300 rounded shadow-2xl border border-amber-200/50 flex flex-col justify-between p-1.5 transform skew-y-6">
-                <div class="flex justify-between items-center text-[7px] font-mono font-bold text-amber-950">
+              <!-- Container Body in Maverick Brand Red -->
+              <div class="absolute bottom-2 right-1 w-20 h-13 bg-gradient-to-tr from-[#b50102] via-[#dd0103] to-[#ef2325] rounded shadow-2xl border border-red-200/40 flex flex-col justify-between p-1.5 transform skew-y-6">
+                <div class="flex justify-between items-center text-[7px] font-mono font-bold text-white">
                   <span>MAVERICK</span>
                   <span>40' HC</span>
                 </div>
-                <div class="w-full h-1 bg-amber-600/30 rounded my-0.5"></div>
-                <div class="flex justify-between items-center text-[6px] font-mono text-amber-950 font-bold">
+                <div class="w-full h-1 bg-white/25 rounded my-0.5"></div>
+                <div class="flex justify-between items-center text-[6px] font-mono text-red-100 font-bold">
                   <span>OM SOH</span>
                   <span>IN NSA</span>
                 </div>
@@ -299,47 +298,47 @@ interface TelemetryNode {
             </div>
           </div>
 
-          <!-- Floating Card 3 (Bottom-Right): Live Transit Progress Card -->
-          <div class="w-full sm:w-88 lg:w-96 bg-slate-950/85 backdrop-blur-xl border border-white/15 rounded-2xl p-4 sm:p-5 shadow-2xl text-white hover:border-sky-400/40 transition-all duration-300">
+          <!-- Floating Card 3 (Bottom-Right): Corridor Rotation Leg Card -->
+          <div class="w-full sm:w-88 lg:w-96 bg-slate-950/85 backdrop-blur-xl border border-white/15 rounded-2xl p-4 sm:p-5 shadow-2xl text-white hover:border-[#dd0103]/40 transition-all duration-300">
             <!-- Port pair header -->
             <div class="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
-              <div class="text-left">
+              <div class="text-start">
                 <div class="text-base sm:text-lg font-black tracking-wide text-white">OM SOH</div>
                 <div class="text-[10px] font-mono text-slate-400">Sohar, Oman</div>
               </div>
 
               <!-- Ship icon in circle -->
-              <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner text-amber-400">
+              <div class="w-8 h-8 rounded-full bg-[#dd0103]/20 flex items-center justify-center border border-[#dd0103]/40 shadow-inner text-white">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 21c-1.39 0-2.78-.47-4-1.32-2.44 1.71-5.56 1.71-8 0C6.78 20.53 5.39 21 4 21H2v2h2c1.38 0 2.74-.35 4-.99 2.53 1.28 5.47 1.28 8 0 1.26.64 2.62.99 4 .99h2v-2h-2zM3.95 19H4c1.6 0 3.02-.88 4-2 .98 1.12 2.4 2 4 2s3.02-.88 4-2c.98 1.12 2.4 2 4 2h.05l1.89-6.68c.08-.26.06-.54-.06-.78s-.34-.42-.6-.47L20 11V6c0-1.1-.9-2-2-2h-3V1h-2v3h-2V1H9v3H6c-1.1 0-2 .9-2 2v5l-1.28.27c-.26.05-.48.23-.6.47s-.14.52-.06.78L3.95 19zM6 6h12v5.47l-6-1.27-6 1.27V6z" />
                 </svg>
               </div>
 
-              <div class="text-right">
-                <div class="text-base sm:text-lg font-black tracking-wide text-white">IN NSA</div>
-                <div class="text-[10px] font-mono text-slate-400">Nhava Sheva, India</div>
+              <div class="text-end">
+                <div class="text-base sm:text-lg font-black tracking-wide text-white">PK KHI</div>
+                <div class="text-[10px] font-mono text-slate-400">Karachi via India</div>
               </div>
             </div>
 
-            <!-- Transit Progress Line with Arrow -->
+            <!-- Corridor Rotation Timeline Bar -->
             <div class="py-3">
               <div class="relative w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-amber-300 rounded-full w-[65%]"></div>
+                <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-[#dd0103] to-emerald-400 rounded-full w-full"></div>
               </div>
               <div class="flex items-center justify-between text-[10px] font-mono text-slate-300 mt-2">
                 <div>
-                  <span class="text-slate-500 uppercase">ATD</span><br>
-                  <span class="font-bold text-white">Nov 20 • 06:30</span>
+                  <span class="text-slate-500 uppercase">DAY 1</span><br>
+                  <span class="font-bold text-white">Sohar (OMSOH)</span>
                 </div>
                 <div class="text-center">
                   <span class="inline-flex items-center gap-1 text-emerald-400 font-bold">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    15.4 kn Underway
+                    Nhava Sheva • Mundra
                   </span>
                 </div>
-                <div class="text-right">
-                  <span class="text-slate-500 uppercase">ETA</span><br>
-                  <span class="font-bold text-amber-400">Nov 22 • 14:00</span>
+                <div class="text-end">
+                  <span class="text-slate-500 uppercase">DAY 8</span><br>
+                  <span class="font-bold text-white">Karachi (PKKHI)</span>
                 </div>
               </div>
             </div>
@@ -347,7 +346,7 @@ interface TelemetryNode {
             <!-- Footer: Corridor service identity -->
             <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-400">
               <span>SERVICE: <b class="text-white">SMNK FEEDER LOOP</b></span>
-              <span class="text-amber-400 font-bold">WEEKLY FIXED DAY</span>
+              <span class="text-emerald-400 font-bold">WEEKLY FIXED DAY</span>
             </div>
           </div>
 
@@ -374,8 +373,8 @@ interface TelemetryNode {
               </div>
               <div class="flex items-center gap-3 text-[10.5px] font-mono text-slate-500">
                 <span class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                  {{ isRtl() ? 'بيانات حية ومباشرة' : 'LIVE RADAR AIS FEED' }}
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#dd0103]"></span>
+                  {{ isRtl() ? 'مكتب العمليات المباشر • دبي' : 'SMNK CORRIDOR • DUBAI OPS DESK' }}
                 </span>
               </div>
             </div>
@@ -384,12 +383,13 @@ interface TelemetryNode {
             <div class="grid grid-cols-3 border-b border-slate-200 bg-slate-50/70 text-center text-xs sm:text-sm font-semibold">
               <!-- Tab 1: Find Service -->
               <button
+                type="button"
                 id="tab-btn-service"
                 (click)="activeTab.set('service')"
                 [class]="activeTab() === 'service' 
-                  ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                  ? 'bg-white text-[#dd0103] border-b-2 border-[#dd0103] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
                   : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
-                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-4 h-4 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                 </svg>
                 <span>{{ isRtl() ? 'الخدمات' : 'Services' }}</span>
@@ -397,12 +397,13 @@ interface TelemetryNode {
 
               <!-- Tab 2: Find Schedule -->
               <button
+                type="button"
                 id="tab-btn-schedule"
                 (click)="activeTab.set('schedule')"
                 [class]="activeTab() === 'schedule' 
-                  ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                  ? 'bg-white text-[#dd0103] border-b-2 border-[#dd0103] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
                   : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
-                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-4 h-4 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span>{{ isRtl() ? 'الرحلات' : 'Schedules' }}</span>
@@ -410,12 +411,13 @@ interface TelemetryNode {
 
               <!-- Tab 3: Quick Quote & Commercial Booking -->
               <button
+                type="button"
                 id="tab-btn-quote"
                 (click)="activeTab.set('quote')"
                 [class]="activeTab() === 'quote' 
-                  ? 'bg-white text-[#df0003] border-b-2 border-[#df0003] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
+                  ? 'bg-white text-[#dd0103] border-b-2 border-[#dd0103] font-bold py-3.5 px-3 flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer'
                   : 'text-slate-600 hover:text-[#02194b] py-3.5 px-3 flex items-center justify-center gap-2 hover:bg-white/60 transition-all cursor-pointer'">
-                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-4 h-4 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <span>{{ isRtl() ? 'طلب تسعيرة' : 'Quick Quote Desk' }}</span>
@@ -435,12 +437,12 @@ interface TelemetryNode {
                     <select
                       [ngModel]="selectedServiceCode()"
                       (ngModelChange)="onServiceCodeChange($event)"
-                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#df0003]/20 focus:border-[#df0003] appearance-none cursor-pointer text-xs sm:text-sm">
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#dd0103]/20 focus:border-[#dd0103] appearance-none cursor-pointer text-xs sm:text-sm">
                       <option *ngFor="let s of service.services()" [value]="s.code" class="bg-white text-slate-900">
                         {{ s.code }} — {{ s.name }} ({{ s.frequency }})
                       </option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-4 text-slate-500">
                       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                       </svg>
@@ -453,7 +455,7 @@ interface TelemetryNode {
                   <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2.5">
                       <span class="text-lg sm:text-xl font-black text-[#02194b]">{{ cs.code }}</span>
-                      <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-red-50 text-[#df0003] border border-red-200/60 font-bold">
+                      <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-red-50 text-[#dd0103] border border-red-200/60 font-bold">
                         {{ cs.frequency }}
                       </span>
                       <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-bold">
@@ -471,18 +473,19 @@ interface TelemetryNode {
                     <div class="flex flex-wrap items-center gap-2 pt-1">
                       <ng-container *ngFor="let port of cs.port_rotation; let i = index; let last = last">
                         <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs shadow-xs">
-                          <span class="w-2 h-2 rounded-full bg-[#df0003]"></span>
+                          <span class="w-2 h-2 rounded-full bg-[#dd0103]"></span>
                           <span class="font-bold text-[#02194b]">{{ port.port_name }}</span>
                           <span class="text-[10px] text-slate-500 font-mono">({{ port.unlocode }})</span>
                         </div>
-                        <span *ngIf="!last" class="text-slate-400 text-xs font-bold">→</span>
+                        <span *ngIf="!last" class="text-slate-400 text-xs font-bold rtl:rotate-180">→</span>
                       </ng-container>
                     </div>
                   </div>
 
                   <button
+                    type="button"
                     (click)="jumpToInteractiveRoute()"
-                    class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/20 cursor-pointer mt-2">
+                    class="w-full py-3 px-4 rounded-xl bg-[#dd0103] hover:bg-[#b50102] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/20 cursor-pointer mt-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
@@ -501,7 +504,7 @@ interface TelemetryNode {
                     <select
                       [ngModel]="schedulePol()"
                       (ngModelChange)="onPolChange($event)"
-                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] cursor-pointer text-xs">
                       <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ الشحن' : 'All Loading Ports' }}</option>
                       <option value="Sohar" class="bg-white text-slate-900">Sohar, Oman (OMSOH)</option>
                       <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
@@ -517,7 +520,7 @@ interface TelemetryNode {
                     <select
                       [ngModel]="schedulePod()"
                       (ngModelChange)="onPodChange($event)"
-                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003] cursor-pointer text-xs">
+                      class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] cursor-pointer text-xs">
                       <option value="" class="bg-white text-slate-900">{{ isRtl() ? 'جميع موانئ التفريغ' : 'All Discharge Ports' }}</option>
                       <option value="Nhava Sheva" class="bg-white text-slate-900">Nhava Sheva, India (INNSA)</option>
                       <option value="Mundra" class="bg-white text-slate-900">Mundra, India (INMUN)</option>
@@ -529,7 +532,7 @@ interface TelemetryNode {
 
                 <!-- Schedules Result Table -->
                 <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white max-h-64 shadow-xs">
-                  <table class="w-full text-left text-xs text-slate-700">
+                  <table class="w-full text-start text-xs text-slate-700">
                     <thead class="bg-slate-50 text-slate-700 uppercase text-[9.5px] tracking-wider border-b border-slate-200 sticky top-0">
                       <tr>
                         <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الخدمة' : 'Service Loop' }}</th>
@@ -539,7 +542,7 @@ interface TelemetryNode {
                         <th class="py-2.5 px-3.5 font-bold">ETD</th>
                         <th class="py-2.5 px-3.5 font-bold">ETA</th>
                         <th class="py-2.5 px-3.5 font-bold">{{ isRtl() ? 'الحالة' : 'Status' }}</th>
-                        <th class="py-2.5 px-3.5 font-bold text-right">{{ isRtl() ? 'إجراء' : 'Action' }}</th>
+                        <th class="py-2.5 px-3.5 font-bold text-end">{{ isRtl() ? 'إجراء' : 'Action' }}</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
@@ -547,7 +550,7 @@ interface TelemetryNode {
                         <td class="py-2.5 px-3.5 font-bold text-[#02194b] truncate max-w-[120px]">
                           SMNK Loop
                         </td>
-                        <td class="py-2.5 px-3.5 font-bold text-[#df0003]">{{ s.voyage_no }}</td>
+                        <td class="py-2.5 px-3.5 font-bold text-[#dd0103]">{{ s.voyage_no }}</td>
                         <td class="py-2.5 px-3.5 text-slate-700">{{ s.pol }}</td>
                         <td class="py-2.5 px-3.5 text-slate-700">{{ s.pod }}</td>
                         <td class="py-2.5 px-3.5 text-slate-500">{{ s.etd | date:'shortDate' }}</td>
@@ -556,15 +559,16 @@ interface TelemetryNode {
                           <span [ngClass]="{
                             'bg-emerald-50 text-emerald-700 border-emerald-200': s.status === 'On Schedule',
                             'bg-blue-50 text-blue-700 border-blue-200': s.status === 'In Transit',
-                            'bg-amber-50 text-amber-700 border-amber-200': s.status === 'At Berth'
+                            'bg-red-50 text-[#dd0103] border-red-200': s.status === 'At Berth'
                           }" class="px-2 py-0.5 rounded-full text-[9px] font-bold border">
                             {{ s.status }}
                           </span>
                         </td>
-                        <td class="py-2.5 px-3.5 text-right font-sans">
+                        <td class="py-2.5 px-3.5 text-end font-sans">
                           <button
-                            (click)="service.toggleBookingModal(true)"
-                            class="px-2.5 py-1 rounded bg-[#df0003] hover:bg-[#b80002] text-white text-[10px] font-bold transition-all cursor-pointer shadow-xs">
+                            type="button"
+                            (click)="service.openBookingWithDraft({ pol: s.pol, pod: s.pod })"
+                            class="px-2.5 py-1 rounded-lg bg-[#dd0103] hover:bg-[#b50102] text-white text-[10px] font-bold transition-all cursor-pointer shadow-xs">
                             {{ isRtl() ? 'حجز مساحة' : 'Book Slot' }}
                           </button>
                         </td>
@@ -582,7 +586,7 @@ interface TelemetryNode {
               <!-- TAB 3: QUICK QUOTE & BOOKING DESK -->
               <div *ngIf="activeTab() === 'quote'" class="space-y-4">
                 <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                  <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-200">
                     <div>
                       <h4 class="text-sm font-black text-[#02194b]">
                         {{ isRtl() ? 'طلب تسعيرة أو حجز مساحات الحاويات' : 'Regional Feeder Slot & Rate Enquiry' }}
@@ -591,50 +595,60 @@ interface TelemetryNode {
                         {{ isRtl() ? 'خدمة مخصصة لخطوط الشحن، وكلاء الشحن، ومشغلي NVOCC' : 'Dedicated to shipping lines, freight forwarders, and NVOCC operators' }}
                       </p>
                     </div>
-                    <span class="text-[10.5px] font-mono font-bold text-[#df0003] bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full">
-                      2-Hour Quote SLA
+                    <span class="shrink-0 whitespace-nowrap text-[10.5px] font-mono font-bold text-[#dd0103] bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full">
+                      {{ isRtl() ? 'رد خلال ساعتين' : '2-Hour Quote SLA' }}
                     </span>
                   </div>
 
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                     <div>
                       <label class="block text-[10.5px] uppercase font-bold text-slate-600 mb-1">POL (Loading)</label>
-                      <select class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003]">
-                        <option>Sohar, Oman (OMSOH)</option>
-                        <option>Nhava Sheva, India (INNSA)</option>
-                        <option>Mundra, India (INMUN)</option>
-                        <option>Karachi, Pakistan (PKKHI)</option>
+                      <select
+                        [ngModel]="quickPol()"
+                        (ngModelChange)="quickPol.set($event)"
+                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] cursor-pointer">
+                        <option value="Sohar (OMSOH)">Sohar, Oman (OMSOH)</option>
+                        <option value="Nhava Sheva (INNSA)">Nhava Sheva, India (INNSA)</option>
+                        <option value="Mundra (INMUN)">Mundra, India (INMUN)</option>
+                        <option value="Karachi (PKKHI)">Karachi, Pakistan (PKKHI)</option>
                       </select>
                     </div>
                     <div>
                       <label class="block text-[10.5px] uppercase font-bold text-slate-600 mb-1">POD (Discharge)</label>
-                      <select class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003]">
-                        <option>Nhava Sheva, India (INNSA)</option>
-                        <option>Mundra, India (INMUN)</option>
-                        <option>Karachi, Pakistan (PKKHI)</option>
-                        <option>Sohar, Oman (OMSOH)</option>
+                      <select
+                        [ngModel]="quickPod()"
+                        (ngModelChange)="quickPod.set($event)"
+                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] cursor-pointer">
+                        <option value="Nhava Sheva (INNSA)">Nhava Sheva, India (INNSA)</option>
+                        <option value="Mundra (INMUN)">Mundra, India (INMUN)</option>
+                        <option value="Karachi (PKKHI)">Karachi, Pakistan (PKKHI)</option>
+                        <option value="Sohar (OMSOH)">Sohar, Oman (OMSOH)</option>
                       </select>
                     </div>
                     <div>
                       <label class="block text-[10.5px] uppercase font-bold text-slate-600 mb-1">Equipment Type</label>
-                      <select class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#df0003]">
-                        <option>20' Standard Dry</option>
-                        <option>40' High Cube Dry</option>
-                        <option>40' High Cube Reefer</option>
-                        <option>SOC / COC Feeder Slot</option>
+                      <select
+                        [ngModel]="quickEquipment()"
+                        (ngModelChange)="quickEquipment.set($event)"
+                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-[#dd0103] cursor-pointer">
+                        <option value="20GP">20' Dry Standard (20GP)</option>
+                        <option value="40HC">40' High Cube (40HC)</option>
+                        <option value="40RF">40' High Cube Reefer (40RF)</option>
+                        <option value="SOC">SOC / COC Feeder Slot</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200">
+                  <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200">
                     <span class="text-xs text-slate-600 flex items-center gap-1.5 font-medium">
                       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                       <span>{{ isRtl() ? 'المكتب التجاري جاهز للرد الفوري' : 'HQ Commercial Desk Ready' }}</span>
                     </span>
                     <button
-                      (click)="service.toggleBookingModal(true)"
-                      class="px-5 py-2.5 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs shadow-md transition-all cursor-pointer">
-                      {{ isRtl() ? 'إرسال طلب الحجز والتسعيرة' : 'Open Booking Desk Form →' }}
+                      type="button"
+                      (click)="openQuickQuoteModal()"
+                      class="px-5 py-2.5 rounded-full bg-[#dd0103] hover:bg-[#b50102] text-white font-extrabold text-xs shadow-md shadow-red-600/20 transition-all cursor-pointer">
+                      {{ isRtl() ? 'إرسال طلب الحجز والتسعيرة →' : 'Open Booking Desk Form →' }}
                     </button>
                   </div>
                 </div>
@@ -651,10 +665,10 @@ interface TelemetryNode {
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
                   <span class="text-[11px] font-mono font-bold text-[#02194b] uppercase tracking-wider">
-                    REGIONAL CORRIDOR STATUS
+                    {{ isRtl() ? 'حالة الخط الإقليمي' : 'REGIONAL CORRIDOR STATUS' }}
                   </span>
                 </div>
-                <span class="text-[10px] font-mono text-[#df0003] bg-red-50 border border-red-200 px-2 py-0.5 rounded font-bold">
+                <span class="text-[10px] font-mono text-[#dd0103] bg-red-50 border border-red-200 px-2 py-0.5 rounded-full font-bold">
                   ACTIVE ROTATION
                 </span>
               </div>
@@ -665,14 +679,14 @@ interface TelemetryNode {
                 <p class="text-[11px] font-mono text-slate-500 mt-0.5">Sohar ⇄ Nhava Sheva ⇄ Mundra ⇄ Karachi</p>
               </div>
 
-              <!-- Transit Progress Bar -->
+              <!-- Corridor Progress Bar -->
               <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
                 <div class="flex items-center justify-between text-xs font-bold">
                   <span class="text-[#02194b]">Sohar (OMSOH)</span>
-                  <span class="text-[#df0003]">Nhava Sheva (INNSA)</span>
+                  <span class="text-[#dd0103]">Karachi (PKKHI)</span>
                 </div>
                 <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-gradient-to-r from-[#df0003] to-[#02194b] h-1.5 rounded-full w-[65%]"></div>
+                  <div class="bg-gradient-to-r from-[#dd0103] to-[#02194b] h-1.5 rounded-full w-full"></div>
                 </div>
                 <div class="flex items-center justify-between text-[10.5px] font-mono text-slate-500">
                   <span>Frequency: <b class="text-emerald-700">Weekly Fixed Day</b></span>
@@ -682,9 +696,10 @@ interface TelemetryNode {
 
               <!-- Action Link -->
               <button
+                type="button"
                 (click)="jumpToInteractiveRoute()"
-                class="w-full py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-bold text-[#02194b] hover:text-[#df0003] flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <svg class="w-4 h-4 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                class="w-full py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-bold text-[#02194b] hover:text-[#dd0103] flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <svg class="w-4 h-4 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                 </svg>
                 <span>{{ isRtl() ? 'عرض مسار الرحلة على الخريطة' : 'View Navigational Route on Live Map' }}</span>
@@ -692,9 +707,9 @@ interface TelemetryNode {
             </div>
 
             <!-- 24/7 Operations Desk & Quick Booking Inquiries -->
-            <div class="bg-gradient-to-br from-[#02194b] via-[#042468] to-[#02194b] rounded-2xl sm:rounded-3xl p-6 shadow-xl border border-slate-700 text-white space-y-3.5">
+            <div class="bg-gradient-to-br from-[#02194b] via-[#042468] to-[#02194b] rounded-2xl sm:rounded-3xl p-6 shadow-xl border border-slate-800 text-white space-y-3.5">
               <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-amber-400">
+                <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-[#ef2325]">
                   {{ isRtl() ? 'مكتب الحجوزات والعمليات' : '24/7 OPERATIONS DESK' }}
                 </span>
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -712,17 +727,18 @@ interface TelemetryNode {
 
               <div class="pt-2 border-t border-white/10 flex flex-col gap-2">
                 <button
+                  type="button"
                   (click)="service.toggleBookingModal(true)"
-                  class="w-full py-3 px-4 rounded-xl bg-[#df0003] hover:bg-[#b80002] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-lg shadow-red-500/25 transition-all hover:scale-[1.02] cursor-pointer text-center">
+                  class="w-full py-3 px-4 rounded-full bg-[#dd0103] hover:bg-[#b50102] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-lg shadow-red-600/25 transition-all hover:scale-[1.02] cursor-pointer text-center">
                   {{ isRtl() ? 'طلب تسعيرة أو حجز فوري' : 'Request Instant Container Quote' }}
                 </button>
                 <a
                   href="tel:+97142105105"
-                  class="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold flex items-center justify-center gap-2 border border-white/15 transition-all">
-                  <svg class="w-3.5 h-3.5 text-[#df0003]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  class="w-full py-2.5 px-3 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold flex items-center justify-center gap-2 border border-white/15 transition-all">
+                  <svg class="w-3.5 h-3.5 text-[#dd0103]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  <span>+971 4 210 51 05 (HQ Desk)</span>
+                  <span dir="ltr">+971 4 210 51 05 (HQ Desk)</span>
                 </a>
               </div>
             </div>
@@ -794,10 +810,13 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
 
   // 3-Tab Action Engine Signals
   activeTab = signal<'service' | 'schedule' | 'tracking' | 'quote'>('service');
-  selectedServiceCode = signal<string>('JSA');
+  selectedServiceCode = signal<string>('SMNK');
   schedulePol = signal<string>('');
   schedulePod = signal<string>('');
-  vesselSearchQuery = signal<string>('MAVERICK SOHAR');
+  quickPol = signal<string>('Sohar (OMSOH)');
+  quickPod = signal<string>('Nhava Sheva (INNSA)');
+  quickEquipment = signal<string>('40HC');
+  vesselSearchQuery = signal<string>('');
 
   // Active Hovered Node Signal for Template Expansion
   activeHoveredNodeId = signal<string | null>(null);
@@ -2004,6 +2023,14 @@ export class HeroSearchComponent implements AfterViewInit, OnDestroy {
       pol: this.schedulePol() || undefined,
       pod: this.schedulePod() || undefined
     }).subscribe();
+  }
+
+  openQuickQuoteModal() {
+    this.service.openBookingWithDraft({
+      pol: this.quickPol(),
+      pod: this.quickPod(),
+      containerType: this.quickEquipment()
+    });
   }
 
   trackVesselFromSchedule(schedule: VoyageSchedule) {

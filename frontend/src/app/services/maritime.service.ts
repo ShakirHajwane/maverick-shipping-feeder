@@ -135,6 +135,7 @@ export class MaritimeService {
   // App-wide state
   isRtl = signal<boolean>(false);
   isBookingModalOpen = signal<boolean>(false);
+  bookingDraft = signal<{ pol?: string; pod?: string; containerType?: string }>({});
   isLoadingVessels = signal<boolean>(false);
   isLoadingSchedules = signal<boolean>(false);
 
@@ -312,5 +313,10 @@ export class MaritimeService {
     } else {
       this.isBookingModalOpen.set(!this.isBookingModalOpen());
     }
+  }
+
+  openBookingWithDraft(draft: { pol?: string; pod?: string; containerType?: string }) {
+    this.bookingDraft.set(draft);
+    this.isBookingModalOpen.set(true);
   }
 }

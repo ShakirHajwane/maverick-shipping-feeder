@@ -1,17 +1,55 @@
 import json
+from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
 from app.database import Base, engine
 from app.models import Vessel, FeederService, VoyageSchedule, RegionalAgent
+
+
+def _build_smnk_schedules() -> list[dict]:
+    """Generate two rolling weekly SMNK feeder rotation cycles anchored to Monday UTC."""
+    now = datetime.now(timezone.utc)
+    week_monday = (now - timedelta(days=now.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
+
+    def fmt(dt: datetime) -> str:
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    legs = [
+        ("E", "Sohar (OMSOH)", "Nhava Sheva (INNSA)", 6, 3 * 24 + 14, -12, "On Schedule"),
+        ("E", "Nhava Sheva (INNSA)", "Mundra (INMUN)", 4 * 24 + 2, 5 * 24 + 18, 3 * 24 + 16, "On Schedule"),
+        ("W", "Mundra (INMUN)", "Karachi (PKKHI)", 6 * 24 + 10, 8 * 24 + 8, 5 * 24 + 22, "On Schedule"),
+        ("W", "Karachi (PKKHI)", "Sohar (OMSOH)", 9 * 24 + 4, 11 * 24 + 12, 8 * 24 + 20, "On Schedule"),
+    ]
+
+    schedules: list[dict] = []
+    for cycle_idx in range(1, 3):
+        cycle_base = week_monday + timedelta(days=(cycle_idx - 1) * 7)
+        for suffix, pol, pod, etd_h, eta_h, cutoff_h, status in legs:
+            schedules.append(
+                {
+                    "vessel_name": "MAVERICK SOHAR",
+                    "voyage_no": f"SMNK-{cycle_idx:03d}{suffix}",
+                    "service_code": "SMNK",
+                    "pol": pol,
+                    "pod": pod,
+                    "etd": fmt(cycle_base + timedelta(hours=etd_h)),
+                    "eta": fmt(cycle_base + timedelta(hours=eta_h)),
+                    "cutoff_date": fmt(cycle_base + timedelta(hours=cutoff_h)),
+                    "status": status,
+                }
+            )
+    return schedules
+
 
 def seed_database(db: Session, force: bool = False):
     # Ensure all tables exist before querying or seeding
     Base.metadata.create_all(bind=engine)
 
-    # Check if already correctly seeded with 1 vessel and 1 office
+    # Check if already seeded specifically with SMNK feeder configuration
     if not force:
         vessel_count = db.query(Vessel).count()
         agent_count = db.query(RegionalAgent).count()
-        if vessel_count == 1 and agent_count == 1:
+        smnk_count = db.query(FeederService).filter(FeederService.code == "SMNK").count()
+        if vessel_count == 1 and agent_count == 1 and smnk_count == 1:
             return
 
     # Clear existing data if reseeding
@@ -30,11 +68,11 @@ def seed_database(db: Session, force: bool = False):
             "transit_days": 11,
             "frequency": "Weekly Fixed Day",
             "port_rotation_json": json.dumps([
-                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Monday", "terminal": "Oman International Container Terminal (OICT) – Strategic gateway to the Arabian Gulf"},
-                {"port_name": "Nhava Sheva (JNPT)", "unlocode": "INNSA", "lat": 18.950, "lng": 72.951, "day_of_week": "Thursday", "terminal": "Gateway Terminals India (GTI / BMCT) – Major container gateway for India's western coast"},
-                {"port_name": "Mundra", "unlocode": "INMUN", "lat": 22.842, "lng": 69.712, "day_of_week": "Saturday", "terminal": "Adani Mundra Container Terminal (MICT) – Important commercial and container hub"},
-                {"port_name": "Karachi", "unlocode": "PKKHI", "lat": 24.805, "lng": 66.975, "day_of_week": "Monday", "terminal": "South Asia Pakistan Terminals (SAPT) – Key gateway for Pakistan's international trade"},
-                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Thursday", "terminal": "Oman International Container Terminal (OICT) – Return Gateway"}
+                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Day 1 (Mon)", "terminal": "Oman International Container Terminal (OICT) – Strategic gateway to the Arabian Gulf"},
+                {"port_name": "Nhava Sheva (JNPT)", "unlocode": "INNSA", "lat": 18.950, "lng": 72.951, "day_of_week": "Day 4 (Thu)", "terminal": "Gateway Terminals India (GTI / BMCT) – Major container gateway for India's western coast"},
+                {"port_name": "Mundra", "unlocode": "INMUN", "lat": 22.842, "lng": 69.712, "day_of_week": "Day 6 (Sat)", "terminal": "Adani Mundra Container Terminal (MICT) – Important commercial and container hub"},
+                {"port_name": "Karachi", "unlocode": "PKKHI", "lat": 24.805, "lng": 66.975, "day_of_week": "Day 8 (Mon)", "terminal": "South Asia Pakistan Terminals (SAPT) – Key gateway for Pakistan's international trade"},
+                {"port_name": "Sohar", "unlocode": "OMSOH", "lat": 24.498, "lng": 56.628, "day_of_week": "Day 11 (Thu)", "terminal": "Oman International Container Terminal (OICT) – Return Gateway"}
             ])
         }
     ]
@@ -43,7 +81,7 @@ def seed_database(db: Session, force: bool = False):
         db.add(FeederService(**s))
     db.commit()
 
-    # 2. Vessels (Single Flagship Feeder: MAVERICK SOHAR)
+    # 2. Vessels (Single Flagship Feeder: MAVERICK SOHAR aligned strictly with SMNK)
     vessels_data = [
         {
             "name": "MAVERICK SOHAR",
@@ -63,9 +101,9 @@ def seed_database(db: Session, force: bool = False):
             "loa": 172.0,
             "breadth": 27.4,
             "summer_draft": 8.5,
-            "current_lat": 22.420,
-            "current_lng": 64.850,
-            "current_status": "Underway using Engine - 15.4 kn (En Route to Nhava Sheva)",
+            "current_lat": 24.498,
+            "current_lng": 56.628,
+            "current_status": "SMNK Corridor — Weekly Scheduled Service",
             "service_code": "SMNK"
         }
     ]
@@ -74,55 +112,8 @@ def seed_database(db: Session, force: bool = False):
         db.add(Vessel(**v))
     db.commit()
 
-    # 3. Voyage Schedules (Weekly Port Calls for MAVERICK SOHAR on SMNK: Sohar -> Nhava Sheva -> Mundra -> Karachi -> Sohar)
-    schedules_data = [
-        {
-            "vessel_name": "MAVERICK SOHAR",
-            "voyage_no": "SMNK-001E",
-            "service_code": "SMNK",
-            "pol": "Sohar (OMSOH)",
-            "pod": "Nhava Sheva (INNSA)",
-            "etd": "2026-11-23T06:00:00Z",
-            "eta": "2026-11-26T14:00:00Z",
-            "cutoff_date": "2026-11-22T18:00:00Z",
-            "status": "On Schedule"
-        },
-        {
-            "vessel_name": "MAVERICK SOHAR",
-            "voyage_no": "SMNK-001E",
-            "service_code": "SMNK",
-            "pol": "Nhava Sheva (INNSA)",
-            "pod": "Mundra (INMUN)",
-            "etd": "2026-11-27T02:00:00Z",
-            "eta": "2026-11-28T18:00:00Z",
-            "cutoff_date": "2026-11-26T16:00:00Z",
-            "status": "On Schedule"
-        },
-        {
-            "vessel_name": "MAVERICK SOHAR",
-            "voyage_no": "SMNK-001W",
-            "service_code": "SMNK",
-            "pol": "Mundra (INMUN)",
-            "pod": "Karachi (PKKHI)",
-            "etd": "2026-11-29T10:00:00Z",
-            "eta": "2026-12-01T08:00:00Z",
-            "cutoff_date": "2026-11-28T22:00:00Z",
-            "status": "On Schedule"
-        },
-        {
-            "vessel_name": "MAVERICK SOHAR",
-            "voyage_no": "SMNK-001W",
-            "service_code": "SMNK",
-            "pol": "Karachi (PKKHI)",
-            "pod": "Sohar (OMSOH)",
-            "etd": "2026-12-02T04:00:00Z",
-            "eta": "2026-12-04T12:00:00Z",
-            "cutoff_date": "2026-12-01T20:00:00Z",
-            "status": "On Schedule"
-        }
-    ]
-
-    for sch in schedules_data:
+    # 3. Voyage Schedules (Rolling SMNK Weekly Port Calls: Sohar -> Nhava Sheva -> Mundra -> Karachi -> Sohar)
+    for sch in _build_smnk_schedules():
         db.add(VoyageSchedule(**sch))
     db.commit()
 
@@ -143,4 +134,4 @@ def seed_database(db: Session, force: bool = False):
     for ag in agents_data:
         db.add(RegionalAgent(**ag))
     db.commit()
-    print("Database seeding completed: 1 vessel, 1 office, 1 express service.")
+    print("Database seeding completed: 1 vessel, 1 office, SMNK feeder service.")

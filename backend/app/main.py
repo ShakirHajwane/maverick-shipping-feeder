@@ -1,25 +1,29 @@
 import json
 from contextlib import asynccontextmanager
 from typing import List, Optional
-from fastapi import FastAPI, Depends, HTTPException, Query, APIRouter
+from fastapi import FastAPI, Depends, HTTPException, Query, APIRouter, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from sqlalchemy import or_
+from sqlalchemy import or_, text
 
+from app.config import settings
 from app.database import Base, engine, get_db
 from app.models import Vessel, FeederService, VoyageSchedule, RegionalAgent
 from app.schemas import (
     VesselResponse,
+    PortRotationItem,
     FeederServiceResponse,
     VoyageScheduleResponse,
     RegionalAgentResponse,
-    StatsResponse
+    StatsResponse,
+    HealthResponse,
 )
 from app.seed import seed_database
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize database tables and seed data automatically
+    # Initialize database tables and seed SMNK data automatically
     Base.metadata.create_all(bind=engine)
     db = next(get_db())
     try:
@@ -27,35 +31,83 @@ async def lifespan(app: FastAPI):
     finally:
         db.close()
     yield
- 
+
+
 app = FastAPI(
-    title="Maritime Feeder & Container Shipping API",
-    description="Production-grade API for Maverick Shipping operations.",
-    version="1.0.0",
-    lifespan=lifespan
+    title=settings.APP_NAME,
+    description="Production API for Maverick Shipping LLC SMNK regional container feeder operations.",
+    version="1.1.0",
+    lifespan=lifespan,
 )
 
-# Enable CORS for full flexibility
+
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("Permissions-Policy", "camera=(), geolocation=(), microphone=()")
+    if not request.url.path.startswith(("/docs", "/redoc", "/openapi.json")):
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+        )
+    return response
+
+
+# Restrict CORS explicitly without combining wildcard origin and credentials
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=settings.cors_origins_list,
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=False,
+    allow_methods=["GET", "HEAD", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept"],
 )
 
 api_router = APIRouter()
 
+
+@api_router.get("/health", response_model=HealthResponse, tags=["Health"])
+def health_check(db: Session = Depends(get_db)):
+    try:
+        db.execute(text("SELECT 1"))
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Database health check failed") from exc
+    return HealthResponse(
+        status="healthy",
+        service="maritime-feeder-api",
+        database="connected",
+        corridor="SMNK",
+    )
+
+
 @api_router.get("/stats", response_model=StatsResponse)
-def get_stats():
+def get_stats(db: Session = Depends(get_db)):
+    services = db.query(FeederService).all()
+    vessels_count = db.query(Vessel).count()
+    distinct_ports: set[str] = set()
+    distinct_countries: set[str] = set()
+    for s in services:
+        try:
+            for item in json.loads(s.port_rotation_json):
+                code = str(item.get("unlocode", "")).strip()
+                if code:
+                    distinct_ports.add(code)
+                    distinct_countries.add(code[:2])
+        except Exception:
+            pass
+
     return StatsResponse(
         port_calls="1.2K",
         teus_per_year="96K",
-        vessels_count=1,
-        ports_served=4,
-        countries=3,
-        feeder_services=1
+        vessels_count=vessels_count or 1,
+        ports_served=len(distinct_ports) or 4,
+        countries=len(distinct_countries) or 3,
+        feeder_services=len(services) or 1,
     )
+
 
 @api_router.get("/services", response_model=List[FeederServiceResponse])
 def get_services(code: Optional[str] = None, db: Session = Depends(get_db)):
@@ -67,7 +119,8 @@ def get_services(code: Optional[str] = None, db: Session = Depends(get_db)):
     for s in services:
         res = FeederServiceResponse.model_validate(s)
         try:
-            res.port_rotation = json.loads(s.port_rotation_json)
+            raw_rotation = json.loads(s.port_rotation_json)
+            res.port_rotation = [PortRotationItem.model_validate(item) for item in raw_rotation]
         except Exception:
             res.port_rotation = []
         results.append(res)
@@ -149,6 +202,7 @@ def root():
         "service": "Maritime Feeder API",
         "docs": "/docs",
         "endpoints": [
+            "/api/health",
             "/api/stats",
             "/api/services",
             "/api/schedules",

@@ -83,7 +83,7 @@ export const MAVERICK_SOHAR_VESSEL: Vessel = {
   summer_draft: 8.5,
   current_lat: 22.420,
   current_lng: 64.850,
-  current_status: 'Underway using Engine - 15.4 kn (En Route to Nhava Sheva)',
+  current_status: 'SMNK Corridor — Weekly Scheduled Service',
   service_code: 'SMNK'
 };
 
@@ -122,52 +122,18 @@ export class MaritimeService {
   schedules = signal<VoyageSchedule[]>([]);
   agents = signal<RegionalAgent[]>([MAVERICK_HQ_OFFICE]);
 
-  // Concept / Prototype Mode:
-  // 'simple' (Idea 2: Simple Sohar-Karachi Route, No Ship Journey, Clean Graphics)
-  // 'standard' (Idea 1: Full Experience with 4-Waypoint Scroll Ship Journey)
-  activeConcept = signal<'standard' | 'simple'>('simple');
-
   // Active UI Selections
   selectedService = signal<FeederService | null>(SOHAR_KARACHI_SERVICE);
-  selectedVessel = signal<Vessel | null>(null);
   focusedMapLocation = signal<{ lat: number; lng: number; zoom?: number; title?: string; popupHtml?: string } | null>(null);
 
   // App-wide state
   isRtl = signal<boolean>(false);
   isBookingModalOpen = signal<boolean>(false);
   bookingDraft = signal<{ pol?: string; pod?: string; containerType?: string }>({});
-  isLoadingVessels = signal<boolean>(false);
   isLoadingSchedules = signal<boolean>(false);
-
-  // Global Ocean Water Atmosphere State: Calm State ('slate') as default
-  waterTheme = signal<'azure' | 'deep' | 'slate'>('slate');
-  isWaterMotionPaused = signal<boolean>(false);
-
-  setWaterTheme(theme: 'azure' | 'deep' | 'slate') {
-    this.waterTheme.set(theme);
-  }
-
-  toggleWaterMotion() {
-    this.isWaterMotionPaused.update(v => !v);
-  }
-
-  setActiveConcept(concept: 'standard' | 'simple') {
-    this.activeConcept.set(concept);
-    if (concept === 'simple') {
-      this.selectedService.set(SOHAR_KARACHI_SERVICE);
-    } else {
-      const list = this.services();
-      const standardService = list.find(s => s.code !== 'SMNK') || list[0] || SOHAR_KARACHI_SERVICE;
-      this.selectedService.set(standardService);
-    }
-  }
 
   // Computed state
   serviceCodes = computed(() => this.services().map(s => s.code));
-  availableFlags = computed(() => {
-    const flags = new Set(this.vessels().map(v => v.flag));
-    return Array.from(flags);
-  });
 
   loadStats(): Observable<MaritimeStats> {
     return this.http.get<MaritimeStats>(`${this.apiUrl}/stats`).pipe(
@@ -187,12 +153,8 @@ export class MaritimeService {
         const hasSMNK = data.some(s => s.code === 'SMNK');
         const merged = hasSMNK ? data : [SOHAR_KARACHI_SERVICE, ...data];
         this.services.set(merged);
-        if (this.activeConcept() === 'simple') {
-          this.selectedService.set(SOHAR_KARACHI_SERVICE);
-        } else if (!this.selectedService() && merged.length > 0) {
-          const flagship = merged.find(s => s.code !== 'SMNK') || merged[0];
-          this.selectedService.set(flagship);
-        }
+        const smnk = merged.find(s => s.code === 'SMNK') || merged[0] || SOHAR_KARACHI_SERVICE;
+        this.selectedService.set(smnk);
       }),
       catchError(() => {
         this.services.set([SOHAR_KARACHI_SERVICE]);
@@ -203,7 +165,6 @@ export class MaritimeService {
   }
 
   loadVessels(search?: string, flag?: string, capacityTier: string = 'all'): Observable<Vessel[]> {
-    this.isLoadingVessels.set(true);
     let params = new HttpParams().set('capacity_tier', capacityTier);
     if (search && search.trim()) params = params.set('search', search.trim());
     if (flag && flag.trim() && flag !== 'all') params = params.set('flag', flag.trim());
@@ -211,22 +172,10 @@ export class MaritimeService {
     return this.http.get<Vessel[]>(`${this.apiUrl}/vessels`, { params }).pipe(
       tap(data => {
         this.vessels.set(data && data.length > 0 ? data : [MAVERICK_SOHAR_VESSEL]);
-        this.isLoadingVessels.set(false);
       }),
       catchError(() => {
         this.vessels.set([MAVERICK_SOHAR_VESSEL]);
-        this.isLoadingVessels.set(false);
         return of([MAVERICK_SOHAR_VESSEL]);
-      })
-    );
-  }
-
-  loadVesselById(id: number): Observable<Vessel> {
-    return this.http.get<Vessel>(`${this.apiUrl}/vessels/${id}`).pipe(
-      tap(data => this.selectedVessel.set(data)),
-      catchError(() => {
-        this.selectedVessel.set(MAVERICK_SOHAR_VESSEL);
-        return of(MAVERICK_SOHAR_VESSEL);
       })
     );
   }
@@ -281,14 +230,6 @@ export class MaritimeService {
     if (found) {
       this.selectedService.set(found);
     }
-  }
-
-  openVesselModal(vessel: Vessel) {
-    this.selectedVessel.set(vessel);
-  }
-
-  closeVesselModal() {
-    this.selectedVessel.set(null);
   }
 
   focusLocationOnMap(lat: number, lng: number, zoom: number = 7, title?: string, popupHtml?: string) {

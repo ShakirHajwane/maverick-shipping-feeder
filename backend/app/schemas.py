@@ -1,5 +1,6 @@
-from typing import List, Optional, Any
-from pydantic import BaseModel, Field
+from typing import List, Optional
+from pydantic import BaseModel, ConfigDict
+
 
 class VesselBase(BaseModel):
     name: str
@@ -24,11 +25,11 @@ class VesselBase(BaseModel):
     current_status: str
     service_code: Optional[str] = None
 
+
 class VesselResponse(VesselBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
 
-    class Config:
-        from_attributes = True
 
 class PortRotationItem(BaseModel):
     port_name: str
@@ -38,6 +39,7 @@ class PortRotationItem(BaseModel):
     day_of_week: Optional[str] = None
     terminal: Optional[str] = None
 
+
 class FeederServiceBase(BaseModel):
     code: str
     name: str
@@ -46,12 +48,12 @@ class FeederServiceBase(BaseModel):
     frequency: str
     port_rotation_json: str
 
+
 class FeederServiceResponse(FeederServiceBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     port_rotation: Optional[List[PortRotationItem]] = None
 
-    class Config:
-        from_attributes = True
 
 class VoyageScheduleBase(BaseModel):
     vessel_name: str
@@ -64,11 +66,11 @@ class VoyageScheduleBase(BaseModel):
     cutoff_date: str
     status: str
 
+
 class VoyageScheduleResponse(VoyageScheduleBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
 
-    class Config:
-        from_attributes = True
 
 class RegionalAgentBase(BaseModel):
     country: str
@@ -80,11 +82,11 @@ class RegionalAgentBase(BaseModel):
     lat: float
     lng: float
 
+
 class RegionalAgentResponse(RegionalAgentBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
 
-    class Config:
-        from_attributes = True
 
 class StatsResponse(BaseModel):
     port_calls: str = "1.2K"
@@ -93,3 +95,10 @@ class StatsResponse(BaseModel):
     ports_served: int = 4
     countries: int = 3
     feeder_services: int = 1
+
+
+class HealthResponse(BaseModel):
+    status: str
+    service: str
+    database: str
+    corridor: str

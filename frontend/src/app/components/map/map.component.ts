@@ -2,7 +2,7 @@ import { Component, inject, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewCh
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
 import { MaritimeService } from '../../services/maritime.service';
-import { FeederService, Vessel } from '../../models/maritime.models';
+import { FeederService } from '../../models/maritime.models';
 
 @Component({
   selector: 'app-map',
@@ -151,9 +151,6 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
   private map: L.Map | null = null;
   private routePolyline: L.Polyline | null = null;
   private portMarkers: L.Marker[] = [];
-  private vesselMarkers: L.Marker[] = [];
-
-  showVessels = false;
 
   constructor() {
     // React to selected service changes
@@ -217,9 +214,6 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
         this.map.invalidateSize();
         if (this.activeService()) {
           this.renderServiceRoute(this.activeService()!);
-        }
-        if (this.showVessels) {
-          this.renderVesselMarkers();
         }
       }
     }, 250);
@@ -343,69 +337,6 @@ export class InteractiveMapComponent implements OnInit, AfterViewInit, OnDestroy
         padding: [45, 45],
         maxZoom: 7
       });
-    }
-  }
-
-  renderVesselMarkers() {
-    if (!this.map) return;
-
-    this.vesselMarkers.forEach(m => this.map?.removeLayer(m));
-    this.vesselMarkers = [];
-
-    const vessels = this.service.vessels();
-    vessels.forEach(v => {
-      const isUnderway = v.current_status.toLowerCase().includes('underway');
-      const vesselIconHtml = `
-        <div style="
-          width: 32px;
-          height: 32px;
-          background: ${isUnderway ? '#059669' : '#02194B'};
-          border: 2px solid #FFFFFF;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-          transform: rotate(45deg);
-        ">
-          <svg style="width: 18px; height: 18px; color: #FFFFFF; transform: rotate(-45deg);" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
-          </svg>
-        </div>
-      `;
-
-      const customIcon = L.divIcon({
-        html: vesselIconHtml,
-        className: 'vessel-marker-icon',
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      });
-
-      const popupHtml = `
-        <div style="font-family: inherit; padding: 4px; min-width: 180px;">
-          <div style="font-weight: 800; font-size: 13px; color: #DD0103;">${v.name}</div>
-          <div style="font-size: 11px; color: #64748B;">IMO: ${v.imo} | Flag: ${v.flag}</div>
-          <div style="font-size: 11px; color: #1E293B; margin-top: 4px;">Cap: <b style="color: #0F172A;">${v.nominal_cap_teu} TEU</b></div>
-          <div style="font-size: 11px; color: #1E293B;">Service: <b style="color: #0F172A;">${v.service_code || 'Spot Feeder'}</b></div>
-          <div style="font-size: 11px; color: #059669; margin-top: 4px; font-weight: 600;"><b>AIS:</b> ${v.current_status}</div>
-        </div>
-      `;
-
-      const marker = L.marker([v.current_lat, v.current_lng], { icon: customIcon })
-        .bindPopup(popupHtml)
-        .addTo(this.map!);
-
-      this.vesselMarkers.push(marker);
-    });
-  }
-
-  toggleVesselLayer() {
-    this.showVessels = !this.showVessels;
-    if (this.showVessels) {
-      this.renderVesselMarkers();
-    } else {
-      this.vesselMarkers.forEach(m => this.map?.removeLayer(m));
-      this.vesselMarkers = [];
     }
   }
 

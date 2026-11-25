@@ -9,7 +9,20 @@ def test_root():
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "online"
+    assert "/api/health" in data["endpoints"]
     assert "/api/stats" in data["endpoints"]
+    assert response.headers.get("X-Content-Type-Options") == "nosniff"
+    assert response.headers.get("X-Frame-Options") == "DENY"
+
+
+def test_health_endpoints():
+    for path in ("/health", "/api/health"):
+        response = client.get(path)
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "healthy"
+        assert data["database"] == "connected"
+        assert data["corridor"] == "SMNK"
 
 def test_get_stats():
     response = client.get("/api/stats")
@@ -53,12 +66,13 @@ def test_get_services():
     assert port_names[2] == "Mundra"
     assert port_names[3] == "Karachi"
     assert port_names[4] == "Sohar"
+    assert service["port_rotation"][0]["day_of_week"] == "Day 1 (Mon)"
 
 def test_get_schedules():
     response = client.get("/api/schedules")
     assert response.status_code == 200
     schedules = response.json()
-    assert len(schedules) >= 1
+    assert len(schedules) >= 4
     for s in schedules:
         assert s["vessel_name"] == "MAVERICK SOHAR"
         assert s["service_code"] == "SMNK"
